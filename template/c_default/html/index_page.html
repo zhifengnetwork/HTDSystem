@@ -1,0 +1,39 @@
+{extend name="index_base" /} {block name="seo"}
+<title>{$t.title|strip_tags} - {$site_config['site_title']}</title>
+<meta name="keywords" content="{$site_config['seo_keyword']}">
+<meta name="description" content="{$site_config['seo_description']}"> {/block} {block name="body"}
+<link rel="stylesheet" href="__HOME__/css/soft.css">
+<div class="container weizhi_now visible-md visible-lg">
+    当前位置： <a href="{:url('index/index/index')}"><span class="layui-icon" style="margin-right:5px;">&#xe68e;</span>首页</a> - <a href="{:url('index/articles/lists',array('cate_alias'=>$t['alias']))}">{$t.name}</a> - {$t.title}
+</div>
+<div class="container soft-container clearfix">
+    <div class="jc_title">
+        <div class="clearfix">
+            <h3 class="col-xs-12 col-sm-10"><span class="layui-icon">&#xe641;</span>{$t.title}</h3>
+            <!--<a href="#download" class="hidden-xs col-sm-2">下载地址>></a>-->
+        </div>
+    </div>
+
+
+    <div class="jc_jieshao1 clearfix col-xs-12">
+
+        <fieldset class="layui-elem-field jc-js" style="border-radius:6px;">
+            <legend><span><i class="layui-icon">&#xe60a;</i>详细内容</span></legend>
+            <div class="layui-field-box jc_jieshao_con" style="margin-top: 0px;">
+                {$t.content|htmlspecialchars_decode}
+            </div>
+        </fieldset>
+        <div class="download col-md-8 col-xs-12 clearfix" id="download">
+
+            {:hook('attachlinkshow',array('id'=>$t.id,'type'=>1))}
+
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+{/block}
