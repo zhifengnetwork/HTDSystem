@@ -1,6 +1,6 @@
 {extend name="base" /} {block name="body"}
 <div class="tpt—index fly-panel fly-panel-user">
-    <blockquote style="padding: 10px;border-left: 5px solid #009688;" class="layui-elem-quote">欢迎使用LaySNS内容社区综合系统 <span style="color:#FF5722;">{$shouquanname}</span></blockquote>
+    <!-- <blockquote style="padding: 10px;border-left: 5px solid #009688;" class="layui-elem-quote">欢迎使用LaySNS内容社区综合系统 <span style="color:#FF5722;">{$shouquanname}</span></blockquote>
     <table width="100%">
         <tr>
             <td width="50%">{if $domaininfo['sqstatus'] eq 0}个人(免费版)用户请保留我们版权；如需去除，请点击
@@ -8,14 +8,14 @@
             </td>
             <td>确认服务器或虚拟主机开启了伪静态。</td>
         </tr>
-    </table>
+    </table> -->
     <blockquote style="padding: 10px;border-left: 5px solid #009688;" class="layui-elem-quote">系统信息：</blockquote>
     <table width="100%">
-        <tr>
+        <!-- <tr>
             <td width="110px">程序版本</td>
             <td>LaySNS内容社区综合系统 V{$oldver} {if isset($versioninfo['version'])}【发现新版本{$versioninfo['version']}<a href="javascript:;" data-key="{$updatekey}" data-url="{:url('index/handle',array('type'=>'downmain','verid'=>$versioninfo['id']))}" id="update"
                     style="color:#FF5722;" target="_blank">点击升级</a> <a class="layui-btn layui-btn-xs" target="_blank" href="http://www.laysns.com/plinfo/33.html">升级日志</a>】{/if}</td>
-        </tr>
+        </tr> -->
         <tr>
             <td>服务器类型</td>
             <td>{:php_uname('s')}</td>

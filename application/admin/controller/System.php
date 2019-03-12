@@ -64,6 +64,18 @@ class System extends AdminBase
         }
     }
 
+
+    /* 
+    *   收益配置
+    *
+    */
+    public function setIncomeConfig(){
+
+        $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
+        $site_config = unserialize($site_config['value']);
+        return $this->fetch('set_income_config', ['site_config' => $site_config]);
+    }
+
   
 
     public function get_theme_info($tpl_name)
