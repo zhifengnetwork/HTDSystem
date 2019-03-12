@@ -51,8 +51,8 @@ class System extends AdminBase
             file_put_contents($path, $str);
 
             //写入CMS/BBS开关
-            $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
-            file_put_contents('application/extra/cbopen.php', $cbstr);
+            // $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
+            // file_put_contents('application/extra/cbopen.php', $cbstr);
 
             if (Db::name('system')->where('name', 'site_config')->update($data) !== false) {
                 Cache::set('site_config', null);

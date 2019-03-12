@@ -55,11 +55,9 @@
     <ul class="layui-tab-title">
         <li class="layui-this">SEO配置</li>
         <li>基本配置</li>
-        <li>显示配置</li>
         <li>邮箱配置</li>
         <li>积分规则</li>
         <li>服务配置</li>
-        <li><a target="_self" href="{:url('admin/system/ota')}">OTA配置</a></li>
     </ul>
 
 
@@ -75,23 +73,14 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">网站Logo</label>
-                <div class="layui-input-inline">
-                    <button type="button" class="layui-btn uploadlogo" data-id="cms">上传CMS Logo</button>
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" class="layui-btn uploadlogo" data-id="bbs">上传BBS Logo</button>
-                </div>
+                
                 <div class="layui-input-inline">
                     <button type="button" class="layui-btn uploadlogo" data-id="uc">上传用户中心 Logo</button>
                 </div>
             </div>
             <div class="layui-upload-list">
                 <label class="layui-form-label"></label>
-                <input type="hidden" name="site_config[cmslogo]" value="{$site_config.cmslogo|default=''}" id="cmsval" />
-                <input type="hidden" name="site_config[bbslogo]" value="{$site_config.bbslogo|default=''}" id="bbsval" />
                 <input type="hidden" name="site_config[uclogo]" value="{$site_config.uclogo|default=''}" id="ucval" />
-                <img class="layui-upload-img" id="cmspic" src="__ROOT__{$site_config.cmslogo|default=''}" style="width: 170px;height:100px;margin-right:25px">
-                <img class="layui-upload-img" id="bbspic" src="__ROOT__{$site_config.bbslogo|default=''}" style="width: 170px;height:100px;margin-right:25px">
                 <img class="layui-upload-img" id="ucpic" src="__ROOT__{$site_config.uclogo|default=''}" style="width: 170px;height:100px">
             </div>
             <div class="layui-form-item">
@@ -140,14 +129,7 @@
         <div class="layui-tab-item">
 
             <div class="layui-form-item">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">CMS/BBS</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="site_config[cb_open]" value="3" title="全开" {if condition="$site_config.cb_open eq 3" }checked{/if}>
-                        <input type="radio" name="site_config[cb_open]" value="1" title="只开CMS" {if condition="$site_config.cb_open eq 1" }checked{/if}>
-                        <input type="radio" name="site_config[cb_open]" value="2" title="只开BBS" {if condition="$site_config.cb_open eq 2" }checked{/if}>
-                    </div>
-                </div>
+              
                 <div class="layui-form-item">
                     <label class="layui-form-label">开启DeBug</label>
                     <div class="layui-input-block">
@@ -162,31 +144,6 @@
                         <input type="radio" name="site_config[user_reg]" value="0" title="关闭" {if condition="$site_config.user_reg eq 0" }checked{/if}>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">发文章审核</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="site_config[article_sh]" value="0" title="开启" {if condition="$site_config.article_sh eq 0" }checked{/if}>
-                        <input type="radio" name="site_config[article_sh]" value="1" title="关闭" {if condition="$site_config.article_sh eq 1" }checked{/if}>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">发帖审核</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="site_config[forum_sh]" value="0" title="开启" {if condition="$site_config.forum_sh eq 0" }checked{/if}>
-                        <input type="radio" name="site_config[forum_sh]" value="1" title="关闭" {if condition="$site_config.forum_sh eq 1" }checked{/if}>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div>
-                        <label class="layui-form-label">邮箱验证</label>
-                        <div class="layui-input-inline">
-                            <input type="radio" name="site_config[email_sh]" value="0" title="开启" {if condition="$site_config.email_sh eq 0" }checked{/if}>
-                            <input type="radio" name="site_config[email_sh]" value="1" title="关闭" {if condition="$site_config.email_sh eq 1" }checked{/if}>
-                        </div>
-                    </div>
-                    <div class="label-tint">开启邮箱验证后，未激活邮箱的用户无法发帖和评论</div>
-                </div>
-
                 <div class="layui-form-item">
                     <div>
                         <label class="layui-form-label">验证码场景</label>
@@ -225,95 +182,6 @@
                     <div class="label-tint">字节数，1M=1*1024*1024</div>
                 </div>
 
-            </div>
-        </div>
-
-        <div class="layui-tab-item">
-            <fieldset class="layui-elem-field layui-field-title">
-                <legend>CMS相关条数控制</legend>
-            </fieldset>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">首页最近更新</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_home_newlist]" value="{$site_config.c_home_newlist|default=20}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">首页文字栏目</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_home_text]" value="{$site_config.c_home_text|default=10}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">首页图片栏目</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_home_pic]" value="{$site_config.c_home_pic|default=10}" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">列表页主体</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_list_main]" value="{$site_config.c_list_main|default=10}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">列表页排行榜</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_list_phb]" value="{$site_config.c_list_phb|default=10}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">列表页推荐</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_list_choice]" value="{$site_config.c_list_choice|default=10}" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">详情页主体</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_view_main]" value="{$site_config.c_view_main|default=15}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">详情页排行榜</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[c_view_phb]" value="{$site_config.c_view_phb|default=10}" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <fieldset class="layui-elem-field layui-field-title">
-                <legend>BBS相关条数控制</legend>
-            </fieldset>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">首页置顶数</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_home_settop]" value="{$site_config.b_home_settop|default=5}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">首页主体</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_home_main]" value="{$site_config.b_home_main|default=15}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">首页回帖榜</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_home_phb]" value="{$site_config.b_home_phb|default=12}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">首页热议</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_home_hot]" value="{$site_config.b_home_hot|default=15}" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">板块页主体</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_list_main]" value="{$site_config.b_list_main|default=15}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">板块页热议</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_list_hot]" value="{$site_config.b_list_hot|default=15}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">板块页发帖榜</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_list_phb]" value="{$site_config.b_list_phb|default=12}" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width:90px">帖子页回帖数</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_view_reply]" value="{$site_config.b_view_reply|default=5}" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label" style="width:90px">帖子页热议</label>
-                <div class="layui-input-inline" style="width:50px">
-                    <input type="number" name="site_config[b_view_hot]" value="{$site_config.b_view_hot|default=15}" autocomplete="off" class="layui-input">
-                </div>
             </div>
         </div>
         <div class="layui-tab-item">
