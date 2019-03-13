@@ -66,16 +66,61 @@ class System extends AdminBase
 
 
     /* 
-    *   收益配置
+    *   收益配置显示页面
     *
     */
     public function setIncomeConfig(){
-
+        
         $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
         $site_config = unserialize($site_config['value']);
         return $this->fetch('set_income_config', ['site_config' => $site_config]);
     }
 
+    /* 
+    *   更新修改收益配置
+    *
+    */
+    public function getToSetIncome(){
+        if ($this->request->isPost()) {
+            $param = input('post.');
+            var_dump($param);die;
+            // $site_config = $this->request->post('site_config/a');
+            // $site_config['site_tongji'] = htmlspecialchars_decode($site_config['site_tongji']);
+            // $data['value'] = serialize($site_config);
+
+            // $path = 'application/config.php';
+            // $str = '<?php return [';
+            // if ($site_config['site_wjt'] == 1) {
+            //     $str .= "'app_debug'           => true,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
+            // } else {
+            //     $str .= "'app_debug'           => false,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
+            // }
+            // $str .= ']; ';
+            // file_put_contents($path, $str);
+
+            // //写入CMS/BBS开关
+            // // $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
+            // // file_put_contents('application/extra/cbopen.php', $cbstr);
+
+            // if (Db::name('system')->where('name', 'site_config')->update($data) !== false) {
+            //     Cache::set('site_config', null);
+
+            //     return json(array('code' => 200, 'msg' => '提交成功'));
+            // } else {
+            //     return json(array('code' => 200, 'msg' => '提交失败'));
+            // }
+        }
+    }
+
+    /* 
+    *   数字货币列表
+    *
+    */
+    public function currencyIndex(){
+
+        $currencyData = Db::name('currency')->select();
+        return $this->fetch('currency_index', ['currencyData' => $currencyData]);
+    }
   
 
     public function get_theme_info($tpl_name)
