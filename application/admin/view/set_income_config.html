@@ -1,471 +1,185 @@
 {extend name="base" /} {block name="body"}
 <link rel="stylesheet" href="__ADMIN__/plugins/wangEditor/css/wangEditor.min.css">
 <style type="text/css">
-	.wangEditor-menu-container .menu-item a {
-		padding: 12px 0;
-	}
-
-	.wangEditor-menu-container .menu-item {
-		height: 37px;
-		width: 37px;
-	}
-
-	.wangEditor-menu-container .menu-group {
-		padding: 0;
-	}
-
-	.wangEditor-container {
-		border: 1px solid #e6e6e6;
-	}
-
-	.tpt_sels a {
-		padding-right: 15px;
-		position: relative
-	}
-
-	.tpt_sels a {
-		padding: 0 20px 0 8px;
-		color: #3B6268;
-		background: #FFFFBA;
-		border: 1px #F8E06E solid;
-		margin-right: 5px;
-		margin-bottom: 5px;
-		font-size: 14px;
-		height: 26px;
-		line-height: 26px;
-		display: block;
-		float: left
-	}
-
-	.tpt_sels a em {
-		width: 12px;
-		height: 12px;
-		font-style: normal;
-		display: block;
-		position: absolute;
-		top: 7px;
-		right: 4px;
-		z-index: 2;
-		background: url(__ADMIN__/images/sx.png) no-repeat 0 0;
-	}
+    .wangEditor-menu-container .menu-item a {
+        padding: 12px 0;
+    }
+    
+    .wangEditor-menu-container .menu-item {
+        height: 37px;
+        width: 37px;
+    }
+    
+    .wangEditor-menu-container .menu-group {
+        padding: 0;
+    }
+    
+    .wangEditor-container {
+        border: 1px solid #e6e6e6;
+    }
+    
+    .tpt_sels a {
+        padding-right: 15px;
+        position: relative
+    }
+    
+    .tpt_sels a {
+        padding: 0 20px 0 8px;
+        color: #3B6268;
+        background: #FFFFBA;
+        border: 1px #F8E06E solid;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        font-size: 14px;
+        height: 26px;
+        line-height: 26px;
+        display: block;
+        float: left
+    }
+    
+    .tpt_sels a em {
+        width: 12px;
+        height: 12px;
+        font-style: normal;
+        display: block;
+        position: absolute;
+        top: 7px;
+        right: 4px;
+        z-index: 2;
+        background: url(__ADMIN__/images/sx.png) no-repeat 0 0;
+    }
 </style>
 
 <!--tab标签-->
 <div class="layui-tab layui-tab-brief">
-	<ul class="layui-tab-title">
-		<li class="layui-this">静态收益</li>
-		<li>直推收益</li>
-		<li>动态收益</li>
-		<li>全球分红</li>
-	</ul>
-	<form class="layui-form form-container layui-tab-content" data-url="{:url('admin/system/updateSiteConfig')}"
-	 localtion-url="{:url('admin/system/siteConfig')}">
-		<div class="layui-tab-item layui-show">
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="3000">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="10000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
+    <ul class="layui-tab-title">
+        <li  class="layui-this">静态收益</li>
+        <li>直推收益</li>
+        <li>动态收益</li>
+        <li>全球分红</li>
+    </ul>
+    <form class="layui-form form-container layui-tab-content" data-url="{:url('admin/system/updateSiteConfig')}" localtion-url="{:url('admin/system/siteConfig')}">
+        <div class="layui-tab-item layui-show">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label"></label>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid">-</div>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <label class="layui-form-mid layui-word-aux">元</label>
+                </div>
 
 
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="10">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">每月赠送</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="10000">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="20000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label"></label>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid">-</div>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <label class="layui-form-mid layui-word-aux">元</label>
+                </div>
 
 
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="11">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="20000">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="30000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">直推</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label"></label>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid">-</div>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <label class="layui-form-mid layui-word-aux">元</label>
+                </div>
 
 
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="12">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30000">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="40000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">动态</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label"></label>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid">-</div>
+                  <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                  </div>
+                  <label class="layui-form-mid layui-word-aux">元</label>
+                </div>
 
 
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="13">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="40000">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="50000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">全球分红</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                      <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="14">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="50000">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元以上</label>
-				</div>
-
-
-				<div class="layui-inline">
-					<label class="layui-form-label">每月赠送</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="15">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<div class="layui-form-mid">*</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="70">
-						<!-- <div class="layui-form-mid">主流币</div> -->
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 主流币</label>
-					<div class="layui-form-mid">+</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="30">
-					</div>
-					<label class="layui-form-mid layui-word-aux">% 平台代币</label>
-				</div>
-			</div>
-		</div>
-
-		<div class="layui-tab-item">
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label" style="width: auto;">用户可以拿直推账号静态收益的</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input" value="100">
-					</div>
-					<label class="layui-form-mid layui-word-aux">%</label>
-					<label class="layui-form-label" style="width: auto;">并且永久享受。</label>
-				</div>
-			</div>
-		</div>
-
-		<div class="layui-tab-item">
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">静态收益</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input" value="8">
-					</div>
-					<div class="layui-form-mid">%,每天上午</div>
-					<div class="layui-input-inline">
-						<input type="text" class="layui-input" id="test4" placeholder="时:分:秒" value="10:00:00">
-					</div>
-					<label class="layui-form-mid layui-word-aux">时：分：秒</label>
-					<div class="layui-form-mid">结算</div>
-				</div>
-
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="1">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="1">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="2">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="2">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="3">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="3">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="4">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="4">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="5">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="5">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="6">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="6">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="7">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="7">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="8">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="8">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="9">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="9">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">伞下</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input" value="10">
-					</div>
-					<div class="layui-form-mid">层，拿</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input" value="10">
-					</div>
-					<div class="layui-form-mid">层</div>
-				</div>
-			
-			</div>
-		</div>
-
-		<div class="layui-tab-item">
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label"></label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
-					</div>
-					<label class="layui-form-mid layui-word-aux">元</label>
-				</div>
-
-
-				<div class="layui-inline">
-					<label class="layui-form-label">全球分红</label>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
-					</div>
-					<div class="layui-form-mid">-</div>
-					<div class="layui-input-inline" style="width: 100px;">
-						<input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="btable-paged">
-			<div class="layui-main">
-				<div class="formbtngroup">
-					<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="formadd">提交</button>
-					<button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
-				</div>
-			</div>
-		</div>
-	</form>
+        <div class="btable-paged">
+            <div class="layui-main">
+                <div class="formbtngroup">
+                    <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="formadd">提交</button>
+                    <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
 
 
@@ -473,111 +187,102 @@
 
 </div>
 {/block} {block name="script"}
+
 <script>
-	layui.use('laydate', function(){
-  var laydate = layui.laydate;
-	//时间选择器
-  laydate.render({
-    elem: '#test4'
-    ,type: 'time'
-  });});
-</script>
-<script>
-	
-	layui.use(['element', 'jquery', 'upload'], function() {
-		var ajax_mail_test = "{:url('system/ajax_mail_test')}";
-		var element = layui.element,
-			upload = layui.upload,
-			$ = layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
-		upload.render({
-			elem: '.uploadlogo',
-			url: '{:url("upload/upimage")}',
-			done: function(res, index, upload) {
+    layui.use(['element', 'jquery', 'upload'], function() {
+        var ajax_mail_test = "{:url('system/ajax_mail_test')}";
+        var element = layui.element,
+            upload = layui.upload,
+            $ = layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        upload.render({
+            elem: '.uploadlogo',
+            url: '{:url("upload/upimage")}',
+            done: function(res, index, upload) {
 
-				if (res.code == '200') {
+                if (res.code == '200') {
 
-					var item = this.item;
-					// console.log('222222');
-					// console.log(item); //获取当前触发上传的元素，layui 2.1.0 新增
-					// jq('input[name=pic]').val(res.path);
-					var btnid = item.data('id');
-					var rurl = "__ROOT__";
-					$('#' + btnid + 'val').val(res.path);
+                    var item = this.item;
+                    // console.log('222222');
+                    // console.log(item); //获取当前触发上传的元素，layui 2.1.0 新增
+                    // jq('input[name=pic]').val(res.path);
+                    var btnid = item.data('id');
+                    var rurl = "__ROOT__";
+                    $('#' + btnid + 'val').val(res.path);
 
-					$('#' + btnid + 'pic').attr('src', rurl + res.path);
+                    $('#' + btnid + 'pic').attr('src', rurl + res.path);
 
-					return layer.msg('上传成功');
-				} else {
+                    return layer.msg('上传成功');
+                } else {
 
-					return layer.msg(res.msg);
-				}
-			}
-		});
-		$('#tpt_input').keydown(function(e) {
-			if (e.which === 13) {
-				$("#tpt_btn").click();
-				e.preventDefault();
-				return false;
-			}
-		});
-		$('#J_mail_test').click(function() {
-			var email = $('#J_email').val();
+                    return layer.msg(res.msg);
+                }
+            }
+        });
+        $('#tpt_input').keydown(function(e) {
+            if (e.which === 13) {
+                $("#tpt_btn").click();
+                e.preventDefault();
+                return false;
+            }
+        });
+        $('#J_mail_test').click(function() {
+            var email = $('#J_email').val();
 
-			if (email == '') {
-				layer.msg('邮箱为空', {
-					icon: 2,
-					time: 1000
-				}, function() {
+            if (email == '') {
+                layer.msg('邮箱为空', {
+                    icon: 2,
+                    time: 1000
+                }, function() {
 
-				});
+                });
 
-				//  return false;
-			}
-			$.post(ajax_mail_test, {
-				email: email
-			}, function(result) {
+                //  return false;
+            }
+            $.post(ajax_mail_test, {
+                email: email
+            }, function(result) {
 
-				if (result.code == 1) {
+                if (result.code == 1) {
 
-					layer.msg(result.msg, {
-						icon: 1,
-						time: 1000
-					}, function() {
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function() {
 
-					});
-				} else {
-					layer.msg(result.msg, {
-						icon: 2,
-						time: 1000
-					}, function() {
+                    });
+                } else {
+                    layer.msg(result.msg, {
+                        icon: 2,
+                        time: 1000
+                    }, function() {
 
-					});
-				}
-			});
-		});
-	});
+                    });
+                }
+            });
+        });
+    });
 </script> {/block} {block name="js"}
 <script type="text/javascript" src="__ADMIN__/js/formadd.js"></script>
 <script type="text/javascript" src="__ADMIN__/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="__ADMIN__/plugins/wangEditor/js/wangEditor.min.js"></script>
 <script type="text/javascript">
-	var editor1 = new wangEditor('jihuo');
-	var editor2 = new wangEditor('givepwd');
-	editor1.config.menus = editor2.config.menus = [
-		'source',
-		'|', // '|' 是菜单组的分割线
-		'bold',
-		'underline',
-		'italic',
-		'strikethrough',
-		'eraser',
-		'forecolor',
-		'bgcolor'
-	];
-	editor1.create();
-	editor2.create();
+    var editor1 = new wangEditor('jihuo');
+    var editor2 = new wangEditor('givepwd');
+    editor1.config.menus = editor2.config.menus = [
+        'source',
+        '|', // '|' 是菜单组的分割线
+        'bold',
+        'underline',
+        'italic',
+        'strikethrough',
+        'eraser',
+        'forecolor',
+        'bgcolor'
+    ];
+    editor1.create();
+    editor2.create();
 
-	// 避免上面编辑器的 dropPanel 被下面的编辑器遮挡，保证下面的编辑器的 z-index 要小于上面的编辑器
-	editor1.$editorContainer.css('z-index', 20)
-	editor2.$editorContainer.css('z-index', 10)
+    // 避免上面编辑器的 dropPanel 被下面的编辑器遮挡，保证下面的编辑器的 z-index 要小于上面的编辑器
+    editor1.$editorContainer.css('z-index', 20)
+    editor2.$editorContainer.css('z-index', 10)
 </script> {/block}
