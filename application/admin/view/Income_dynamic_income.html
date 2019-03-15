@@ -3,7 +3,7 @@
     <div class="layui-field-box">
         <div class="layui-box-searchber">
             <!--<a href="{:url('admin/user/add')}" class="layui-btn layui-btn-sm" id="add" style="float:left">-->
-                <!--<i class="layui-icon">&#xe608;</i> 添加用户-->
+            <!--<i class="layui-icon">&#xe608;</i> 添加用户-->
             <!--</a>-->
             <form class="layui-form layui-form-pane" action="{:url('admin/income/index')}" method="get">
                 <div class="layui-inline">
@@ -22,15 +22,18 @@
             <thead>
             <tr>
                 <th style="width: 30px;">ID</th>
-                <th>账号</th>
-                <th>投资币种</th>
-                <th>币种价格</th>
+                <th>收益账号</th>
+                <th>层级账号</th>
+                <th>订单号</th>
                 <th>投资金额</th>
+                <th>投资币种</th>
                 <th>币种数量</th>
-                <th>投资日期</th>
-                <th>凭证</th>
-                <th>支付方式</th>
-                <th>操作</th>
+                <th>收益利率</th>
+                <th>静态收益</th>
+                <th>主流币收益</th>
+                <th>平台币收益</th>
+                <th>时间</th>、
+                <th>收益状态</th>
             </tr>
             </thead>
             <tbody>
@@ -43,12 +46,12 @@
                 <td>投资金额</td>
                 <td>{$vo.num}</td>
                 <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
-                <!--<td><button data-method="photos" class="layui-btn">查看</button></td>-->
-                <td><a href="{$vo.voucher}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a></td>
+                <td>{$vo.voucher}</td>
                 <td>{$vo.pay_way}</td>
-                <td>
-                    <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Income/check',['id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
-                </td>
+                <!--<td>-->
+                <!--<a href="{:url('admin/user/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>-->
+                <!--<a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/user/delete',['id'=>$vo['id']])}" data-opt="del" class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>-->
+                <!--</td>-->
             </tr>
             {/foreach}
             </tbody>
@@ -63,24 +66,3 @@
         {$income_list->render()}
     </div>
 </div>
-{block name="js"}
-<script type="text/javascript" src="__ADMIN__/js/checkment.js"></script>
-<!--<script type="text/javascript">-->
-    <!--//点击弹出图片-->
-    <!--layui.use('layer', function() {-->
-        <!--var active = {-->
-            <!--photos: function () {-->
-                <!--layer.open({-->
-                    <!--type: 1, //page层-->
-                    <!--area: ['808px', '423px'],-->
-                    <!--title: '凭证',-->
-                    <!--shade: 0.8, //遮罩透明度-->
-                    <!--moveType: 0, //拖拽风格，0是默认，1是传统拖动-->
-                    <!--shift: 0, //0-6的动画形式，-1不开启\-->
-                    <!--content: '<img src="__ADMIN__/images/default.png">',-->
-                <!--});-->
-            <!--}-->
-        <!--}-->
-    <!--});-->
-<!--</script>-->
-{/block}
