@@ -52,6 +52,12 @@ class Index extends AdminBase
     {
         //
         $oldver=Db::name('system')->where('name','version')->value('value');
+        $count['total_user'] = Db::name('user')->count('id');//总会员数统计
+        $count['static_wallet'] =  Db::name('user_wallet')->count('static_wallet');//静态奖金统计
+
+        $count['dynamic_wallet'] =  Db::name('user_wallet')->count('dynamic_wallet');//动态奖金统计
+//        $count['now_account'] = Db::name('user_log')->where("id">=$id)->count('now_account');//财务统计
+//        $count['today_login'] = M('users')->where("")->count();//总会员本金主流币数量统计
         $domain=array();
         $host   = $_SERVER['HTTP_HOST'];
         $par    = time();
@@ -68,11 +74,11 @@ class Index extends AdminBase
             $gfur    = preg_replace('|[0-9]+|', '', 'l8a9y0s4n3s.c2o1m');
             $htur    = preg_replace('|[0-9]+|', '', 'h2t3t6p:7/7/w0w3w.l8a8y0s4n2s.c2o1m');
             if ($domain['sqstatus'] == 0) {
-                $status=0; 
+                $status=0;
                 $m = file_get_contents('./template/' . $cms_mb . '/html/index_footer.html');
                 if (strpos($m, $gfur) === false) {
-                    file_put_contents('./template/' . $cms_mb . '/html/index_footer.html', '<div class="footer"> <div class="container clearfix"> <p><a href="' . $htur . '">' . $gfname . '</a> ' . date('Y', time()) . ' &copy; <a href="' . $htur . '">' . $gfur . '</a></p></div></div>');          
-                    $status=-1; 
+                    file_put_contents('./template/' . $cms_mb . '/html/index_footer.html', '<div class="footer"> <div class="container clearfix"> <p><a href="' . $htur . '">' . $gfname . '</a> ' . date('Y', time()) . ' &copy; <a href="' . $htur . '">' . $gfur . '</a></p></div></div>');
+                    $status=-1;
                 }
                 $n = file_get_contents('./template/' . $bbs_mb . '/html/index_footer.html');
                 if (strpos($n, $gfur) === false) {
@@ -83,10 +89,11 @@ class Index extends AdminBase
             }else{
                 file_put_contents('application/extra/sqsta.php', "<?php return ['status'=>1];");
             }
-           
+
         }
-     
+
         $this->assign('domaininfo', $domain);
+        $this->assign('count',$count);
         $this->assign('shouquanname',$domain['msg']);
         $this->assign('oldver', $oldver);
         $this->assign('updatekey',$domain['updatekey']);

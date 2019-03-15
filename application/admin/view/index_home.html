@@ -1,21 +1,41 @@
 {extend name="base" /} {block name="body"}
+<div class="layui-row layui-col-space30">
+    <div class="layui-col-md2 layui-col-md-offset1">
+        <div class="layui-card" style="background-color:#009688">
+            <div class="layui-card-header">总会员数统计</div>
+            <div class="layui-card-body">{$count.total_user}</div>
+        </div>
+    </div>
+    <div class="layui-col-md2">
+        <div class="layui-card" style="background-color:#009688">
+            <div class="layui-card-header">静态奖金统计</div>
+            <div class="layui-card-body">{$count.static_wallet}</div>
+        </div>
+    </div>
+    <div class="layui-col-md2">
+        <div class="layui-card" style="background-color:#009688">
+            <div class="layui-card-header">动态奖金统计</div>
+            <div class="layui-card-body">{$count.dynamic_wallet}</div>
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space30">
+    <div class="layui-col-md2 layui-col-md-offset1">
+        <div class="layui-card" style="background-color:#009688">
+            <div class="layui-card-header">财务统计</div>
+            <div class="layui-card-body">{$count.total_user}</div>
+        </div>
+    </div>
+    <div class="layui-col-md2">
+        <div class="layui-card" style="background-color:#009688">
+            <div class="layui-card-header">总会员本金主流币数量统计</div>
+            <div class="layui-card-body">{$count.total_user}</div>
+        </div>
+    </div>
+</div>
 <div class="tpt—index fly-panel fly-panel-user">
-    <!-- <blockquote style="padding: 10px;border-left: 5px solid #009688;" class="layui-elem-quote">欢迎使用LaySNS内容社区综合系统 <span style="color:#FF5722;">{$shouquanname}</span></blockquote>
-    <table width="100%">
-        <tr>
-            <td width="50%">{if $domaininfo['sqstatus'] eq 0}个人(免费版)用户请保留我们版权；如需去除，请点击
-                <a href="http://www.laysns.com/apps/auth/index.html" target="_blank">购买商业授权</a>{elseif $domaininfo['sqstatus'] eq 1}授权编号：{$domaininfo['sqid']} 有效期至：{$domaininfo['endtime']}{else /}续费{/if}
-            </td>
-            <td>确认服务器或虚拟主机开启了伪静态。</td>
-        </tr>
-    </table> -->
     <blockquote style="padding: 10px;border-left: 5px solid #009688;" class="layui-elem-quote">系统信息：</blockquote>
     <table width="100%">
-        <!-- <tr>
-            <td width="110px">程序版本</td>
-            <td>LaySNS内容社区综合系统 V{$oldver} {if isset($versioninfo['version'])}【发现新版本{$versioninfo['version']}<a href="javascript:;" data-key="{$updatekey}" data-url="{:url('index/handle',array('type'=>'downmain','verid'=>$versioninfo['id']))}" id="update"
-                    style="color:#FF5722;" target="_blank">点击升级</a> <a class="layui-btn layui-btn-xs" target="_blank" href="http://www.laysns.com/plinfo/33.html">升级日志</a>】{/if}</td>
-        </tr> -->
         <tr>
             <td>服务器类型</td>
             <td>{:php_uname('s')}</td>
@@ -57,7 +77,9 @@
         </tr>
     </table>
 </div>
+
 {/block} {block name="script"}
+<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 <script>
     layui.use(['layer', 'jquery'], function() {
         var jq = layui.jquery;

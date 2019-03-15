@@ -36,7 +36,7 @@
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$vo.id}</td>
-                <td>{$vo.mobile}{$vo.username}</td>
+                <td>{$vo.mobile}--{$vo.username}</td>
                 <td>{$vo.alias_name}&nbsp;&nbsp;&nbsp;{$vo.note}</td>
                 <td>{$vo.price}</td>
                 <td>投资金额</td>
@@ -62,45 +62,3 @@
         {$income_list->render()}
     </div>
 </div>
-{/block} {block name="js"}
-<script type="text/javascript" src="__ADMIN__/js/delelement.js"></script>
-<script>
-    layui.use('form', function() {
-        var form = layui.form,
-            jq = layui.jquery;
-        form.on('switch(switchdeveloper)', function(data) {
-            loading = layer.load(2, {
-                shade: [0.2, '#000']
-            });
-            if (data.elem.checked) {
-                status = 1;
-            } else {
-                status = 0;
-            }
-            var url = "{:url('admin/user/toggle')}?id=" + data.value + '&status=' + status + '&name=developer';
-
-
-            jq.get(url, function(data) {
-
-                if (data.code == 200) {
-                    layer.close(loading);
-                    layer.msg(data.msg, {
-                        icon: 1,
-                        time: 1000
-                    }, function() {
-                        //  location.reload();
-                    });
-                } else {
-                    layer.close(loading);
-                    layer.msg(data.msg, {
-                        icon: 2,
-                        anim: 6,
-                        time: 1000
-                    });
-                }
-            });
-            return false;
-        });
-    });
-</script>
-{/block}
