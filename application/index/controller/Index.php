@@ -24,7 +24,18 @@ class Index extends HomeBase
 
     public function index()
     {
-        //签到榜 //投稿榜 自由打开？
+
+        $bss =  getDownUserUids(1);
+        p($bss);die;
+
+        $directData = isEnjoyUser($uid=1,1);
+        if(is_post()){
+            echo input('post.id/d');die;
+        }else{
+            echo 2222;die;
+        }
+        p($directData['into_money']['value']);die;
+        /* //签到榜 //投稿榜 自由打开？
         //$member = Db::name('user_sign')->alias('a')->join('user u', 'u.id=a.uid')->field('u.*,count(*) as forumnum')->group('a.uid')->order('forumnum desc')->limit(12)->select();
         $member = Db::name('article')->alias('f')->join('user u', 'u.id=f.uid')->field('u.*,count(*) as forumnum')->group('f.uid')->order('forumnum desc')->limit(12)->select();
         $this->assign('member', $member);
@@ -61,9 +72,9 @@ class Index extends HomeBase
             //$mapchoice['a.tid']=1;
             $art_choice = Db::name('article')->alias('a')->join('articlecate c', 'c.id=a.tid')->where($mapchoice)->field('a.id,a.coverpic,a.view,a.title,a.time,c.template')->order('a.choice desc,a.time desc')->limit(6)->select();
             $this->assign('art_choice', $art_choice);
-        }
+        } */
 
-        return view();
+        // return view();
     }
 
     public function search()

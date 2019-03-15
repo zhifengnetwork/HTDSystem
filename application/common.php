@@ -1926,3 +1926,131 @@ if (!function_exists('array_column')) {
         return $result;
     }
 }
+
+// HTD
+// 判断是否post
+function is_post(){
+    $res = Request::instance()->isPost();
+    return $res;
+}
+
+//判断是否是ajax请求 同时满足是ajax和post请求才算是ajax，异步统一使用post提交数据
+function isAjax(){
+	$isAjax=isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])=='xmlhttprequest'&&strtolower($_SERVER['REQUEST_METHOD'])=='post';
+	return $isAjax;
+}
+
+// 打印数组
+function p($data=0){
+    echo '<pre/>';
+   return var_dump($data);
+}
+
+// 获取当前用户所有直推会员
+function getDirectUser($uid=''){
+    if (empty($uid)) {
+        return false;
+    }
+    $directData = '';
+    $directData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,flag,idcard_url')->where(['pid' => $uid])->select();
+    return $directData;
+}
+
+// 获取当前用户所有已激活的直推会员(入单)
+function getActivateUser($uid){
+    if (empty($uid)) {
+        return false;
+    }
+    $activateData = '';
+    $where['pid'] = $uid;
+    $where['flag'] = ['>=',2]; // 大于等于2的代表下单
+    $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,flag,idcard_url')->where($where)->select();
+    return $activateData;
+}
+
+//获取当前收益的用户是否享受动态收益: 需要投资同等币种金额500美元以上
+function isEnjoyUser($uid='', $cu_id=''){
+    if (empty($uid) || empty($cu_id)) {
+        return false;
+    }
+    $where['uid'] = $uid;
+    $where['cu_id'] = $cu_id;
+    $where['is_check'] = 1; // 后台审核有效订单
+    $orderMoney = '';
+    $orderMoney = Db::name('buy_order')->where($where)->sum('total_money');
+    // 是否存在投资金额
+    if(!$orderMoney){
+        return false;
+    }
+    // 获取后台设置的美元汇率 与 享受动态收益要达到的美元金额
+    $whereC['name'] = array('in','exchange_usd,into_money');
+    $configs = Db::name('income_config')->field('id,name,value')->where($whereC)->select();
+    $configData = arr2name($configs);
+    // 当前币种总投资金额/美元汇率
+    $usd_num =  $orderMoney/$configData['exchange_usd']['value'];
+    // 判断是否达到入单规定美元
+    if($usd_num<$configData['into_money']['value']){
+        return false;
+    }
+    return true;
+}
+
+// 生成唯一的订单号
+function byOrderNo(){
+    $order_no = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    return $order_no;
+}
+
+//数组转换成[配置项名称]获取数据
+function arr2name($data,$key=''){
+	$return_data=array();
+	if(!$data||!is_array($data)){
+		return $return_data;
+	}
+	if(!$key){
+		$key='name';
+	}
+	foreach($data as $dv){
+		$return_data[$dv[$key]]=$dv;
+	}
+	return $return_data;
+}
+
+// 插入日志表user_log
+function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account='', $note=''){
+    if (empty($uid)) {
+        return false;
+    }
+    $insertData = array(
+        'uid' => $uid,
+        'order_no' => $order_no,
+        'type' => $type,
+        'old_account' => $old_account,
+        'now_account' => $now_account,
+        'note' => $note,
+        'create_time' => time(),
+        'status' => 0
+    );
+    $res = Db::name('user_log')->save($insertData);
+    return $res;
+}
+
+// 获取当前用户的伞下10层数(不包括自己)
+function getDownUserUids($uid){
+    global $g_down_Uids;
+	if($uid){
+        // $member_arr=$g_db->fetchRows("select id,p_mid from wx_member where p_mid='{$uid}'",1,1000);
+        $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(1,1000)->select();
+        
+		foreach($member_arr as $mb){
+            p($mb);
+			if($mb['id'] && $mb['id'] != $uid){
+				$g_down_Uids[]=$mb['id'];
+				getDownUserUids($mb['id']);
+			}	
+		}
+	}
+	return $g_down_Uids;
+}
+
+
