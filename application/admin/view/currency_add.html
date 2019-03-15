@@ -5,7 +5,7 @@
 
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <form class="layui-form form-container" method="post" action="{:url('admin/currency/doadd')}"  enctype="multipart/form-data">
+            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/currency/doadd')}"  enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">币种名称</label>
                     <div class="layui-input-inline">
@@ -31,19 +31,15 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">币种地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="wallet_addr"  value="" placeholder="请输入币种地址" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">币种图标</label>
                     <div class="layui-input-inline">
                         <input type="file" name="log" id="file">
-                    </div>
-                </div>
-                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                    <legend>常规使用：普通图片上传</legend>
-                </fieldset>
-                <div class="layui-upload">
-                    <button type="button" class="layui-btn" id="test1">上传图片</button>
-                    <div class="layui-upload-list">
-                        <img class="layui-upload-img" id="demo1">
-                        <p id="demoText"></p>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -57,13 +53,14 @@
                 <div class="btable-paged">
                     <div class="layui-main">
                         <div class="formbtngroup">
-                            <button class="layui-btn layui-btn-sm" id="fileUpload">添加</button>
+                            <button class="layui-btn layui-btn-sm" id="fileUpload" onclick="ajaxPost()">添加</button>
                             <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
                         </div>
                     </div>
                 </div>
 
             </form>
+            <div id="content"></div>
         </div>
     </div>
 </div>
@@ -81,26 +78,19 @@
         }
         document.forms[0].submit();
     });
+    function ajaxPost(){
+        var formData = $("#myform").serialize();
+        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法
+        $.ajax({
+            type:"post",
+            url:"{:url('admin/currency/doadd')}",  //数据传输的控制器方法
+            data:formData,//这里data传递过去的是序列化以后的字符串
+            success:function(data){
 
+            }
+        });
+    }
 
 </script>
 
 {/block}
-<script>
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#test1'
-            ,url: '/upload/'
-            ,before: function(obj){
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo1').attr('src', result); //图片链接（base64）
-                });
-            }
-        )}
-    }
-</script>

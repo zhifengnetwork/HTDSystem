@@ -14,15 +14,25 @@ class Currency extends AdminBase
     }
     public function index()
     {
-        $currencyData = Db::name('currency')->select();
-        return $this->fetch('currency_index', ['currencyData' => $currencyData]);
+        $currencyData = Db::name('currency')->paginate(10);
+        $i = 1;
+        return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i]);
     }
     public function add()
     {
         return $this->fetch();
     }
-    public function doadd()
+    public function doadd($name,$alias_name)
     {
+
+        $names = DB::name('currency')->where('name',$name)->find();
+        if ($names){
+            echo "<script>alert('币种名称不能重复');history.go(-1);</script>";exit;
+        }
+        $alias_names = DB::name('currency')->where('alias_name',$alias_name)->find();
+        if ($alias_names){
+            echo "<script>alert('币种简称不能重复');history.go(-1);</script>";exit;
+        }
         $arr = $this->request->post();
 
         $file = request()->file('log');
