@@ -39,7 +39,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">币种图标</label>
                     <div class="layui-input-inline">
-                        <input type="file" name="log" id="file">
+                        <input type="file" name="log" id="file"  onchange="checkFileExt(this.value)">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -91,6 +91,28 @@
         });
     }
 
-</script>
+    function checkFileExt(filename)
+    {
+        var flag = false; //状态
+        var arr = ["jpg","png","gif"];
+        //取出上传文件的扩展名
+        var index = filename.lastIndexOf(".");
+        var ext = filename.substr(index+1);
+        //循环比较
+        for(var i=0;i<arr.length;i++) {
+            if(ext == arr[i]) {
+                flag = true; //一旦找到合适的，立即退出循环
+                break;
+            }
+        }
+        //条件判断
+        if(!flag) {
+            alert("文件名不符合");
+            var obj=document.getElementById('file');
+            obj.outerHTML=obj.outerHTML;
+        }
 
+    }
+
+</script>
 {/block}

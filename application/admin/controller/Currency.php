@@ -15,7 +15,9 @@ class Currency extends AdminBase
     public function index()
     {
         $currencyData = Db::name('currency')->paginate(10);
+
         $i = 1;
+
         return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i]);
     }
     public function add()
@@ -33,10 +35,9 @@ class Currency extends AdminBase
         if ($alias_names){
             echo "<script>alert('币种简称不能重复');history.go(-1);</script>";exit;
         }
+
         $arr = $this->request->post();
-
         $file = request()->file('log');
-
         // 移动到框架应用根目录/public/uploads/ 目录下
         if($file){
             $info = $file->move(ROOT_PATH . DS . 'uploads');
@@ -62,17 +63,33 @@ class Currency extends AdminBase
         $res = DB::name('currency')->where('id',$id)->find();
         return $this->fetch('currency_edit', ['res' => $res]);
     }
-    public function doedit($id)
+    public function doedit($id,$name,$alias_name)
     {
+        $curr = DB::name('currency')->where('id',$id)->find();
         $arr = $this->request->post();
         $file = request()->file('log');
+        if ($curr['name'] !== $name) {
+            $names = DB::name('currency')->where('name', $name)->find();
+            if ($names) {
+                echo "<script>alert('币种名称不能重复');history.go(-1);</script>";
+                exit;
+            }
+        }
+        if ($curr['alias_name'] !== $alias_name) {
+            $alias_names = DB::name('currency')->where('alias_name', $alias_name)->find();
+            if ($alias_names) {
+                echo "<script>alert('币种简称不能重复');history.go(-1);</script>";
+                exit;
+            }
+        }
 
         if($file){
+            //上传文件
             $res = DB::name('currency')->where('id',$id)->find();
 
             if ($res['log']){
                 $log = unlink($res['log']);
-                //文件没删除
+                //文件删除
                 if (!$log){
                     $this->error('文件更新失败!');
                 }
@@ -87,16 +104,19 @@ class Currency extends AdminBase
                 if ($res){
                     $this->success('更新成功!',('Currency/index'));
                 } else {
-                    $this->error('更新失败!');
+                    echo "<script>alert('币种简称不能重复');history.go(-1);</script>";
+                    exit;
                 }
             }
         }else{
+            //没有上传文件
             $res = DB::name('currency')->where('id',$id)->update($arr);
             if ($res) {
                 $this->success('更新成功!',('Currency/index'));
             } else {
 
-                $this->error('更新失败!');
+                echo "<script>alert('更新失败');history.go(-1);</script>";
+                exit;
             }
         }
 
@@ -113,9 +133,21 @@ class Currency extends AdminBase
         }
         $info = DB::name('currency')->where('id',$id)->delete();
         if ($info){
-            $this->success('删除成功!');
+            return json(array('code' => 100, 'msg' => '删除成功'));
         } else {
-            $this->error('删除失败!');
+            return json(array('code' => 0, 'msg' => '删除失败'));
+        }
+    }
+    //修改状态
+    public function status($id)
+    {
+        $res = DB::name('currency')->where('id',$id)->find();
+        if($res['status'] == '1'){
+            $info = DB::name('currency')->where('id',$id)->setField('status','0');
+            $this->success('隐藏成功');
+        } else if ($res['status'] == '0') {
+            DB::name('currency')->where('id',$id)->setField('status','1');
+            $this->success('显示成功');
         }
     }
 }
