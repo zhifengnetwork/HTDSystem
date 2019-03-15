@@ -70,10 +70,28 @@ class System extends AdminBase
     *
     */
     public function setIncomeConfig(){
+        $static = Db::name('income_config')->field('name,value')->where('type', 101)->select();
+        $push = Db::name('income_config')->field('name,value')->where('type', 102)->select();
+        $dynamic = Db::name('income_config')->field('name,value')->where('type', 103)->select();
+
+        $result['push'][$push[0]['name']] = $push[0]['value'];
+
+        foreach ($static as $key => $value) {
+            $result['static'][$value['name']] = $value['value'];
+        }
+
+        foreach ($dynamic as $key => $value) {
+            $result['dynamic'][$value['name']] = $value['value'];
+        }
+
+        $this->assign('static',$result['static']);
+
+        $this->assign('push',$result['push']);
+        $this->assign('dynamic',$result['dynamic']);
+
+        // $site_config = unserialize($site_config['value']);
         
-        $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
-        $site_config = unserialize($site_config['value']);
-        return $this->fetch('set_income_config', ['site_config' => $site_config]);
+        return $this->fetch('set_income_config');
     }
 
     /* 
@@ -83,7 +101,49 @@ class System extends AdminBase
     public function getToSetIncome(){
         if ($this->request->isPost()) {
             $param = input('post.');
-            var_dump($param);die;
+            $static = $param['static'];
+            $push = $param['push'];
+            $dynamic = $param['dynamic'];
+            
+            $config = Db::name('income_config');
+
+            foreach ($static as $key => $value) {
+                $staticKey[] = $key;
+            }
+            
+            for ($i = 0; $i < count($staticKey); $i++) {
+                $bool1 = $config->where('name',$staticKey[$i])->find();
+
+                if ($bool1) {
+                    $config->where('name',$staticKey[$i])->update(['value'=>$static[$staticKey[$i]]]);
+                } else {
+                    $config->insert(['name'=>$staticKey[$i],'value'=>$static[$staticKey[$i]],'type'=>101]);
+                }
+            }
+
+            if ($config->where('name','push_rate')->find()) {
+                $config->where('name','push_rate')->update(['value'=>$push['push_rate']]);
+            } else {
+                $config->insert(['name'=>'push_rate','value'=>$push['push_rate'],'type'=>102]);
+            }
+
+            foreach ($dynamic as $key => $value) {
+                $dynamicKey[] = $key;
+            }
+            
+            for ($i = 0; $i < count($dynamicKey); $i++) {
+                $bool2 = $config->where('name',$dynamicKey[$i])->find();
+
+                if ($bool2) {
+                    $config->where('name',$dynamicKey[$i])->update(['value'=>$dynamic[$dynamicKey[$i]]]);
+                } else {
+                    $config->insert(['name'=>$dynamicKey[$i],'value'=>$dynamic[$dynamicKey[$i]],'type'=>103]);
+                }
+            }
+
+            return json(array('code' => 200, 'msg' => '提交成功'));
+            
+
             // $site_config = $this->request->post('site_config/a');
             // $site_config['site_tongji'] = htmlspecialchars_decode($site_config['site_tongji']);
             // $data['value'] = serialize($site_config);
@@ -99,11 +159,11 @@ class System extends AdminBase
             // file_put_contents($path, $str);
 
             // //写入CMS/BBS开关
-            // // $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
+            // // $cbstr = "<?php return [" . "'cb_open'=>" . $param['cb_open'] . "]; ";
             // // file_put_contents('application/extra/cbopen.php', $cbstr);
 
-            // if (Db::name('system')->where('name', 'site_config')->update($data) !== false) {
-            //     Cache::set('site_config', null);
+            // if (Db::name('set_income_config')->where('name', 'static')->update($data) !== false) {
+            //     Cache::set('income_config', null);
 
             //     return json(array('code' => 200, 'msg' => '提交成功'));
             // } else {
