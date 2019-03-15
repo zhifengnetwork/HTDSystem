@@ -5,7 +5,7 @@
 
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <form class="layui-form form-container" method="post" action="{:url('admin/currency/doedit',['id'=>$res['id']])}"  enctype="multipart/form-data">
+            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/currency/doedit',['id'=>$res['id']])}"  enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">币种名称</label>
                     <div class="layui-input-inline">
@@ -33,7 +33,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">币种图标</label>
                     <div class="layui-input-inline">
-                        <input type="file" name="log" id="file">
+                        <input type="file" name="log" id="file" onchange="checkFileExt(this.value)">
                         <img src="/{$res['log']}" alt="111" style="width: 100px;height: 100px">
                     </div>
                 </div>
@@ -68,6 +68,40 @@
         document.forms[0].submit();
     });
 
+    function ajaxPost(){
+        var formData = $("#myform").serialize();
+        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法
+        $.ajax({
+            type:"post",
+            url:"{:url('admin/currency/doedit')}",  //数据传输的控制器方法
+            data:formData,//这里data传递过去的是序列化以后的字符串
+            success:function(data){
+
+            }
+        });
+    }
+    function checkFileExt(filename)
+    {
+        var flag = false; //状态
+        var arr = ["jpg","png","gif"];
+        //取出上传文件的扩展名
+        var index = filename.lastIndexOf(".");
+        var ext = filename.substr(index+1);
+        //循环比较
+        for(var i=0;i<arr.length;i++) {
+            if(ext == arr[i]) {
+                flag = true; //一旦找到合适的，立即退出循环
+                break;
+            }
+        }
+        //条件判断
+        if(!flag) {
+            alert("文件名不符合");
+            var obj=document.getElementById('file');
+            obj.outerHTML=obj.outerHTML;
+        }
+
+    }
 
 </script>
 

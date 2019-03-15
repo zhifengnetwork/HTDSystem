@@ -10,6 +10,7 @@
 				<table class="layui-table admin-table">
 				<thead>
                     <tr>
+
                         <th style="width: 30px;">ID</th>
                         <th>图标</th>
                         <th>币种名称</th>
@@ -22,21 +23,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {foreach name="currencyData" item="vo"}
+                    {foreach name="currencyData" item="vo" key="num"}
                     <tr>
                         <td>{$i++}</td>
                         <td>{if condition="$vo['log'] eq true"}<img src="/{$vo['log']}" alt="111">{else /} {/if}
                         </td>
                         <td>{$vo.name}</td>
                         <td>{$vo.alias_name}</td>
-                        <td>{if condition="$vo['status'] eq 1"}显示{else /} 隐藏{/if}
+                        <td>{if condition="$vo['status'] eq 1"}<a href="{:url('admin/currency/status',['id'=>$vo['id']])}">显示</a>{else /}<a href="{:url('admin/currency/status',['id'=>$vo['id']])}">隐藏</a> {/if}
                         <td>{$vo.wallet_addr}</td>
                         <td>{$vo.price}</td>
                         <td>{$vo.note}</td>
                         <td>
                            
                             <a href="{:url('admin/currency/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>
-                            <a  href="{:url('admin/currency/delete',['id'=>$vo['id']])}"   class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
+                            <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/currency/delete',['id'=>$vo['id']])}" data-opt="del" class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
                         </td>
                     </tr>
                     {/foreach}
@@ -51,3 +52,47 @@
 			
 		</div>				
 {/block}
+{block name="js"}
+<script type="text/javascript" src="__ADMIN__/js/delelement.js"></script>
+<script>
+    layui.use('form', function() {
+        var form = layui.form,
+            jq = layui.jquery;
+        form.on('switch(switchdeveloper)', function(data) {
+            loading = layer.load(2, {
+                shade: [0.2, '#000']
+            });
+            if (data.elem.checked) {
+                status = 1;
+            } else {
+                status = 0;
+            }
+            var url = "{:url('admin/user/toggle')}?id=" + data.value + '&status=' + status + '&name=developer';
+
+
+            jq.get(url, function(data) {
+
+                if (data.code == 200) {
+                    layer.close(loading);
+                    layer.msg(data.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function() {
+                        //  location.reload();
+                    });
+                } else {
+                    layer.close(loading);
+                    layer.msg(data.msg, {
+                        icon: 2,
+                        anim: 6,
+                        time: 1000
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
+{/block}
+
+
