@@ -1,0 +1,106 @@
+{extend name="base" /} {block name="body"}
+
+<!--tab标签-->
+<div class="layui-tab-brief">
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form form-container" method="post" action="{:url('admin/currency/doadd')}"  enctype="multipart/form-data">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name"  value="" required lay-verify="required" placeholder="请输入币种名称" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种简称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="alias_name"  value="" required lay-verify="required" placeholder="请输入币种简称" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种价格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="price"  value="" oninput = "value=value.replace(/[^\d]/g,'')" required lay-verify="required" placeholder="请输入币种价格" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种提示</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="note"  value="" placeholder="请输入币种提示" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种图标</label>
+                    <div class="layui-input-inline">
+                        <input type="file" name="log" id="file">
+                    </div>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>常规使用：普通图片上传</legend>
+                </fieldset>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test1">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="demo1">
+                        <p id="demoText"></p>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <span>启用</span><input type="radio" name="status" value="1" title="启用" checked="checked" style="display: inline;">
+                        <span>禁用</span><input type="radio" name="status" value="0" title="禁用" style="display: inline;">
+
+                    </div>
+                </div>
+                <div class="btable-paged">
+                    <div class="layui-main">
+                        <div class="formbtngroup">
+                            <button class="layui-btn layui-btn-sm" id="fileUpload">添加</button>
+                            <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#fileUpload").click(function(){
+        var file=$("#file");
+        if($.trim(file.val())==''){
+            alert("请选择文件");
+            return false;
+        }
+        var text=$(".txt");
+        if(text.val()== ''){
+            alert("输入框不能为空");
+            return false;
+        }
+        document.forms[0].submit();
+    });
+
+
+</script>
+
+{/block}
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: '/upload/'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+        )}
+    }
+</script>

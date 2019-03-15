@@ -1,8 +1,10 @@
 {extend name="base" /}
+<link rel="stylesheet" href="//res.layui.com/layui/dist/css/layui.css"  media="all">
 {block name="body"}
+
 <div class="admin-main">
 <div class="layui-field-box layui-form">
-				<a href="{:url('admin/usergrade/add')}" class="layui-btn layui-btn-sm" id="add">
+				<a href="{:url('admin/currency/add')}" class="layui-btn layui-btn-sm" id="add">
 					<i class="layui-icon">&#xe608;</i> 添加币种
 				</a>
 				<table class="layui-table admin-table">
@@ -13,6 +15,7 @@
                         <th>币种名称</th>
                         <th>币种简称</th>
                         <th>当前价格(CNY)</th>
+                        <th>币种提示</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -20,15 +23,25 @@
                     {foreach name="currencyData" item="vo"}
                     <tr>
                         <td>{$vo.id}</td>
-                        <td>--</td>
+                        <td>{if condition="$vo['log'] eq true"}
+
+                            <img src="/{$vo['log']}" alt="111">
+
+                            {else /}
+
+
+
+                            {/if}
+                        </td>
                         <td>{$vo.name}</td>
                         <td>{$vo.alias_name}</td>
                         <td>{$vo.price}</td>
-                       
+                        <td>{$vo.note}</td>
                         <td>
                            
-                            <a href="{:url('admin/usergrade/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>
-                            <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/usergrade/delete',array('id'=>$vo['id']))}" data-opt="del"  class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
+                            <a href="{:url('admin/currency/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>
+                            <a  href="{:url('admin/currency/delete',['id'=>$vo['id']])}"   class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
+                            <a data-method="confirmTrans" class="layui-btn elementdel layui-btn-danger layui-btn-sm ajax-delete">删除</a>
                         </td>
                     </tr>
                     {/foreach}
@@ -39,7 +52,3 @@
 			
 		</div>				
 {/block}
-
-    {block name="js"}
-<script type="text/javascript" src="__ADMIN__/js/delelement.js"></script>
- {/block}
