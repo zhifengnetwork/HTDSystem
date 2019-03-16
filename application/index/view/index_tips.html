@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title class="pageTopTitle" page-id="0">首页</title>
+    <script src="/public/js/rem.js"></script>
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <link rel="stylesheet" href="/public/css/swiper.css">
+    <link rel="stylesheet" href="/public/css/bottomNav.css"/>
+    <link rel="stylesheet" href="/public/css/base.css">
+    <link rel="stylesheet" href="/public/css/index.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- 轮播图 -->
+        <div class="swiper-container banner-wrap-zp">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="/public/images/banner-img01.jpg"  />
+                </div>
+                <div class="swiper-slide">
+                    <img src="/public/images/banner-img01.jpg"  />
+                </div>
+                <div class="swiper-slide">
+                    <img src="/public/images/banner-img01.jpg"  />
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- 菜单导航 -->
+        <div class="nav-wrap-zp">
+            <ul>
+                <li class="itemColor-1">
+                    <a href="{:url('index/login/index')}">
+                        <img src="/public/images/Assets-icon@2x.png" alt="">
+                        <span>投资</span>
+                        <!-- <span>26035.00</span> -->
+                    </a>
+                </li>
+                <li class="itemColor-2">
+                    <a href="totalRevenue_zp.html">
+                        <img src="/public/images/Profit-icon@2x.png" alt="">
+                        <span>总收益</span>
+                        <!-- <span>265.00</span> -->
+                    </a>
+                </li>
+                <li class="itemColor-3">
+                    <a href="#">
+                        <img src="/public/images/Today's earnings-icon@2x.png" alt="">
+                        <span>今日收益</span>
+                        <!-- <span>35.00</span> -->
+                    </a>
+                </li>
+                <li class="itemColor-4">
+                    <a href="#">
+                        <img src="/public/images/wallet-icon@2x.png" alt="">
+                        <span>钱包余额</span>
+                        <!-- <span>135.00</span> -->
+                    </a>
+                </li>
+                <li class="itemColor-5">
+                    <a href="./qrcode/qrcode.html">
+                        <img src="/public/images/share-icon@2x.png" alt="">
+                        <span>分享</span>
+                    </a>
+                </li>
+                <li class="itemColor-6">
+                    <a href="directDrive.html">
+                        <img src="/public/images/Assets-icon@2x.png" alt="">
+                        <span>我的团队</span>
+                        <!-- <span>35.00</span> -->
+                    </a>
+                </li>
+                <li class="itemColor-7">
+                    <a href="present.html">
+                        <img src="/public/images/withdraw-money-icon@2x.png" alt="">
+                        <span>提币</span>
+                        <!-- <span>35.00</span> -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="bottomNavWrap container" id="bottomNavWrap"></div>
+        
+    </div>
+    
+    <script src="/public/js/jquery-1.8.3.min.js"></script>
+    <!--底部nav=>Tab功能-->
+	<script src="/public/js/bottomNavJs.js"></script>
+    <script src="/public/js/swiper.js"></script>
+    
+    <script>
+        var swiper = new Swiper('.banner-wrap-zp', {
+            loop:true,
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            spaceBetween: 30,
+            autoplay: 3000,
+            autoplayDisableOnInteraction: false
+        });
+    </script>
+</body>
+</html>
