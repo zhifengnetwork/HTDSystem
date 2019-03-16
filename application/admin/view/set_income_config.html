@@ -57,6 +57,7 @@
         <li>直推收益</li>
         <li>动态收益</li>
         <li>全球分红</li>
+        <li>提币/美元(USD)汇率设置</li>
     </ul>
     <form class="layui-form form-container layui-tab-content" data-url="{:url('admin/system/getToSetIncome')}" localtion-url="{:url('admin/system/setIncomeConfig')}">
         <div class="layui-tab-item layui-show">
@@ -269,6 +270,16 @@
         </div>
         <!-- 动态收益 -->
         <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 200px;">享受动态收益需要入单</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="dynamic[into_money]" autocomplete="off" class="layui-input" value="{$dynamic.into_money|default=''}">
+                    </div>
+                    <div class="layui-form-mid">美元以上同等主流数字货币，用户入单激活。</div>
+                   
+                </div>
+            </div>
         	<div class="layui-form-item">
         		<div class="layui-inline">
         			<label class="layui-form-label" style="width: 200px;">伞下1~10层所有账户静态收益</label>
@@ -414,33 +425,50 @@
             </div>
         </div>
 
-        <!-- 动态收益 -->
+        <!-- 全球分红 -->
         <div class="layui-tab-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="color:red;width: 300px;">注意：数据设置为0时，直接统计系统数据。</label>
+            </div>
         	<div class="layui-form-item">
+                
         		<div class="layui-inline">
-        			<label class="layui-form-label"></label>
+        			<label class="layui-form-label">静态</label>
         			<div class="layui-input-inline" style="width: 100px;">
-        				<input type="text" name="price_min"  autocomplete="off" class="layui-input">
+        				<input type="text" name="global_par[global_static]"  autocomplete="off" class="layui-input" value="{$global_par.global_static|default=0}">
         			</div>
-        			<div class="layui-form-mid">-</div>
-        			<div class="layui-input-inline" style="width: 100px;">
-        				<input type="text" name="price_max"  autocomplete="off" class="layui-input">
-        			</div>
-        			<label class="layui-form-mid layui-word-aux">元</label>
         		</div>
         		<div class="layui-inline">
-        			<label class="layui-form-label">全球分红</label>
+        			<label class="layui-form-label">动态</label>
         			<div class="layui-input-inline" style="width: 100px;">
-        				<input type="text" name="price_min"  autocomplete="off" class="layui-input">
-        			</div>
-        			<div class="layui-form-mid">-</div>
-        			<div class="layui-input-inline" style="width: 100px;">
-        				<input type="text" name="price_max"  autocomplete="off" class="layui-input">
+        				<input type="text" name="global_par[global_dy]"  autocomplete="off" class="layui-input" value="{$global_par.global_dy|default=0}">
         			</div>
         		</div>
         	</div>
         </div>
-        
+
+        <!-- 提币设置 -->
+        <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 110px;">收益至少满</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="global_par[withdraw_min]"  autocomplete="off" class="layui-input" value="{$global_par.withdraw_min|default=0}">
+                    </div>
+                    <div class="layui-form-mid">美元才可提币。</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 150px;">当前美元(USD)汇率</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="global_par[exchange_usd]"  autocomplete="off" class="layui-input" value="{$global_par.exchange_usd|default=0}">
+                    </div>
+                    <div class="layui-form-mid"></div>
+                </div>
+            </div>
+        </div>
+      
         <div class="btable-paged">
         	<div class="layui-main">
         		<div class="formbtngroup">

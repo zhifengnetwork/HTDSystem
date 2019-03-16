@@ -73,6 +73,7 @@ class System extends AdminBase
         $static = Db::name('income_config')->field('name,value')->where('type', 101)->select();
         $push = Db::name('income_config')->field('name,value')->where('type', 102)->select();
         $dynamic = Db::name('income_config')->field('name,value')->where('type', 103)->select();
+        $global_par = Db::name('income_config')->field('name,value')->where('type', 104)->select();
 
         $result['push'][$push[0]['name']] = $push[0]['value'];
 
@@ -83,11 +84,15 @@ class System extends AdminBase
         foreach ($dynamic as $key => $value) {
             $result['dynamic'][$value['name']] = $value['value'];
         }
+        foreach ($global_par as $key => $value) {
+            $result['global_par'][$value['name']] = $value['value'];
+        }
 
         $this->assign('static',$result['static']);
 
         $this->assign('push',$result['push']);
         $this->assign('dynamic',$result['dynamic']);
+        $this->assign('global_par',$result['global_par']);
 
         // $site_config = unserialize($site_config['value']);
         
@@ -104,6 +109,7 @@ class System extends AdminBase
             $static = $param['static'];
             $push = $param['push'];
             $dynamic = $param['dynamic'];
+            $global_par = $param['global_par'];
             
             $config = Db::name('income_config');
 
@@ -140,35 +146,22 @@ class System extends AdminBase
                     $config->insert(['name'=>$dynamicKey[$i],'value'=>$dynamic[$dynamicKey[$i]],'type'=>103]);
                 }
             }
+            // 全球分红
+            foreach ($global_par as $key => $value) {
+                $globalsKey[] = $key;
+            }
+            
+            for ($i = 0; $i < count($globalsKey); $i++) {
+                $bool3 = $config->where('name',$globalsKey[$i])->find();
+
+                if ($bool3) {
+                    $config->where('name',$globalsKey[$i])->update(['value'=>$global_par[$globalsKey[$i]]]);
+                } else {
+                    $config->insert(['name'=>$globalsKey[$i],'value'=>$global_par[$globalsKey[$i]],'type'=>104]);
+                }
+            }
 
             return json(array('code' => 200, 'msg' => '提交成功'));
-            
-
-            // $site_config = $this->request->post('site_config/a');
-            // $site_config['site_tongji'] = htmlspecialchars_decode($site_config['site_tongji']);
-            // $data['value'] = serialize($site_config);
-
-            // $path = 'application/config.php';
-            // $str = '<?php return [';
-            // if ($site_config['site_wjt'] == 1) {
-            //     $str .= "'app_debug'           => true,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
-            // } else {
-            //     $str .= "'app_debug'           => false,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
-            // }
-            // $str .= ']; ';
-            // file_put_contents($path, $str);
-
-            // //写入CMS/BBS开关
-            // // $cbstr = "<?php return [" . "'cb_open'=>" . $param['cb_open'] . "]; ";
-            // // file_put_contents('application/extra/cbopen.php', $cbstr);
-
-            // if (Db::name('set_income_config')->where('name', 'static')->update($data) !== false) {
-            //     Cache::set('income_config', null);
-
-            //     return json(array('code' => 200, 'msg' => '提交成功'));
-            // } else {
-            //     return json(array('code' => 200, 'msg' => '提交失败'));
-            // }
         }
     }
 
