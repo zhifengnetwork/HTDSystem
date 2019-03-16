@@ -49,5 +49,5 @@ $(function() {
 //  登录
 function loginFun(){
 	console.log(666)
-	window.location.href = '../home/index.html';
+	window.location.href = '/index/index.html';
 }
