@@ -4,6 +4,7 @@ namespace app\admin\controller;
 use app\common\model\Currency as CurrencyModel;
 use app\common\controller\AdminBase;
 use think\Db;
+use think\Session;
 class Currency extends AdminBase
 {
     protected function _initialize()
@@ -12,17 +13,19 @@ class Currency extends AdminBase
         $this->Currency = new CurrencyModel();
 
     }
-    public function index($name = '')
+    public function index($name = '',$names = '')
     {
         if ($name){
             $currencyData = Db::name('currency')->where('name','like','%'.$name.'%')->paginate(10);
+            Session::set('name',$name);
+            $names = Session::get('name');
         } else {
             $currencyData = Db::name('currency')->paginate(10);
         }
 
         $i = 1;
 
-        return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i]);
+        return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i,'names'=> $names]);
     }
     public function add()
     {
