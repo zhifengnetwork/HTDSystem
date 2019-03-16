@@ -71,6 +71,17 @@ class Index extends HomeBase
     public function present(){
         return view();
     } 
+    public function directDrive(){
+        return view();
+    }    
+    
+    public function totalRevenue(){
+        return view();
+    }    
+
+    public function qrcode(){
+        return view();
+    }
 
     public function search()
     {

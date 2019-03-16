@@ -2,14 +2,14 @@
  *  *bottomTabArrOne.length来循环
  * **/
 var bottomTabArrOne = [
-	"img/bottomNav/20181119_11.png",
+	"/public/images/public/bottomNav/home-icon-1@2x.png",
 	"img/bottomNav/20181119_21.png",
 	"img/bottomNav/20181119_31.png",
 	"img/bottomNav/20181119_41.png",
 ];
 /*底部nav切换(已-点击)_按循序*/
 var bottomTabArrTwo = [
-	"img/bottomNav/20181119_12.png",
+	"/public/images/public/bottomNav/home-icon-2@2x.png",
 	"img/bottomNav/20181119_22.png",
 	"img/bottomNav/20181119_32.png",
 	"img/bottomNav/20181119_42.png",
