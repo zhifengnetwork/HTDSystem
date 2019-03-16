@@ -1,3 +1,125 @@
+<<<<<<< HEAD
+.wrapper{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#142785,#101b59);
+    padding-bottom: 1.3rem;
+}
+/* 轮播图 */
+.banner-wrap-zp img{
+    width: 100%;
+    display: block;
+}
+.banner-wrap-zp .swiper-pagination span{
+    background-color: #fff;
+}
+.banner-wrap-zp .swiper-pagination span.swiper-pagination-bullet-active{
+    opacity: 1;
+}
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+    margin: 0 0.05rem;
+}
+.swiper-pagination-bullet{
+    width: 0.08rem;
+    height: 0.08rem;
+}
+
+/* 导航 */
+.nav-wrap-zp{
+    margin: 0.4rem 0;
+}
+.nav-wrap-zp ul{
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    padding: 0 0.4rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.nav-wrap-zp ul li{
+    width: 3.05rem;
+    height: 1.7rem;
+    font-size: 0.3rem;
+    text-align: center;
+    margin-bottom: 0.6rem;
+    background: -moz-linear-gradient(top, #21c1c2 0%, #028ed1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #21c1c2), color-stop(100%, #028ed1));
+	background: -webkit-linear-gradient(top, #21c1c2 0%, #028ed1 100%);
+	background: -o-linear-gradient(top, #21c1c2 0%, #028ed1 100%);
+	background: -ms-linear-gradient(top, #21c1c2 0%, #028ed1 100%);
+    border-radius: 0.05rem;
+}
+.nav-wrap-zp ul li a{
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    display: block;
+    padding: 0.4rem 0;
+    box-sizing: border-box;
+}
+.nav-wrap-zp ul li img{
+    width: 0.46rem;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.1rem;
+}
+.nav-wrap-zp ul li span{
+    display: block;
+}
+/* .nav-wrap-zp ul li.itemColor-1{
+    background: linear-gradient(#21c1c2,#028ed1);
+} */
+.nav-wrap-zp ul li.itemColor-2{
+    background: -moz-linear-gradient(top, #e96dfe 0%, #ac3bcd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e96dfe), color-stop(100%, #ac3bcd));
+	background: -webkit-linear-gradient(top, #e96dfe 0%, #ac3bcd 100%);
+	background: -o-linear-gradient(top, #e96dfe 0%, #ac3bcd 100%);
+	background: -ms-linear-gradient(top, #e96dfe 0%, #ac3bcd 100%);
+}
+.nav-wrap-zp ul li.itemColor-3{
+    background: linear-gradient(#f1aa29,#f58010);
+    background: -moz-linear-gradient(top, #f1aa29 0%, #f58010 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1aa29), color-stop(100%, #f58010));
+	background: -webkit-linear-gradient(top, #f1aa29 0%, #f58010 100%);
+	background: -o-linear-gradient(top, #f1aa29 0%, #f58010 100%);
+	background: -ms-linear-gradient(top, #f1aa29 0%, #f58010 100%);
+}
+.nav-wrap-zp ul li.itemColor-4{
+    background: linear-gradient(#1a99ff,#0d4fee);
+    background: -moz-linear-gradient(top, #1a99ff 0%, #0d4fee 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1a99ff), color-stop(100%, #0d4fee));
+	background: -webkit-linear-gradient(top, #1a99ff 0%, #0d4fee 100%);
+	background: -o-linear-gradient(top, #1a99ff 0%, #0d4fee 100%);
+	background: -ms-linear-gradient(top, #1a99ff 0%, #0d4fee 100%);
+}
+.nav-wrap-zp ul li.itemColor-5{
+    background: linear-gradient(#acdc54,#6ebb76);
+    background: -moz-linear-gradient(top, #acdc54 0%, #6ebb76 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #acdc54), color-stop(100%, #6ebb76));
+	background: -webkit-linear-gradient(top, #acdc54 0%, #6ebb76 100%);
+	background: -o-linear-gradient(top, #acdc54 0%, #6ebb76 100%);
+	background: -ms-linear-gradient(top, #acdc54 0%, #6ebb76 100%);
+}
+.nav-wrap-zp ul li.itemColor-6{
+    background: linear-gradient(#cd7af9,#9c45ef);
+    background: -moz-linear-gradient(top, #cd7af9 0%, #9c45ef 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cd7af9), color-stop(100%, #9c45ef));
+	background: -webkit-linear-gradient(top, #cd7af9 0%, #9c45ef 100%);
+	background: -o-linear-gradient(top, #cd7af9 0%, #9c45ef 100%);
+	background: -ms-linear-gradient(top, #cd7af9 0%, #9c45ef 100%);
+}
+.nav-wrap-zp ul li.itemColor-7{
+    background: linear-gradient(#54d9cf,#6c76bb);
+    background: linear-gradient(#54d9cf,#6c76bb);
+    background: -moz-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #54d9cf), color-stop(100%, #6c76bb));
+	background: -webkit-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
+	background: -o-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
+	background: -ms-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
+}
+=======
 * { word-wrap: break-word; outline: none; }
 body { background: #FFF; min-width: 1000px;}
 html, body { height: 100%;}
@@ -635,3 +757,4 @@ i.ice_b{ background-position:-336px -214px;}
 .setup_select .ps-container li input[type='checkbox']{ display:none;}
 .setup_select .ps-container li label{ padding-left:20px; background:url(../images/input_checkbox.png) 2px 2px no-repeat;}
 .setup_select .ps-container li .ui-checkbox:checked+label{ background:url(../images/input_checked.png) 2px 2px no-repeat;}
+>>>>>>> 63849ea6f13e9dfff6995f4d7e37cfd5a479b2ec

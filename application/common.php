@@ -10,6 +10,16 @@ use think\Loader;
 use think\Request;
 use think\Url;
 
+function wallet_name($id)
+{
+    $currency = db('currency')->where(['id'=>$id])->find();
+    if($currency){
+        return $currency['alias_name'];
+    }else {
+        return "没有该币种";
+    }
+}
+
 function systemSetKey($user = '')
 {
     if (is_array($user) && !empty($user)) {

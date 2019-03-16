@@ -1,0 +1,135 @@
+
+*{
+	margin: 0;
+	padding: 0;
+}
+/*字体库*/
+@font-face{
+	font-family: 'PingFangMedium';
+	src: url("../../font/PingFangMedium.ttf")
+}
+body {
+	width: 100%;
+    min-height: 100vh;
+	font-size: 0.24rem;
+	font-family:"PingFangMedium";
+	background: -moz-linear-gradient(top, #142785 0%, #101b59 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #142785), color-stop(100%, #101b59));
+	background: -webkit-linear-gradient(top, #142785 0%, #101b59 100%);
+	background: -o-linear-gradient(top, #142785 0%, #101b59 100%);
+	background: -ms-linear-gradient(top, #142785 0%, #101b59 100%);
+}
+
+ h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+em{
+	font-style: normal;
+}
+
+i{font-style: inherit;}
+
+a{
+	text-decoration: none;
+	}
+
+input,textarea,button{
+	outline: none;
+}
+
+li{
+	list-style-type: none;
+}
+
+input[type=button], input[type=submit], input[type=file], button { 
+	cursor: pointer; 
+	-webkit-appearance: none; 
+}
+
+
+/*清除浮动*/	
+.clearfix:before{
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0;
+}
+.clearfix:after{
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0;
+} 
+.clearfix{zoom:1}  /*是在处理兼容性问题*/
+
+/*public 省略号*/
+.publicEllipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/*去除IOS下 => input, select默认样式*/
+input, select {
+	-webkit-appearance:none; 
+	background: none;
+	border: none;
+	outline: none;
+}
+
+/*透明度*/
+.publicOpacity {
+	filter:alpha(opacity=0);          
+	-moz-opacity:0;          
+	-khtml-opacity: 0;          
+	opacity: 0; 
+}
+/*垂直居中*/
+.publicDrooping {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

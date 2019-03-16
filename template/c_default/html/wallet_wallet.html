@@ -26,7 +26,7 @@
         	<div class="zjy_box_conten">
         		<div class="zjy_box_conten_item avtive">
         			<div class="bag-wrap">
-						<div class="asset">总资产<span style="font-size: .3rem;">￥99999</span></div>
+						<div class="asset">总资产<span style="font-size: .3rem;"></span></div>
 					</div>					
 					<div class="amount">
 						<span>投资额度：</span><input class="inp" type="number"/>
@@ -38,8 +38,12 @@
 						<div class="det">币值详情</div>
 						
 						<div class="currency">
-							<span>美元：</span>
-							<span>9999</span>
+								<!-- <volist name="user_wallet" id="user_wallet"> -->
+							{foreach name="user_wallet" item="user_wallet"}
+								<span>{$user_wallet.cu_id|wallet_name}：</span>
+								<span>{$user_wallet.cu_num}</span><br>
+							{/foreach}
+							<!-- </volist> -->
 						</div>
 						<i class="iconfont icon hideIcon">&#xe676;</i>
 					</div>
@@ -47,19 +51,11 @@
 					<div class="assetPopup pop">
 						
 						<div class="det">币值种类</div>
-						
-						<div class="currency ur">
-							<span>人民币</span>
-						</div>
-						<div class="currency ur">
-							<span>美元</span>
-						</div><div class="currency ur">
-							<span>韩币</span>
-						</div><div class="currency ur">
-							<span>英镑</span>
-						</div><div class="currency ur">
-							<span>欧元</span>
-						</div>
+						{foreach name="htd_currency" item="htd_currency"}
+							<div class="currency ur" onclick="wallet('{$htd_currency.wallet_addr}')">
+								<span>{$htd_currency.alias_name}</span>
+							</div>
+						{/foreach}
 						<i class="iconfont icon hideTz">&#xe676;</i>
 					</div>
 					<!--二维码-弹框-->
@@ -67,7 +63,7 @@
 						<div class="site">							
 							<p class="hx">
 								<span>地址:</span>
-								<span>12345111111111111111</span>
+								<span id="span"></span>
 							</p>
 						</div>
 						<div class="tu">
@@ -75,9 +71,10 @@
 						</div>
 						<i class="iconfont shut">&#xe676;</i>
 						
-						<div class="notarize">上传凭证</div>
+						<input type="file" id="f"  name="f" style="display:none"/>
+						<div class="notarize" onclick="f.click()">上传凭证</div>
 						
-						<div class="notarize">确认投资</div>
+						<div class="notarize" onclick="sc(this);">确认投资</div>
 					</div>
         		</div>
         		<div class="zjy_box_conten_item">
