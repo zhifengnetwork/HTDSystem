@@ -12,9 +12,13 @@ class Currency extends AdminBase
         $this->Currency = new CurrencyModel();
 
     }
-    public function index()
+    public function index($name = '')
     {
-        $currencyData = Db::name('currency')->paginate(10);
+        if ($name){
+            $currencyData = Db::name('currency')->where('name','like','%'.$name.'%')->paginate(10);
+        } else {
+            $currencyData = Db::name('currency')->paginate(10);
+        }
 
         $i = 1;
 
