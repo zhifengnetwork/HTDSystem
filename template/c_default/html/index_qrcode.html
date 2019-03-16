@@ -5,9 +5,9 @@
 		<title>分享</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<script src="../../js/public/rem.js"></script>
-		<link rel="stylesheet" href="../../css/public/base.css">
-		<link rel="stylesheet" href="../../css/public/reset.css">
+		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
+		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
 		
 		<style>
 			* {
@@ -120,9 +120,9 @@
 			
 	        <!-- 头部 -->
 	       <div class="header-zp">
-            <span class="return" onclick="returnFun()"><img src="../../image/public/return-zp@2x.png" /></span>
+            <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
             <h3>分享</h3>
-            <span class="share-btn bottmBut"><img src="../../image/public/share-btn-zp.png" /></span> 
+            <span class="share-btn bottmBut"><img src="__PUBLIC__/images/public/share-btn-zp.png" /></span> 
            </div>
 	        
 	        
@@ -136,7 +136,7 @@
 			
 			
 			<!--背景样式-->
-			<img src="../image/qrcode/1.jpg" id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
+			<img src="__PUBLIC__/images/qrcode/1.jpg" id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
 			
 
 		</div>
@@ -155,27 +155,17 @@
 		</div>
 
 
-<<<<<<< HEAD:qrcode/qrcode.html
-        <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-		<script src="../js/public/jquery-1.8.3.min.js"></script>
-=======
 
-		<script src="../../js/public/jquery-1.8.3.min.js"></script>
->>>>>>> d5a6d22b16b7305e79741549d68756cfe66eb8c0:home/qrcode/qrcode.html
-		<script src="qrcode.js"></script>
-		<script src="../../js/public/base.js"></script>
+		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__PUBLIC__/qrcode/qrcode.js"></script>
+		<script src="__PUBLIC__/js/public/base.js"></script>
 		<!--蒙版出现=> 底部（box）不能滑动-->
 		<script>
 			$(document).ready(function() {
 				/*背景图*/
 				//var random_bg=parseInt(3*Math.random());
-<<<<<<< HEAD:qrcode/qrcode.html
-				var bg = '../image/qrcode/' + "1" + '.jpg';
-				$("#pic").attr("src", bg);
-=======
-				var bg = 'url(../../image/qrcode/' + "1" + '.jpg)';
+				var bg = 'url(__PUBLIC__/images/qrcode/' + "1" + '.jpg)';
 				$("#pic").css("background-image", bg);
->>>>>>> d5a6d22b16b7305e79741549d68756cfe66eb8c0:home/qrcode/qrcode.html
 			});
 
 			//实现滚动条无法滚动
@@ -287,18 +277,9 @@
 					if(methodD == 0) {
 						//切换背景代码
 						var random_bg = parseInt(7 * Math.random());
-<<<<<<< HEAD:qrcode/qrcode.html
-						var bg = '../image/qrcode/' + random_bg + '.jpg';
-						$("#pic").attr("src", bg);
-					}else if(methodD == 1){
-						
-						
-					}
-=======
-						var bg = 'url(../../image/qrcode/' + random_bg + '.jpg)';
+						var bg = 'url(__PUBLIC__/images/qrcode/' + random_bg + '.jpg)';
 						$("#pic").css("background-image", bg);
 					} 
->>>>>>> d5a6d22b16b7305e79741549d68756cfe66eb8c0:home/qrcode/qrcode.html
 				})
 			})
 		</script>

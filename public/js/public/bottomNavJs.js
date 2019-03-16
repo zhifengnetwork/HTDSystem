@@ -2,20 +2,20 @@
  *  *bottomTabArrOne.length来循环
  * **/
 var bottomTabArrOne = [
-	"../image/public/bottomNav/home-icon-1@2x.png",
-	"../image/public/bottomNav/wallet-icon-1@2x.png",
-	"../image/public/bottomNav/user-icon-1@2x.png"
+	"/public/images/public/bottomNav/home-icon-1@2x.png",
+	"/public/images/public/bottomNav/wallet-icon-1@2x.png",
+	"/public/images/public/bottomNav/user-icon-1@2x.png"
 ];
 /*底部nav切换(已-点击)_按循序*/
 var bottomTabArrTwo = [
-	"../image/public/bottomNav/home-icon-2@2x.png",
-	"../image/public/bottomNav/wallet-icon-2@2x .png",
-	"../image/public/bottomNav/user-icon-2@2x.png"
+	"/public/images/public/bottomNav/home-icon-2@2x.png",
+	"/public/images/public/bottomNav/wallet-icon-2@2x .png",
+	"/public/images/public/bottomNav/user-icon-2@2x.png"
 ];
 /*底部nav-点击url路径_按循序*/
 var buttonNavUrl = [
-	"'../home/index.html'",
-	"'../wallet/wallet.html'",
+	"'../index.html'",
+	"'../index/wallet.html'",
 	"'../my/my.html'",
 ];
 /*底部nav-title_按循序*/
