@@ -41,7 +41,7 @@ class Login extends Controller
         ];
         var_dump($users);
         $user = Db::name('user')->whereOr($users)->find();
-        var_dump(Db::name('user')->whereOr($users)->getLastSql());exit;
+
         if ($user){
             echo "<script>history.go(-1);</script>";exit;
         }
