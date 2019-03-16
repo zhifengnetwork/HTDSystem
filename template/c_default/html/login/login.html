@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>登录</title>
+		<script src="../js/public/rem.js"></script>
+		<link rel="stylesheet" href="../css/public/reset.css">
+		<link rel="stylesheet" href="../css/public/base.css" />
+		<link rel="stylesheet" href="../css/login/login.css">
+
+	</head>
+
+	<body>
+		<div class="loginbox">
+
+			<div class="header-zp">
+				<span class="return" onclick="">
+            	<!--<img src="../../image/public/return-zp@2x.png" />-->
+            </span>
+				<h3>登录</h3>
+			</div>
+			<div class="login-new-page">
+				<form action="" class="sms-login-from">
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">手机号:</span>
+						<input type="text" name="phone" placeholder="请输入手机号" class="pptt phone">
+					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">密码:</span>
+						<input type="password" name="pwd" placeholder="请输入密码" class="pptt pwd">
+					</div>
+					<button class="btn dis" type="button" onclick="loginFun()">登录</button>
+				</form>
+				<div class="login-new">
+					<a href="./register.html" class="register">注册</a>
+					<a href="./retrieve.html" class="retrieve">忘记密码?</a>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/public/jquery-1.8.3.min.js"></script>
+	<script src="../js/login/login.js"></script>
+
+</html>
