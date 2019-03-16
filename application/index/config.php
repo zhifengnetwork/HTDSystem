@@ -2,7 +2,6 @@
 return [
 
 	'template'=> [
-        'view_path' => './template/'.config('web.C_TPL').'/html/',
 		'view_suffix' => 'html',
 	    'view_depr'    => '_',
     ],
@@ -18,5 +17,9 @@ return [
 		'dispatch_error_tmpl' => 'index/tips',
 		//默认成功跳转对应的模板文件
 		'dispatch_success_tmpl' => 'index/tips',
+        // 默认控制器名
+        'default_controller'     => 'Index',
+        // 默认操作名
+        'default_action'         => 'indexindex',
 
 ];

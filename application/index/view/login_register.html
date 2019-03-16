@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>注册</title>
+		<script src="/public/js/rem.js"></script>
+		<link rel="stylesheet" href="/public/css/reset.css">
+		<link rel="stylesheet" href="/public/css/base.css" />
+		<link rel="stylesheet" href="/public/css/register.css">
+
+	</head>
+
+	<body>
+		<div class="registerbox">
+			<div class="header-zp">
+				<span class="return" onclick="javascript:history.back(-1)">
+                    <img src="/public/images/return-zp@2x.png" />
+                </span>
+				<h3>注册</h3>
+			</div>
+			<div class="reg-new-page">
+				<form action="{:url('index/login/regis')}" method="post" class="reg-from">
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">用户名:</span>
+						<input type="text" placeholder="请输入用户名" name="username" value class="pptt username ">
+					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">密码:</span>
+						<input type="password" placeholder="请输入用户密码" name="password" value class="pptt password">
+					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">邮箱:</span>
+						<input type="text" placeholder="请输入用户邮箱" name="usermail" value class="pptt email">
+					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">手机号:</span>
+						<input type="phone" placeholder="请输入手机号码" name="mobile" class="pptt phone">
+					</div>
+					<div class="from-group policy">
+						<span class="from-cc">*直推人推广码:</span>
+						<input type="text" placeholder="请输入直推人推广码" name="promotion" value class="pptt">
+					</div>
+					<div class="send-code mistake info"></div>
+					<div class="from-group ">
+						<span class="from-tit">验证码:</span>
+						<input type="text" placeholder="请输入验证码"  name="verify" class="pptt verify">
+						<button class="send-code" type="button">获取验证码</button>
+					</div>
+					<div class="from-group policy">
+						<span class="from-cc acc">是否同意政策</span>
+						<i class=" icon "></i>
+						<span class="info "></span>
+					</div>
+					<div class="reg-btn">
+						<button  id="submit" class="btn dis submit-btn">注册</button>
+					</div>
+				</form>
+				<div class="login-new">
+					<a href="" class="register">已有账号 登录</a>
+					<a href="">用户协议</a>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/public/js/base.js"></script>
+	<script src="/public/js/register.js">
+	</script>
+
+</html>
+<!--<script>-->
+
+		<!--# 点击注册事件-->
+		<!--$('submit').on('click', function(){-->
+			<!--var username = $('.username').val();-->
+			<!--console.log(username);-->
+			<!--if(!username){-->
+
+			<!--}-->
+
+
+
+		<!--})-->
+<!--</script>-->

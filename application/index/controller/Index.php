@@ -21,7 +21,10 @@ class Index extends HomeBase
 
         $this->site_config = Cache::get('site_config');
     }
-
+    public function indexindex()
+    {
+        return $this->fetch('tips');
+    }
     public function index()
     {
 
