@@ -44,7 +44,7 @@
                 <td>投资金额</td>
                 <td>{$vo.num}</td>
                 <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
-                <!--<td><button data-method="photos" class="layui-btn">查看</button></td>-->
+                <!--<td><button id="vou" data-method="photos" class="layui-btn">查看</button></td>-->
                 <td><a href="{$vo.voucher}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a></td>
                 <td>{$vo.pay_way}</td>
                 <td>
@@ -68,20 +68,14 @@
 <script type="text/javascript" src="__ADMIN__/js/checkment.js"></script>
 <!--<script type="text/javascript">-->
     <!--//点击弹出图片-->
-    <!--layui.use('layer', function() {-->
-        <!--var active = {-->
-            <!--photos: function () {-->
+    <!--layui.use('layer', function(){ //独立版的layer无需执行这一句-->
+        <!--var layer = layui.layer;-->
                 <!--layer.open({-->
                     <!--type: 1, //page层-->
                     <!--area: ['808px', '423px'],-->
                     <!--title: '凭证',-->
-                    <!--shade: 0.8, //遮罩透明度-->
-                    <!--moveType: 0, //拖拽风格，0是默认，1是传统拖动-->
-                    <!--shift: 0, //0-6的动画形式，-1不开启\-->
-                    <!--content: '<img src="__ADMIN__/images/default.png">',-->
+                    <!--content: ['<img src="__ADMIN__/images/default.png">', '#vou'],-->
                 <!--});-->
-            <!--}-->
-        <!--}-->
     <!--});-->
 <!--</script>-->
 {/block}
