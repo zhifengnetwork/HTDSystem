@@ -1,35 +1,50 @@
 {extend name="base" /} {block name="body"}
-<div class="layui-row layui-col-space30">
-    <div class="layui-col-md2 layui-col-md-offset1">
-        <div class="layui-card" style="background-color:#009688">
-            <div class="layui-card-header">总会员数统计</div>
-            <div class="layui-card-body">{$count.total_user}</div>
-        </div>
-    </div>
-    <div class="layui-col-md2">
-        <div class="layui-card" style="background-color:#009688">
-            <div class="layui-card-header">静态奖金统计</div>
-            <div class="layui-card-body">{$count.static_wallet}</div>
-        </div>
-    </div>
-    <div class="layui-col-md2">
-        <div class="layui-card" style="background-color:#009688">
-            <div class="layui-card-header">动态奖金统计</div>
-            <div class="layui-card-body">{$count.dynamic_wallet}</div>
-        </div>
-    </div>
-</div>
-<div class="layui-row layui-col-space30">
-    <div class="layui-col-md2 layui-col-md-offset1">
-        <div class="layui-card" style="background-color:#009688">
-            <div class="layui-card-header">财务统计</div>
-            <div class="layui-card-body">{$count.total_user}</div>
-        </div>
-    </div>
-    <div class="layui-col-md2">
-        <div class="layui-card" style="background-color:#009688">
-            <div class="layui-card-header">总会员本金主流币数量统计</div>
-            <div class="layui-card-body">{$count.total_user}</div>
+
+<div class="warpper">
+    <div class="content start_content">
+        <div class="contentWarp">
+            <div class="contentWarp_item clearfix">
+                <div class="section_select" style="float:left;">
+                    <div class="item item_price">
+                        <i class="icon"><img src="__ADMIN__/images/1.png" width="71" height="74"></i>
+                        <div class="desc">
+                            <div class="tit"><!----><em>¥</em>{$count.dynamic_wallet}<!----></div>
+                            <span>动态奖金统计</span>
+                        </div>
+                    </div>
+                    <div class="item item_order">
+                        <i class="icon"><img src="__ADMIN__/images/2.png"></i>
+                        <div class="desc">
+                            <div class="tit">{$count.total_user}</div>
+                            <span>财务统计</span>
+                        </div>
+                        <i class="icon"></i>
+                    </div>
+                    <div class="item item_comment">
+                        <i class="icon"><img src="__ADMIN__/images/3.png" width="90" height="86"></i>
+                        <div class="desc">
+                            <div class="tit">{$count.static_wallet}</div>
+                            <span>静态奖金统计</span>
+                        </div>
+                    </div>
+
+                    <div class="item item_comment">
+                        <i class="icon"><img src="__ADMIN__/images/3.png" width="90" height="86"></i>
+                        <div class="desc">
+                            <div class="tit">{$count.total_user}</div>
+                            <span>总会员本金主流币数量统计</span>
+                        </div>
+                    </div>
+                    <div class="item item_flow">
+                        <i class="icon"><img src="__ADMIN__/images/4.png" width="86"></i>
+                        <div class="desc">
+                            <div class="tit">{$count.total_user}</div>
+                            <span>总会员数统计</span>
+                        </div>
+                        <i class="icon"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
