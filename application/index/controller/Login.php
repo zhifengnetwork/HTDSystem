@@ -1,5 +1,6 @@
 <?php
 namespace app\index\controller;
+
 use Captcha\Captcha;
 use think\Config;
 use think\Controller;
@@ -25,10 +26,13 @@ class Login extends Controller
            exit;
        }
     }
+
+
     public function register()
     {
         return $this->fetch();
     }
+
     public function regis()
     {
 
@@ -62,4 +66,12 @@ class Login extends Controller
             exit;
         }
     }
+
+
+    public function retrieve()
+    {
+        return $this->fetch();
+    }
+
+
 }

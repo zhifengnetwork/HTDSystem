@@ -23,3 +23,4 @@ return [
         'default_action'         => 'indexindex',
 
 ];
+
