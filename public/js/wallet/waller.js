@@ -1,0 +1,22 @@
+$(document).ready(function(){
+	$(".asset").on("click",function(){
+		$(".showZ").show()
+	})
+	$(".hideIcon").on("click",function(){
+		$(".showZ").hide()
+	})
+	$(".sum").on("click",function(){
+		$(".pop").show()
+	})
+	$(".hideTz").on("click",function(){
+		$(".pop").hide()
+	})
+	$(".ur").on("click",function(){
+		$(".code-up").show()
+		$(".pop").hide()
+		
+	})
+	$(".shut").on('click',function(){
+		$(".code-up").hide()		
+	})
+})

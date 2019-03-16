@@ -20,3 +20,4 @@ return [
 		'dispatch_success_tmpl' => 'index/tips',
 
 ];
+

@@ -1,0 +1,45 @@
+.totalRevenue-wrap .thead-zp{
+    padding-top: 0.88rem;
+    box-sizing: border-box;
+}
+.totalRevenue-wrap .thead-zp ul{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 0.28rem;
+    color: #fff;
+    background-color: #404786;
+}
+.totalRevenue-wrap .thead-zp ul li{
+    width: 25%;
+    text-align: center;
+}
+
+.totalRevenue-wrap .tbody-zp ul li{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #fff;
+    font-size: 0.26rem;
+    background-color: #5462af;
+}
+.totalRevenue-wrap .tbody-zp ul li div{
+    width: 25%;
+    text-align: center;
+}
+.totalRevenue-wrap .tbody-zp ul li:nth-child(odd){
+    background-color: #5462af;
+}
+.totalRevenue-wrap .tbody-zp ul li:nth-child(even){
+    background-color: #404786;
+}
