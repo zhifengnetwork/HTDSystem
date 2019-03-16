@@ -86,12 +86,14 @@ class Currency extends AdminBase
         if($file){
             //上传文件
             $res = DB::name('currency')->where('id',$id)->find();
-
-            if ($res['log']){
-                $log = unlink($res['log']);
-                //文件删除
-                if (!$log){
-                    $this->error('文件更新失败!');
+            //判断文件是否存在
+            if (is_file($res['log'])) {
+                if ($res['log']) {
+                    $log = unlink($res['log']);
+                    //文件删除
+                    if (!$log) {
+                        $this->error('文件更新失败!');
+                    }
                 }
             }
             $info = $file->move(ROOT_PATH . DS . 'uploads');
