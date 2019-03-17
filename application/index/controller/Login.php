@@ -9,8 +9,9 @@ use think\Session;
 use app\index\controller\createWallet;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
-        public function index(){
-   if(Session::get('home')['id']){
+      public function index(){
+            
+            if(!empty($_COOKIE['id'])){
         
         $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'];
 
