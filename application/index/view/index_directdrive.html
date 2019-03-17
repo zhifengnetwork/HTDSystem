@@ -40,9 +40,8 @@
   
   
   <script>
-
-
-if(var b={$aa}){
+if({$aa}){
+	var b={$aa};	
 	for(var i = 0; i <b.length; i++){
 	var unixTimestamp = new Date(b[i].regtime*1000) ;
 	commonTime = unixTimestamp.toLocaleString();
@@ -64,6 +63,7 @@ if(var b={$aa}){
 	
 	
 }
+  
   
   </script>
   
