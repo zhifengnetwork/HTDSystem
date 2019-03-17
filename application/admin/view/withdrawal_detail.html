@@ -1,0 +1,68 @@
+{extend name="base" /} {block name="body"}
+<div class="layui-tab-brief">
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/currency/doedit',['id'=>$detail['id']])}"  enctype="multipart/form-data">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名称</label>
+                    <div class="layui-input-inline">
+                        {$detail.uid|user_name}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户电话</label>
+                    <div class="layui-input-inline">
+                        {$detail.uid|mobile}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户平台余额</label>
+                    <div class="layui-input-inline">
+                        {$detail.uid|mobile}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种提示</label>
+                    <div class="layui-input-inline">
+                        {$detail.uid|mobile}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">钱包地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="wallet_addr"  value="{$res['note']}" placeholder="请输入币种地址" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种图标</label>
+                    <div class="layui-input-inline">
+                        <input type="file" name="log" id="file" onchange="checkFileExt(this.value)">
+                        {if $res['log'] eq true}
+                            <img src="/{$res['log']}" alt="111" style="width: 100px;height: 100px">
+                        {else /}
+                        {/if}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <span>启用</span><input type="radio" name="status" value="1" title="启用"  style="display: inline;" {if $res['status'] eq 1} checked {else /}{/if}>
+                        <span>禁用</span><input type="radio" name="status" value="0" title="禁用"  style="display: inline;" {if $res['status'] eq 0} checked {else /}{/if}>
+
+                    </div>
+                </div>
+                <div class="btable-paged">
+                    <div class="layui-main">
+                        <div class="formbtngroup">
+                            <button class="layui-btn layui-btn-sm" id="fileUpload">更新</button>
+                            <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
