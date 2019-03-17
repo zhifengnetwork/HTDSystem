@@ -27,16 +27,16 @@ class Index extends HomeBase
 
         // $upUid = Db::name('user')->where(['id'=>1])->setInc('balance', 1);
         // echo $upUid;die;
-        $bss = createWallet(1);
-        p($bss);die;
+        // $bss = createWallet(1);
+        // p($bss);die;
 
-        $directData = isEnjoyUser($uid=1,1);
-        if(is_post()){
-            echo input('post.id/d');die;
-        }else{
-            echo 2222;die;
-        }
-        p($directData['into_money']['value']);die;
+        // $directData = isEnjoyUser($uid=1,1);
+        // if(is_post()){
+        //     echo input('post.id/d');die;
+        // }else{
+        //     echo 2222;die;
+        // }
+        // p($directData['into_money']['value']);die;
         /* //签到榜 //投稿榜 自由打开？
         //$member = Db::name('user_sign')->alias('a')->join('user u', 'u.id=a.uid')->field('u.*,count(*) as forumnum')->group('a.uid')->order('forumnum desc')->limit(12)->select();
         $member = Db::name('article')->alias('f')->join('user u', 'u.id=f.uid')->field('u.*,count(*) as forumnum')->group('f.uid')->order('forumnum desc')->limit(12)->select();
@@ -76,24 +76,41 @@ class Index extends HomeBase
             $this->assign('art_choice', $art_choice);
         } */
 
-        // return view();
+        return view();
     }
 	
-	
+	//团队
 	public function directDrive(){
   
         $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
         if($res){
             $ress = DB::name('user')->where("pid",$res['id'])->select();
 			$aas=json_encode($ress);
-$this->assign('aa', $aas);
+            $this->assign('aa', $aas);
 
         }
-return view();
- 
-
+        return view();
     }
-	
+
+    //提币
+    public function present()
+    {
+        
+        return view();
+    }
+
+    //总收益
+    public function totalrevenue()
+    {
+        return view();
+    }
+    
+    //分享
+    public function qrcode(){
+
+
+        return view();
+    }
 	
 
     public function search()
