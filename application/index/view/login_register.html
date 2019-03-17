@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 	<head>
@@ -10,7 +9,8 @@
 		<link rel="stylesheet" href="__PUBLIC__css/reset.css">
 		<link rel="stylesheet" href="__PUBLIC__css/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__css/register.css">
-
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
 	</head>
 
 	<body>
@@ -26,38 +26,43 @@
 					<div class="info mistake"></div>
 					<div class="from-group">
 						<span class="from-tit">用户名:</span>
-						<input type="text" placeholder="请输入用户名" name="username" value class="pptt username ">
+						<input type="text" placeholder="请输入用户名" name="username"  class="pptt username ">
 					</div>
 					<div class="info mistake"></div>
 					<div class="from-group">
 						<span class="from-tit">密码:</span>
-						<input type="password" placeholder="请输入用户密码" name="password" value class="pptt password">
+						<input type="password" placeholder="请输入用户密码" name="password" class="pptt password">
 					</div>
+					
+				
 					<div class="info mistake"></div>
 					<div class="from-group">
-							<span class="from-tit">确认密码:</span>
-							<input type="password" placeholder="请输入用户密码" name="passwordb" value class="pptt password">
-						</div>
+<span class="from-tit">确认密码</span>
+<input type="text" placeholder="请重新输入密码" name="passworda"  class="pptt passworda ">
+					</div>
+					
 					<div class="info mistake"></div>
+
 					<div class="from-group">
 						<span class="from-tit">邮箱:</span>
-						<input type="text" placeholder="请输入用户邮箱" name="usermail" value class="pptt email">
+						<input type="text" placeholder="请输入用户邮箱" name="usermail" class="pptt email">
 					</div>
 					<div class="info mistake"></div>
 					<div class="from-group">
 						<span class="from-tit">手机号:</span>
-						<input type="phone" placeholder="请输入手机号码" name="mobile" class="pptt phone">
+						<input type="phone" placeholder="请输入手机号码" name="mobile" class="pptt mobile">
 					</div>
 					<div class="from-group policy">
 						<span class="from-cc">*直推人推广码:</span>
-						<input type="text" placeholder="请输入直推人推广码" name="promotion" value class="pptt">
+						<input type="text" placeholder="请输入直推人推广码" name="promotion"  class="pptt promotion">
 					</div>
-					<div class="send-code mistake info"></div>
-					<div class="from-group ">
-						<span class="from-tit">验证码:</span>
-						<input type="text" placeholder="请输入验证码"  name="verify" class="pptt verify">
-						<button class="send-code" type="button">获取验证码</button>
-					</div>
+					
+<div class="send-code mistake info"></div>
+<div class="from-group ">
+<span class="from-tit">验证码:</span>
+<input type="text" placeholder="请输入验证码"  name="verify" class="pptt verify">
+<button class="send-code" type="button">获取验证码</button>
+</div>
 					<div class="from-group policy">
 						<span class="from-cc acc">是否同意政策</span>
 						<i class=" icon "></i>
@@ -74,26 +79,97 @@
 			</div>
 		</div>
 	</body>
-	<script src="__PUBLIC__js/jquery-1.8.3.min.js"></script>
+
 	<script src="__PUBLIC__js/base.js"></script>
 	<script src="__PUBLIC__js/register.js">
 	</script>
-
-</html>
 <script>
+
+
+//注册
+$(".btn").click(function(){
+	  
+	//用户名
+var userName=($(".username").val())+"";
+
+  //密码
+  var  password = $(".password").val();
+ //确认密码  
+   var  passworda=$(".passworda").val();
+   //邮箱email
+  var  userEmail = ($(".email").val())+"";
+   //手机号
+  var  mobiles=$(".mobile").val();
+  //直推人玛
+ var  promotions=$(".promotion").val();
 	
+   //验证码
+  var verify=$(".verify").val();
+
+//alert(12);
+    if(userName==""){
+     alert("用户名不能为空");
+    }
+  
+    if(password==""){
+  	  alert("密码不能为空");
+    }
+	  
+    if(password!=passworda){
+  	  alert("密码不一致，请重新输入");
+      }
+	  
+    if(userEmail==""){
+  	  alert("邮箱不能为空");
+    }
+    
+    if(mobiles==""){
+  	  alert("手机号不能为空");
+    }
+    
+    if(promotions==""){
+  	  alert("直推人玛不能为空");
+    }
+
+    
+    if(verify==""){
+  	  alert("验证码不能为空");
+    }
+    
+    if(userName&&password&&passworda&&(password==passworda)&&userEmail&&mobiles&&promotions&&verify){
+  	 // alert(userName);
+var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles,promotion:promotions};
+
+
+//alert(userName+"/"+password+"/"+userEmail+"/"+mobiles+"/"+promotions);
+		
+			$.ajax({
+
+				type:"POST",
+
+				url:"{:url('index/login/regis')}",
+
+				data:datas,
+				dataType:'json',
+				success:function(msg){
+
+					alert(msg.msg+""+msg.username);
+
+
+
+				}
+
+			});
+		 
+		
+		 
+  	  
+    }
+    
+    
+    
+    
+})
+
 </script>
-<!--<script>-->
-
-		<!--# 点击注册事件-->
-		<!--$('submit').on('click', function(){-->
-			<!--var username = $('.username').val();-->
-			<!--console.log(username);-->
-			<!--if(!username){-->
-
-			<!--}-->
-
-
-
-		<!--})-->
-<!--</script>-->
+</html>
