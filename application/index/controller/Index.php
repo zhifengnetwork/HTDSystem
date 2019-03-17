@@ -25,6 +25,8 @@ class Index extends HomeBase
     public function index()
     {
 
+        $user_id = session('home');
+        // dump($user_id);
         // $upUid = Db::name('user')->where(['id'=>1])->setInc('balance', 1);
         // echo $upUid;die;
         // $bss = createWallet(1);

@@ -10,32 +10,29 @@ use app\index\controller\createWallet;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
       public function index(){
-            
-            if(!empty($_COOKIE['id'])){
+          $home = session('home');
+            // dump($home['id']);die;
+            if(!empty($home['id'])){
         
-       $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
-        
-        
-        
-     else{
-            
-           return $this->fetch();
-    }
+			}else{
+				return $this->fetch();
+			}
     
     }
     //登录
     public function login()
     {
-       $arr = $this->request->post();
+        $arr = $this->request->post();
+        
        $arr['password'] = md5($arr['password']);
        $res = DB::name('user')->where($arr)->find();
        if ($res){
            Session::set('home',$res);
            setcookie("id",$res['id'],time()+60*10);
-           $this->success('登录成功!');
-		         $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-			    header("refresh:1;url=$url");
+           $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+		   header("refresh:1;url=$url");
        } else {
            echo "<script>history.go(-1);</script>";
            exit;
