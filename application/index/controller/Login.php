@@ -8,34 +8,17 @@ use think\Db;
 use think\Session;
 use app\index\controller\createWallet;
 class Login extends Controller
-<<<<<<< HEAD
-{
-    //登录成功通过session值判断，如果已经登录自动跳转主页
-    public function index()
-    {
-        if(Session::get('home')['id']){
-
-            $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'];
-
-            header("refresh:1;url=$url");}
-
-        else{
-
-           return $this->fetch();
-        }
-=======
 {//登录成功通过session值判断，如果已经登录自动跳转主页
       public function index(){
           $home = session('home');
             // dump($home['id']);die;
             if(!empty($home['id'])){
-        
+                
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
 			}else{
 				return $this->fetch();
 			}
->>>>>>> a2fd9d1826f13e2343a965114ebacfefbfff7bb2
     
     }
     //登录
@@ -47,13 +30,9 @@ class Login extends Controller
        $res = DB::name('user')->where($arr)->find();
        if ($res){
            Session::set('home',$res);
-<<<<<<< HEAD
-            echo '成功';
-=======
            setcookie("id",$res['id'],time()+60*10);
            $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 		   header("refresh:1;url=$url");
->>>>>>> a2fd9d1826f13e2343a965114ebacfefbfff7bb2
        } else {
            echo "<script>history.go(-1);</script>";
            exit;

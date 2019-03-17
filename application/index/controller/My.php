@@ -8,6 +8,9 @@ class My extends HomeBase
 {
     public function my()
     {
+        $home = session('home');
+        $user = db('user')->where(['id'=>$home['id']])->find();
+        $this->assign('user',$user);
         return $this->fetch();
     }
     //退出登录
