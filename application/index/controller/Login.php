@@ -34,7 +34,7 @@ class Login extends Controller
            Session::set('home',$res);
            setcookie("id",$res['id'],time()+60*10);
            $this->success('登录成功!');
-		      $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF']."/index/my/my";
+		       $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
        } else {
            echo "<script>history.go(-1);</script>";

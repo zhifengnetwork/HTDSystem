@@ -14,7 +14,7 @@ class My extends HomeBase
     {
     
         setcookie("id", "",time()-60*60);
-        $url = "http://".$_SERVER ['HTTP_HOST']."/index.php";
+        $url = "http://".$_SERVER ['HTTP_HOST']."/index";
         
         header("refresh:1;url=$url");
     }
