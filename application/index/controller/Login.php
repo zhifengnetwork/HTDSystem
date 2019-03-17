@@ -8,10 +8,21 @@ use think\Db;
 use think\Session;
 use app\index\controller\createWallet;
 class Login extends Controller
-{
-    public function index()
-    {
-        return $this->fetch();
+{//登录成功通过session值判断，如果已经登录自动跳转主页
+        public function index(){
+   if(Session::get('home')['id']){
+        
+        $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'];
+
+        header("refresh:1;url=$url");}
+        
+        
+        
+     else{
+            
+           return $this->fetch();
+    }
+    
     }
     //登录
     public function login()
