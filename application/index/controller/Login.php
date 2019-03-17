@@ -17,6 +17,7 @@ class Login extends Controller
     public function login()
     {
        $arr = $this->request->post();
+       $arr['password'] = md5($arr['password']);
        $res = DB::name('user')->where($arr)->find();
        if ($res){
            Session::set('home',$res);
@@ -43,9 +44,10 @@ class Login extends Controller
             'usermail'=>['eq',$arr['usermail']],
             'mobile'=>['eq',$arr['mobile']]
         ];
-        var_dump($users);
-        $user = Db::name('user')->whereOr($users)->find();
 
+        $user = Db::name('user')->whereOr($users)->find();
+//        var_dump(Db::name('user')->whereOr($users)->getLastSql());
+//        exit;
         if ($user){
             echo "<script>history.go(-1);</script>";exit;
         }
