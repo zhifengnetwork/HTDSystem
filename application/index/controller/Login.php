@@ -8,20 +8,20 @@ use think\Db;
 use think\Session;
 use app\index\controller\createWallet;
 class Login extends Controller
-{//登录成功通过session值判断，如果已经登录自动跳转主页
-        public function index(){
-   if(Session::get('home')['id']){
-        
-        $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'];
+{
+    //登录成功通过session值判断，如果已经登录自动跳转主页
+    public function index()
+    {
+        if(Session::get('home')['id']){
 
-        header("refresh:1;url=$url");}
-        
-        
-        
-     else{
-            
+            $url = "http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'];
+
+            header("refresh:1;url=$url");}
+
+        else{
+
            return $this->fetch();
-    }
+        }
     
     }
     //登录
@@ -32,7 +32,7 @@ class Login extends Controller
        $res = DB::name('user')->where($arr)->find();
        if ($res){
            Session::set('home',$res);
-           $this->success('登录成功!');
+            echo '成功';
        } else {
            echo "<script>history.go(-1);</script>";
            exit;
@@ -54,27 +54,23 @@ class Login extends Controller
     {
         return $this->fetch();
     }
-
+    //注册
     public function regis()
     {
-
         $arr = $this->request->post();
         $users=[
-            'promotion'=>['neq',$arr['promotion']],
-            'username' => ['eq',$arr['username']],
-            'usermail'=>['eq',$arr['usermail']],
-            'mobile'=>['eq',$arr['mobile']]
+            'username' => $arr['username'],
+            'usermail'=>$arr['usermail'],
+            'mobile'=>$arr['mobile']
         ];
 
         $user = Db::name('user')->whereOr($users)->find();
-//        var_dump(Db::name('user')->whereOr($users)->getLastSql());
-//        exit;
         if ($user){
             echo "<script>history.go(-1);</script>";exit;
         }
 
+        $user = Db::name('user')->where('promotion',$arr['promotion'])->find();
         $arr['pid'] = $user['id'];
-        var_dump($arr['promotion']);
         $arr['userip'] = $_SERVER['REMOTE_ADDR'];
         $arr['password'] = md5($arr['password']);
         $arr['regtime'] = date('Y-m-d H:i:s',time());
@@ -95,6 +91,7 @@ class Login extends Controller
     {
         return $this->fetch();
     }
+
 
 
 }
