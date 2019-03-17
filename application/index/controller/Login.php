@@ -32,6 +32,7 @@ class Login extends Controller
        $res = DB::name('user')->where($arr)->find();
        if ($res){
            Session::set('home',$res);
+           setcookie("id",$res['id'],time()+60*10);
            $this->success('登录成功!');
        } else {
            echo "<script>history.go(-1);</script>";
