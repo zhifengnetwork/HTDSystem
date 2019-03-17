@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>登录</title>
+		<script src="/public/js/rem.js"></script>
+		<link rel="stylesheet" href="/public/css/reset.css">
+		<link rel="stylesheet" href="/public/css/base.css" />
+		<link rel="stylesheet" href="/public/css/login.css">
+
+	</head>
+
+	<body>
+		<div class="loginbox">
+
+			<div class="header-zp">
+				<span class="return" onclick="">
+            	<!--<img src="../../image/public/return-zp@2x.png" />-->
+            </span>
+				<h3>登录</h3>
+			</div>
+			<div class="login-new-page">
+				<form action="{:url('index/login/login')}" method="post" class="sms-login-from" id="form">
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">手机号:</span>
+						<input type="text" name="mobile" placeholder="请输入手机号" class="pptt phone">
+					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+						<span class="from-tit">密码:</span>
+						<input type="password" name="password" placeholder="请输入密码" class="pptt pwd">
+					</div>
+					<button class="btn dis" id="btn" onclick="loginFun()">登录</button>
+
+				</form>
+				<div class="login-new">
+					<a href="{:url('index/login/register')}" class="register">注册</a>
+					<a href="./retrieve.html" class="retrieve">忘记密码?</a>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/public/js/login.js"></script>
+	<script src="/public/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="/public/plugins/layui/layui.js" type="text/javascript"></script>
+</html>
+<script>
+	$("#btn").click(function() {
+		var text=$(".pptt");
+		if(text.val()== ''){
+			alert("输入框不能为空");
+			return false;
+		}
+		document.forms[0].submit();
+	}
+</script>

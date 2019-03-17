@@ -1,0 +1,14 @@
+.lj_wrap{width: 6.9rem;margin: 0 auto;}
+
+.imageEchoBox{width: 100%;height: 5rem;background: #f5f5f5;margin-bottom: 1.4rem;position: relative;border-radius: 0.09rem;}
+
+.renderingRrpa{padding-top: 0.88rem;box-sizing: border-box;}
+
+.uploadWrap p{font-size: 0.3rem;color: #ffff;text-align: center;line-height: 0.8rem;}
+
+.imageEchoBox img{position: absolute; top: 50%;left: 50%;transform: translate(-50%,-50%);max-width: 100%;max-height: 100%;}
+.uploadFile{width: 100%;height: 0.6rem;line-height: 0.6rem;position: absolute;top: 105%;left: 0;opacity: 0;z-index: 10;}
+.uploadFile2{width: 100%;height: 0.6rem;position: absolute;top: 105%;left: 0;color: #000;background: #f5f5f5;text-align: center;line-height: 0.6rem;border-radius: 0.09rem;}
+
+.decideToSell{width: 100%;margin: 0 auto;margin-bottom: 1rem;}
+.decideToSell p{background: #f5f5f5;color: #000;padding: 0.2rem 0;text-align: center;border-radius: 0.1rem;display: block;}

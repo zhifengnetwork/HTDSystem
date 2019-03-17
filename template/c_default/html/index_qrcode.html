@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+
+	<head>
+		<title>分享</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
+		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
+		
+		<style>
+			* {
+				/*防止-滑动报错*/
+				touch-action: pan-y;
+				-ms-touch-action: pan-y;
+				-webkit-touch-callout: pan-y;
+			}
+			.wrap {
+				position: relative;
+				
+				/*00*/
+				width: 100%;
+				height: 100vh;
+			}
+			/*按钮*/
+			/*.bottmBut {
+				width: 2rem;
+				height: .8rem;
+				font: .26rem/.8rem "PingFangMedium";
+				text-align: center;
+				background-color: #fff;
+			}*/
+			/*底部弹窗 wrap*/
+			.bottomAlertWrap {
+				display: none;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 7.5rem;
+				height: 100%;
+				z-index: 103;
+				background: rgba(0, 0, 0, .5);
+			}
+			/*底部弹窗 box */
+			.bottomAlertBox {
+				position: absolute;
+				bottom: -4.88rem;
+				left: 0;
+				width: 7.5rem;
+				height: auto;
+				border-radius: .06rem;
+				background-color: #fff;
+				
+			}
+			/*底部弹窗 box=> 内容*/
+			.BAlertContent {
+				width: 100%;
+				height: auto;
+				background-color: #ccc;
+			}
+			/*底部弹窗 box=> 项*/
+			.BACTerm {
+				position: relative;
+				box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				width: 100%;
+				height: .8rem;
+				font: .3rem/.8rem "PingFangMedium";
+				color: #333;
+				text-align: center;
+				letter-spacing: .02rem;
+				border-bottom: .01rem solid #ccc;
+				background-color: #fff;
+			}
+			/*（兄弟元素）最后一项，没有底部线*/
+			.BACTerm:last-child {
+				border-bottom: none;
+			}
+			/*背景图片*/
+			#pic {
+				width: 5rem;
+				height: 5rem;
+				/*position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, 70%);*/
+				border-radius: .6rem;
+				z-index: -20;
+				
+			}
+			
+			.close {
+				border: 1px solid #EEEEEE;
+				width: 2rem;
+				height: .8rem;
+				line-height: .8rem;
+				display: inline-block;
+				text-align: center;
+				position: absolute;
+				left: 50%;
+				right: 50%;
+				transform: translate(-50%, -20%);
+				border-radius: .06rem;
+			}
+			.cancelYF {
+				margin-top: .06rem;
+			}
+			.down{
+				
+				display: block;
+				background: white;
+			}
+		</style>
+	</head>
+
+	<body style="position: relative;">
+		<div class="wrap">
+			
+	        <!-- 头部 -->
+	       <div class="header-zp">
+            <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+            <h3>分享</h3>
+            <span class="share-btn bottmBut"><img src="__PUBLIC__/images/public/share-btn-zp.png" /></span> 
+           </div>
+	        
+	        
+			<input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%;" hidden /><br />
+
+			<!--<div >
+				<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 50%;left: 50%;transform: translate(-40%,70%);"></div>
+			</div>-->
+			
+			<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;"></div>
+			
+			
+			<!--背景样式-->
+			<img src="__PUBLIC__/images/qrcode/1.jpg" id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
+			
+
+		</div>
+		<!--底部弹窗（蒙版）body-->
+		<div class="bottomAlertWrap">
+			<!--底部弹窗（框）-->
+			<div class="bottomAlertBox">
+				<!--内容-->
+				<div class="BAlertContent">
+					<p class="BACTerm" alt="0">换个样式</p>
+					<a class="down BACTerm" alt="1" href="" download="downImg">保存到手机</a>
+					<p class="BACTerm cancelYF" alt="2">取消</p>
+				</div>
+			</div>
+
+		</div>
+
+
+<<<<<<< HEAD:qrcode/qrcode.html
+        <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+		<!-- <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> -->
+=======
+
+		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+>>>>>>> d5a6d22b16b7305e79741549d68756cfe66eb8c0:home/qrcode/qrcode.html
+		<script src="__PUBLIC__/qrcode/qrcode.js"></script>
+		<script src="__PUBLIC__/js/public/base.js"></script>
+		<!--蒙版出现=> 底部（box）不能滑动-->
+		<script>
+			$(document).ready(function() {
+				/*背景图*/
+				//var random_bg=parseInt(3*Math.random());
+				var bg = 'url(__PUBLIC__/images/qrcode/' + "1" + '.jpg)';
+				$("#pic").css("background-image", bg);
+			});
+
+			//实现滚动条无法滚动
+			var mo = function(e) {
+				e.preventDefault();
+			};
+
+			/***禁止滑动***/
+			function stop() {
+				document.body.style.overflow = 'hidden';
+				document.addEventListener("touchmove", mo, false); //禁止页面滑动
+			}
+
+			/***取消滑动限制***/
+			function move() {
+				document.body.style.overflow = ''; //出现滚动条
+				document.removeEventListener("touchmove", mo, false);
+			}
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+				width: 150,
+				height: 150
+			});
+
+			function makeCode() {
+				var elText = document.getElementById("text");
+
+				if(!elText.value) {
+					alert("Input a text");
+					elText.focus();
+					return;
+				}
+
+				qrcode.makeCode(elText.value);
+			}
+
+			makeCode();
+
+			$("#text").
+			on("blur", function() {
+				makeCode();
+			}).
+			on("keydown", function(e) {
+				if(e.keyCode == 13) {
+					makeCode();
+				}
+			});
+			
+			//保存二维码成图片
+			var canvas2 = document.createElement("canvas");
+		    let _canvas = document.querySelector('div');
+		    var w = parseInt(window.getComputedStyle(_canvas).width);
+		    var h = parseInt(window.getComputedStyle(_canvas).height);
+		    //将canvas画布放大若干倍，然后盛放在较小的容器内，就显得不模糊了
+		    canvas2.width = w * 2;
+		    canvas2.height = h * 2;
+		    canvas2.style.width = w + "px";
+		    canvas2.style.height = h + "px";
+		    //可以按照自己的需求，对context的参数修改,translate指的是偏移量
+               var context = canvas2.getContext("2d");
+               context.translate(-0,-270);
+               context.scale(2, 2);
+		       html2canvas(document.querySelector('div'), { canvas: canvas2 }).then(function(canvas) {
+		        //document.body.appendChild(canvas);
+		        //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+		        document.querySelector(".down").setAttribute('href', canvas.toDataURL());
+		    });
+			    
+			    
+			
+		</script>
+		<!--本页面js-->
+		<script>
+			$(function() {
+				/**
+				 * 全局变量
+				 * **/
+				/*获取支付方式（后台）*/
+				var methodD = null;
+				/*点击出现-底部弹窗*/
+				$('.bottmBut').on('click', function() {
+					$('.bottomAlertWrap').show();
+					/*底部弹窗(出现)*/
+					$('.bottomAlertBox').animate({
+						'bottom': '0'
+					});
+					/*底部页面-不可以滑动*/
+					stop();
+				})
+				/*关闭遮罩层*/
+				$('.bottomAlertWrap').on('click', function() {
+					$('.bottomAlertWrap').hide();
+					/*底部弹窗(隐藏)*/
+					$('.bottomAlertBox').animate({
+						'bottom': -($('.bottomAlertBox').height())
+					});
+					/*底部页面-可以滑动*/
+					move();
+				})
+				/*选择-对应项*/
+				$('.BACTerm').on('click', function() {
+					/*获取对应项的值*/
+					methodD = $(this).attr('alt');
+					/*全部=>隐藏*/
+					$('.selectImage').hide();
+					/*当前=>显示*/
+					$('.selectImage').eq($(this).index()).show();
+					console.log(methodD);
+					/*利用 冒泡事件(不能使用 return false;)=> 关闭蒙版*/
+					if(methodD == 0) {
+						//切换背景代码
+						var random_bg = parseInt(7 * Math.random());
+						var bg = 'url(__PUBLIC__/image/qrcode/' + random_bg + '.jpg)';
+						$("#pic").css("background-image", bg);
+					} 
+				})
+			})
+		</script>
+	</body>
+
+</html>

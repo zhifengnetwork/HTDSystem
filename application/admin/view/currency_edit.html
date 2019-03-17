@@ -31,10 +31,19 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">钱包地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="wallet_addr"  value="{$res['note']}" placeholder="请输入币种地址" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">币种图标</label>
                     <div class="layui-input-inline">
                         <input type="file" name="log" id="file" onchange="checkFileExt(this.value)">
-                        <img src="/{$res['log']}" alt="111" style="width: 100px;height: 100px">
+                        {if $res['log'] eq true}
+                            <img src="/{$res['log']}" alt="111" style="width: 100px;height: 100px">
+                        {else /}
+                        {/if}
                     </div>
                 </div>
                 <div class="layui-form-item">

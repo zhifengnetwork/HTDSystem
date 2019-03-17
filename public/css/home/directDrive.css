@@ -1,0 +1,21 @@
+body {max-width: 750px;}
+.wtf_wrap {max-width: 6.9rem;margin: 0 auto;}
+
+.wtf_nav1 ul{display: flex;display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	}
+.wtf_nav1 ul li{/*float: left;margin-left: 1.3rem;*/ -moz-box-flex: 1;-webkit-box-flex: 1;-ms-flex: 1;flex: 1;-webkit-flex: 1;text-align: center;}
+.wtf_nav1 ul li:first-child{margin-left: 0rem;}
+.wtf_nav1 ul li a{font-size: 0.24rem;color: #fff;}
+
+.wtf_nav1{line-height: 0.8rem;border-bottom: 0.01rem solid #ccc;}
+
+.wtf_list{}
+.wtf_list1{border-bottom: 0.01rem solid #ccc;/*padding:0 0.1rem;*/-moz-box-sizing: border-box;-webkit-box-sizing: border-box;display: -webkit-box;display: flex;display: -moz-box;	display: -ms-flexbox;display: -webkit-flex;	}
+.wtf_list1 p{display: inline-block;line-height: 0.8rem; -moz-box-flex: 1;-webkit-box-flex: 1;-ms-flex: 1;flex: 1;-webkit-flex: 1;text-align: center;}
+.wtf_list1 p:nth-child(1){font-size: 0.18rem;color: #9dadde;}
+.wtf_list1 p:nth-child(2){font-size: 0.22rem;color: #d5ddff;}
+.wtf_list1 p:nth-child(3){font-size: 0.22rem;color: #d0d8fc;}
+.wtf_list1 p:nth-child(4){font-size: 0.22rem;color: #d0d8fc;}

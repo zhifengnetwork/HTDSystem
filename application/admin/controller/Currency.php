@@ -4,6 +4,7 @@ namespace app\admin\controller;
 use app\common\model\Currency as CurrencyModel;
 use app\common\controller\AdminBase;
 use think\Db;
+use think\Session;
 class Currency extends AdminBase
 {
     protected function _initialize()
@@ -12,13 +13,19 @@ class Currency extends AdminBase
         $this->Currency = new CurrencyModel();
 
     }
-    public function index()
+    public function index($name = '',$names = '')
     {
-        $currencyData = Db::name('currency')->paginate(10);
+        if ($name){
+            $currencyData = Db::name('currency')->where('name','like','%'.$name.'%')->paginate(10);
+            Session::set('name',$name);
+            $names = Session::get('name');
+        } else {
+            $currencyData = Db::name('currency')->paginate(10);
+        }
 
         $i = 1;
 
-        return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i]);
+        return $this->fetch('currency_index', ['currencyData' => $currencyData,'i' => $i,'names'=> $names]);
     }
     public function add()
     {
@@ -86,12 +93,14 @@ class Currency extends AdminBase
         if($file){
             //上传文件
             $res = DB::name('currency')->where('id',$id)->find();
-
-            if ($res['log']){
-                $log = unlink($res['log']);
-                //文件删除
-                if (!$log){
-                    $this->error('文件更新失败!');
+            //判断文件是否存在
+            if (is_file($res['log'])) {
+                if ($res['log']) {
+                    $log = unlink($res['log']);
+                    //文件删除
+                    if (!$log) {
+                        $this->error('文件更新失败!');
+                    }
                 }
             }
             $info = $file->move(ROOT_PATH . DS . 'uploads');
