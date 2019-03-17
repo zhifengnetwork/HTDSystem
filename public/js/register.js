@@ -135,36 +135,5 @@ $(function(){
     return code;
     } 
   
-  //注册
-  $(".btn").click(function(){
-    let userName=$(".username")
-    let userPhone=$(".phone")
-    let password = $(".password")
-
-    let userEmail = $(".email")
-      if(userName.val()==""){
-        userName.parent().prev().addClass("mistake").html(`用户名不能为空`);
-        userName.focus()
-        return false
-      }
-      if(userPhone.val()==""){
-        userPhone.parent().prev().addClass("mistake").html(`手机不能为空`);
-        userPhone.focus()
-        return false
-      }
-      if(password.val()==""){
-        password.parent().prev().addClass("mistake").html(`密码不能为空`);
-        password.focus()
-        return false
-      }
-	  
-	 
-	  
-      if(userEmail.val()==""){
-        userEmail.parent().prev().addClass("mistake").html(`邮箱不能为空`);
-        userEmail.focus()
-        return false
-      }
-      
-  })
+ 
   })
