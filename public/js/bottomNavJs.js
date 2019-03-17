@@ -14,9 +14,9 @@ var bottomTabArrTwo = [
 ];
 /*底部nav-点击url路径_按循序*/
 var buttonNavUrl = [
-	"'../home/index.html'",
-	"'../wallet/wallet.html'",
-	"'../my/my.html'",
+	"'/index/index.html'",
+	"'/index/wallet/wallet.html'",
+	"'/index/login/'",
 ];
 /*底部nav-title_按循序*/
 var buttonNavTitle = [
