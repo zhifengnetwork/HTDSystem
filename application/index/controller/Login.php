@@ -22,38 +22,21 @@ class Login extends Controller
     
     }
     //登录
-   public function login()
+    public function login()
     {
         $arr = $this->request->post();
         
        $arr['password'] = md5($arr['password']);
-       $resa = DB::name('user')->where($arr['username'])->find();
-       $res = DB::name('user')->where(['username'=>$arr['username'],'password'=>$arr['password']])->find();
-       $resv=DB::name('user')->where($arr)->find();
-       if($res&&$resv){
-           
+       $res = DB::name('user')->where($arr)->find();
+       if ($res){
            Session::set('home',$res);
            setcookie("id",$res['id'],time()+60*10);
            $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-           header("refresh:1;url=$url");
-           
-           
-       }else if($resa&&$res==false){
-           
-           $data=array('msg'=>'密码错误');
-           $data=json_encode($data);
-           echo $data;
-           exit;
-       }else if($resa){
-           
-           $data=array('msg'=>'账号已经存在');
-           $data=json_encode($data);
-           echo $data;
-           
+		   header("refresh:1;url=$url");
+       } else {
+           echo "<script>history.go(-1);</script>";
            exit;
        }
-       
-      
     }
 //团队
 	public function directDrive(){
@@ -80,34 +63,49 @@ class Login extends Controller
     public function regis()
     {
         $arr = $this->request->post();
-        $users=[
-            'username' => $arr['username'],
-            'usermail'=>$arr['usermail'],
-            'mobile'=>$arr['mobile']
-        ];
-
-        $user = Db::name('user')->whereOr($users)->find();
-        if ($user){
-            echo "<script>history.go(-1);</script>";exit;
-        }
-
-        $users = Db::name('user')->where('promotion',$arr['promotion'])->find();
-        if(!$users){
-             echo "<script>history.go(-1);</script>";exit;
-        }
-        $arr['pid'] = $users['id'];
-        $arr['userip'] = $_SERVER['REMOTE_ADDR'];
+        if($arr){
         $arr['password'] = md5($arr['password']);
-        $arr['regtime'] = date('Y-m-d H:i:s',time());
-        unset($arr['verify']);
-
-        $res = DB::name('user')->insert($arr);
-        if ($res){
-//          createWallet($uid);
-            return $this->fetch('index');
-        } else {
-            echo "<script>history.go(-1);</script>";
+        $resa = DB::name('user')->where($arr['mobile'])->find();
+        $resb = DB::name('user')->where($arr['username'])->find();
+        $resc = DB::name('user')->where($arr['usermail'])->find();
+        $res = DB::name('user')->where(['mobile'=>$arr['mobile'],'password'=>$arr['password']])->find();
+        $resv=DB::name('user')->where($arr)->find();
+        if($res&&$resv){
+            
+            Session::set('home',$res);
+            setcookie("id",$res['id'],time()+60*10);
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+            header("refresh:1;url=$url");
+            
+            
+        }else if($resa&&$res==false){
+            
+            $data=array('msg'=>'密码错误');
+            $data=json_encode($data);
+            echo $data;
+            
+        }else if($resa){
+            
+            $data=array('msg'=>'账号已经存在');
+            $data=json_encode($data);
+            echo $data;
+            
             exit;
+        }else if($resb){
+            
+            $data=array('msg'=>'用户名已经存在');
+            $data=json_encode($data);
+            echo $data;
+            
+            exit;
+        }else if($resc){
+            
+            $data=array('msg'=>'邮箱已经存在');
+            $data=json_encode($data);
+            echo $data;
+            
+            exit;
+        }
         }
     }
 
