@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\common\controller\HomeBase;
+use app\index\controller\Base;
 use think\Cache;
 use think\Controller;
 use think\Db;
@@ -69,8 +70,62 @@ class Index extends HomeBase
     }
 
     public function present(){
-        return view();
+        // $base = new Base();
+        // if (!session('userid')) {
+        // $base->ajaxReturn('{"code":0,"msg":"登录后才能操作"}');
+        // }      
+        // $userid = session('userid');
+        $userid = 2;
+        $list = Db::table('htd_user_wallet')
+                ->alias('a')
+                ->join('htd_currency c', 'c.id=a.cu_id')
+                ->where('uid',$userid)
+                ->select();  
+        $this->assign('list',$list);
+        $this->assign('uid',$userid);
+        return $this->fetch();
+     
+        
     } 
+    // 货币汇率
+    public function exchange(){
+              $data   = input();
+              $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
+              $rmb    = $data['val']*$result;
+              $base = new Base();
+              if($result){
+                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>$rmb]);
+              }else{
+                $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
+              }
+              
+    }
+
+    // 提币
+    public function pick(){
+        $data   = input();
+        $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
+        $where1 = [
+            'uid' => $data['uid'],
+            'cu_id' => $data['cu_id'],
+            'cu_num' => $data['number']                 
+        ];
+        $base = new Base();
+        if($data['remain_num']<$data['number']){
+            $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
+        }else if($data['remain_num']<=2){
+            $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50才能体现', 'result' =>'']);        
+        }else{
+            // 先计算剩余货币数量
+            $data['remain_num'] = $data['remain_num']-$data['number'];
+            // 更新钱包
+            $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
+            // 插入记录
+            $user_extract = Db::table('htd_user_extract')->insert($where1);
+            $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);           
+        }
+    }
+
     public function directDrive(){
         return view();
     }    
