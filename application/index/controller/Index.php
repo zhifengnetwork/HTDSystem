@@ -85,11 +85,12 @@ class Index extends HomeBase
         $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
         if($res){
             $ress = DB::name('user')->where("pid",$res['id'])->select();
-        }
-
- $aas=json_encode($ress);
+			$aas=json_encode($ress);
 $this->assign('aa', $aas);
+
+        }
 return view();
+ 
 
     }
 	
