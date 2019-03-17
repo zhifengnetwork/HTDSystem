@@ -21,13 +21,30 @@ class Login extends Controller
 			}
     
     }
-    //登录
+   //登录
     public function login()
     {
         $arr = $this->request->post();
         
        $arr['password'] = md5($arr['password']);
        $res = DB::name('user')->where($arr)->find();
+      
+       //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
+       //前端想要什么类型的传值都在$data添加
+       
+       if ($res){
+           Session::set('home',$res);
+           setcookie("id",$res['id'],time()+60*10);
+           $data=array('msg'=>'登陆成功','flag'=>1);
+           $data=json_encode($data);
+           echo $data;
+       } else {
+           $data=array('msg'=>'登录失败','flag'=>2);
+           $data=json_encode($data);
+           echo $data;
+           exit;
+       }
+       /*
        if ($res){
            Session::set('home',$res);
            setcookie("id",$res['id'],time()+60*10);
@@ -36,7 +53,7 @@ class Login extends Controller
        } else {
            echo "<script>history.go(-1);</script>";
            exit;
-       }
+       }*/
     }
 //团队
 	public function directDrive(){
@@ -58,55 +75,83 @@ class Login extends Controller
     public function register()
     {
         return $this->fetch();
+        
+
+        
     }
+    
+    
+    //
+    
     //注册
     public function regis()
     {
         $arr = $this->request->post();
+
         if($arr){
-        $arr['password'] = md5($arr['password']);
-        $resa = DB::name('user')->where($arr['mobile'])->find();
-        $resb = DB::name('user')->where($arr['username'])->find();
-        $resc = DB::name('user')->where($arr['usermail'])->find();
-        $res = DB::name('user')->where(['mobile'=>$arr['mobile'],'password'=>$arr['password']])->find();
-        $resv=DB::name('user')->where($arr)->find();
-        if($res&&$resv){
+           $usermail= $arr['usermail']."";
+       $reaa = DB::name('user')->where(['username'=>$arr['username']])->find();
+        $arrs['password'] = md5($arr['password']);
+
+      
+        $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+        $reac = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
+
+ $resv=DB::name('user')->where(['username'=>$arr['username'],'password'=>$arrs['password'],'usermail'=>$arr['usermail'],'mobile'=>$arr['mobile']])->find();
+
+
+ if($resv){
             
-            Session::set('home',$res);
-            setcookie("id",$res['id'],time()+60*10);
-            $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-            header("refresh:1;url=$url");
-            
-            
-        }else if($resa&&$res==false){
-            
-            $data=array('msg'=>'密码错误');
+         //Session::set('home',$resv);
+            //setcookie("id",$resv['id'],time()+60*10);
+            $data=array('msg'=>'账号已存在，请转往登录界面');
             $data=json_encode($data);
             echo $data;
             
-        }else if($resa){
+       
+           // exit;
             
-            $data=array('msg'=>'账号已经存在');
+        }else if($reac){
+            
+           $data=array('msg'=>'账号已经存在');
+       $data=json_encode($data);
+            echo $data;
+         // exit;
+       
+        }else if($reaa){
+            
+        $data=array('msg'=>'用户名已经存在');
+         $data=json_encode($data);
+            echo $data;
+       ///   exit;
+    
+        }else if($reab){
+            
+       $data=array('msg'=>'邮箱已经存在');
+         $data=json_encode($data);
+            echo $data;
+           
+         ///  exit;
+        }else if(!$reaa&&!$reab&&!$reac){
+          
+            //兄弟，我这里能读取数据，却不能写入，写入，下面就不执行，我测试别的写法都能写入，语法也没问题
+            //
+        //DB::name('user')->insert(['username'=> $arr['username']]);
+        
+            $data=array('msg'=>"注册成功",'username'=>$arr['username']);
             $data=json_encode($data);
             echo $data;
             
-            exit;
-        }else if($resb){
+         //   exit;
+         
             
-            $data=array('msg'=>'用户名已经存在');
-            $data=json_encode($data);
-            echo $data;
-            
-            exit;
-        }else if($resc){
-            
-            $data=array('msg'=>'邮箱已经存在');
-            $data=json_encode($data);
-            echo $data;
-            
-            exit;
+        }   
+        
+        
+         
         }
-        }
+        
+       
     }
 
 
