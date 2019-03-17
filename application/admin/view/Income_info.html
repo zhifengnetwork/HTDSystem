@@ -22,7 +22,7 @@
         <table class="layui-table admin-table">
             <thead>
             <tr>
-                <th style="width: 30px;">ID</th>
+                <th style="width: 30px;">序列号</th>
                 <th>账号</th>
                 <th>投资币种</th>
                 <th>币种价格</th>
@@ -37,8 +37,8 @@
             <tbody>
             {foreach name="income_list" item="vo"}
             <tr>
-                <td>{$vo.id}</td>
-                <td>{$vo.mobile}--{$vo.username}</td>
+                <td>{$key+1}</td>
+                <td>{$vo.id}/{$vo.username}</td>
                 <td>{$vo.alias_name}&nbsp;&nbsp;&nbsp;{$vo.note}</td>
                 <td>{$vo.price}</td>
                 <td>投资金额</td>
@@ -64,18 +64,8 @@
         {$income_list->render()}
     </div>
 </div>
+{/block}
 {block name="js"}
 <script type="text/javascript" src="__ADMIN__/js/checkment.js"></script>
-<!--<script type="text/javascript">-->
-    <!--//点击弹出图片-->
-    <!--layui.use('layer', function(){ //独立版的layer无需执行这一句-->
-        <!--var layer = layui.layer;-->
-                <!--layer.open({-->
-                    <!--type: 1, //page层-->
-                    <!--area: ['808px', '423px'],-->
-                    <!--title: '凭证',-->
-                    <!--content: ['<img src="__ADMIN__/images/default.png">', '#vou'],-->
-                <!--});-->
-    <!--});-->
-<!--</script>-->
+
 {/block}

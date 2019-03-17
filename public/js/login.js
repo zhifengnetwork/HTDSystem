@@ -48,6 +48,6 @@ $(function() {
 })
 //  登录
 function loginFun(){
-	console.log(666)
+	console.log(666);
 	window.location.href = '../home/index.html';
 }

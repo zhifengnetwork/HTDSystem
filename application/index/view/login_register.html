@@ -7,9 +7,9 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>注册</title>
 		<script src="/public/js/rem.js"></script>
-		<link rel="stylesheet" href="/public/css/reset.css">
-		<link rel="stylesheet" href="/public/css/base.css" />
-		<link rel="stylesheet" href="/public/css/register.css">
+		<link rel="stylesheet" href="__PUBLIC__css/reset.css">
+		<link rel="stylesheet" href="__PUBLIC__css/base.css" />
+		<link rel="stylesheet" href="__PUBLIC__css/register.css">
 
 	</head>
 
@@ -17,12 +17,12 @@
 		<div class="registerbox">
 			<div class="header-zp">
 				<span class="return" onclick="javascript:history.back(-1)">
-                    <img src="/public/images/return-zp@2x.png" />
+                    <img src="__PUBLIC__images/return-zp@2x.png" />
                 </span>
 				<h3>注册</h3>
 			</div>
 			<div class="reg-new-page">
-				<form action="{:url('index/login/regis')}" method="post" class="reg-from">
+				<!-- <form action="{:url('index/login/regis')}" method="post" class="reg-from"> -->
 					<div class="info mistake"></div>
 					<div class="from-group">
 						<span class="from-tit">用户名:</span>
@@ -33,6 +33,11 @@
 						<span class="from-tit">密码:</span>
 						<input type="password" placeholder="请输入用户密码" name="password" value class="pptt password">
 					</div>
+					<div class="info mistake"></div>
+					<div class="from-group">
+							<span class="from-tit">确认密码:</span>
+							<input type="password" placeholder="请输入用户密码" name="passwordb" value class="pptt password">
+						</div>
 					<div class="info mistake"></div>
 					<div class="from-group">
 						<span class="from-tit">邮箱:</span>
@@ -61,7 +66,7 @@
 					<div class="reg-btn">
 						<button  id="submit" class="btn dis submit-btn">注册</button>
 					</div>
-				</form>
+				<!-- </form> -->
 				<div class="login-new">
 					<a href="" class="register">已有账号 登录</a>
 					<a href="">用户协议</a>
@@ -69,12 +74,15 @@
 			</div>
 		</div>
 	</body>
-	<script src="/public/js/jquery-1.8.3.min.js"></script>
-	<script src="/public/js/base.js"></script>
-	<script src="/public/js/register.js">
+	<script src="__PUBLIC__js/jquery-1.8.3.min.js"></script>
+	<script src="__PUBLIC__js/base.js"></script>
+	<script src="__PUBLIC__js/register.js">
 	</script>
 
 </html>
+<script>
+	
+</script>
 <!--<script>-->
 
 		<!--# 点击注册事件-->
