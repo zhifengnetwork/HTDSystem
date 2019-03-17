@@ -22,21 +22,38 @@ class Login extends Controller
     
     }
     //登录
-    public function login()
+   public function login()
     {
         $arr = $this->request->post();
         
        $arr['password'] = md5($arr['password']);
-       $res = DB::name('user')->where($arr)->find();
-       if ($res){
+       $resa = DB::name('user')->where($arr['username'])->find();
+       $res = DB::name('user')->where(['username'=>$arr['username'],'password'=>$arr['password']])->find();
+       $resv=DB::name('user')->where($arr)->find();
+       if($res&&$resv){
+           
            Session::set('home',$res);
            setcookie("id",$res['id'],time()+60*10);
            $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-		   header("refresh:1;url=$url");
-       } else {
-           echo "<script>history.go(-1);</script>";
+           header("refresh:1;url=$url");
+           
+           
+       }else if($resa&&$res==false){
+           
+           $data=array('msg'=>'密码错误');
+           $data=json_encode($data);
+           echo $data;
+           exit;
+       }else if($resa){
+           
+           $data=array('msg'=>'账号已经存在');
+           $data=json_encode($data);
+           echo $data;
+           
            exit;
        }
+       
+      
     }
 //团队
 	public function directDrive(){
