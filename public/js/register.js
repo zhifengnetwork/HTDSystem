@@ -140,7 +140,7 @@ $(function(){
     let userName=$(".username")
     let userPhone=$(".phone")
     let password = $(".password")
-	let passwordb = $(".passwordb")
+
     let userEmail = $(".email")
       if(userName.val()==""){
         userName.parent().prev().addClass("mistake").html(`用户名不能为空`);
@@ -158,13 +158,7 @@ $(function(){
         return false
       }
 	  
-	  if(passwordb.val()!=password.val()){
-        password.parent().prev().addClass("mistake").html(`两次密码不一致，请重新输入.`);
-        password.focus()
-        return false
-      }
-	  
-	  
+	 
 	  
       if(userEmail.val()==""){
         userEmail.parent().prev().addClass("mistake").html(`邮箱不能为空`);
