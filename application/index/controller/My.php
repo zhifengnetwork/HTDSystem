@@ -10,7 +10,18 @@ class My extends HomeBase
     {
         return $this->fetch();
     }
-
+    //退出登录
+   public function index()
+    {
+        $sess = session('home');
+        unset($sess);
+        session_destroy();
+        $url = "http://".$_SERVER ['HTTP_HOST']."/index";
+        
+        header("refresh:1;url=$url");
+    }
+    
+    
     public function editUser()
     {
         return $this->fetch();

@@ -25,6 +25,8 @@ class Index extends HomeBase
     public function index()
     {
 
+        $user_id = session('home');
+        // dump($user_id);
         // $upUid = Db::name('user')->where(['id'=>1])->setInc('balance', 1);
         // echo $upUid;die;
         // $bss = createWallet(1);
@@ -82,11 +84,16 @@ class Index extends HomeBase
 	//团队
 	public function directDrive(){
   
+     
         $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
         if($res){
             $ress = DB::name('user')->where("pid",$res['id'])->select();
 			$aas=json_encode($ress);
             $this->assign('aa', $aas);
+        }else{
+            
+            $this->assign('aa',0);
+            
         }
         return view();
     }
