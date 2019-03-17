@@ -8,9 +8,23 @@ class My extends HomeBase
 {
     public function my()
     {
+        $home = session('home');
+        $user = db('user')->where(['id'=>$home['id']])->find();
+        $this->assign('user',$user);
         return $this->fetch();
     }
-
+    //退出登录
+   public function index()
+    {
+        $sess = session('home');
+        unset($sess);
+        session_destroy();
+        $url = "http://".$_SERVER ['HTTP_HOST']."/index";
+        
+        header("refresh:1;url=$url");
+    }
+    
+    
     public function editUser()
     {
         return $this->fetch();

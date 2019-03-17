@@ -18,7 +18,7 @@ class Income extends AdminBase
         $income_list = Db::name('income')->alias('in')
             ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
             ->join('htd_user u','in.id=u.id','left')
-            ->join('htd_currency c','buy.cu_id=c.id','left')
+            ->join('htd_currency c','in.cu_id=c.id','left')
             ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
             ->order('in.id desc')->paginate(10);
         $this->assign('act','info');
@@ -105,14 +105,14 @@ class Income extends AdminBase
      */
     public function check($id)
     {
-        $value = Db::name('buy_order')->where('id'>=$id)->value('is_check');
+        $value = Db::name('buy_order')->where('id',$id)->value('is_check');
         if($value == 0){
             Db::name('buy_order')->update(['is_check' => 1 ,'id' => $id]);
             return json(array('code'=>200, 'msg'=>'审核通过'));
-        }elseif ($value = 1){
-            return json(array('code'=>200, 'msg'=>'已经审核通过'));
+        }elseif ($value == 1){
+            return json(array('code'=>200, 'msg'=>'已经审核通过了'));
         }else{
-            return json(array('code'=>0, 'msg'=>"错误"));
+            return json(array('code'=>0,'msg'=>'未知错误'));
         }
 
     }

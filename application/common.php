@@ -10,6 +10,16 @@ use think\Loader;
 use think\Request;
 use think\Url;
 
+function wallet_name($id)
+{
+    $currency = db('currency')->where(['id'=>$id])->find();
+    if($currency){
+        return $currency['alias_name'];
+    }else {
+        return "没有该币种";
+    }
+}
+
 function systemSetKey($user = '')
 {
     if (is_array($user) && !empty($user)) {
@@ -1946,8 +1956,94 @@ function p($data=0){
    return var_dump($data);
 }
 
+// 生成唯一的订单号
+function byOrderNo(){
+    $order_no = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    return $order_no;
+}
+
+//数组转换成[配置项名称]获取数据
+function arr2name($data,$key=''){
+	$return_data=array();
+	if(!$data||!is_array($data)){
+		return $return_data;
+	}
+	if(!$key){
+		$key='name';
+	}
+	foreach($data as $dv){
+		$return_data[$dv[$key]]=$dv;
+	}
+	return $return_data;
+}
+
+// 插入日志表user_log
+function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account='', $note=''){
+    if (empty($uid)) {
+        return false;
+    }
+    $insertData = array(
+        'uid' => $uid,
+        'order_no' => $order_no,
+        'type' => $type,
+        'old_account' => $old_account,
+        'now_account' => $now_account,
+        'note' => $note,
+        'create_time' => time(),
+        'status' => 0
+    );
+    $res = Db::name('user_log')->save($insertData);
+    return $res;
+}
+
+// 获取当前用户的伞下10层数(不包括自己)
+function getDownUserUids($uid){
+    global $g_down_Uids,$i;
+	if($uid){
+        $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(0,1000)->select();
+		foreach($member_arr as $mb){
+			if($mb['id'] && $mb['id'] != $uid && $i<10){
+                $g_down_Uids[]=$mb['id'];
+                $i++;
+                getDownUserUids($mb['id']);
+			}	
+		}
+	}
+	return $g_down_Uids;
+}
+
+// 递归获取用户所有上线(不包括自己)
+function getUpMemberIds($uid){
+	global $g_up_mids;
+	if($uid){
+        $member = Db::name('user')->field('id,pid')->where(['id'=>$uid])->find();
+		if($member&&$member['pid']!=$uid){
+            // &&! in_array($member['pid'],$g_up_mids)
+			if($member['pid']){
+				$g_up_mids[]=$member['pid'];
+				getUpMemberIds($member['pid']);
+			}
+		}
+	}
+	return $g_up_mids;
+}
+
+// 获取当前用户的上级ID
+function getUpUid($uid){
+    if (empty($uid)) {
+        return false;
+    }
+    $where['id'] = $uid;
+    $where['pid'] = array('neq', 0);
+    $pUid = Db::name('user')->field('id,pid')->where($where)->find();
+    if(!$pUid){
+        return false;
+    }
+    return $pUid['pid'];
+}
+
 // 获取当前用户所有直推会员
-function getDirectUser($uid=''){
+function getDirectUser($uid){
     if (empty($uid)) {
         return false;
     }
@@ -1995,62 +2091,39 @@ function isEnjoyUser($uid='', $cu_id=''){
     return true;
 }
 
-// 生成唯一的订单号
-function byOrderNo(){
-    $order_no = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-    return $order_no;
-}
-
-//数组转换成[配置项名称]获取数据
-function arr2name($data,$key=''){
-	$return_data=array();
-	if(!$data||!is_array($data)){
-		return $return_data;
-	}
-	if(!$key){
-		$key='name';
-	}
-	foreach($data as $dv){
-		$return_data[$dv[$key]]=$dv;
-	}
-	return $return_data;
-}
-
-// 插入日志表user_log
-function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account='', $note=''){
+// 注册生成币种钱包记录
+function createWallet($uid){
     if (empty($uid)) {
         return false;
     }
-    $insertData = array(
-        'uid' => $uid,
-        'order_no' => $order_no,
-        'type' => $type,
-        'old_account' => $old_account,
-        'now_account' => $now_account,
-        'note' => $note,
-        'create_time' => time(),
-        'status' => 0
-    );
-    $res = Db::name('user_log')->save($insertData);
-    return $res;
+    $currencyArr =  Db::name('currency')->limit(0,11)->select();
+    // 循环插入user_wallet
+    foreach($currencyArr as $k=>$v){
+        $data = array(
+            'uid' => $uid,
+            'cu_id' => $v['id']
+        );
+        // 查询当前用户是否存在该钱包
+        $users = Db::name('user_wallet')->where(['uid'=> $uid, 'cu_id'=> $v['id']])->find();
+        if(!$users){
+            $res = Db::name('user_wallet')->insert($data);
+        }
+    }
+    return true;
 }
 
-// 获取当前用户的伞下10层数(不包括自己)
-function getDownUserUids($uid){
-    global $g_down_Uids;
-	if($uid){
-        // $member_arr=$g_db->fetchRows("select id,p_mid from wx_member where p_mid='{$uid}'",1,1000);
-        $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(1,1000)->select();
-        
-		foreach($member_arr as $mb){
-            p($mb);
-			if($mb['id'] && $mb['id'] != $uid){
-				$g_down_Uids[]=$mb['id'];
-				getDownUserUids($mb['id']);
-			}	
-		}
-	}
-	return $g_down_Uids;
-}
-
+// 直推收益 $uid静态收益的用户，$pid获得静态收益的上级用户
+// function ByDirectIncome($uid, $cu_id, $incomeNum=0){
+//     if (empty($uid)) {
+//         return true;
+//     }
+//     // 获取上级iD
+//     $pid = getUpUid($uid);
+//     if($pid){
+//         $incomeData = array(
+//             ''
+//         );
+//     }
+//     return true;
+// }
 

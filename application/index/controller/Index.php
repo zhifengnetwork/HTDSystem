@@ -26,7 +26,20 @@ class Index extends HomeBase
     public function index()
     {
 
-       
+        $user_id = session('home');
+        // dump($user_id);
+        // $upUid = Db::name('user')->where(['id'=>1])->setInc('balance', 1);
+        // echo $upUid;die;
+        // $bss = createWallet(1);
+        // p($bss);die;
+
+        // $directData = isEnjoyUser($uid=1,1);
+        // if(is_post()){
+        //     echo input('post.id/d');die;
+        // }else{
+        //     echo 2222;die;
+        // }
+        // p($directData['into_money']['value']);die;
         /* //签到榜 //投稿榜 自由打开？
         //$member = Db::name('user_sign')->alias('a')->join('user u', 'u.id=a.uid')->field('u.*,count(*) as forumnum')->group('a.uid')->order('forumnum desc')->limit(12)->select();
         $member = Db::name('article')->alias('f')->join('user u', 'u.id=f.uid')->field('u.*,count(*) as forumnum')->group('f.uid')->order('forumnum desc')->limit(12)->select();
@@ -68,7 +81,28 @@ class Index extends HomeBase
 
         return view();
     }
+	
+	//团队
+	public function directDrive(){
+  
+     
+        $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
+        if($res){
+            $ress = DB::name('user')->where("pid",$res['id'])->select();
+			$aas=json_encode($ress);
+            $this->assign('aa', $aas);
+        }else{
+            
+            $this->assign('aa',0);
+            
+        }
+        return view();
+    }
+    //提币
+    public function present()
+    {
 
+<<<<<<< HEAD
     public function present(){
         // $base = new Base();
         // if (!session('userid')) {
@@ -127,16 +161,24 @@ class Index extends HomeBase
     }
 
     public function directDrive(){
-        return view();
-    }    
-    
-    public function totalRevenue(){
-        return view();
-    }    
-
-    public function qrcode(){
+=======
         return view();
     }
+
+    //总收益
+    public function totalrevenue()
+    {
+>>>>>>> 60d8c445bdbbf45d10b35b14a7a89e3741bbbd00
+        return view();
+    }
+    
+    //分享
+    public function qrcode(){
+
+
+        return view();
+    }
+	
 
     public function search()
     {
