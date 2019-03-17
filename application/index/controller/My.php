@@ -13,11 +13,12 @@ class My extends HomeBase
    public function index()
     {
     
-        setcookie("id", "", time()-60*60);
-        $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+        setcookie("id", "",time()-60*60);
+        $url = "http://".$_SERVER ['HTTP_HOST']."/index.php";
         
         header("refresh:1;url=$url");
     }
+    
     
     public function editUser()
     {
