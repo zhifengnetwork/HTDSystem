@@ -34,6 +34,20 @@ class Wallet extends HomeBase
             return json(array('code' => 0, 'msg' => '提交方式错误'));
         }
         $param = input('post.');
+        $cu_id = intval($param['cu_id']);
+        if(!$cu_id){
+            return json(array('code' => 0, 'msg' => '币种id不可为空'));
+        }
+        if(!$param['num']){
+            return json(array('code' => 0, 'msg' => '币种数量不可为空'));
+        }
+        if(!$param['price']){
+            return json(array('code' => 0, 'msg' => '币种价格不可为空'));
+        }
+        $total_money = $param['num']*$param['price']; // 
+        if($total_money!=$param['total_money']){
+            return json(array('code' => 0, 'msg' => '投资金额出错'));
+        }
         p($param);
     }
 
