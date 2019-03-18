@@ -3,9 +3,13 @@ namespace app\index\controller;
 
 use app\common\controller\HomeBase;
 use think\Db;
-
+use think\Request;
 class Wallet extends HomeBase
 {
+    /**
+     * 点击首页投资按钮进入获取数据
+     * 获取当前用户投资的所有币种订单
+    */
     public function wallet()
     {
         $user_id = 1;
@@ -19,9 +23,18 @@ class Wallet extends HomeBase
         return $this->fetch();
     }
 
-    public function uppic()
+    /**
+     *  用户点击确定投资
+     * 
+    */
+    public function confirmInvest()
     {
-        dump($_POST);
+
+        if(!is_post()){
+            return json(array('code' => 0, 'msg' => '提交方式错误'));
+        }
+        $param = input('post.');
+        p($param);
     }
 
     private function htd_currency()
