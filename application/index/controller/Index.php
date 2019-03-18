@@ -99,7 +99,10 @@ class Index extends HomeBase
         return view();
     }
     //提币
+<<<<<<< HEAD
+=======
 
+>>>>>>> cec204c9de6c5327e838a04b5dc88aa3abbac9d7
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -133,18 +136,14 @@ class Index extends HomeBase
 
     // 提币
     public function pick(){
-        $base = new Base();
         $data   = input();
-        if(empty($data['number'])){
-            $base->ajaxReturn(['status' => 2, 'msg' =>'请输入货币数量', 'result' =>'']);
-        }
         $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
         $where1 = [
             'uid' => $data['uid'],
             'cu_id' => $data['cu_id'],
             'cu_num' => $data['number']                 
         ];
-        
+        $base = new Base();
         if($data['remain_num']<$data['number']){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
         }else if($data['remain_num']<=50){
