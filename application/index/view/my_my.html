@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta charset="UTF-8">
+		<title class="pageTopTitle" page-id="2">我的</title>
+		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/my/my.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
+
+	</head>
+
+	<body>
+		<!--header-->
+		<div class="tab">
+			<div id="wrap">
+
+				<!-- 头部 -->
+				<div class="header-zp">
+					<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+					<h3>我的</h3>
+					<span class="share-btn bottmBut" onclick="jumpFun('editUser.html')">
+						<img src="__PUBLIC__/images/public/share-btn-zp.png" />
+					</span>
+				</div>
+
+				<ul id="con">
+					<li class="show" style="display: block;">
+						<div class="mingpian">
+							<div class="usernameear">
+								<div class="left"><img src="__PUBLIC__/images/my/ren.png" /></div>
+								<span class="username">用户名:</span>
+								<span class="text" style="color: #8CFFFF;">{$user.username}</span>
+							</div>
+							<div class="usernameear">
+								<div class="left"><img src="__PUBLIC__/images/my/youxiang.png" /></div>
+								<span class="username">电邮:</span>
+								<span class="text">{$user.usermail}</span>
+							</div>
+							<div class="usernameear">
+								<div class="left"><img src="__PUBLIC__/images/my/shouji.png" /></div>
+								<span class="username">电话号码:</span>
+								<span class="text">{$user.mobile}</span>
+							</div>
+
+						</div>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<!-- 底部导航 -->
+		<div class="bottomNavWrap container" id="bottomNavWrap"></div>
+
+		<script src="__PUBLIC__/js/public/jquery-1.8.3.js"></script>
+		<script src="__PUBLIC__/js/my/my.js"></script>
+		<!--底部nav=>Tab功能-->
+		<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
+		<script src="__PUBLIC__/js/public/base.js"></script>
+	</body>
+
+</html>
