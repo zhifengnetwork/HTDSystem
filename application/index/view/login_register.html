@@ -107,6 +107,7 @@ var userName=($(".username").val())+"";
   var verify=$(".verify").val();
 
 //alert(12);
+/*
     if(userName==""){
      alert("用户名不能为空");
     }
@@ -135,7 +136,7 @@ var userName=($(".username").val())+"";
     if(verify==""){
   	  alert("验证码不能为空");
     }
-    
+    */
     if(userName&&password&&passworda&&(password==passworda)&&userEmail&&mobiles&&promotions&&verify){
   	 // alert(userName);
 var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles,promotion:promotions};
@@ -153,7 +154,7 @@ var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles
 				dataType:'json',
 				success:function(msg){
 
-					alert(msg.msg+""+msg.username);
+					alert(msg.msg);
 
 
 
@@ -164,7 +165,12 @@ var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles
 		
 		 
   	  
-    }
+    }else if(password!=passworda){
+	
+	 alert("密码不一致，请重新输入");
+	
+	
+	}
     
     
     

@@ -99,7 +99,6 @@ class Index extends HomeBase
         return view();
     }
     //提币
-
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -164,7 +163,7 @@ class Index extends HomeBase
     
     //分享
     public function qrcode(){
-
+        
 
         return view();
     }
