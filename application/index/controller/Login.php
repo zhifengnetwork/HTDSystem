@@ -25,35 +25,23 @@ class Login extends Controller
     public function login()
     {
         $arr = $this->request->post();
-         $dataa['salt'] = generate_password(18);
-       $arr['password'] = md5($arr['password'] . $dataa['salt']);
-       $res = DB::name('user')->where($arr)->find();
-      
-       //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
+        $res = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
+        $password = md5($arr['password'].$res['salt']);
+        //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
        //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
+        if($res['password'] == $password){
+            Session::set('home',$res);
+            setcookie("id",$res['id'],time()+60*10);
+            $data=array('msg'=>'登陆成功','flag'=>1);
+            $data=json_encode($data);
+            echo $data;
+        }else{
+            $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
+           $data=json_encode($data);
+           echo $data;
+           exit;
+        }
        
-       if ($res){
-           Session::set('home',$res);
-           setcookie("id",$res['id'],time()+60*10);
-           $data=array('msg'=>'登陆成功','flag'=>1);
-           $data=json_encode($data);
-           echo $data;
-       } else {
-           $data=array('msg'=>'登录失败','flag'=>2);
-           $data=json_encode($data);
-           echo $data;
-           exit;
-       }
-       /*
-       if ($res){
-           Session::set('home',$res);
-           setcookie("id",$res['id'],time()+60*10);
-           $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-		   header("refresh:1;url=$url");
-       } else {
-           echo "<script>history.go(-1);</script>";
-           exit;
-       }*/
     }
 //团队
 	public function directDrive(){

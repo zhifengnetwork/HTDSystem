@@ -58,32 +58,32 @@ function sc(){
 		// console.log(name);
 		// console.log(name);
 		console.log(file);
-			$.ajax({  
-					url: "http://www.szpt.com/index/wallet/uppic", 
-					type: 'POST',  
-					data: {
-						img :img,
-						size:size,
-						type:type
-					},  
-					dataType: 'JSON',  
-					cache: false,  
-					processData: false,  
-					contentType: false  
-			}).done(function(ret){  
-					if(ret['isSuccess']){
-							var result = '';
-							var result1 = '';
-							// $("#show").attr('value',+ ret['f'] +);
-							result += '<img src="' + '__ROAD__' + ret['f']  + '" width="100">';
-							result1 += '<input value="' + ret['f']  + '" name="user_headimg" style="display:none;">';
-							$('#result').html(result);
-							$('#show').html(result1);
-							layer.msg('上传成功');
-					}else{  
-							layer.msg('上传失败');
-					}  
-			});  
+			// $.ajax({  
+			// 		url: "http://www.szpt.com/index/wallet/uppic", 
+			// 		type: 'POST',  
+			// 		data: {
+			// 			img :img,
+			// 			size:size,
+			// 			type:type
+			// 		},  
+			// 		dataType: 'JSON',  
+			// 		cache: false,  
+			// 		processData: false,  
+			// 		contentType: false  
+			// }).done(function(ret){  
+			// 		if(ret['isSuccess']){
+			// 				var result = '';
+			// 				var result1 = '';
+			// 				// $("#show").attr('value',+ ret['f'] +);
+			// 				result += '<img src="' + '__ROAD__' + ret['f']  + '" width="100">';
+			// 				result1 += '<input value="' + ret['f']  + '" name="user_headimg" style="display:none;">';
+			// 				$('#result').html(result);
+			// 				$('#show').html(result1);
+			// 				layer.msg('上传成功');
+			// 		}else{  
+			// 				layer.msg('上传失败');
+			// 		}  
+			// });  
 			return false;
 		 }  
 	}
