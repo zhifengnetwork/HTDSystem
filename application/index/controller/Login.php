@@ -25,25 +25,17 @@ class Login extends Controller
     public function login()
     {
         $arr = $this->request->post();
-        // dump($arr);die;
         $res = DB::name('user')->where(['mobile'=>$arr['phone']])->find();
         $password = md5($arr['pwd'].$res['salt']);
         //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
        //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
         if($res['password'] == $password){
-            // dump($res['password']);
-            // dump($password);die;
             Session::set('home',$res);
             setcookie("id",$res['id'],time()+60*10);
             $url = "http://".$_SERVER ['HTTP_HOST'];
-            $data=array('msg'=>'登陆成功','flag'=>1,'url'=>$url);
-            $data=json_encode($data);
-            echo $data;
+            header("refresh:1;url=$url");
         }else{
             $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
-           $data=json_encode($data);
-           echo $data;
-           exit;
         }
        
     }
@@ -78,18 +70,16 @@ class Login extends Controller
     public function regis()
     {
         $arr = $this->request->post();
-        
+       
         if($arr){
-           $usermail= $arr['usermail']."";
-            $reaa = DB::name('user')->where(['username'=>$arr['username']])->find();
-        
+           $usermail= $arr['userEmail']."";
+            $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
+            
             $arr['salt'] = generate_password(18);
             $arr['password'] = md5($arr['password'] . $arr['salt']);
             $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
-            $reac = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
-
-            $resv=DB::name('user')->where(['username'=>$arr['username'],'password'=>$arr['password'],'usermail'=>$arr['usermail'],'mobile'=>$arr['mobile']])->find();
-
+            $reac = DB::name('user')->where(['mobile'=>$arr['userPhone']])->find();
+            $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
 
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
@@ -100,13 +90,21 @@ class Login extends Controller
             }else if($reab){
                 $data=array('msg'=>'邮箱已经存在','flag'=>4);
             }else if(!$reaa&&!$reab&&!$reac){
-                $read=DB::name('user')->where(['promotion'=>$arr['promotion']])->find();
-                // dump($reab);die;
+                $read=DB::name('user')->where(['promotion'=>$arr['rec']])->find();
+                
+                
                 if($read){
-                    $arr['pid']=$read['id']; 
-                    $arr['promotion'] = byTgNo();
-                    // dump($arr);die;
-                    DB::name('user')->insert($arr);
+                    $data = array(
+                        "username"=>$arr['userName'],
+                        "password"=>$arr['password'],
+                        "usermail"=>$arr['userEmail'],
+                        "mobile"=>$arr['userPhone'],
+                        "regtime"=>time(),
+                        "pid"=>$read['id'],
+                        "promotion"=>byTgNo(),
+                        "salt"=>$arr['salt']
+                    );
+                    DB::name('user')->insert($data);
                     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
                     $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
                 }else{

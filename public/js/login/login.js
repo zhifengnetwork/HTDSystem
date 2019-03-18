@@ -1,4 +1,4 @@
-$(function(){
+
 	
 	var condition={
 		phonestate:false,    //用户名手机
@@ -64,50 +64,5 @@ $(function(){
 		}else{
 			$(".btn").addClass("dis").removeClass("active").attr("disabled",true)  
 		}
-})
-	
-	//  登录
-  //  $(".btn").click(function(){ 
-	// 		var phone = $(".phone")
-	// 		var pwd = $(".pwd")
-	// 		console.log($(".btn"))
-	// 		var data= {mobile:phone,password:pwd};
-	// 		$.ajax({
-
-	// 			type:"POST",
-	
-	// 			url:"{:url('index/login/login')}",
-	
-	// 			data:data,
-	
-	// 			dataType:'json',
-	
-	// 			success:function(msg){
-	// 				// suredAlert($('body'),msg.msg,'');
-	// 				alert(msg.msg);
-	
-	// 				window.location.href=window.location;
-	// 			}
-	// 		});
-
-	// 		// if(!condition.phonestate){
-	// 		// 	phone.focus()
-	// 		// 	alert("*手机错误")
-	// 		// 	return false;
-	// 		// }
-	// 		// if(!condition.pwdstate){
-	// 		// 	pwd.focus()
-				
-	// 		// 	alert("*密码错误")
-	// 		// 	return false;
-	// 		// }
-	// 		// else{
-	// 		// 	alert("*可以登录")
-	// 		// 	window.location.href = '../home/index.html';
-	// 		// }
-		
-	//  })
-	 
-
 })
 
