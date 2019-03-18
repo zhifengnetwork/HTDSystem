@@ -116,6 +116,7 @@ var userName=($(".username").val())+"";
   var verify=$(".verify").val();
 
 //alert(12);
+/*
     if(userName==""){
 		 alert("用户名不能为空");
 		 return
@@ -151,36 +152,30 @@ var userName=($(".username").val())+"";
 			alert("验证码不能为空");
 			return
     }
-    
+    */
     if(userName&&password&&passworda&&(password==passworda)&&userEmail&&mobiles&&promotions&&verify){
   	 // alert(userName);
 var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles,promotion:promotions};
 
 
 //alert(userName+"/"+password+"/"+userEmail+"/"+mobiles+"/"+promotions);
-		
 			$.ajax({
-
 				type:"POST",
-
 				url:"{:url('index/login/regis')}",
-
 				data:datas,
 				dataType:'json',
 				success:function(msg){
-
-					alert(msg.msg+""+msg.username);
-
-
-
+					if(msg.url){
+						console.log(msg.url);
+						window.location.replace(msg.url);
+					}else{
+						alert(msg.msg);
+					}
 				}
-
 			});
-		 
-		
-		 
-  	  
-    }
+    }else if(password!=passworda){
+	 		alert("密码不一致，请重新输入");
+	}
     
     
     
