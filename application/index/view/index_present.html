@@ -133,29 +133,37 @@
 				}
 			});			
 		}	
-			
+
 		layui.use(['layer','jquery','form'],function(){
-		var layer = layui.layer
-		, form = layui.form
-		,jq = layui.jquery;
-		jq('#true').click(function(){	  
+			var layer = layui.layer
+			, form = layui.form
+			,jq = layui.jquery;
+			jq('#true').click(function(){	  
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize();
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
-								layer.msg(data.msg, {icon: 1, time: 3000}, function(){					
+									layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
 									window.location.reload(); 
-									});
+								});
 														
-								} else {
+							}else if(data.status == 2){
+								layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+								// window.location.reload(); 
+								});
+							}else {
 									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
-									layer.msg(data.msg, {icon: 2, time: 3000}, function(){					
+									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
 									window.location.reload(); 
 									});
 										// window.location.reload(); 
 								}
 						});
-			});  	  
+			});			
+			jq('.false').click(function(){	  
+				window.location.reload();
+			});		
+		
 		});		
 		</script>
 	</body>
