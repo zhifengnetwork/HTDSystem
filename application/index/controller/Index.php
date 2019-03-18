@@ -99,10 +99,6 @@ class Index extends HomeBase
         return view();
     }
     //提币
-    public function present()
-    {
-
-<<<<<<< HEAD
     public function present(){
         // $base = new Base();
         // if (!session('userid')) {
@@ -160,15 +156,10 @@ class Index extends HomeBase
         }
     }
 
-    public function directDrive(){
-=======
-        return view();
-    }
-
     //总收益
     public function totalrevenue()
     {
->>>>>>> 60d8c445bdbbf45d10b35b14a7a89e3741bbbd00
+
         return view();
     }
     
