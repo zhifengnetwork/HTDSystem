@@ -40,7 +40,7 @@ class Wallet extends HomeBase
         }
     }
     /**
-    获取用户信息
+    *获取用户信息
     */
     private function users($user_id){
         $field = "balance,id,pid,username,mobile,promotion,activation";

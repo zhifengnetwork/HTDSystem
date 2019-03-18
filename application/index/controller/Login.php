@@ -67,12 +67,8 @@ class Login extends Controller
     public function register()
     {
         $promotion = input('get/d');
-        dump($promotion);
         $this->assign('promotion',$promotion);
         return $this->fetch();
-        
-
-        
     }
     
     
@@ -118,7 +114,7 @@ class Login extends Controller
                 }
             }   
             $data = json_encode($data);
-            echo $data;
+            // echo $data;
         }
     }
 
