@@ -23,60 +23,10 @@ class Index extends HomeBase
     }
 
     public function index()
-    {
-
-        // $upUid = Db::name('user')->where(['id'=>1])->setInc('balance', 1);
-        // echo $upUid;die;
-        $bss = createWallet(1);
-        p($bss);die;
-
-        $directData = isEnjoyUser($uid=1,1);
-        if(is_post()){
-            echo input('post.id/d');die;
-        }else{
-            echo 2222;die;
-        }
-        p($directData['into_money']['value']);die;
-        /* //签到榜 //投稿榜 自由打开？
-        //$member = Db::name('user_sign')->alias('a')->join('user u', 'u.id=a.uid')->field('u.*,count(*) as forumnum')->group('a.uid')->order('forumnum desc')->limit(12)->select();
-        $member = Db::name('article')->alias('f')->join('user u', 'u.id=f.uid')->field('u.*,count(*) as forumnum')->group('f.uid')->order('forumnum desc')->limit(12)->select();
-        $this->assign('member', $member);
-
-        //最近更新
-        $article_new = Db::name('article')->alias('a')->join('user u', 'u.id=a.uid')->join('articlecate c', 'c.id=a.tid')->where('a.open', 1)->field('u.userhead,u.username,a.id,a.uid,a.title,a.time,c.template')->order('a.settop desc,a.time desc')->limit($this->site_config['c_home_newlist'])->select();
-        $this->assign('article_new', $article_new);
-
-        //分类展示 文字区
-        $artbycatelist = Db::name('articlecate')->where('hometextshow=1')->select();
-        foreach ($artbycatelist as $k => $v) {
-            $artbycatelist[$k]['artlists'] = get_articles_by_cid($v['id'], $this->site_config['c_home_text']);
-        }
-        $this->assign('artbycatelist', $artbycatelist);
-        //分类展示 图片区
-        $article_pic = Db::name('articlecate')->where('homepicshow=1')->select();
-        foreach ($article_pic as $k => $v) {
-
-            $article_pic[$k]['artlists'] = get_articles_by_cid($v['id'], $this->site_config['c_home_pic']);
-        }
-        $this->assign('article_pic', $article_pic);
-
-        //最近30天排行榜
-        $maptop30['open'] = 1;
-
-        $maptop30['time'] = array('egt', strtotime("-1 month"));
-        $art_top30        = Db::name('article')->alias('a')->join('articlecate c', 'c.id=a.tid')->where($maptop30)->field('a.id,a.view,a.title,a.time,c.template')->order('view desc')->limit(10)->select();
-        $this->assign('art_top30', $art_top30);
-
-        if ($this->site_config['open_taoke'] == 0) {
-            //站长推荐榜
-            $mapchoice['open']   = 1;
-            $mapchoice['choice'] = 1;
-            //$mapchoice['a.tid']=1;
-            $art_choice = Db::name('article')->alias('a')->join('articlecate c', 'c.id=a.tid')->where($mapchoice)->field('a.id,a.coverpic,a.view,a.title,a.time,c.template')->order('a.choice desc,a.time desc')->limit(6)->select();
-            $this->assign('art_choice', $art_choice);
-        } */
-
-        // return view();
+    { 
+        $os = getUpMemberIds(5);
+        p($os);die;
+        return view();
     }
 
     public function search()
