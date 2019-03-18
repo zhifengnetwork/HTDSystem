@@ -1,61 +1,149 @@
 {extend name="base" /} {block name="body"}
+<style>
+	.layui-row{
+		font-size: 14px;
+	}
+</style>
 <div class="layui-tab-brief">
-
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/currency/doedit',['id'=>$detail['id']])}"  enctype="multipart/form-data">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户名称</label>
-                    <div class="layui-input-inline">
-                        {$detail.uid|user_name}
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户电话</label>
-                    <div class="layui-input-inline">
-                        {$detail.uid|mobile}
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户平台余额</label>
-                    <div class="layui-input-inline">
-                        {$detail.uid|mobile}
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">币种提示</label>
-                    <div class="layui-input-inline">
-                        {$detail.uid|mobile}
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">钱包地址</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="wallet_addr"  value="{$res['note']}" placeholder="请输入币种地址" class="layui-input txt">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">币种图标</label>
-                    <div class="layui-input-inline">
-                        <input type="file" name="log" id="file" onchange="checkFileExt(this.value)">
-                        {if $res['log'] eq true}
-                            <img src="/{$res['log']}" alt="111" style="width: 100px;height: 100px">
-                        {else /}
-                        {/if}
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">状态</label>
-                    <div class="layui-input-inline">
-                        <span>启用</span><input type="radio" name="status" value="1" title="启用"  style="display: inline;" {if $res['status'] eq 1} checked {else /}{/if}>
-                        <span>禁用</span><input type="radio" name="status" value="0" title="禁用"  style="display: inline;" {if $res['status'] eq 0} checked {else /}{/if}>
-
-                    </div>
-                </div>
+            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/Withdrawal/detail',['id'=>$detail['id']])}"  enctype="multipart/form-data">
+            	<div class="layui-container">
+            		<div class="layui-row">
+            			<div class="layui-col-xs1">
+					      	<div class="grid-demo grid-demo-bg1"></di2>
+					    </div>
+					    <div class="layui-col-xs1">
+					      	<div class="grid-demo grid-demo-bg10"></div>
+					    </div>
+            		</div>
+	            	<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">用户名称</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.uid|user_name}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">用户电话</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.uid|mobile}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">用户钱包余额</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.uid|balance}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">币种名称</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$currency.alias_name}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">代币价格</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$currency.price}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">代币状态</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{if condition="$currency.status == 0"}正常{else/}禁用{/if}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">提币数量</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.cu_num}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">手续费</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.tb_charge|default='0'}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">电子钱包地址</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.wallet_addr}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">电子钱包二维码</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">{$detail.qrcode_addr}</div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">状态</div>
+					    </div>
+					    <div class="layui-col-xs10">
+						    <div class="grid-demo">
+						      	{switch name='$detail.status'}
+								    {case value='0'}审核中
+								    	<a href="javascript:;" data-id="{$detail.id}" data-url="{:url('admin/Withdrawal/withdrawal_audit',['id'=>$detail['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-sm layui-btn-danger ajax-delete">审核</a>
+								    {/case}
+								    {case value='1'}通过审核{/case}
+								    {case value='2'}未通过审核{/case}
+								    {default /}default
+								{/switch}
+								
+						    </div>
+					    </div>
+					</div>
+					<hr>
+					<div class="layui-row">
+					    <div class="layui-col-xs2">
+					      	<div class="grid-demo grid-demo-bg1">备注</div>
+					    </div>
+					    <div class="layui-col-xs10">
+					      	<div class="grid-demo">
+					      		<textarea placeholder="请输入内容" id="txt" name="note" value="{$detail.note}" class="layui-textarea">{$detail.note}</textarea>
+					      	</div>
+					    </div>
+					    <button class="layui-btn layui-btn-sm" id="sub">提交备注</button>
+					</div>
+					<hr>
+				</div>
+               
                 <div class="btable-paged">
                     <div class="layui-main">
                         <div class="formbtngroup">
-                            <button class="layui-btn layui-btn-sm" id="fileUpload">更新</button>
+                            <!-- <button class="layui-btn layui-btn-sm" id="fileUpload">更新</button> -->
                             <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button>
                         </div>
                     </div>
@@ -65,4 +153,7 @@
         </div>
     </div>
 </div>
+{/block}
+{block name="js"}
+	<script type="text/javascript" src="__ADMIN__/js/audit.js"></script>
 {/block}

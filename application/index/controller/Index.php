@@ -100,9 +100,8 @@ class Index extends HomeBase
     }
     //提币
     public function present(){
-        // $base = new Base();
         // if (!session('userid')) {
-        // $base->ajaxReturn('{"code":0,"msg":"登录后才能操作"}');
+        //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
         // $userid = session('userid');
         $userid = 2;
@@ -143,7 +142,7 @@ class Index extends HomeBase
         $base = new Base();
         if($data['remain_num']<$data['number']){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-        }else if($data['remain_num']<=2){
+        }else if($data['remain_num']<=50){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50才能体现', 'result' =>'']);        
         }else{
             // 先计算剩余货币数量
@@ -159,13 +158,24 @@ class Index extends HomeBase
     //总收益
     public function totalrevenue()
     {
-
         return view();
     }
     
     //分享
     public function qrcode(){
-
+        $id = session('user.user_id');
+//        dump($id);exit;
+        $promotion = DB::name('user')->where('id',2)->value('promotion');
+//        dump($promotion);
+        $data = array(
+            'code' => $promotion,
+//            'url' => 'http://fw.pt1130.cn/index/login/register'//
+            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
+        );
+//        $url = 'http://fw.pt1130.cn/index/login/register';
+//        $this->assign('data',$data);
+        dump($data);//exit;
+        $this->assign('data',$data);
 
         return view();
     }

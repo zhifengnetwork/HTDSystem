@@ -17,7 +17,7 @@ class Income extends AdminBase
     {
         $income_list = Db::name('income')->alias('in')
             ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.id=u.id','left')
+            ->join('htd_user u','in.uid=u.id','left')
             ->join('htd_currency c','in.cu_id=c.id','left')
             ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
             ->order('in.id desc')->paginate(10);
