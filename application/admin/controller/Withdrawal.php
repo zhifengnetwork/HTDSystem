@@ -31,17 +31,21 @@ class Withdrawal extends AdminBase
 	{
 		$id = input('id/d');
 		$status = input('status/d');
+		$note = input('note/s');
 		
+		$data = array();
+
 		if ($status == 1) {
-			$data = array(
-				'status'=>$status
-			);
+			$data['status'] = $status;
 			
 		}else if ($status == 2) {
-			$data = array(
-				'status'=>$status
-			);
+			$data['status'] = $status;
 		}
+
+		if ($note) {
+			$data['note'] = $note;
+		}
+		
 		$info = Db::name('user_extract')->where('id',$id)->update($data);
 		if($info){
 			return json(array('code' => 200, 'msg' => '更新成功'));
@@ -71,15 +75,16 @@ class Withdrawal extends AdminBase
 	/** 
 	*  详情
 	*/
-	// public function detail()
-	// {
-	// 	$id = input('id/d');
-	// 	$detail = Db::name('user_extract')->alias('extract')
-	// 			  ->join('user user', 'user.id = extract.uid')
-	// 			  ->where('id',$id)->find();
+	public function detail()
+	{
+		$id = input('id/d');
 
-	// 	$this->assign('detail',$detail);
+		$detail = Db::name('user_extract')->where('id',$id)->find();
+		$currency = Db::name('currency')->where('id',$detail['cu_id'])->find();
 
-	// 	return $this->fetch();
-	// }
+		$this->assign('detail',$detail);
+		$this->assign('currency',$currency);
+
+		return $this->fetch();
+	}
 }
