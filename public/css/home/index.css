@@ -118,3 +118,11 @@
 	background: -o-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
 	background: -ms-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
 }
+.nav-wrap-zp ul li.itemColor-8{
+    background: linear-gradient(#65e037,#49ade7);
+    background: -moz-linear-gradient(top, #65e037 0%, #49ade7 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #65e037), color-stop(100%, #49ade7));
+	background: -webkit-linear-gradient(top, #65e037 0%, #49ade7 100%);
+	background: -o-linear-gradient(top, #65e037 0%, #49ade7 100%);
+	background: -ms-linear-gradient(top, #65e037 0%, #49ade7 100%);
+}

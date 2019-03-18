@@ -1,6 +1,15 @@
-.tab{
+.header{
 	
+	padding-top: 1.5rem;
+	text-align: center;
+	color: white;
 	
+}
+.headportrait{
+	
+	border-radius: 50%;
+	width: 1rem;
+
 }
 #tit{
 	
@@ -39,27 +48,16 @@
 	background: #3A7FFA;
 	
 }
-#con{
-	
-	
-	
-	
-}
+
 .mingpian{
 	
-	margin-top: 3rem;
 	width: 6rem;
 	color: white;
 	position: relative;
 	left: 50%;
 	transform: translate(-50%,0);
-	background: linear-gradient(to top, rgba(50,101,219,1), rgba(50,101,219,.3));
-	background: -moz-linear-gradient(to top, rgba(50,101,219,1), rgba(50,101,219,.3)); /* 标准的语法 */
-	background: -webkit-linear-gradient(to top, rgba(50,101,219,1), rgba(50,101,219,.3)); /* 标准的语法 */
-	background: -o-linear-gradient(to top, rgba(50,101,219,1), rgba(50,101,219,.3)); /* 标准的语法 */
-	background: -ms-linear-gradient(to top, rgba(50,101,219,1), rgba(50,101,219,.3)); /* 标准的语法 */
 	border-radius: .06rem;
-	padding-top: 2rem;
+	padding-top: 1rem;
 	padding-bottom: .5rem;
 
 	
@@ -125,4 +123,12 @@
 	width: 100%;
 	
 }
+.text3{
+	
+	
+	
+	
+	
+}
+
 
