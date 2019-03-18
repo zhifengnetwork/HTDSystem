@@ -99,6 +99,10 @@ class Index extends HomeBase
         return view();
     }
     //提币
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab8798635156ef90e5298014ce242775d719518f
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -158,12 +162,16 @@ class Index extends HomeBase
     //总收益
     public function totalrevenue()
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab8798635156ef90e5298014ce242775d719518f
         return view();
     }
     
     //分享
     public function qrcode(){
-
+        
 
         return view();
     }
