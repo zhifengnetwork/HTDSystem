@@ -125,45 +125,46 @@ function sc(){
         var files = f.files[0];//获取file组件中的文件
         rd.readAsDataURL(files);//文件读取装换为base64类型
         var name = e.currentTarget.files[0].name;
-        console.log(e.currentTarget.files.length)
         //添加图片
 //      $(".tu").append(`<img src='__public__/${name}'/>`)
         if(e.currentTarget.files.length ==1){
         	$("#wrapper").show()
+        	console.log(e.currentTarget.files)
+        	//进度条
+			var Loader = function () {    
+			  var loader = document.querySelector('.loader-container'),
+			      meter = document.querySelector('.meter'),
+			      k, i = 1,
+			      counter = function () {
+			        if (i <= 100) {   
+			          meter.innerHTML = i.toString();
+			          i++;
+			        }else if(i>=100){
+				       $("#wrapper").hide(5000)
+			        }else {
+			          window.clearInterval(k);
+			        }
+			      };
+				return {
+			  	init: function (options) {
+			      options = options || {};
+			      var time = options.time ? options.time : 0,
+				        interval = time/100;
+			      
+			    	loader.classList.add('run');
+			      k = window.setInterval(counter, interval); 
+			      setTimeout(function () {        
+			      	loader.classList.add('done');
+			      }, time);
+			    },
+			  }
+			}();
+
+			Loader.init({
+			  	time: 2000
+			});
+        	
         }
     });
 	
 
-//进度条
-var Loader = function () {    
-  var loader = document.querySelector('.loader-container'),
-      meter = document.querySelector('.meter'),
-      k, i = 1,
-      counter = function () {
-        if (i <= 100) {   
-          meter.innerHTML = i.toString();
-          i++;
-        } else {
-          window.clearInterval(k);
-        }
-      };
-
-	return {
-  	init: function (options) {
-      options = options || {};
-      var time = options.time ? options.time : 0,
-	        interval = time/100;
-      
-    	loader.classList.add('run');
-      k = window.setInterval(counter, interval); 
-      setTimeout(function () {        
-      	loader.classList.add('done');
-      }, time);
-    },
-  }
-}();
-
-Loader.init({
-  	// If you have changed the @time in LESS, update this number to the corresponding value. Measured in miliseconds.
-  	time: 5000
-});

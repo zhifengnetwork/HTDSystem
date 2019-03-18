@@ -299,7 +299,7 @@ th,td{
   }
 }
 @-webkit-keyframes loader{
-	0% {
+   0% {
     width: 100%;
   }
   100% {
