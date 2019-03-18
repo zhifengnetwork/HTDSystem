@@ -10,6 +10,12 @@ use think\Loader;
 use think\Request;
 use think\Url;
 
+// 生成唯一的推广码
+function byTgNo(){
+    $order_no = substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 6);
+    return $order_no;
+}
+
 function wallet_name($id)
 {
     $currency = db('currency')->where(['id'=>$id])->find();

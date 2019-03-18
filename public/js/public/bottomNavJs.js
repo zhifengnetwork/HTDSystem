@@ -16,7 +16,7 @@ var bottomTabArrTwo = [
 var buttonNavUrl = [
 	"'/index/index.html'",
 	"'/index/wallet/wallet.html'",
-	"'/index/my/my.html'",
+	"'/index/login/'",
 ];
 /*底部nav-title_按循序*/
 var buttonNavTitle = [

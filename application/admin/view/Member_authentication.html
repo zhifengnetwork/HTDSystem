@@ -1,0 +1,64 @@
+{extend name="base" /} {block name="body"}
+<div class="admin-main layui-form">
+    <div class="layui-field-box">
+        <hr>
+        <table class="layui-table admin-table">
+            <thead>
+            <tr>
+                <th style="width: 30px;">ID</th>
+                <th>账号</th>
+                <th>身份证正面照</th>
+                <th>身份证反面照</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name="list" item="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.mobile}--{$vo.username}</td>
+                <td><img src="{$vo.idcard_url}" style="width:100px; height: 100px;"></td>
+                <td><img src="{$vo.idcard_url}" style="width:100px; height: 100px;"></td>
+                <td>
+                    <button href="" onclick="exchange({$vo.id})">审核</button>
+                    <!--<a href="javascript:;" data-url="{:url('admin/Member/check',['id'=>$vo['id']])}" class="checkIdphoto layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>-->
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        <!--分页-->
+
+    </div>
+</div>
+{/block} {block name="page"}
+<div class="btable-paged">
+    <div class="layui-main">
+        {$list->render()}
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    function exchange(obj){
+        var url = '/admin/Member/check/id/'+obj;
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            error: function () {
+                alert('操作失败');
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    alert(data.msg);
+
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title class="pageTopTitle" page-id="1">钱包</title>
+    <script src="__PUBLIC__/js/public/rem.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/wallet/wallet.css"/>
+    <link rel="stylesheet"  href="__PUBLIC__/font/iconfont.css"/>
+    
+</head>
+<body>
+    <div class="user">
+        <!--<div class="header-zp">
+            <h3>总收益</h3>
+        </div>-->
+        <div class="zjy_box">
+        	<ul class="zjy_ul">
+        		<li class="on">我的钱包</li>
+        		<li>交易历史</li>
+        		<!--<li>终止交易</li>-->
+        	</ul>
+        	<div class="zjy_box_conten">
+        		<div class="zjy_box_conten_item avtive">
+        			<div class="bag-wrap">
+						<div class="asset">总资产<span style="font-size: .3rem;"></span></div>
+					</div>					
+					<div class="amount">
+						<span>投资额度：</span><input class="inp" type="number"/>
+					</div>	
+					<div class="sum">投资</div>
+					<!--总资产-弹框-->
+					<div class="assetPopup showZ">
+						
+						<div class="det">币值详情</div>
+						
+						<div class="currency">
+								<!-- <volist name="user_wallet" id="user_wallet"> -->
+							{foreach name="user_wallet" item="user_wallet"}
+								<span>{$user_wallet.cu_id|wallet_name}：</span>
+								<span>{$user_wallet.cu_num}</span><br>
+							{/foreach}
+							<!-- </volist> -->
+						</div>
+						<i class="iconfont icon hideIcon">&#xe66f;</i>
+					</div>
+					<!--投资-弹框-->
+					<div class="assetPopup pop">
+						
+						<div class="det">币值种类</div>
+						{foreach name="htd_currency" item="htd_currency"}
+							<div class="currency ur" onclick="wallet('{$htd_currency.wallet_addr}')">
+								<span>{$htd_currency.alias_name}</span>								
+							</div>
+						{/foreach}
+						<i class="iconfont icon hideTz">&#xe66f;</i>
+					</div>
+					<!--二维码-弹框-->
+					<div class="code-up hideEvm">
+						<div class="site">							
+							<p class="hx">
+								<span>地址:</span>
+								<span id="span"></span>
+							</p>
+						</div>
+						<div class="tu">
+							<img src="__PUBLIC__/images/wallet/timg.jpg" />
+						</div>
+						<i class="iconfont shut">&#xe66f;</i>
+						
+						<input type="file" id="f"  name="f" style="display:none"/>
+						<div class="notarize" onclick="f.click()">上传凭证</div>
+						
+						<div class="notarize" onclick="sc(this);">确认投资</div>
+					</div>
+        		</div>
+        		<div class="zjy_box_conten_item">
+        			<table width="90%" border="1" cellspacing="0" cellpadding="0">
+        				<tr>
+        					<th>日期</th>
+        					<th>开盘价</th>
+        					<th>成交量</th>
+        					<th>成交金额</th>      					
+        				</tr>
+        				<tr>
+        					<td>20190314</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190315</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190316</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190317</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190318</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190319</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        				<tr>
+        					<td>20190320</td>
+        					<td>9999</td>
+        					<td>9999</td>
+        					<td>9999</td>        					
+        				</tr>
+        			</table>
+        		</div>
+        		<!--<div class="zjy_box_conten_item">
+        			<p style="text-align: center;font-size: .3rem;">暂无交易记录</p>
+        		</div>-->
+        	</div>
+        </div>
+        <!-- 底部导航 -->
+        <div class="bottomNavWrap container" id="bottomNavWrap"></div>
+    </div>
+    
+    <!--弹框-阴影-->
+	<div class="shadow"></div>
+	
+	<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__PUBLIC__/js/public/tab.js" ></script>
+	<script  src="__PUBLIC__/js/wallet/waller.js" ></script>
+	
+    <!--底部nav=>Tab功能-->
+	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
+</body>
+</html>

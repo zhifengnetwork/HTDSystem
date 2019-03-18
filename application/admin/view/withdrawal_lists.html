@@ -1,0 +1,61 @@
+{extend name="base" /} {block name="body"}
+<div class="admin-main layui-form">
+    <div class="layui-field-box">
+    	<table class="layui-table admin-table">
+            <thead>
+            <tr>
+                <th style="width: 30px;">序号</th>
+                <th>用户ID/用户名</th>
+                <th>提币的币种名称</th>
+                <th>提币数量</th>
+                <th>提币手续费</th>
+                <th>状态</th>
+                <th>电子钱包地址</th>
+                <th>电子钱包二维码</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name='info' item='vo'}
+            <tr>
+                <td>{$key+1}</td>
+                <td>{$vo.uid|user}</td>
+                <td>{$vo.cu_id|cu_name}</td>
+                <td>{$vo.cu_num}</td>
+                <td>{$vo.tb_charge|default='0'}</td>
+                <td>
+                	{switch name='$vo.status'}
+					    {case value='0'}审核中{/case}
+					    {case value='1'}通过{/case}
+					    {case value='2'}未通过{/case}
+					    {default /}default
+					{/switch}
+                </td>
+                <td>{$vo.wallet_addr}</td>
+                <td>{$vo.qrcode_addr}</td>                
+                <td>
+                	<a href="{:url('admin/Withdrawal/detail',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a>
+                    {if condition='$vo.status == 0'}
+                    	<a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Withdrawal/withdrawal_audit',['id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-sm ajax-delete">审核</a>
+                    {/if}
+                    {if condition='$vo.status == 2'}
+                    	<a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Withdrawal/del',['id'=>$vo['id']])}" data-opt="del" class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
+                    {/if}
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block} {block name="page"}
+<div class="btable-paged">
+    <div class="layui-main">
+        {$info->render()}
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript" src="__ADMIN__/js/delelement.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/audit.js"></script>
+{/block}

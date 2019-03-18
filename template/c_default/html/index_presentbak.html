@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>提币</title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+
+	</head>
+
+	<body>
+		<!-- 最大的外套 -->
+		<div class="currency_wrap">
+			<!-- 头部-s -->
+			<div class="header-zp">
+				<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+				<h3>提币</h3>
+			</div>
+			<!-- 头部-e -->
+			<!-- 固定导航-s -->
+			<div class="fixed_nav_wrap">
+				<div class="fixed_nav">
+					<div class="nav_name">
+						名称
+					</div>
+					<div class="nav_sum">
+						数量
+					</div>
+					<div class="nav_btn">
+						状态
+					</div>
+				</div>
+			</div>
+			<!-- 固定导航-e -->
+			<!-- 内容主体 -->
+			<div class="currency">
+				<!-- 列表项 -s-->
+				<div class="currency_list">
+					<!-- 商品名称 -->
+					<div class="currency_name">
+						<div class="currency_name_text">
+							Bitcoin
+						</div>
+					</div>
+					<!-- 商品数量 -->
+					<div class="currency_num">
+						66
+					</div>
+					<!-- 提取按钮 -->
+					<div class="currency_btn" onclick="send('_id1')">
+						提取
+					</div>
+				</div>
+				<!-- 列表项 -e -->
+				<!-- 列表项 -s-->
+				<div class="currency_list">
+					<!-- 商品名称 -->
+					<div class="currency_name">
+						<div class="currency_name_text">
+							Bitcoin
+						</div>
+					</div>
+					<!-- 商品数量 -->
+					<div class="currency_num">
+						66
+					</div>
+					<!-- 提取按钮 -->
+					<div class="currency_btn" onclick="send('_id2')">
+						提取
+					</div>
+				</div>
+				<!-- 列表项 -e -->
+				<!-- 提取弹框-s -->
+				<div class="popover">
+					<div class="popover_content">
+						暂时没有内容哦！
+						<div class="popover_affirm">
+							<span class="true">确认</span>
+							<span class="false">取消</span>
+						</div>
+					</div>
+				</div>
+				<!-- 提取弹框-e -->
+			</div>
+
+		</div>
+		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__PUBLIC__/js/public/base.js"></script>
+		<script>
+			/*提取 按钮*/
+			function send(_id) {
+				$('.popover').show();
+				console.log(_id);
+			}
+			$(document).ready(function() {
+				//阻止事件冒泡
+				$('.popover_content').click(function(e) {
+					e.stopPropagation();
+					$('.true').click(function() {
+						$('.popover').hide();
+					});
+					$('.false').click(function() {
+						$('.popover').hide();
+					});
+				});
+				//点击背景隐藏
+				$('.popover').click(function() {
+					$(this).hide();
+				})
+			});
+			
+		</script>
+	</body>
+
+</html>

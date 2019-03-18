@@ -44,16 +44,6 @@ layui.use(['layer','jquery','form'],function(){
 			      if(data.code == 200){
 			        layer.close(loading);
 			        layer.msg(data.msg, {icon: 1, time: 1000}, function(){
-			         // 
-			        	 if(length-1>0){
-			        		 location.reload();
-			        	  }else{
-			        		  if(page>1){
-			        			  page=page-1;
-			        			  
-			        		  }
-			        		  location.href = window.location.href+'?page='+page;// '{:url("admin_user/index")}'+page;
-			        	  }
 			          
 			        });
 			      }else{
