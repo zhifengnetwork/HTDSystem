@@ -6,12 +6,26 @@ use think\Db;
 
 class My extends HomeBase
 {
-    public function my()
+      public function my()
     {
+        
+        
+        
         $home = session('home');
-        $user = db('user')->where(['id'=>$home['id']])->find();
-        $this->assign('user',$user);
-        return $this->fetch();
+        if($home){
+            setcookie("as",1,time()+6000);
+    
+            $user = db('user')->where(['id'=>$home['id']])->find();
+            $this->assign('user',$user);
+            
+            return $this->fetch();
+        }else{
+     
+            setcookie("as",2,time()+6000);
+            
+        }
+        
+       
     }
     //退出登录
    public function index()

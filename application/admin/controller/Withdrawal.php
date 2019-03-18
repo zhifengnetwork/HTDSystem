@@ -16,7 +16,7 @@ class Withdrawal extends AdminBase
 	/** 
 	*  列表
 	*/
-	public function withdrawal_list()
+	public function lists()
 	{
 		$info = Db::name('user_extract')->order('id desc')->paginate(10);
 		$this->assign('info',$info);
@@ -25,26 +25,26 @@ class Withdrawal extends AdminBase
 	}
 
 	/** 
-	*  提现
-	*/
-	public function withdrawal()
-	{
-		// return $this->fetch();
-	}
-
-	/** 
 	*  审核
 	*/
 	public function withdrawal_audit()
 	{
-		$id = I('id/d');
-		$status = I('id/d');
+		$id = input('id/d');
+		$status = input('status/d');
+		
+		$data = array();
 
-		$info = Db::name('user_extract')->where('id',$status)->update(['status'=>$status]);
+		if ($status == 1) {
+			$data['status'] = $status;
+			
+		}else if ($status == 2) {
+			$data['status'] = $status;
+		}
 
-		if ($info != false) {
+		$info = Db::name('user_extract')->where('id',$id)->update($data);
+		if($info){
 			return json(array('code' => 200, 'msg' => '更新成功'));
-		} else {
+		}else{
 			return json(array('code' => 0, 'msg' => '更新失败'));
 		}
 	}
@@ -54,7 +54,7 @@ class Withdrawal extends AdminBase
 	*/
 	public function del()
 	{
-		$id = I('id/d');
+		$id = input('id/d');
 
 		if ($id) {
 			$bool = Db::name('user_extract')->delete($id);
@@ -65,5 +65,26 @@ class Withdrawal extends AdminBase
 		} else {
 			return json(array('code' => 0, 'msg' => '删除失败'));
 		}
+	}
+
+	/** 
+	*  详情
+	*/
+	public function detail()
+	{
+		$id = input('id/d');
+		$note = input('note/s');
+
+		if ($note) {
+			Db::name('user_extract')->where('id',$id)->update(['note' => $note]);
+		}
+
+		$detail = Db::name('user_extract')->where('id',$id)->find();
+		$currency = Db::name('currency')->where('id',$detail['cu_id'])->find();
+
+		$this->assign('detail',$detail);
+		$this->assign('currency',$currency);
+
+		return $this->fetch();
 	}
 }

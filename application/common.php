@@ -10,6 +10,12 @@ use think\Loader;
 use think\Request;
 use think\Url;
 
+// 生成唯一的推广码
+function byTgNo(){
+    $order_no = substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 6);
+    return $order_no;
+}
+
 function wallet_name($id)
 {
     $currency = db('currency')->where(['id'=>$id])->find();
@@ -2000,13 +2006,15 @@ function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account
 function getDownUserUids($uid){
     global $g_down_Uids,$i;
 	if($uid){
+        $i = 1;
         $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(0,1000)->select();
 		foreach($member_arr as $mb){
 			if($mb['id'] && $mb['id'] != $uid && $i<10){
-                $g_down_Uids[]=$mb['id'];
-                $i++;
+                $g_down_Uids[] = $mb['id'];
+                // $g_down_Uids[] = $i; // 层级
                 getDownUserUids($mb['id']);
-			}	
+            }
+            $i++;
 		}
 	}
 	return $g_down_Uids;
@@ -2026,6 +2034,28 @@ function getUpMemberIds($uid){
 		}
 	}
 	return $g_up_mids;
+}
+
+// 获取整条线的用户id
+function getLineMemberIds($uid){
+	$line_uids=array();
+	if(!$uid){
+		return $line_uids;
+	}
+	$up_uids=getUpMemberIds($uid);
+	$down_uids=getDownUserUids($uid);
+	if($up_uids&&$down_uids){
+		$line_uids=array_merge($up_uids,array($uid),$down_uids);
+	}else{
+		if($up_uids){
+			$line_uids=array_merge($up_uids,array($uid));
+		}elseif($down_uids){
+			$line_uids=array_merge(array($uid),$down_uids);
+		}else{
+			$line_uids[]=$uid;
+		}
+	}
+	return $line_uids;
 }
 
 // 获取当前用户的上级ID
@@ -2111,19 +2141,4 @@ function createWallet($uid){
     }
     return true;
 }
-
-// 直推收益 $uid静态收益的用户，$pid获得静态收益的上级用户
-// function ByDirectIncome($uid, $cu_id, $incomeNum=0){
-//     if (empty($uid)) {
-//         return true;
-//     }
-//     // 获取上级iD
-//     $pid = getUpUid($uid);
-//     if($pid){
-//         $incomeData = array(
-//             ''
-//         );
-//     }
-//     return true;
-// }
 
