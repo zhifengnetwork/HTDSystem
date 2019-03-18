@@ -99,10 +99,6 @@ class Index extends HomeBase
         return view();
     }
     //提币
-<<<<<<< HEAD
-
-=======
->>>>>>> 176e8fbb66b9e48b29c9719bf720872fb5062c8e
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -162,10 +158,6 @@ class Index extends HomeBase
     //总收益
     public function totalrevenue()
     {
-<<<<<<< HEAD
-=======
-
->>>>>>> 176e8fbb66b9e48b29c9719bf720872fb5062c8e
         return view();
     }
     
