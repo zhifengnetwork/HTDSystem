@@ -99,10 +99,6 @@ class Index extends HomeBase
         return view();
     }
     //提币
-<<<<<<< HEAD
-
-=======
->>>>>>> 176e8fbb66b9e48b29c9719bf720872fb5062c8e
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -162,17 +158,25 @@ class Index extends HomeBase
     //总收益
     public function totalrevenue()
     {
-<<<<<<< HEAD
-=======
 
->>>>>>> 176e8fbb66b9e48b29c9719bf720872fb5062c8e
         return view();
     }
     
     //分享
     public function qrcode(){
-
-
+        $id = session('user.user_id');
+//        dump($id);exit;
+        $promotion = DB::name('user')->where('id',2)->value('promotion');
+//        dump($promotion);
+        $data = array(
+            'code' => $promotion,
+//            'url' => 'http://fw.pt1130.cn/index/login/register'//
+            'url' => 'http://fw.pt1130.cn/index/login/register?code='.GET[$promotion]
+        );
+//        $url = 'http://fw.pt1130.cn/index/login/register';
+//        $this->assign('data',$data);
+        dump($data);//exit;
+        $this->assign('data',$data);
         return view();
     }
 	

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .wrapper{
     width: 100%;
     height: 100%;
@@ -119,7 +119,7 @@
 	background: -o-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
 	background: -ms-linear-gradient(top, #54d9cf 0%, #6c76bb 100%);
 }
-=======
+
 * { word-wrap: break-word; outline: none; }
 body { background: #FFF; min-width: 1000px;}
 html, body { height: 100%;}
@@ -757,4 +757,4 @@ i.ice_b{ background-position:-336px -214px;}
 .setup_select .ps-container li input[type='checkbox']{ display:none;}
 .setup_select .ps-container li label{ padding-left:20px; background:url(../images/input_checkbox.png) 2px 2px no-repeat;}
 .setup_select .ps-container li .ui-checkbox:checked+label{ background:url(../images/input_checked.png) 2px 2px no-repeat;}
->>>>>>> 63849ea6f13e9dfff6995f4d7e37cfd5a479b2ec
+
