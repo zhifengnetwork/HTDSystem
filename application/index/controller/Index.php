@@ -175,7 +175,7 @@ class Index extends HomeBase
         $data = array(
             'code' => $promotion,
 //            'url' => 'http://fw.pt1130.cn/index/login/register'//
-            'url' => 'http://fw.pt1130.cn/index/login/register?code='.GET[$promotion]
+            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
         );
 //        $url = 'http://fw.pt1130.cn/index/login/register';
 //        $this->assign('data',$data);
