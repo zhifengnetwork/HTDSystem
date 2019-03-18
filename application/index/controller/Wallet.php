@@ -12,13 +12,14 @@ class Wallet extends HomeBase
     */
     public function wallet()
     {
-        $user_id = 1;
+        $user_id = session('home.id')?session('home.id'):1;
         $users = $this->users($user_id);
+        $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
-        // dump($user_wallet);
-        $this->assign('htd_currency',$htd_currency);
+        $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
+        $this->assign('htd_currency',$htd_currency);
         $this->assign('user',$users);
         return $this->fetch();
     }
@@ -48,22 +49,65 @@ class Wallet extends HomeBase
         if($total_money!=$param['total_money']){
             return json(array('code' => 0, 'msg' => '投资金额出错'));
         }
-        p($param);
+        // 订单信息入库
+        $data = array(
+            'order_no' => byOrderNo(),
+            'uid' => seesion('home.id'),
+            'cu_id' => $cu_id,
+            'num'   => $param['num'],
+            'price' => $param['price'],
+            'total_money' => $total_money,
+            'pay_way' => 1,
+            'voucher' => 'ddddd',
+            'create_time' => time()
+        );
+        $res = Db::name('buy_order')->insert($data);
+        if(!$res){
+            return json(array('code' => 0, 'msg' => '网络异常，请稍后再试。'));
+        }
+        return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
     }
 
+    /**
+     *  获取币种列表
+     */
     private function htd_currency()
     {
-        $htd_currency = db("currency")->select();
+        $htd_currency = Db::name("currency")->select();
         if($htd_currency){
             return $htd_currency;
         }
     }
-    //获取用户币种列表
-    private function user_wallet($user_id)
-    {
+
+    /*
+    *   获取用户钱包数据
+    */
+    private function user_wallet($user_id){
+
+        if(!$user_id){
+            return false;
+        }
         $user_wallet = db('user_wallet')->where(['uid'=>$user_id])->select();
-        if($user_wallet){
-            return $user_wallet;
+        return $user_wallet;
+
+    }
+
+    /**
+     *  获取用户的投资历史订单
+     */
+    private function user_order($user_id)
+    {
+        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time')->where(['uid'=>$user_id])->select();
+        if($user_order){
+            $currency_arr = $this->htd_currency();
+            foreach($user_order as $k1=>$v2){
+                foreach($currency_arr as $k=>$v){
+                    if($v2['cu_id'] == $v['id']){
+                        $user_order[$k1]['cu_name'] = $v['alias_name'];
+                    }
+                }
+            }
+            return $user_order;
         }
     }
     /**

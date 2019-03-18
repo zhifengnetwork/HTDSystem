@@ -91,14 +91,12 @@
 						<div class="det">币值详情</div>
 						
 						<div class="currency">
-								<!-- <volist name="user_wallet" id="user_wallet"> -->
 							{foreach name="user_wallet" item="user_wallet"}
-								<p class="termBox" onclick="obtainFun('id')">
+								<p class="termBox clearfix" onclick="obtainFun('id')">
 									<span>{$user_wallet.cu_id|wallet_name}：</span>
 									<span>{$user_wallet.cu_num}</span><br>
 								</p>
 							{/foreach}
-							<!-- </volist> -->
 						</div>
 						<i class="iconfont icon hideIcon">&#xe66f;</i>
 					</div>
@@ -131,52 +129,20 @@
         			<table width="90%" border="1" cellspacing="0" cellpadding="0">
         				<tr>
         					<th>日期</th>
-        					<th>开盘价</th>
-        					<th>成交量</th>
-        					<th>成交金额</th>      					
-        				</tr>
+        					<th>币种</th>
+        					<th>数量</th>
+        					<th>单价</th>      					
+        					<th>金额</th>      					
+						</tr>
+						{foreach name="user_order" item="vo"}
         				<tr>
-        					<td>20190314</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190315</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190316</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190317</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190318</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190319</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
-        				<tr>
-        					<td>20190320</td>
-        					<td>9999</td>
-        					<td>9999</td>
-        					<td>9999</td>        					
-        				</tr>
+        					<td>{$vo.create_time|date="Ymd",###}</td>
+        					<td>{$vo.cu_name}</td>
+        					<td>{$vo.num}</td>
+        					<td>{$vo.price}</td>        					
+        					<td>{$vo.total_money}</td>        					
+						</tr>
+						{/foreach}
         			</table>
         		</div>
         		
