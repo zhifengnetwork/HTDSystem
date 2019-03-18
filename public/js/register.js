@@ -138,7 +138,7 @@ $(function(){
         function statusreferrer(){
             var $referrer = $(this)
             if($referrer.val()==""){
-                $referrer.parent().parent().prev().addClass("mistake").html(`验证码不能为空`)
+                $referrer.parent().parent().prev().addClass("mistake").html(`推荐码不能为空`)
                 return condition.referrer=false
             }else{
                 $referrer.parent().parent().prev().removeClass("mistake").html("")
