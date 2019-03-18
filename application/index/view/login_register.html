@@ -90,7 +90,7 @@
 						</div>
 					</form>
 					<div class="login-new">
-						<a href="./login.html" class="register">已有账号 登录</a>
+						<a href="{:url('login/index')}" class="register">已有账号 登录</a>
 						<a href="">用户协议</a>
 					</div>
 				</div>
@@ -175,6 +175,7 @@ var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles
 				success:function(msg){
 					if(msg.url){
 						console.log(msg.url);
+						suredAlert($('body'),msg.msg,msg.url);
 						window.location.replace(msg.url);
 					}else{
 						alert(msg.msg);
