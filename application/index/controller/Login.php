@@ -83,61 +83,86 @@ class Login extends Controller
     
     //
     
-    //注册
+  //注册
     public function regis()
     {
         $arr = $this->request->post();
 
         if($arr){
-            $usermail= $arr['usermail']."";
-            $reaa = DB::name('user')->where(['username'=>$arr['username']])->find();
-            $arrs['password'] = md5($arr['password']);
+           $usermail= $arr['usermail']."";
+       $reaa = DB::name('user')->where(['username'=>$arr['username']])->find();
+       
+       $dataa['salt'] = generate_password(18);
+       $arr['password'] = md5($arr['password'] . $dataa['salt']);
+        //$arrs['password'] = md5($arr['password']);
 
       
-            $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
-            $reac = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
+        $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+        $reac = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
 
-            $resv=DB::name('user')->where(['username'=>$arr['username'],'password'=>$arrs['password'],'usermail'=>$arr['usermail'],'mobile'=>$arr['mobile']])->find();
-            if($resv){
-                $data=array('msg'=>'账号已存在，请转往登录界面');
-                $data=json_encode($data);
-                echo $data;
-            }else if($reac){
-                $data=array('msg'=>'账号已经存在');
-                $data=json_encode($data);
-                echo $data;
-            }else if($reaa){
-                $data=array('msg'=>'用户名已经存在');
-                $data=json_encode($data);
-                echo $data;
-            }else if($reab){
-                $data=array('msg'=>'邮箱已经存在');
-                $data=json_encode($data);
-                echo $data;
-            }
-            $arr['salt'] = generate_password(18);
-            $arr['promotion'] = byTgNo();
-            $arr['password'] = md5($arr['password'] . $arr['salt']);
-            $arr['regtime'] = time();
-            dump($arr);die;
-            $res = Db('user') -> insert($arr);
-            $res = db('user')->add($arr);
-            // else if(!$reaa&&!$reab&&!$reac){
+ $resv=DB::name('user')->where(['username'=>$arr['username'],'password'=>$arr['password'],'usermail'=>$arr['usermail'],'mobile'=>$arr['mobile']])->find();
+
+
+ if($resv){
             
-            //     //兄弟，我这里能读取数据，却不能写入，写入，下面就不执行，我测试别的写法都能写入，语法也没问题
-            //     //
-            //     dump($arr);
-            //     die;
-            //     $res = db('user')->add($arr);
-            //     if($res){
-            //         $data=array('msg'=>"注册成功",'username'=>$res);
-            //         $data=json_encode($data);
-
-            //     }
-            // }   
+         //Session::set('home',$resv);
+            //setcookie("id",$resv['id'],time()+60*10);
+            
+     
+     
+     $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
+            $data=json_encode($data);
+            echo $data;
+            
+       
+           // exit;
+            
+        }else if($reac){
+            
+            $data=array('msg'=>'账号已经存在','flag'=>2);
+       $data=json_encode($data);
+            echo $data;
+         // exit;
+       
+        }else if($reaa){
+            
+            $data=array('msg'=>'用户名已经存在','flag'=>3);
+         $data=json_encode($data);
+            echo $data;
+       ///   exit;
+    
+        }else if($reab){
+            
+            $data=array('msg'=>'邮箱已经存在','flag'=>4);
+         $data=json_encode($data);
+            echo $data;
+           
+         ///  exit;
+        }else if(!$reaa&&!$reab&&!$reac){
+          
+          
+            $read=DB::name('user')->where(['promotion'=>$arr['promotion']])->find();
+            if($read){
+            
+            $arr['pid']=$read['id']; 
+            
+ 
+          DB::name('user')->insert($arr);
+            $data=array('msg'=>"注册成功",'flag'=>5);
+            $data=json_encode($data);
+            echo $data;
         }
+         //   exit;
+         
+        
+        }   
+        
+        
+         
+        }
+        
+       
     }
-
 
     public function retrieve()
     {
