@@ -6,7 +6,7 @@
 /*字体库*/
 @font-face{
 	font-family: 'PingFangMedium';
-	src: url("../../font/PingFangMedium.ttf")
+	src: "/public/font/PingFangMedium.ttf"
 }
 body {
 	width: 100%;
