@@ -16,7 +16,7 @@ $(function(){
         $(".username").blur(statusname)       //用户名
         $(".phone").blur(statusphone)         //手机
         $(".password").blur(statuspwd)        //密码
-        $(".affirmpwd").blur(affirmpwd)    //确认密码
+        $(".affirmpwd").blur(affirmpwd)       //确认密码
         $(".email").blur(statusemail)         //邮箱
         $(".verify").blur(statusverify)       //验证码
         $(".icon").click(statusicon)          //勾选
@@ -63,6 +63,7 @@ $(function(){
         function statuspwd(){
             var reg = /^[\w_-]{6,16}$/;  /*用户密码*/
             var password = $(this)
+            var pwd2 = $(".affirmpwd")
             if(password.val()==""){
                 password.parent().parent().prev().addClass("mistake").html(`密码不能为空`)
                 return condition.pwdstate=false
@@ -71,6 +72,9 @@ $(function(){
                 return condition.pwdstate=false
             }else{
                 password.parent().parent().prev().removeClass("mistake").html("") 
+                if(pwd2.val() != ""){
+                    $(".affirmpwd").blur()  
+                }
                 return condition.pwdstate=true
             }
          }
@@ -80,7 +84,7 @@ $(function(){
              var $pwd =  $(".password").val() 
              var $pwd2 = $(this)
              if($pwd2.val() == ""){
-                $pwd2.parent().parent().prev().addClass("mistake").html(`*确认密码不能为空`)
+                $pwd2.parent().parent().prev().addClass("mistake").html(`*两次输入的密码不一致`)
                 return condition.inconsistent=false
              }else if($pwd2.val()!=$pwd){
                 $pwd2.parent().parent().prev().addClass("mistake").html(`*输入密码不一致`)
@@ -158,6 +162,7 @@ $(function(){
                 return condition.phonestate=false
             }else
                createCode()
+               $(".verify").focus();
                console.log(code)
                 daojishi(60,$(this))
                 $(".phone").attr("disabled","disabled") 
