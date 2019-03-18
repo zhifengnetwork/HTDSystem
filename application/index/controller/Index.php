@@ -129,18 +129,14 @@ class Index extends HomeBase
 
     // 提币
     public function pick(){
-        $base = new Base();
         $data   = input();
-        if(empty($data['number'])){
-            $base->ajaxReturn(['status' => 2, 'msg' =>'请输入货币数量', 'result' =>'']);
-        }
         $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
         $where1 = [
             'uid' => $data['uid'],
             'cu_id' => $data['cu_id'],
             'cu_num' => $data['number']                 
         ];
-        
+        $base = new Base();
         if($data['remain_num']<$data['number']){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
         }else if($data['remain_num']<=50){
@@ -164,7 +160,19 @@ class Index extends HomeBase
     
     //分享
     public function qrcode(){
-        
+        $id = session('user.user_id');
+//        dump($id);exit;
+        $promotion = DB::name('user')->where('id',2)->value('promotion');
+//        dump($promotion);
+        $data = array(
+            'code' => $promotion,
+//            'url' => 'http://fw.pt1130.cn/index/login/register'//
+            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
+        );
+//        $url = 'http://fw.pt1130.cn/index/login/register';
+//        $this->assign('data',$data);
+        dump($data);//exit;
+        $this->assign('data',$data);
 
         return view();
     }

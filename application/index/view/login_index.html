@@ -51,30 +51,16 @@
 	<script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
 	<script src="__PUBLIC__/plugins/layui/layui.js" type="text/javascript"></script>
 	<script src="__PUBLIC__/js/login/login.js"></script>
-	<!-- <script src="__PUBLIC__/js/public/publicAlert.js"></script> -->
+	<script src="__PUBLIC__/js/public/publicAlert.js"></script>
 </html>
 
 <script>
 
 	$("#btn").click(function(){
 
-		var mobile = $.trim($("#mobile").val());
+		var mobile = $.trim($("#phone").val());
 
 		var password = $.trim($("#password").val());
-
-		if(mobile == ""){
-
-			alert("请输入用户名");
-
-			return false;
-
-		}else if(password == ""){
-
-			alert("请输入密码");
-
-			return false;
-
-		}
 
 	//ajax去服务器端校验
 
@@ -91,8 +77,9 @@
 			dataType:'json',
 
 			success:function(msg){
-
-				alert(msg.msg);
+				console.log(msg);
+				suredAlert($('body'),msg.msg,msg.url);
+				// alert(msg.msg);
 
 				window.location.href=window.location;
 

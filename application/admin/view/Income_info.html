@@ -38,7 +38,7 @@
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$key+1}</td>
-                <td>{$vo.id}/{$vo.username}</td>
+                <td>{$vo.uid}/{$vo.username}</td>
                 <td>{$vo.alias_name}&nbsp;&nbsp;&nbsp;{$vo.note}</td>
                 <td>{$vo.price}</td>
                 <td>投资金额</td>
@@ -46,7 +46,10 @@
                 <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
                 <!--<td><button id="vou" data-method="photos" class="layui-btn">查看</button></td>-->
                 <td><a href="{$vo.voucher}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a></td>
-                <td>{$vo.pay_way}</td>
+                <td>{switch name='$vo.pay_way'}
+                    {case value='1'}发票{/case}
+                    {case value='2'}账户余额{/case}
+                    {/switch}</td>
                 <td>
                     <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Income/check',['id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
                 </td>

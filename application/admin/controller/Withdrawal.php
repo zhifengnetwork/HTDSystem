@@ -31,7 +31,6 @@ class Withdrawal extends AdminBase
 	{
 		$id = input('id/d');
 		$status = input('status/d');
-		$note = input('note/s');
 		
 		$data = array();
 
@@ -42,10 +41,6 @@ class Withdrawal extends AdminBase
 			$data['status'] = $status;
 		}
 
-		if ($note) {
-			$data['note'] = $note;
-		}
-		
 		$info = Db::name('user_extract')->where('id',$id)->update($data);
 		if($info){
 			return json(array('code' => 200, 'msg' => '更新成功'));
@@ -78,6 +73,11 @@ class Withdrawal extends AdminBase
 	public function detail()
 	{
 		$id = input('id/d');
+		$note = input('note/s');
+
+		if ($note) {
+			Db::name('user_extract')->where('id',$id)->update(['note' => $note]);
+		}
 
 		$detail = Db::name('user_extract')->where('id',$id)->find();
 		$currency = Db::name('currency')->where('id',$detail['cu_id'])->find();
