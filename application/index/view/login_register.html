@@ -143,33 +143,22 @@ var datas={username:userName,password:password,usermail:userEmail,mobile:mobiles
 
 
 //alert(userName+"/"+password+"/"+userEmail+"/"+mobiles+"/"+promotions);
-		
 			$.ajax({
-
 				type:"POST",
-
 				url:"{:url('index/login/regis')}",
-
 				data:datas,
 				dataType:'json',
 				success:function(msg){
-
-					alert(msg.msg);
-
-
-
+					if(msg.url){
+						console.log(msg.url);
+						window.location.replace(msg.url);
+					}else{
+						alert(msg.msg);
+					}
 				}
-
 			});
-		 
-		
-		 
-  	  
     }else if(password!=passworda){
-	
-	 alert("密码不一致，请重新输入");
-	
-	
+	 		alert("密码不一致，请重新输入");
 	}
     
     
