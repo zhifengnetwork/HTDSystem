@@ -1,35 +1,46 @@
 $(document).ready(function(){
-	$(".asset").on("click",function(){
+	
+	/*点击出现-币种详情*/
+	$(".wtf_xiala").on('click',function(){
 		$(".showZ").show();
 		$(".shadow").show();
 	})
-	$(".hideIcon").on("click",function(){
+	
+	/*关闭-币值详情*/
+	$(".hideIcon").on('click',function(){
 		$(".showZ").hide();
 		$(".shadow").hide();
 	})
-	$(".sum").on("click",function(){
-		$(".pop").show();
+	/*投资-按钮*/
+	$('.sum').on('click',function(){
+		console.log(111)
+		$(".hideEvm").show();
+		/*蒙版*/
 		$(".shadow").show();
 	})
-	$(".hideTz").on("click",function(){
-		$(".pop").hide();
+	/*二维码-弹框-关闭*/
+	$('.shut').on('click',function(){
+		$(".hideEvm").hide();
 		$(".shadow").hide();
 	})
-	$(".ur").on("click",function(){
-		$(".code-up").show();
-		$(".pop").hide();
-	})
-	$(".shut").on('click',function(){
-		$(".code-up").hide();
-		$(".shadow").hide();
-	})
+	
 })
 
-
+/*获取对应的币值*/
+function obtainFun(_id){
+	console.log(1111,_id);
+	/*关闭弹窗*/
+	$(".showZ").hide();
+	$(".shadow").hide();
+	
+	/*ajax*/
+	
+}
 function wallet(aaa){
 	$("#span").html(aaa);
 	console.log(aaa);	
 }
+
 function sc(){
 	var animateimg = $("#f").val(); //获取上传的图片名 带//
 	var imgarr=animateimg.split('\\'); //分割
@@ -125,45 +136,46 @@ function sc(){
         var files = f.files[0];//获取file组件中的文件
         rd.readAsDataURL(files);//文件读取装换为base64类型
         var name = e.currentTarget.files[0].name;
-        console.log(e.currentTarget.files.length)
         //添加图片
 //      $(".tu").append(`<img src='__public__/${name}'/>`)
         if(e.currentTarget.files.length ==1){
         	$("#wrapper").show()
+        	console.log(e.currentTarget.files)
+        	//进度条
+			var Loader = function () {    
+			  var loader = document.querySelector('.loader-container'),
+			      meter = document.querySelector('.meter'),
+			      k, i = 1,
+			      counter = function () {
+			        if (i <= 100) {   
+			          meter.innerHTML = i.toString();
+			          i++;
+			        }else if(i>=100){
+				       $("#wrapper").hide(5000)
+			        }else {
+			          window.clearInterval(k);
+			        }
+			      };
+				return {
+			  	init: function (options) {
+			      options = options || {};
+			      var time = options.time ? options.time : 0,
+				        interval = time/100;
+			      
+			    	loader.classList.add('run');
+			      k = window.setInterval(counter, interval); 
+			      setTimeout(function () {        
+			      	loader.classList.add('done');
+			      }, time);
+			    },
+			  }
+			}();
+
+			Loader.init({
+			  	time: 2000
+			});
+        	
         }
     });
 	
 
-//进度条
-var Loader = function () {    
-  var loader = document.querySelector('.loader-container'),
-      meter = document.querySelector('.meter'),
-      k, i = 1,
-      counter = function () {
-        if (i <= 100) {   
-          meter.innerHTML = i.toString();
-          i++;
-        } else {
-          window.clearInterval(k);
-        }
-      };
-
-	return {
-  	init: function (options) {
-      options = options || {};
-      var time = options.time ? options.time : 0,
-	        interval = time/100;
-      
-    	loader.classList.add('run');
-      k = window.setInterval(counter, interval); 
-      setTimeout(function () {        
-      	loader.classList.add('done');
-      }, time);
-    },
-  }
-}();
-
-Loader.init({
-  	// If you have changed the @time in LESS, update this number to the corresponding value. Measured in miliseconds.
-  	time: 5000
-});

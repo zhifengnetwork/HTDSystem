@@ -12,6 +12,7 @@ layui.use(['layer','jquery','form'],function(){
 			var length= jq('.admin-table #content tr').length;
 
 			layer.open({
+				title:'安全提示',
 				type:1,
 				content:'<div style="padding:15px 0px 10px 20px;font-size:14px">通过审核?</div>',
 				time:5000,
