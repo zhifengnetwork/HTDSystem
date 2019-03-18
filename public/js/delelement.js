@@ -36,9 +36,7 @@ layui.use(['layer','jquery','form'],function(){
   layer.confirm('你确定要删除该条数据吗?', {icon: 3, title:'删除提示'}, function(index){
 		    loading = layer.load(2, {
 			      shade: [0.2,'#000']
-			    });
-		   
-			  
+			    });			  
 			    jq.getJSON(url,function(data){
 			    	
 			      if(data.code == 200){
