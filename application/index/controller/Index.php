@@ -99,14 +99,10 @@ class Index extends HomeBase
         return view();
     }
     //提币
-    public function present()
-    {
 
-<<<<<<< HEAD
     public function present(){
-        // $base = new Base();
         // if (!session('userid')) {
-        // $base->ajaxReturn('{"code":0,"msg":"登录后才能操作"}');
+        //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
         // $userid = session('userid');
         $userid = 2;
@@ -147,7 +143,7 @@ class Index extends HomeBase
         $base = new Base();
         if($data['remain_num']<$data['number']){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-        }else if($data['remain_num']<=2){
+        }else if($data['remain_num']<=50){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50才能体现', 'result' =>'']);        
         }else{
             // 先计算剩余货币数量
@@ -160,15 +156,9 @@ class Index extends HomeBase
         }
     }
 
-    public function directDrive(){
-=======
-        return view();
-    }
-
     //总收益
     public function totalrevenue()
     {
->>>>>>> 60d8c445bdbbf45d10b35b14a7a89e3741bbbd00
         return view();
     }
     

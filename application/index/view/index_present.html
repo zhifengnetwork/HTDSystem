@@ -9,7 +9,8 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
-
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>\
+		<script src="__PUBLIC__/js/delelement.js"></script>
 	</head>
 
 	<body>
@@ -39,50 +40,48 @@
 			<!-- 内容主体 -->
 			<div class="currency">
 				<!-- 列表项 -s-->
-				<div class="currency_list">
-					<!-- 商品名称 -->
-					<div class="currency_name">
-						<div class="currency_name_text">
-							Bitcoin
-						</div>
-					</div>
-					<!-- 商品数量 -->
-					<div class="currency_num">
-						66
-					</div>
-					<!-- 提取按钮 -->
-					<div class="currency_btn" onclick="send('_id1')">
-						提取
-					</div>
-				</div>
+
 				<!-- 列表项 -e -->
 				<!-- 列表项 -s-->
+				{foreach name="list" item="v"}
 				<div class="currency_list">
 					<!-- 商品名称 -->
-					<div class="currency_name">
-						<div class="currency_name_text">
-							Bitcoin
+					
+						<div class="currency_name">
+							<div class="currency_name_text">
+								{$v.note}
+							</div>
 						</div>
-					</div>
-					<!-- 商品数量 -->
-					<div class="currency_num">
-						66
-					</div>
-					<!-- 提取按钮 -->
-					<div class="currency_btn" onclick="send('_id2')">
-						提取
-					</div>
+						<!-- 商品数量 -->
+						<div class="currency_num">
+							 {$v.cu_num}
+						</div>
+						<!-- 提取按钮 -->
+						<div class="currency_btn" onclick="send({$v.cu_id},{$v.cu_num})">
+							提取
+						</div>
+					
 				</div>
+				{/foreach}
 				<!-- 列表项 -e -->
 				<!-- 提取弹框-s -->
 				<div class="popover">
+					<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 					<div class="popover_content">
-						暂时没有内容哦！
+						<input type="hidden" name="uid" id="uid" value="{$uid}">
+						<input type="hidden" name="cu_id" id="cu_id" value="">
+						<input type="hidden" name="remain_num" id="remain_num" value="">
+						请输入提取金额:<input id="popover_num" type="number" name="number" onblur="exchange(this)" value="" />
+						<br />
+						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
 						<div class="popover_affirm">
-							<span class="true">确认</span>
+							<!-- <button>确认</button>
+							<button>取消</button> -->
+							<a onclick="verifyForm()" class="ncap-btn-big ncap-btn-green"><span class="true">确认</span></a>
 							<span class="false">取消</span>
 						</div>
 					</div>
+					</form>
 				</div>
 				<!-- 提取弹框-e -->
 			</div>
@@ -92,9 +91,13 @@
 		<script src="__PUBLIC__/js/public/base.js"></script>
 		<script>
 			/*提取 按钮*/
-			function send(_id) {
+			function send(cu_id,remain_num) {
+
+
 				$('.popover').show();
-				console.log(_id);
+				$('#cu_id').val(cu_id);
+				$('#remain_num').val(remain_num);
+				
 			}
 			$(document).ready(function() {
 				//阻止事件冒泡
@@ -102,9 +105,11 @@
 					e.stopPropagation();
 					$('.true').click(function() {
 						$('.popover').hide();
+						
 					});
 					$('.false').click(function() {
 						$('.popover').hide();
+
 					});
 				});
 				//点击背景隐藏
@@ -112,7 +117,57 @@
 					$(this).hide();
 				})
 			});
-			
+
+			function verifyForm(){
+
+			$.ajax({
+				type: "POST",
+				url: "{:url('Index/pick')}",
+				data: $('#handleposition').serialize(),
+				dataType: "json",
+				error: function () {
+                		alert('操作失败');
+            	},
+				success: function (data) {
+					if (data.status == 1) {
+                            alert(data.msg);
+							window.location.reload(); 
+					
+					} else {
+							alert(data.msg);
+							window.location.reload(); 
+					}
+				}
+			});
+		}
+
+		function exchange(obj){
+			var val=$(obj).val();
+			var cu_id=$('#cu_id').val();
+			var a = "{:url('Index/exchange')}"
+			var url = '/index/Index/exchange/val/'+val+'/cu_id/'+cu_id;
+			$.ajax({
+				type: "POST",
+				url: url,
+				dataType: "json",
+				error: function () {
+                		alert('操作失败');
+            	},
+				success: function (data) {
+					if (data.status == 1) {
+							$('#popover_convert').val(data.result);
+                            // alert('aaaa');
+							// window.location.reload(); 
+					
+					} else {
+							alert(data.msg);
+							// alert('bbbb');
+							// window.location.reload(); 
+					}
+				}
+			});			
+		}		
+
 		</script>
 	</body>
 
