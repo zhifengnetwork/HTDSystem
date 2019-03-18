@@ -7,7 +7,7 @@
 <div class="layui-tab-brief">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/Withdrawal/withdrawal_audit',['id'=>$detail['id']])}"  enctype="multipart/form-data">
+            <form class="layui-form form-container" id="myform" method="post" action="{:url('admin/Withdrawal/detail',['id'=>$detail['id']])}"  enctype="multipart/form-data">
             	<div class="layui-container">
             		<div class="layui-row">
             			<div class="layui-col-xs1">
@@ -135,7 +135,7 @@
 					      		<textarea placeholder="请输入内容" id="txt" name="note" value="{$detail.note}" class="layui-textarea">{$detail.note}</textarea>
 					      	</div>
 					    </div>
-					    <!-- <button class="layui-btn" id="sub">提交</button> -->
+					    <button class="layui-btn layui-btn-sm" id="sub">提交备注</button>
 					</div>
 					<hr>
 				</div>
@@ -156,36 +156,4 @@
 {/block}
 {block name="js"}
 	<script type="text/javascript" src="__ADMIN__/js/audit.js"></script>
-	<script type="text/javascript">
-		
-		// $("#sub").click(function(){
-	 //        var text=$(".txt");
-	 //        console.log(text);
-	 //        if(text.val()== ''){
-	 //            alert("输入框不能为空");
-	 //            return false;
-	 //        }
-	 //        document.forms[0].submit();
-	 //    });
-
-	 //    function ajaxPost(){
-	 //        var formData = $("#myform").serialize();
-	 //        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法
-	 //        $.ajax({
-	 //        	console.log(12);
-	 //            type:"post",
-	 //            url:"{:url('admin/Withdrawal/withdrawal_audit')}",  //数据传输的控制器方法
-	 //            data:formData,//这里data传递过去的是序列化以后的字符串
-	 //            success:function(data){
-	 //            	console.log(data);
-	 //            	if (data.code == 200) {
-	 //            		layer.msg(data.msg, {icon: 2, anim: 6, time: 3000});
-	 //            	} else {
-	 //            		layer.msg(data.msg, {icon: 2, anim: 6, time: 3000});
-	 //            	}
-	            	
-	 //            }
-	 //        });
-	 //    }
-	</script>
 {/block}

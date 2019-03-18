@@ -40,19 +40,3 @@ function balance($user_id){
 
 	return $balance;
 }
-
-function cu_price($cu_id){
-	$price = Db::name('currency')->where('id',$cu_id)->value('price');
-
-	$price = $price ? $price : 0;
-
-	return $price;
-}
-
-function cu_status($cu_id){
-	$status = Db::name('currency')->where('id',$cu_id)->value('status');
-
-	$status = $status ? $status : 0;
-
-	return $status;
-}
