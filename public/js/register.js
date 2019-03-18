@@ -87,7 +87,7 @@ $(function(){
                 return condition.inconsistent=false
              }else{
                 $pwd2.parent().parent().prev().removeClass("mistake").html("") 
-                return condition.pwdstate=true
+                return condition.inconsistent=true
              }
         }
     
@@ -217,8 +217,15 @@ $(function(){
         let rec = $(".recommend")      //推荐人
         let verify = $(".verify")      //验证码
         let body = $("body")
+        
+        
+        if(condition.username&&condition.phonestate&&condition.pwdstate&&condition.inconsistent&&condition.emailstate&&condition.iconstate&&condition.securitycode&&condition.referrer){
+                
+                suredAlert(body,"注册成功~");
+                return
+        }else{
         //注册用户名
-        if (userName.val() == ""){       //用户名为空
+            if (userName.val() == ""){       //用户名为空
                 suredAlert(body,"用户名不能为空~");
                 userName.focus()
                 return 
@@ -290,6 +297,8 @@ $(function(){
             suredAlert(body,"请勾选用户协议~");
             return
         }
+        }
+       
         
     
        
