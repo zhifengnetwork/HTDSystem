@@ -22,7 +22,7 @@
                 <td>{$vo.uid|user}</td>
                 <td>{$vo.cu_id|cu_name}</td>
                 <td>{$vo.cu_num}</td>
-                <td>{$vo.tb_charge}</td>
+                <td>{$vo.tb_charge|default='0'}</td>
                 <td>
                 	{switch name='$vo.status'}
 					    {case value='0'}审核中{/case}
@@ -34,13 +34,13 @@
                 <td>{$vo.wallet_addr}</td>
                 <td>{$vo.qrcode_addr}</td>                
                 <td>
+                	<a href="{:url('admin/Withdrawal/detail',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a>
                     {if condition='$vo.status == 0'}
                     	<a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Withdrawal/withdrawal_audit',['id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-sm ajax-delete">审核</a>
                     {/if}
                     {if condition='$vo.status == 2'}
                     	<a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Withdrawal/del',['id'=>$vo['id']])}" data-opt="del" class="elementdel layui-btn layui-btn-danger layui-btn-sm ajax-delete">删除</a>
                     {/if}
-                    <a href="{:url('admin/Withdrawal/withdrawal_detail',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a>
                 </td>
             </tr>
             {/foreach}
@@ -57,7 +57,8 @@
 {/block}
 {block name="js"}
 <script type="text/javascript" src="__ADMIN__/js/delelement.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="__ADMIN__/js/audit.js"></script>
+<!-- <script type="text/javascript">
 	layui.use(['layer','jquery','form'],function(){
 		var layer = layui.layer
 		, form = layui.form
@@ -133,5 +134,5 @@
 			})
 		});	
   	});
-</script>
+</script> -->
 {/block}
