@@ -9,7 +9,10 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
-
+		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
+		<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
+	
 	</head>
 
 	<body>
@@ -39,50 +42,43 @@
 			<!-- 内容主体 -->
 			<div class="currency">
 				<!-- 列表项 -s-->
+				{foreach name="list" item="v"}
 				<div class="currency_list">
 					<!-- 商品名称 -->
-					<div class="currency_name">
-						<div class="currency_name_text">
-							Bitcoin
+					
+						<div class="currency_name">
+							<div class="currency_name_text">
+								{$v.note}
+							</div>
 						</div>
-					</div>
-					<!-- 商品数量 -->
-					<div class="currency_num">
-						66
-					</div>
-					<!-- 提取按钮 -->
-					<div class="currency_btn" onclick="send('_id1')">
-						提取
-					</div>
-				</div>
-				<!-- 列表项 -e -->
-				<!-- 列表项 -s-->
-				<div class="currency_list">
-					<!-- 商品名称 -->
-					<div class="currency_name">
-						<div class="currency_name_text">
-							Bitcoin
+						<!-- 商品数量 -->
+						<div class="currency_num">
+							 {$v.cu_num}
 						</div>
-					</div>
-					<!-- 商品数量 -->
-					<div class="currency_num">
-						66
-					</div>
-					<!-- 提取按钮 -->
-					<div class="currency_btn" onclick="send('_id2')">
-						提取
-					</div>
+						<!-- 提取按钮 -->
+						<div class="currency_btn" onclick="send({$v.cu_id},{$v.cu_num})">
+							提取
+						</div>
+					
 				</div>
+				{/foreach}
 				<!-- 列表项 -e -->
 				<!-- 提取弹框-s -->
 				<div class="popover">
+					<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 					<div class="popover_content">
-						暂时没有内容哦！
+						<input type="hidden" name="uid" id="uid" value="{$uid}">
+						<input type="hidden" name="cu_id" id="cu_id" value="">
+						<input type="hidden" name="remain_num" id="remain_num" value="">
+						请输入提取金额:<input id="popover_num" type="number" name="number" onchange="exchange(this)" value="" />
+						<br />
+						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
 						<div class="popover_affirm">
-							<span class="true">确认</span>
+							<span id="true" class="true">确认</span>
 							<span class="false">取消</span>
 						</div>
 					</div>
+					</form>
 				</div>
 				<!-- 提取弹框-e -->
 			</div>
@@ -92,9 +88,11 @@
 		<script src="__PUBLIC__/js/public/base.js"></script>
 		<script>
 			/*提取 按钮*/
-			function send(_id) {
+			function send(cu_id,remain_num) {
 				$('.popover').show();
-				console.log(_id);
+				$('#cu_id').val(cu_id);
+				$('#remain_num').val(remain_num);
+				
 			}
 			$(document).ready(function() {
 				//阻止事件冒泡
@@ -102,9 +100,11 @@
 					e.stopPropagation();
 					$('.true').click(function() {
 						$('.popover').hide();
+						
 					});
 					$('.false').click(function() {
 						$('.popover').hide();
+
 					});
 				});
 				//点击背景隐藏
@@ -112,7 +112,51 @@
 					$(this).hide();
 				})
 			});
+		function exchange(obj){
+			var val=$(obj).val();
+			var cu_id=$('#cu_id').val();
+			var a = "{:url('Index/exchange')}"
+			var url = '/index/Index/exchange/val/'+val+'/cu_id/'+cu_id;
+			$.ajax({
+				type: "POST",
+				url: url,
+				dataType: "json",
+				error: function () {
+                		alert('操作失败');
+            	},
+				success: function (data) {
+					if (data.status == 1) {
+							$('#popover_convert').val(data.result);
+					} else {
+							alert(data.msg); 
+					}
+				}
+			});			
+		}	
 			
+		layui.use(['layer','jquery','form'],function(){
+		var layer = layui.layer
+		, form = layui.form
+		,jq = layui.jquery;
+		jq('#true').click(function(){	  
+					var url = "{:url('Index/pick')}";
+					var datas =  $('#handleposition').serialize();
+					jq.getJSON(url,datas,function(data){						
+							if (data.status == 1) {
+								layer.msg(data.msg, {icon: 1, time: 3000}, function(){					
+									window.location.reload(); 
+									});
+														
+								} else {
+									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
+									layer.msg(data.msg, {icon: 2, time: 3000}, function(){					
+									window.location.reload(); 
+									});
+										// window.location.reload(); 
+								}
+						});
+			});  	  
+		});		
 		</script>
 	</body>
 
