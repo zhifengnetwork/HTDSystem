@@ -32,7 +32,7 @@
 				<div class="header">
 					<img src="../../../public/images/default.png" class="headportrait"/>
 					<br/>
-					<p class="nickname">安雅兮</span>
+					<p class="nickname">{$user.username}</span>
 				</div>
 				
 				
@@ -44,13 +44,13 @@
 							<div class="usernameear">
 								<div class="left"><img src="__PUBLIC__/images/my/youxiang.png" /></div>
 								<span class="username">电邮:</span>
-								<span class="text" style="color: #8CFFFF;">{$user.username}</span>
+								<span class="text" style="color: #8CFFFF;">{$user.usermail}</span>
 							</div>
 							<div class="usernameear">
 								
 								<div class="left"><img src="__PUBLIC__/images/my/shouji.png" /></div>
 								<span class="username">电话号码:</span>
-								<span class="text">{$user.usermail}</span>
+								<span class="text">{$user.mobile}</span>
 							</div>
 							<div class="usernameear">
 								<div class="left"><img src="__PUBLIC__/images/my/ren.png" /></div>
@@ -67,7 +67,7 @@
 			</div>
 		</div>
 		<!-- 底部导航 -->
-		<div class="bottomNavWrap container" id="bottomNavWrap" data-state={$ss}></div>
+		<div class="bottomNavWrap container" id="bottomNavWrap" ></div>
 
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.js"></script>
 		<script src="__PUBLIC__/js/my/my.js"></script>
