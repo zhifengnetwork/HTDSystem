@@ -86,7 +86,7 @@ function sc(){
 					}  
 					
 			});  
-		console.log(file);
+		//console.log(file);
 			// $.ajax({  
 			// 		url: "http://www.szpt.com/index/wallet/uppic", 
 			// 		type: 'POST',  
@@ -113,7 +113,7 @@ function sc(){
 			// 				layer.msg('上传失败');
 			// 		}  
 			// });  
-			return false;
+			//return false;
 		 }  
 	}
 	
@@ -147,17 +147,13 @@ var Loader = function () {
           window.clearInterval(k);
         }
       };
-	
+
 	return {
   	init: function (options) {
       options = options || {};
       var time = options.time ? options.time : 0,
 	        interval = time/100;
-	     console.log($(".loader-container").width())
-	     if ($(".loader-container").width() == 300) {
-        	$("#wrapper").hide()
-	     	
-	     }
+      
     	loader.classList.add('run');
       k = window.setInterval(counter, interval); 
       setTimeout(function () {        
@@ -167,9 +163,7 @@ var Loader = function () {
   }
 }();
 
-Loader.init(
-	{
-  	time: 3000,
-  	}
-  		
-	);
+Loader.init({
+  	// If you have changed the @time in LESS, update this number to the corresponding value. Measured in miliseconds.
+  	time: 5000
+});

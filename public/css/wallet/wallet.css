@@ -1,6 +1,9 @@
 body {
 	overflow: hidden;
 }
+.active{
+	display: block !important;
+}
 .zjy_box{
 	width: 100%;
 	position: relative;
@@ -210,7 +213,7 @@ th,td{
 /*进度条*/
 .loader-container {
   height: 6px;
-  width: 6rem;
+  width: 44%;
   position: absolute;
   top: 60%;
   left: 50%;
@@ -304,8 +307,6 @@ th,td{
   }
 }
 
-
-<<<<<<< HEAD
 @keyframes meter {
   0% {
     color: #5bd8ff;
@@ -354,11 +355,11 @@ footer a {
   border: none;
 }
 #wrapper {
-  width: 600px;
+  width: 6rem;
   margin: 0 auto;
   display: none;
 }
-=======
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -374,4 +375,4 @@ input::-webkit-inner-spin-button {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
->>>>>>> 621411c0f733b6ab41d9b39d0a7c4e41e09bc6be
+
