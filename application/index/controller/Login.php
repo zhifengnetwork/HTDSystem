@@ -61,9 +61,6 @@ class Login extends Controller
         $promotion = input('get/d');
         $this->assign('promotion',$promotion);
         return $this->fetch();
-        
-
-        
     }
     
     
@@ -115,7 +112,7 @@ class Login extends Controller
                 }
             }   
             $data = json_encode($data);
-            echo $data;
+            // echo $data;
         }
     }
 
