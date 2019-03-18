@@ -99,10 +99,6 @@ class Index extends HomeBase
         return view();
     }
     //提币
-<<<<<<< HEAD
-=======
-
->>>>>>> cec204c9de6c5327e838a04b5dc88aa3abbac9d7
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
