@@ -32,3 +32,11 @@ function mobile($user_id){
 
 	return $mobile;
 }
+
+function balance($user_id){
+	$balance = Db::name('user')->where('id',$user_id)->value('balance');
+
+	$balance = $balance ? $balance : 0;
+
+	return $balance;
+}
