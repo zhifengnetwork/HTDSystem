@@ -17,9 +17,13 @@ class Wallet extends HomeBase
         $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
+        // 获取最低投资金额
+        $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
+		$min_money = arr2name($min_money);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
+        $this->assign('min_money',$min_money['price_min1']['value']);
         $this->assign('user',$users);
         return $this->fetch();
     }

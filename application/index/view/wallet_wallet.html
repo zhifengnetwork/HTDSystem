@@ -39,47 +39,47 @@
 					
 					<div class="wtf_xiala">
 							<p><!--<img src="../../../public/images/wallet/wtf_tx.jpg" />--></p>
-							<p style="margin-left: 0.1rem;width: 25%;">Cardano</p>
-							<p style="width: 53%;text-align: right;">0.00000000</p>
-							<p class="p1" style="color: #7596d8;">ADA</p>
+							<p style="margin-left: 0.1rem;width: 25%;">选择币种</p>
+							<p style="width: 53%;text-align: right;"></p>
+							<p class="p1" style="color: #7596d8;">CNY</p>
 							<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.15rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
 					</div>
-						<div class="wtf_item2">
-						<div class="wtf_item2_div">
-							<p>配套额度</p >
-							<div class="wtf_item2_c">
-								<p>0.00000000</p >
-								<p>ADA</p >
-							</div>
-						</div>
+					<div class="wtf_item2">
 					<div class="wtf_item2_div">
-							<p>奖励钱包</p >
-							<div class="wtf_item2_c">
-								<p>0.00000000</p >
-								<p>ADA</p >
-							</div>
+						<p>投资最低额度</p >
+						<div class="wtf_item2_c">
+							<p>{$min_money}</p >
+							<p>CNY</p >
 						</div>
+					</div>
 					<div class="wtf_item2_div">
-							<p>激活钱包</p >
-							<div class="wtf_item2_c">
-								<p>0.00000000</p >
-								<p>ADA</p >
-							</div>
+						<p>当前投资额度</p >
+						<div class="wtf_item2_c">
+							<p>0.00</p >
+							<p>CNY</p >
 						</div>
+					</div>
 					<div class="wtf_item2_div">
-							<p>委托最低限额</p >
-							<div class="wtf_item2_c">
-								<p class="p3" style="color: #4ecdd0;">19819.15031200</p >
-								<p>ADA</p >
-							</div>
+						<p>币种单价</p >
+						<div class="wtf_item2_c">
+							<p>0.00</p >
+							<p>CNY</p >
 						</div>
-							<div class="wtf_item2_div">
-							<p>复投最低限额</p >
-							<div class="wtf_item2_c">
-								<p class="p2" style="color: #4ecdd0;">9909.57515600</p >
-								<p>ADA</p >
-							</div>
+					</div>
+					<div class="wtf_item2_div">
+						<p>币种数量</p >
+						<div class="wtf_item2_c">
+							<p class="p3" style="color: #4ecdd0;">19819.15031200</p >
+							<p></p >
 						</div>
+					</div>
+					<!-- <div class="wtf_item2_div">
+						<p>复投最低限额</p >
+						<div class="wtf_item2_c">
+							<p class="p2" style="color: #4ecdd0;">9909.57515600</p >
+							<p>ADA</p >
+						</div>
+					</div> -->
 					</div>
 					
 					  
@@ -91,13 +91,22 @@
 						<div class="det">币值详情</div>
 						
 						<div class="currency">
+							{foreach name="htd_currency" item="vo"}
+								<p class="termBox clearfix" onclick="obtainFun('{$vo.id}')">
+									<span>{$vo.id|wallet_name}：</span>
+									<span>{$vo.price}</span><br>
+								</p>
+							{/foreach}
+						</div>
+<!-- 
+						<div class="currency">
 							{foreach name="user_wallet" item="user_wallet"}
 								<p class="termBox clearfix" onclick="obtainFun('id')">
 									<span>{$user_wallet.cu_id|wallet_name}：</span>
 									<span>{$user_wallet.cu_num}</span><br>
 								</p>
 							{/foreach}
-						</div>
+						</div -->
 						<i class="iconfont icon hideIcon">&#xe66f;</i>
 					</div>
 					<!--二维码-弹框-->
