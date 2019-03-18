@@ -9,8 +9,10 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
-		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>\
-		<script src="__PUBLIC__/js/delelement.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
+		<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
+	
 	</head>
 
 	<body>
@@ -40,9 +42,6 @@
 			<!-- 内容主体 -->
 			<div class="currency">
 				<!-- 列表项 -s-->
-
-				<!-- 列表项 -e -->
-				<!-- 列表项 -s-->
 				{foreach name="list" item="v"}
 				<div class="currency_list">
 					<!-- 商品名称 -->
@@ -71,13 +70,11 @@
 						<input type="hidden" name="uid" id="uid" value="{$uid}">
 						<input type="hidden" name="cu_id" id="cu_id" value="">
 						<input type="hidden" name="remain_num" id="remain_num" value="">
-						请输入提取金额:<input id="popover_num" type="number" name="number" onblur="exchange(this)" value="" />
+						请输入提取金额:<input id="popover_num" type="number" name="number" onchange="exchange(this)" value="" />
 						<br />
 						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
 						<div class="popover_affirm">
-							<!-- <button>确认</button>
-							<button>取消</button> -->
-							<a onclick="verifyForm()" class="ncap-btn-big ncap-btn-green"><span class="true">确认</span></a>
+							<span id="true" class="true">确认</span>
 							<span class="false">取消</span>
 						</div>
 					</div>
@@ -92,8 +89,6 @@
 		<script>
 			/*提取 按钮*/
 			function send(cu_id,remain_num) {
-
-
 				$('.popover').show();
 				$('#cu_id').val(cu_id);
 				$('#remain_num').val(remain_num);
@@ -117,30 +112,6 @@
 					$(this).hide();
 				})
 			});
-
-			function verifyForm(){
-
-			$.ajax({
-				type: "POST",
-				url: "{:url('Index/pick')}",
-				data: $('#handleposition').serialize(),
-				dataType: "json",
-				error: function () {
-                		alert('操作失败');
-            	},
-				success: function (data) {
-					if (data.status == 1) {
-                            alert(data.msg);
-							window.location.reload(); 
-					
-					} else {
-							alert(data.msg);
-							window.location.reload(); 
-					}
-				}
-			});
-		}
-
 		function exchange(obj){
 			var val=$(obj).val();
 			var cu_id=$('#cu_id').val();
@@ -156,18 +127,36 @@
 				success: function (data) {
 					if (data.status == 1) {
 							$('#popover_convert').val(data.result);
-                            // alert('aaaa');
-							// window.location.reload(); 
-					
 					} else {
-							alert(data.msg);
-							// alert('bbbb');
-							// window.location.reload(); 
+							alert(data.msg); 
 					}
 				}
 			});			
-		}		
-
+		}	
+			
+		layui.use(['layer','jquery','form'],function(){
+		var layer = layui.layer
+		, form = layui.form
+		,jq = layui.jquery;
+		jq('#true').click(function(){	  
+					var url = "{:url('Index/pick')}";
+					var datas =  $('#handleposition').serialize();
+					jq.getJSON(url,datas,function(data){						
+							if (data.status == 1) {
+								layer.msg(data.msg, {icon: 1, time: 3000}, function(){					
+									window.location.reload(); 
+									});
+														
+								} else {
+									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
+									layer.msg(data.msg, {icon: 2, time: 3000}, function(){					
+									window.location.reload(); 
+									});
+										// window.location.reload(); 
+								}
+						});
+			});  	  
+		});		
 		</script>
 	</body>
 
