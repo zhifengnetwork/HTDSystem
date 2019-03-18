@@ -70,7 +70,7 @@
 						<input type="hidden" name="uid" id="uid" value="{$uid}">
 						<input type="hidden" name="cu_id" id="cu_id" value="">
 						<input type="hidden" name="remain_num" id="remain_num" value="">
-						请输入提取金额:<input id="popover_num" type="number" name="number" onchange="exchange(this)" value="" />
+						请输入提取金额:<input id="popover_num" type="number" name="number" value="" />
 						<br />
 						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
 						<div class="popover_affirm">
@@ -163,7 +163,31 @@
 			jq('.false').click(function(){	  
 				window.location.reload();
 			});		
-		
+			$(document).on("change",'#popover_num',function(){
+				var val=$(this).val();
+				var cu_id=$('#cu_id').val();
+				var a = "{:url('Index/exchange')}"
+				var url = '/index/Index/exchange/val/'+val+'/cu_id/'+cu_id;
+				$.ajax({
+					type: "POST",
+					url: url,
+					dataType: "json",
+					error: function () {
+						layer.msg('操作失败', {icon: 2, time: 2000}, function(){					
+								window.location.reload(); 
+						});
+					},
+					success: function (data) {
+						if (data.status == 1) {
+								$('#popover_convert').val(data.result);
+						} else {
+							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
+								window.location.reload(); 
+							}); 
+						}
+					}
+				});
+        	})	
 		});		
 		</script>
 	</body>

@@ -62,7 +62,7 @@
 					<div class="code-up hideEvm">
 						<div class="site">							
 							<p class="hx">
-								<span>地址:</span>
+								地址:
 								<span id="span"></span>
 							</p>
 						</div>
@@ -73,7 +73,13 @@
 						
 						<input type="file" id="f"  name="f" style="display:none"/>
 						<div class="notarize" onclick="f.click()">上传凭证</div>
-						
+						<!--进度条-->
+						<div id="wrapper">
+							<div class="loader-container">
+							  <div class="meter">0</div>
+							  <span class="runner"></span>
+							</div>
+						</div>
 						<div class="notarize" onclick="sc(this);">确认投资</div>
 					</div>
         		</div>

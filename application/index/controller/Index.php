@@ -51,7 +51,7 @@ class Index extends HomeBase
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
-        // $userid = session('userid');
+        $userid = session('userid');
         $userid = 2;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
@@ -60,9 +60,7 @@ class Index extends HomeBase
                 ->select();  
         $this->assign('list',$list);
         $this->assign('uid',$userid);
-        return $this->fetch();
-     
-        
+        return $this->fetch();        
     } 
     // 货币汇率
     public function exchange(){
@@ -74,8 +72,7 @@ class Index extends HomeBase
                 $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>$rmb]);
               }else{
                 $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
-              }
-              
+              }              
     }
 
     // 提币
