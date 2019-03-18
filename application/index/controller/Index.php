@@ -103,7 +103,7 @@ class Index extends HomeBase
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
-        // $userid = session('userid');
+        $userid = session('userid');
         $userid = 2;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
@@ -112,9 +112,7 @@ class Index extends HomeBase
                 ->select();  
         $this->assign('list',$list);
         $this->assign('uid',$userid);
-        return $this->fetch();
-     
-        
+        return $this->fetch();        
     } 
     // 货币汇率
     public function exchange(){
@@ -126,8 +124,7 @@ class Index extends HomeBase
                 $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>$rmb]);
               }else{
                 $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
-              }
-              
+              }              
     }
 
     // 提币
@@ -164,17 +161,15 @@ class Index extends HomeBase
     //分享
     public function qrcode(){
         $id = session('user.user_id');
-//        dump($id);exit;
         $promotion = DB::name('user')->where('id',2)->value('promotion');
-//        dump($promotion);
+
         $data = array(
             'code' => $promotion,
-//            'url' => 'http://fw.pt1130.cn/index/login/register'//
-            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
+//            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
+            'url' => 'http://'.$_SERVER['HTTP_HOST'].'/index/login/register?code='.$promotion
         );
-//        $url = 'http://fw.pt1130.cn/index/login/register';
-//        $this->assign('data',$data);
-        dump($data);//exit;
+
+//        dump($data);//exit;
         $this->assign('data',$data);
 
         return view();
