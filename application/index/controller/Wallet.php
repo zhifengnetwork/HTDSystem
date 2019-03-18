@@ -6,6 +6,8 @@ use think\Db;
 use think\Request;
 class Wallet extends HomeBase
 {
+
+    
     /**
      * 点击首页投资按钮进入获取数据
      * 获取当前用户投资的所有币种订单

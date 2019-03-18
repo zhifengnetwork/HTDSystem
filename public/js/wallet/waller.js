@@ -28,7 +28,7 @@ $(document).ready(function(){
 
 /*获取对应的币值*/
 function obtainFun(_id){
-	console.log(1111,_id);
+	console.log(_id);
 	/*关闭弹窗*/
 	$(".showZ").hide();
 	$(".shadow").hide();
