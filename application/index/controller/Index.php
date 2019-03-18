@@ -100,11 +100,6 @@ class Index extends HomeBase
     }
     //提币
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 169ea01267db91086df29bdf723c8593c9ed42fc
->>>>>>> 85584b3b42eaa2774d4cf26014a4720314ad5f34
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
@@ -173,7 +168,19 @@ class Index extends HomeBase
     
     //分享
     public function qrcode(){
-        
+        $id = session('user.user_id');
+//        dump($id);exit;
+        $promotion = DB::name('user')->where('id',2)->value('promotion');
+//        dump($promotion);
+        $data = array(
+            'code' => $promotion,
+//            'url' => 'http://fw.pt1130.cn/index/login/register'//
+            'url' => 'http://fw.pt1130.cn/index/login/register?code='.GET[$promotion]
+        );
+//        $url = 'http://fw.pt1130.cn/index/login/register';
+//        $this->assign('data',$data);
+        dump($data);//exit;
+        $this->assign('data',$data);
 
         return view();
     }
