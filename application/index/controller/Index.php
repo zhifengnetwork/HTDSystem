@@ -57,8 +57,8 @@ class Index extends HomeBase
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
-        $userid = session('userid');
-        // $userid = 2;
+        // $userid = session('userid');
+        $userid = 2;
         
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
