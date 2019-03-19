@@ -33,6 +33,8 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
+        $money = 0;
+        $this->assign('money',$money);
         return view();
     }
 	

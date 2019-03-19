@@ -75,9 +75,13 @@
                     </a>
                 </li>
                 <li class="itemColor-8">
-                    <a href="#">
+                    <a href="javascript:void(0);">
                         <img src="__PUBLIC__/images/home/stock-icon.png" alt="">
-                        <span>股权</span>
+                        {if condition="$money == 0"}
+                        <span>当前股权: {$money}</span>
+                        {else}
+                        <span>z暂无股权</span>
+                        {/if}
                     </a>
                 </li>
             </ul>
