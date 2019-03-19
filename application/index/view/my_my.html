@@ -15,19 +15,24 @@
 	</head>
 
 	<body>
-		<div id="wrap">
-			<!--header-->
-			<div class="header-zp">
-				<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
-				<h3>我的</h3>
-				<a href="{:url('index/my/editUser')}">
-					<span class="share-btn bottmBut">
-						<img src="__PUBLIC__/images/public/share-btn-zp.png" />
-					</span>
-				</a>
-			</div>
+		<!--header-->
+		<div class="tab">
+			<div id="wrap">
 
-			<!--个人头像和昵称-->
+				<!-- 头部 -->
+				<div class="header-zp">
+					<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+					<h3>我的</h3>
+					<a href="{:url('index/my/editUser')}">
+						<span class="share-btn bottmBut">
+							<img src="__PUBLIC__/images/public/share-btn-zp.png" />
+						</span>
+					</a>
+				</div>
+				
+				
+
+			<!--个人头像和昵称 我的-->
 			<div class="header">
 				<img src="../../../public/images/default.png" class="headportrait" />
 				<br/>
@@ -77,6 +82,7 @@
 							<span>交易所</span>
 							<img src="__PUBLIC__/images/my/jiantou.png" />
 						</a>
+						
 					</li>
 					<li  onclick="shopAlert('暂未开放，敬请期待')">
 						<a class="name">
