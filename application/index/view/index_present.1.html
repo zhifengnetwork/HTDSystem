@@ -64,17 +64,15 @@
 				{/foreach}
 				<!-- 列表项 -e -->
 				<!-- 提取弹框-s -->
-				<div class="popover" >
+				<div class="popover">
 					<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
-					<div class="popover_content" style="line-height: 0.8rem;">
+					<div class="popover_content">
 						<input type="hidden" name="uid" id="uid" value="{$uid}">
 						<input type="hidden" name="cu_id" id="cu_id" value="">
 						<input type="hidden" name="remain_num" id="remain_num" value="">
-						请输入提币数量:<input id="popover_num" type="number" name="number" value="" />
+						请输入提取金额:<input id="popover_num" type="number" name="number" value="" />
 						<br />
-						转换成人民币:<input id="popover_rmb" type="number" name="popover_rmb" value="" />
-						<br />
-						转换成美金:<input id="popover_convert" name="popover_convert" type="number" readonly value=""  />
+						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
 						<div class="popover_affirm">
 							<span id="true" class="true">确认</span>
 							<span class="false">取消</span>
@@ -176,15 +174,14 @@
 					type: "POST",
 					url: url,
 					dataType: "json",
-					// error: function () {
-					// 	layer.msg('请填写提币数量', {icon: 2, time: 2000}, function(){					
-					// 			window.location.reload(); 
-					// 	});
-					// },
+					error: function () {
+						layer.msg('操作失败', {icon: 2, time: 2000}, function(){					
+								window.location.reload(); 
+						});
+					},
 					success: function (data) {
 						if (data.status == 1) {
-								$('#popover_rmb').val(data.result['rmb']);
-								$('#popover_convert').val(data.result['usd']);
+								$('#popover_convert').val(data.result);
 						} else {
 							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
 								window.location.reload(); 

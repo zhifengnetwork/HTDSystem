@@ -7,6 +7,14 @@ use think\Request;
 class Wallet extends HomeBase
 {
 
+    public function _initialize()
+    {  
+        // $user = session('home');
+        // if(!$user){
+        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+        //     header("refresh:1;url=$url");
+        // }
+    }
     
     /**
      * 点击首页投资按钮进入获取数据
@@ -27,12 +35,12 @@ class Wallet extends HomeBase
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
         // 获取最低投资金额
-        $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
-		$min_money = arr2name($min_money);
+        // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
+        // $min_money = arr2name($min_money);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
-        $this->assign('min_money',$min_money['price_min1']['value']);
+        // $this->assign('min_money',$min_money['price_min1']['value']);
         $this->assign('user',$users);
         $this->assign('id',$id);
         return $this->fetch();
@@ -53,6 +61,11 @@ class Wallet extends HomeBase
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
+        // 判断币种是否开启
+        $currency_one = Db::name("currency")->where(['id'=>$cu_id])->find();
+        if($currency_one['status']!=1){
+            return json(array('code' => 0, 'msg' => '当前币种暂不开放'));
+        }
         if(!$param['num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
@@ -66,7 +79,7 @@ class Wallet extends HomeBase
         // 订单信息入库
         $data = array(
             'order_no' => byOrderNo(),
-            'uid' => seesion('home.id'),
+            'uid' => session('home.id'),
             'cu_id' => $cu_id,
             'num'   => $param['num'],
             'price' => $param['price'],
@@ -87,7 +100,9 @@ class Wallet extends HomeBase
      */
     private function htd_currency()
     {
-        $htd_currency = Db::name("currency")->select();
+        $where['status'] = 1;
+        $where['alias_name'] = ['neq','HTD'];
+        $htd_currency = Db::name("currency")->where($where)->select();
         if($htd_currency){
             return $htd_currency;
         }
@@ -132,4 +147,20 @@ class Wallet extends HomeBase
         $users = db('user')->field($field)->where(['id'=>$user_id])->find();
         return $users;
     }
+
+    /**
+     *  显示钱包地址二维码
+     */
+    public function showWalletAddr(){
+
+        $walletAddr = input('walletAddr/s');
+        if($walletAddr){
+            $walletAddr = $walletAddr;
+        }else{
+            $walletAddr = 'is null';
+        }
+        $this->assign('walletAddr',$walletAddr);
+        return $this->fetch('Wallet/addr');
+    }
+
 }

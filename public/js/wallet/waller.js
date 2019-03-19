@@ -1,47 +1,130 @@
 $(document).ready(function(){
+	//点击总投资-弹出框
+	$(".asset").on("click",function(){
+		$(".pop").show();
+		$(".shadow").show();
+	})
+	//点击关闭总投资-弹出框
+	$(".hideTz").on("click",function(){
+		$(".pop").hide();
+		$(".shadow").hide();
+	})
 	
 	/*点击出现-币种详情*/
 	$(".wtf_xiala").on('click',function(){
+		
+		
+		// 获取投资金额
+		var money = $('.inp').val();
+		if(!money){
+			layer.msg('请先输入投资额');
+			return false;
+		}
+		
 		$(".showZ").show();
+		/*蒙版*/
 		$(".shadow").show();
 	})
 	
 	/*关闭-币值详情*/
 	$(".hideIcon").on('click',function(){
-		$(".showZ").hide();
+		$(".assetPopup").hide();
+		/*蒙版*/
 		$(".shadow").hide();
 	})
+
+//二维码显示隐藏
+	$("#sm_click").on("click",function(){
+		$(".payment_wenma").show()
+		$(".qb_bg").show()
+	})
+	//背景隐藏
+	$(".qb_bg").on("click",function(){
+		$(".payment_wenma").hide()
+		$(this).hide()
+	})
+	$(".payment_wenma_sc").on("click",function(){
+		$(".payment_wenma").hide()
+		$(".qb_bg").hide()		
+	})
+
+
+
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-		console.log(111)
+		
+		var domain = document.domain;
+		// 组织url
+		var qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr';
+		console.log(qrCodeUrl);
+		layer.msg(111122222);
+		$.ajax({
+			url: '/index/wallet/showWalletAddr',//CONTROLLER_URL+'a=check_bj',
+			type: 'post',
+      dataType: 'json',
+			data:{},
+			success:function(msg){
+				console.log(msg);
+				
+			}
+		});
+
 		$(".hideEvm").show();
 		/*蒙版*/
 		$(".shadow").show();
 	})
 	/*二维码-弹框-关闭*/
-	$('.shut').on('click',function(){
-		$(".hideEvm").hide();
-		$(".shadow").hide();
-	})
+//	$('.shut').on('click',function(){
+//		$(".hideEvm").hide();
+//		/*蒙版*/
+//		$(".shadow").hide();
+//	})
 	
 })
 
 /*获取对应的币值*/
-function obtainFun(_id){
-	console.log(_id);
+function obtainFun(id,name,price){
+	// 获取投资金额
+	var money = $('.inp').val();
+	// 获取最小投资金额
+	// var min_money = $('.min_money').html();
+	if(!money){
+		layer.msg('请先输入投资额');
+		return false;
+	}
+	if(money<1){
+		layer.msg('投资额额度不可为0');
+		return false;
+	}
 	/*关闭弹窗*/
-	$(".showZ").hide();
+	$(".assetPopup").hide();
 	$(".shadow").hide();
-	
+	// 点击获取name值到input框
+	$('#cu_name_input').html(name);	
+	$('#cu_name_input').attr('data-name',id);
+	// 根据投资金额和当前币种价计算
+	if(money>0){
+		// 当前投资额度
+		$('.in_money').html(money);
+		// 币种单价
+		$('.cu_price').html(price);
+		// 币种数量
+		var cu_num= money/price;
+		cu_num = cu_num.toFixed(8);
+		$('.p3').html(cu_num);
+	}
+	console.log(min_money);
+	console.log(money);
+
 	/*ajax*/
 	
 }
-function wallet(aaa){
-	$("#span").html(aaa);
-	console.log(aaa);	
-}
+
 
 function sc(){
+
+	layer.msg(111122222);
+
 	var animateimg = $("#f").val(); //获取上传的图片名 带//
 	var imgarr=animateimg.split('\\'); //分割
 	var myimg=imgarr[imgarr.length-1]; //去掉 // 获取图片名
