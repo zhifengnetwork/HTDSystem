@@ -1,8 +1,5 @@
-body {
-	overflow: hidden;
-}
 .user {
-	padding-top: .5rem;
+	padding: .5rem 0 .95rem 0;
 }
 .active{
 	display: block !important;
@@ -73,7 +70,7 @@ th,td{
 .zjy_box_conten .zjy_box_conten_item .bag-wrap {
 	margin: 0 auto;
 	width: 85%;
-	height: 1.75rem;
+	/*height: 1.25rem;*/
 	border-radius: 10px;
 	letter-spacing:15px;
 	background: linear-gradient(left,#5581f1,#1153fc);
@@ -83,11 +80,10 @@ th,td{
 	font-size: .55rem;
 	font-weight: 900;
 	text-align: center;
-	line-height: 1.75rem;
+	line-height: 1.25rem;
 }
 .amount {
-	margin-top: 15%;
-	padding-left: 25%;
+	margin-top: 10%;
 }
 .amount span {
 	font-size: .35rem;
@@ -184,7 +180,7 @@ th,td{
 	
 }
 .code-up .notarize {
-	margin: .8rem auto;
+	margin: .65rem auto;
 	width: 50%;
 	background: linear-gradient(#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(#ffcb52,#ff7b02);
@@ -216,7 +212,7 @@ th,td{
 }
 .assetPopup .iconfont {
 	position: fixed;
-	top: 2.35rem;
+	top: 2.25rem;
 	right: .45rem;
 	font-size: .6rem;
 }
@@ -445,4 +441,107 @@ input::-webkit-inner-spin-button {
 .tbody-zp ul li div{
     width: 25.5%;
     text-align: center;
+}
+
+/*付款*/
+.payment{
+	width: 100%;
+	
+}
+.payment .wq_fa{
+	display: inline-block;
+	width: .4rem;
+	height: .4rem;
+	border: 1px solid #2b53b2;
+	border-radius: 50%;
+	vertical-align: bottom;
+	margin-right: .2rem;
+}
+.payment_active{
+	display:inline-block;
+	width: .3rem;
+	height: .3rem;
+	background: #4080ff;
+	border-radius: 50%;
+	vertical-align: bottom;
+}
+.payment .payment_ul{
+	display: flex;
+	text-align: center;
+}
+.payment .payment_ul li {
+	flex: 1;
+}
+.payment_cont_item{
+	display: none;
+}
+.payment_cont_item h3{
+	margin: .3rem .3rem;
+}
+.payment_cont_item .payment_cont_text textarea{
+	width: 90%;
+	height: 1rem;
+	margin: 0 auto;
+	display: block;
+	background: #0f184f;
+	color: #fff;
+	border-radius:.2rem ;
+}
+.payment_cont_sox{
+	display: flex;
+	margin:.7rem .5rem ;
+}
+.payment_cont_qb{
+	flex: 1;
+	line-height: .8rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+	text-align: center;
+	margin:0 .2rem;
+}
+.payment_cont_sc{
+	width:2rem;
+	line-height: .5rem;
+	text-align: center;
+	margin-left: .5rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+}
+.payment_cont_wz{
+	width: 90%;
+	color: #c8932b;
+	margin: .3rem auto;
+	text-align: center;
+}
+.payment_cont_img{
+	width: .4rem;
+	height: .4rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+/*付款结束*/
+
+/*账户余额*/
+.amount .bonus {
+	padding: 0 0 0 5%;
+	color: #7c9ee1;
+	font-size: .35rem;
+	line-height: .75rem;
+}
+.amount .t-inp-wrap {
+	padding: 5% 0;
+	width: 100%;
+	background: #0f184f;
+}
+.amount .t-inp-wrap .t-inp {
+	margin: 0 auto;
+	width: 90%;	
+	border: .01rem solid #2d3b7c;
+	border-radius: 5px;
+}
+.amount .t-inp-wrap .t-inp .number {
+	padding: 2%;
+	width: 85%;
+	height: .6rem;
+	color: #fff;
 }
