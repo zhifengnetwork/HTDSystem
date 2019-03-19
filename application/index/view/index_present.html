@@ -72,7 +72,7 @@
 						<input type="hidden" name="remain_num" id="remain_num" value="">
 						请输入提取金额:<input id="popover_num" type="number" name="number" value="" />
 						<br />
-						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
+						转换后的金额:<input id="popover_convert" name="popover_convert" type="number" readonly value=""  />
 						<div class="popover_affirm">
 							<span id="true" class="true">确认</span>
 							<span class="false">取消</span>
@@ -174,7 +174,7 @@
 					dataType: "json",
 					error: function () {
 						layer.msg('操作失败', {icon: 2, time: 2000}, function(){					
-								window.location.reload(); 
+								// window.location.reload(); 
 						});
 					},
 					success: function (data) {
