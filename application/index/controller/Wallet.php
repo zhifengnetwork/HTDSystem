@@ -45,6 +45,11 @@ class Wallet extends HomeBase
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
+        // 判断币种是否开启
+        $currency_one = Db::name("currency")->where(['id'=>$cu_id])->find();
+        if($currency_one['status']!=1){
+            return json(array('code' => 0, 'msg' => '当前币种暂不开放'));
+        }
         if(!$param['num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
@@ -58,7 +63,7 @@ class Wallet extends HomeBase
         // 订单信息入库
         $data = array(
             'order_no' => byOrderNo(),
-            'uid' => seesion('home.id'),
+            'uid' => session('home.id'),
             'cu_id' => $cu_id,
             'num'   => $param['num'],
             'price' => $param['price'],
@@ -79,7 +84,7 @@ class Wallet extends HomeBase
      */
     private function htd_currency()
     {
-        $htd_currency = Db::name("currency")->select();
+        $htd_currency = Db::name("currency")->where(['status'=>1])->select();
         if($htd_currency){
             return $htd_currency;
         }
