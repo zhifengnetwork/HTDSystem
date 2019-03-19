@@ -2,15 +2,18 @@
 登录样式表
 */
 body {
-    width: 100%;
-    height: 100vh;
-    font-size: 0.24rem;
-    font-family: "PingFangMedium";
     background: -moz-linear-gradient(top, #1de5e2 0%, #b588f7 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1de5e2), color-stop(100%, #b588f7));
     background: -webkit-linear-gradient(top, #1de5e2 0%, #b588f7 100%);
     background: -o-linear-gradient(top, #1de5e2 0%, #b588f7 100%);
     background: -ms-linear-gradient(top, #1de5e2 0%, #b588f7 100%);
+}
+.header-zp{
+	 background: -moz-linear-gradient(left, #2866a3 0%, #5ebfc8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #5ebfc8));
+	background: -webkit-linear-gradient(left, #2866a3 0%, #5ebfc8 100%);
+	background: -o-linear-gradient(left, #2866a3 0%, #5ebfc8 100%);
+	background: -ms-linear-gradient(left, #2866a3 0%, #5ebfc8 100%);
 }
 
 .loginbox{
@@ -27,7 +30,7 @@ body {
 }
 .from-group{
     /* margin-top: .2rem; */
-    border-bottom: .01rem solid  #e0e0e0;
+    border-bottom: 1px solid  #e0e0e0;
     position: relative;
     background: #ffffff;
     border-radius: .2rem;
