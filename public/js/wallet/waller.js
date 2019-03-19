@@ -12,6 +12,15 @@ $(document).ready(function(){
 	
 	/*点击出现-币种详情*/
 	$(".wtf_xiala").on('click',function(){
+		
+		
+		// 获取投资金额
+		var money = $('.inp').val();
+		if(!money){
+			layer.msg('请先输入投资额');
+			return false;
+		}
+		
 		$(".showZ").show();
 		/*蒙版*/
 		$(".shadow").show();
@@ -23,8 +32,13 @@ $(document).ready(function(){
 		/*蒙版*/
 		$(".shadow").hide();
 	})
+
+
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
+	
+		layer.msg(111122222);
+
 		$(".hideEvm").show();
 		/*蒙版*/
 		$(".shadow").show();
@@ -39,21 +53,48 @@ $(document).ready(function(){
 })
 
 /*获取对应的币值*/
-function obtainFun(_id){
-	console.log(_id);
+function obtainFun(id,name,price){
+	// 获取投资金额
+	var money = $('.inp').val();
+	// 获取最小投资金额
+	var min_money = $('.min_money').html();
+	if(!money){
+		layer.msg('请先输入投资额');
+		return false;
+	}
+	if(money<min_money){
+		layer.msg('投资额最低'+min_money);
+		return false;
+	}
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
 	$(".shadow").hide();
-	
+	// 点击获取name值到input框
+	$('#cu_name_input').html(name);	
+	$('#cu_name_input').attr('data-name',id);
+	// 根据投资金额和当前币种价计算
+	if(money>0){
+		// 当前投资额度
+		$('.in_money').html(money);
+		// 币种单价
+		$('.cu_price').html(price);
+		// 币种数量
+		var cu_num= money/price;
+		cu_num = cu_num.toFixed(8);
+		$('.p3').html(cu_num);
+	}
+	console.log(min_money);
+	console.log(money);
+
 	/*ajax*/
 	
 }
-function wallet(aaa){
-	$("#span").html(aaa);
-	console.log(aaa);	
-}
+
 
 function sc(){
+
+	layer.msg(111122222);
+
 	var animateimg = $("#f").val(); //获取上传的图片名 带//
 	var imgarr=animateimg.split('\\'); //分割
 	var myimg=imgarr[imgarr.length-1]; //去掉 // 获取图片名
