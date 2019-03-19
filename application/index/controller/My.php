@@ -14,17 +14,16 @@ class My extends HomeBase
         $home = session('home');
         if($home){
             setcookie("as",1,time()+6000);
-    
             $user = db('user')->where(['id'=>$home['id']])->find();
-            $this->assign('user',$user);
-            
-            return $this->fetch();
+            if($user){
+                $this->assign('user',$user);
+            }
+            $id = 1;
         }else{
-     
-            setcookie("as",2,time()+6000);
-            
+            $id = 2;
         }
-        
+        $this->assign('id',$id);
+        return view();
        
     }
     //退出登录

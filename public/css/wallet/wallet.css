@@ -1,4 +1,9 @@
-
+body {
+	overflow: hidden;
+}
+.user {
+	padding-top: .5rem;
+}
 .active{
 	display: block !important;
 }
@@ -11,7 +16,7 @@
 	text-align: center;
 	border: 1px solid #fff;
 	border-radius:2rem;
-	margin: .5rem 20px;
+	margin: 0 20px .5rem 20px;
 	line-height: 1rem;
 }
 .zjy_box .zjy_ul li{
@@ -101,7 +106,7 @@ th,td{
 }
 
 .sum {
-	margin: 15% auto;
+	margin: 5% auto;
 	width: 70%;
 	height: 1rem;
 	background: #1eb0d4;
@@ -121,7 +126,7 @@ th,td{
 	display: none;
 	position: absolute;
 	top: 15%;
-	left: 5%;
+	left: 4.1%;
 	z-index: 5;
 	width: 90%;
 	height: 9.5rem;
@@ -135,12 +140,7 @@ th,td{
 	font-size: .35rem;
 	text-align: center;
 }
-.assetPopup .iconfont {
-	position: absolute;
-	top: 2px;
-	right: 0;
-	font-size: .75rem;
-}
+
 
 /*二维码-弹框*/
 .code-up {
@@ -164,19 +164,28 @@ th,td{
 }
 .code-up .shut {
 	position: absolute;
-	top: -2px;
-	right: 0;
-	font-size: .75rem;
+	top: 0;
+	right: 1px;
+	font-size: .6rem;
 }
 .code-up .site {
-	margin: 5% 0;
+	width: 90%;
+	margin: .1rem auto;
 	font-size: .35rem;
+	height: 2rem;
 	text-align: center;
 }
+#span{
+	width: 80%;
+	display: block;
+	height: 1rem;
+	margin: 0 auto;
+	word-break: break-word;
+	
+}
 .code-up .notarize {
-	margin: 10% auto;
+	margin: .8rem auto;
 	width: 50%;
-	height: .85rem;
 	background: linear-gradient(#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(#ffcb52,#ff7b02);
 	border-radius: 5px;
@@ -184,29 +193,32 @@ th,td{
 	text-align: center;
 	line-height: .85rem;
 } 
-.site .hx{
-	display: inline-block;
-	width: 5rem;
-	height: 1rem;
-	font-size: .4rem;
-	word-break: break-word;
-}
-.site .hx span:first-child{
-	font-size: .3rem;
-	padding-top: .1rem;
-}
+
 .site .hx span:last-child{
 	font-size: .3rem;
 }
-
+.clicTK{
+	margin-top: 1.2rem;
+}
 .det {
+	position: fixed;
+	width: 90%;
 	font-size: .35rem;
 	font-weight: 900;
 	line-height: .7rem;
+	letter-spacing: 5px;
 	color: #000;
 	text-align: center;
 	background: linear-gradient(left,#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(left,#ffcb52,#ff7b02);
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.assetPopup .iconfont {
+	position: fixed;
+	top: 2.35rem;
+	right: .45rem;
+	font-size: .6rem;
 }
 /*进度条*/
 .loader-container {
@@ -394,3 +406,43 @@ input::-webkit-inner-spin-button {
 .termBox span{display: block}
 .termBox span:nth-child(1){width:40%;text-align: right;float: left;}
 .termBox span:nth-child(2){width:60%;text-align: left;float: left;}
+
+/*<!--总投资-弹框-->*/
+.thead-zp {
+	padding-top: .7rem;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.thead-zp ul{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 0.3rem;
+    color: #fff;
+}
+.thead-zp ul li{
+    width: 25.5%;
+    text-align: center;
+}
+
+.tbody-zp ul li{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #fff;
+    font-size: 0.26rem;
+}
+.tbody-zp ul li div{
+    width: 25.5%;
+    text-align: center;
+}
