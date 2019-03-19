@@ -65,7 +65,7 @@ class Login extends Controller
 
     public function register()
     {
-        $promotion = input('get.promotion/d');
+        $promotion = input('promotion/d');
         $this->assign('promotion',$promotion);
         return $this->fetch();
     }
