@@ -9,9 +9,9 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
 		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
-		<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
-		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
+	
 	
 	</head>
 
@@ -136,6 +136,7 @@
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
 		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
+		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
 			/*提取 按钮*/
@@ -339,13 +340,14 @@
 			}
 			
 			/* 确认 */
-			$('.true').on('click', function() {
+			$('.popover_affirm .true').on('click', function() {
 				/*存储，base64*/
 				var arrImgUrl = '';
 				if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
 					console.log('请上传二维码！');
 					/*对话框*/
 					suredAlert($('body'),'请上传二维码！');
+					$('.popover').hide();
 					return false;
 				}
 				arrImgUrl = $('.preViewImg').eq(0).attr('src');
