@@ -32,14 +32,22 @@ $(document).ready(function(){
 		/*蒙版*/
 		$(".shadow").hide();
 	})
-<<<<<<< HEAD
-//	/*投资-按钮*/
-//	$('.sum').on('click',function(){
-//		$(".hideEvm").show();
-//		/*蒙版*/
-//		$(".shadow").show();
-//	})
-=======
+
+//二维码显示隐藏
+	$("#sm_click").on("click",function(){
+		$(".payment_wenma").show()
+		$(".qb_bg").show()
+	})
+	//背景隐藏
+	$(".qb_bg").on("click",function(){
+		$(".payment_wenma").hide()
+		$(this).hide()
+	})
+	$(".payment_wenma_sc").on("click",function(){
+		$(".payment_wenma").hide()
+		$(".qb_bg").hide()		
+	})
+
 
 
 	/*投资-按钮*/
@@ -51,7 +59,7 @@ $(document).ready(function(){
 		/*蒙版*/
 		$(".shadow").show();
 	})
->>>>>>> e2e785f112e4a4210d5ee8ccb8ac49aedfd7368e
+
 	/*二维码-弹框-关闭*/
 //	$('.shut').on('click',function(){
 //		$(".hideEvm").hide();

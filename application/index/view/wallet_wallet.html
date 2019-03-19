@@ -34,21 +34,22 @@
 					
 					<!--选择付款方式-->
 					<div class="payment">
-						<h3>选择付款方式</h3>
+						<div class="fshe">选择付款方式</div>
 						<ul class="payment_ul">
 							<li><p class="wq_fa"><span class="payment_active"></span></p>从发票</li>
 							<li><p class="wq_fa"><span></span></p>从账户余额</li>						
 						</ul>
 						<div class="payment_cont">
 							<div class="payment_cont_item avtive">
-								<h3>支付硬币</h3>
+								<div class="fshe">支付硬币</div>
 								<div class="payment_cont_text">
-									<textarea name="" rows="" cols="">
-										1231232132131231232132132121321
-									</textarea>
+									<!--<p class="p_text">
+										1111111111111111111111111111111111111111111111111
+									</p>-->
+									<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text">xxxx22</textarea>
 									<div class="payment_cont_sox">
-										<p class="payment_cont_qb"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbfz.png"/></span>复制钱包地址</p>
-										<p class="payment_cont_qb"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbewm.png"/></span>请扫二维码</p>																			
+										<p class="payment_cont_qb" id="codeBtn" data-clipboard-target="#codeNum"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbfz.png"/></span>复制钱包地址</p>
+										<p class="payment_cont_qb" id="sm_click"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbewm.png"/></span>请扫二维码</p>																			
 									</div>
 									<p class="payment_cont_sc"><span><img class="payment_cont_img"  src="__PUBLIC__/images/wallet/qbxz.png"/></span>上传发票</p>
 									<div class="payment_cont_wz"><p>*请仔细检查转账钱包地址，如填写钱包地址错误导致公司没有收到这笔转账数额，公司将不承担次损失</p></div>
@@ -56,8 +57,8 @@
 							</div>
 							<div class="payment_cont_item">
 								<!--账户余额-->
-				        		<div class="amount">
-				        			<div class="bonus">输入金额</div>
+				        		<div class="am">
+				        			<div class="bonus">输入数量</div>
 				        			<div class="t-inp-wrap">
 				        				<div class="t-inp">
 				        					<input class="number" type="number" placeholder="0"/>
@@ -259,19 +260,44 @@
         		
         	</div>
         </div>
-        <!-- 底部导航 -->
+        <!--弹出二维码-->
+    	<div class="payment_wenma">
+    		<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
+    		<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
+    	</div>
+    	<!--背景-->
+    	<div class="qb_bg"></div>
+    	
+        <!-- 底部导航 -->        
         <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+    
     </div>
     
     <!--弹框-阴影-->
 	<div class="shadow"></div>
 	
-	<!-- <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> -->
+	 <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> 
 	<script src="__PUBLIC__/js/public/tab.js" ></script>
 	<script  src="__PUBLIC__/js/wallet/waller.js" ></script>
 	<script src="__PUBLIC__/plugins/layer/layer-min.js"></script>
     <!--底部nav=>Tab功能-->
 	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
+	<script src="__PUBLIC__/js/public/clipboard.js"></script>
+	  <script>
+        $("#codeBtn").click(function(){
+            let e = document.getElementById("codeNum").value;
+            //实例化clipboard
+            var clipboard = new ClipboardJS('#codeBtn');
+           
+            clipboard.on("success", function(e){
+                console.log(e);
+            });
+
+            clipboard.on("error", function(e){
+                console.log(e);
+            });
+        });
+    </script>
 <script>
 </script>
 </body>
