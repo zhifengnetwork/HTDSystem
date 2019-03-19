@@ -585,7 +585,7 @@ input::-webkit-inner-spin-button {
 	height: 6rem;
 	background-color:#070a41;
 	position: absolute;
-	top: 50%;
+	top: 76%;
 	left: 50%;
 	transform: translate(-50%,-50%);
 	border: 1px solid #5b84fa;
