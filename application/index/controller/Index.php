@@ -135,6 +135,9 @@ class Index extends HomeBase
     //分享
     public function qrcode(){
         $home = session('home');
+        if(empty($home)){
+            return $this->redirect('index/login/index');
+        }
         if($home){
             $id = $home['id'];
             $promotion = DB::name('user')->where('id',$id)->value('promotion');
