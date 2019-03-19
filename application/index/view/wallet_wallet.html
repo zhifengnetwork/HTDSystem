@@ -26,9 +26,11 @@
         	</ul>
         	<div class="zjy_box_conten">
         		<div class="zjy_box_conten_item avtive">
+        			<!--总投资按钮-->
         			<div class="bag-wrap">
 						<div class="asset">总资产<span style="font-size: .3rem;"></span></div>
-					</div>					
+					</div>	
+					
 					<div class="amount">
 						<span>投资额度：</span><input class="inp" type="number"/>
 					</div>	
@@ -81,7 +83,7 @@
 					  
 					  
 					<div class="sum">投资</div>
-					<!--总资产-弹框-->
+					<!--选择币值-弹框-->
 					<div class="assetPopup showZ">
 						
 						<div class="det">币值详情</div>
@@ -105,7 +107,62 @@
 						</div -->
 						<i class="iconfont icon hideIcon">&#xe66f;</i>
 					</div>
-					<!--二维码-弹框-->
+					
+					<!--总投资-弹框-->
+					<div class="assetPopup pop">
+						
+						<div class="det">资产</div>
+						
+						<!-- 标题 -->
+				        <div class="thead-zp">
+				            <ul>
+				                <li>名称</li>
+				                <li>数量</li>
+				                <li>单价</li>
+				                <li>金额</li>
+				            </ul>
+				        </div>
+				        <!---->
+				        <div class="tbody-zp">
+				            <ul>
+				                <li>
+				                    <div class="name">Alan</div>
+				                    <div class="number">10</div>
+				                    <div class="price">99.00</div>
+				                    <div class="total-price">990.00</div>
+				                </li>
+				                <li>
+				                    <div class="name">Alan</div>
+				                    <div class="number">10</div>
+				                    <div class="price">99.00</div>
+				                    <div class="total-price">990.00</div>
+				                </li>
+				                <li>
+				                    <div class="name">Alan</div>
+				                    <div class="number">10</div>
+				                    <div class="price">99.00</div>
+				                    <div class="total-price">990.00</div>
+				                </li>
+				                <li>
+				                    <div class="name">Alan</div>
+				                    <div class="number">10</div>
+				                    <div class="price">99.00</div>
+				                    <div class="total-price">990.00</div>
+				                </li>
+				                <li>
+				                    <div class="name">Alan</div>
+				                    <div class="number">10</div>
+				                    <div class="price">99.00</div>
+				                    <div class="total-price">990.00</div>
+				                </li>
+				           
+				            </ul>
+        				</div>
+        				
+						<div class="iconfont icon hideTz">&#xe66f;</div>
+					</div>
+					
+					<!--点击投资-二维码-弹框-->
 					<div class="code-up hideEvm">
 						<div class="site">							
 							<p class="hx">	
@@ -170,32 +227,6 @@
     <!--底部nav=>Tab功能-->
 	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
 <script>
-		$(document).ready(function(){
-	$(".asset").on("click",function(){
-		$(".showZ").show();
-		$(".shadow").show();
-	})
-	$(".hideIcon").on("click",function(){
-		$(".showZ").hide();
-		$(".shadow").hide();
-	})
-	$(".sum").on("click",function(){
-		$(".pop").show();
-		$(".shadow").show();
-	})
-	$(".hideTz").on("click",function(){
-		$(".pop").hide();
-		$(".shadow").hide();
-	})
-	$(".ur").on("click",function(){
-		$(".code-up").show();
-		$(".pop").hide();
-	})
-	$(".shut").on('click',function(){
-		$(".code-up").hide();
-		$(".shadow").hide();
-	})
-})
 
 
 function wallet(aaa){

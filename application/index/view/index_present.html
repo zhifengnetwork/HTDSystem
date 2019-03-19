@@ -72,7 +72,7 @@
 						<input type="hidden" name="remain_num" id="remain_num" value="">
 						请输入提取金额:<input id="popover_num" type="number" name="number" value="" />
 						<br />
-						转换后的金额:<input id="popover_convert" type="number" disabled="disabled" value=""  />
+						转换后的金额:<input id="popover_convert" name="popover_convert" type="number" readonly value=""  />
 						<div class="popover_affirm">
 							<span id="true" class="true">确认</span>
 							<span class="false">取消</span>
@@ -98,14 +98,14 @@
 				//阻止事件冒泡
 				$('.popover_content').click(function(e) {
 					e.stopPropagation();
-					$('.true').click(function() {
-						$('.popover').hide();
-						
-					});
-					$('.false').click(function() {
-						$('.popover').hide();
-
-					});
+				});
+				//弹框确认
+				$('.true').click(function() {
+					$('.popover').hide();
+				});
+				//弹框取消
+				$('.false').click(function() {
+					$('.popover').hide();
 				});
 				//点击背景隐藏
 				$('.popover').click(function() {
@@ -174,7 +174,7 @@
 					dataType: "json",
 					error: function () {
 						layer.msg('操作失败', {icon: 2, time: 2000}, function(){					
-								window.location.reload(); 
+								// window.location.reload(); 
 						});
 					},
 					success: function (data) {
