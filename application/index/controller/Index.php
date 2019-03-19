@@ -26,7 +26,13 @@ class Index extends HomeBase
     public function index()
     {
 
-        $user_id = session('home');
+        $user = session('home');
+        if($user){
+            $id = 1;
+        }else{
+            $id = 2;
+        }
+        $this->assign('id',$id);
         return view();
     }
 	
@@ -46,13 +52,14 @@ class Index extends HomeBase
         }
         return view();
     }
-    //提币
+    //提币页面
     public function present(){
         // if (!session('userid')) {
         //     return $this->error('亲！请先登陆', 'user/login/index');
         // }      
         $userid = session('userid');
-        $userid = 2;
+        // $userid = 2;
+        
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -67,9 +74,14 @@ class Index extends HomeBase
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
               $rmb    = $data['val']*$result;
+            //   //美元汇率   
+              $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
+              $exchange_usd = arr2name($exchange_usd);
+              $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
+
               $base = new Base();
               if($result){
-                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>$rmb]);
+                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>$usd]);
               }else{
                 $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
               }              
@@ -78,7 +90,13 @@ class Index extends HomeBase
     // 提币
     public function pick(){
         $data   = input();
-        $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
+        $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']); 
+        // dump($rmb);
+        //美元汇率   
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
+        $exchange_usd = arr2name($exchange_usd);
+        $usd = $data['popover_convert'];
+        $withdraw_min = $exchange_usd['withdraw_min']['value'];
         $where1 = [
             'uid' => $data['uid'],
             'cu_id' => $data['cu_id'],
@@ -87,8 +105,8 @@ class Index extends HomeBase
         $base = new Base();
         if($data['remain_num']<$data['number']){
             $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-        }else if($data['remain_num']<=50){
-            $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50才能体现', 'result' =>'']);        
+        }else if($usd<=$withdraw_min){
+            $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50美元才能体现', 'result' =>'']);        
         }else{
             // 先计算剩余货币数量
             $data['remain_num'] = $data['remain_num']-$data['number'];
@@ -109,12 +127,12 @@ class Index extends HomeBase
     //分享
     public function qrcode(){
         $id = session('user.user_id');
-        $promotion = DB::name('user')->where('id',2)->value('promotion');
+        $promotion = DB::name('user')->where('id',$id)->value('promotion');
 
         $data = array(
             'code' => $promotion,
 //            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
-            'url' => 'http://'.$_SERVER['HTTP_HOST'].'/index/login/register?code='.$promotion
+            'url' => 'http://'.$_SERVER['HTTP_HOST'].'/index/login/register?promotion='.$promotion
         );
 
 //        dump($data);//exit;

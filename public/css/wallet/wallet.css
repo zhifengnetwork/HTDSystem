@@ -166,14 +166,23 @@ th,td{
 	font-size: .6rem;
 }
 .code-up .site {
-	margin: 5% 0;
+	width: 90%;
+	margin: .1rem auto;
 	font-size: .35rem;
+	height: 2rem;
 	text-align: center;
 }
+#span{
+	width: 80%;
+	display: block;
+	height: 1rem;
+	margin: 0 auto;
+	word-break: break-word;
+	
+}
 .code-up .notarize {
-	margin: 10% auto;
+	margin: .8rem auto;
 	width: 50%;
-	height: .85rem;
 	background: linear-gradient(#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(#ffcb52,#ff7b02);
 	border-radius: 5px;
@@ -181,21 +190,13 @@ th,td{
 	text-align: center;
 	line-height: .85rem;
 } 
-.site .hx{
-	display: inline-block;
-	width: 5rem;
-	height: 1rem;
-	font-size: .4rem;
-	word-break: break-word;
-}
-.site .hx span:first-child{
-	font-size: .3rem;
-	padding-top: .1rem;
-}
+
 .site .hx span:last-child{
 	font-size: .3rem;
 }
-
+.clicTK{
+	margin-top: 1.2rem;
+}
 .det {
 	position: fixed;
 	width: 90%;

@@ -1,7 +1,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>注册</title>
 		<script src="/public/js/rem.js"></script>
@@ -89,7 +89,7 @@
 						</div>
 						<div class="reg-btn">
 							<!-- <button type="button" onclick="btn()" class="btn dis" disabled=disabled>注册</button> -->
-							<button type="button" class="btn dis">注册</button>
+							<button type="button" class="btn dis ">注册</button>
 						</div>
 					</form>
 					<div class="login-new">
@@ -206,8 +206,8 @@
 					success:function(msg){
 						if(msg.url){
 							// console.log(msg.url);
-							// suredAlert($('body'),msg.msg,msg.url);
-							window.location.replace(msg.url);
+							suredAlert($('body'),msg.msg,msg.url);
+							// window.location.replace(msg.url);
 						}else{
 							suredAlert($('body'),msg.msg);
 						}
