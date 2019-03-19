@@ -25,6 +25,11 @@ class My extends HomeBase
         return view();
        
     }
+    //修改密码
+    public function set_pass()
+    {
+        return view();
+    }
     //退出登录
    public function index()
     {
