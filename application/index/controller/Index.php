@@ -120,7 +120,15 @@ class Index extends HomeBase
 
     //总收益
     public function totalrevenue()
-    {
+    {   
+        $home = session('home');
+        if(empty($home)){
+            return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
+        }
+        $income = db('income')->where(['uid'=>$home['id']])->select();
+        if($income){
+            $this->assign('income',$income);
+        }
         return view();
     }
     
