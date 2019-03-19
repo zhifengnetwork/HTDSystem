@@ -23,18 +23,18 @@ $(document).ready(function(){
 		/*蒙版*/
 		$(".shadow").hide();
 	})
-	/*投资-按钮*/
-	$('.sum').on('click',function(){
-		$(".hideEvm").show();
-		/*蒙版*/
-		$(".shadow").show();
-	})
+//	/*投资-按钮*/
+//	$('.sum').on('click',function(){
+//		$(".hideEvm").show();
+//		/*蒙版*/
+//		$(".shadow").show();
+//	})
 	/*二维码-弹框-关闭*/
-	$('.shut').on('click',function(){
-		$(".hideEvm").hide();
-		/*蒙版*/
-		$(".shadow").hide();
-	})
+//	$('.shut').on('click',function(){
+//		$(".hideEvm").hide();
+//		/*蒙版*/
+//		$(".shadow").hide();
+//	})
 	
 })
 
