@@ -34,14 +34,18 @@ class ChangePassword extends AdminBase
             $admin_id    = Session::get('admin_id');
             $data   = $this->request->param();
             $result = Db::name('admin_user')->find($admin_id);
-
+            if ($data['password'] == ''){
+                return json(array('code' => 0, 'msg' => '修改密码不能为空'));
+            }
             if ($result['password'] == md5($data['old_password'] . $result['salt'])) {
                 if ($data['password'] == $data['confirm_password']) {
                     $new_password = md5($data['password'] . $result['salt']);
-                    $res          = Db::name('admin_user')->where(['id' => $admin_id])->setField('password', $new_password);
+                    $res = Db::name('admin_user')->where(['id' => $admin_id])->setField('password', $new_password);
 
                     if ($res !== false) {
                         //$this->success('修改成功');
+                        session('admin_name',null);
+                        session('admin_id',null);
                         return json(array('code' => 200, 'msg' => '修改成功'));
                     } else {
                        // $this->error('修改失败');

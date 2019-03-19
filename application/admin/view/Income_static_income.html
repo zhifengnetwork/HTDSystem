@@ -40,10 +40,10 @@
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$key+1}</td>
-                <td>{$vo.id}/{$vo.username}</td>
+                <td>{$vo.uid}/{$vo.username}</td>
                 <td>{$vo.order_no}</td>
                 <td>0</td>
-                <td>{$vo.cu_name}</td>
+                <td>{$vo.alias_name}</td>
                 <td>{$vo.total_coin}</td>
                 <td>{$vo.percent}%</td>
                 <td>{$vo.base_money}</td>
@@ -68,3 +68,4 @@
         {$income_list->render()}
     </div>
 </div>
+{/block}
