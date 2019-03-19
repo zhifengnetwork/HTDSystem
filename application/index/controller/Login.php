@@ -26,21 +26,24 @@ class Login extends Controller
     public function login()
     {
         $arr = $this->request->post();
-        dump($arr);die;
         $res = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
-        $password = md5($arr['pwd'].$res['salt']);
-        dump($res['password']);
-        dump($password);die;
-        //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
-       //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
-        if($res['password'] == $password){
-            Session::set('home',$res);
-            setcookie("id",$res['id'],time()+60*10);
-            $url = "http://".$_SERVER ['HTTP_HOST'];
-            header("refresh:1;url=$url");
+        // dump($arr);die;
+        if($res){
+            $password = md5($arr['password'].$res['salt']);
+            // dump($res['password']);
+            // dump($password);die;
+            //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
+           //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
+            if($res['password'] == $password){
+                Session::set('home',$res);
+                $url = "http://".$_SERVER ['HTTP_HOST'];
+                $data=array('msg'=>'登录成功','flag'=>0,$url);
+            }
         }else{
             $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
         }
+        $data = json_encode($data,1);
+        echo $data;
        
     }
 //团队
