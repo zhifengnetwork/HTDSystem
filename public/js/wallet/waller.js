@@ -33,11 +33,41 @@ $(document).ready(function(){
 		$(".shadow").hide();
 	})
 
+//二维码显示隐藏
+	$("#sm_click").on("click",function(){
+		$(".payment_wenma").show()
+		$(".qb_bg").show()
+	})
+	//背景隐藏
+	$(".qb_bg").on("click",function(){
+		$(".payment_wenma").hide()
+		$(this).hide()
+	})
+	$(".payment_wenma_sc").on("click",function(){
+		$(".payment_wenma").hide()
+		$(".qb_bg").hide()		
+	})
+
+
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-	
+		
+		var domain = document.domain;
+		// 组织url
+		var qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr';
+		console.log(qrCodeUrl);
 		layer.msg(111122222);
+		$.ajax({
+			url: '/index/wallet/showWalletAddr',//CONTROLLER_URL+'a=check_bj',
+			type: 'post',
+      dataType: 'json',
+			data:{},
+			success:function(msg){
+				console.log(msg);
+				
+			}
+		});
 
 		$(".hideEvm").show();
 		/*蒙版*/

@@ -36,7 +36,7 @@ class Wallet extends HomeBase
         $htd_currency = $this->htd_currency();
         // 获取最低投资金额
         // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
-		// $min_money = arr2name($min_money);
+        // $min_money = arr2name($min_money);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
@@ -147,4 +147,20 @@ class Wallet extends HomeBase
         $users = db('user')->field($field)->where(['id'=>$user_id])->find();
         return $users;
     }
+
+    /**
+     *  显示钱包地址二维码
+     */
+    public function showWalletAddr(){
+
+        $walletAddr = input('walletAddr/s');
+        if($walletAddr){
+            $walletAddr = $walletAddr;
+        }else{
+            $walletAddr = 'is null';
+        }
+        $this->assign('walletAddr',$walletAddr);
+        return $this->fetch('Wallet/addr');
+    }
+
 }
