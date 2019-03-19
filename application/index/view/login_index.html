@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/reset.css">
 		<link rel="stylesheet" href="__PUBLIC__/css/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/login/login.css">
+		<link rel="stylesheet" href="__PUBLIC__css/public/alertWrap.css">
         
 	</head>
 
@@ -22,7 +23,8 @@
 						<h3>登录</h3>
 					</div>
 				 <div class="login-new-page">
-					  <form action="{:url('index/login/login')}" method="post" class="sms-login-from" id="form">
+						<!-- {:url('index/login/login')} -->
+					  <form action="" method="post" class="sms-login-from" id="form">
 						  <div class="info mistake"></div>
 						  <div class="from-group">
 							  <span class="from-tit">手机号:</span>
@@ -39,8 +41,8 @@
 								<input type="password" name="pwd" placeholder="请输入密码" class="pptt pwd" value>
 							</div>
 							</div>
-							<button class="btn dis" id="btn">登录</button>
 					  </form>
+						<button class="btn active" id="btn">登录</button>
 				  <div class="login-new">
 					  <a href="{:url('index/login/register')}" class="register">注册</a>
 					  <a href="./retrieve.html" class="retrieve">忘记密码?</a>
@@ -49,22 +51,41 @@
 				</div>
 	</body>
 	<script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
-	<script src="__PUBLIC__/plugins/layui/layui.js" type="text/javascript"></script>
+	<!-- <script src="__PUBLIC__/plugins/layui/layui.js" type="text/javascript"></script> -->
 	<script src="__PUBLIC__/js/login/login.js"></script>
 	<script src="__PUBLIC__/js/public/publicAlert.js"></script>
 </html>
 
 <script>
+$(function(){
+
 
 	$("#btn").click(function(){
 
-		var mobile = $.trim($("#phone").val());
+		var mobile = $.trim($(".phone").val());
 
-		var password = $.trim($("#password").val());
-
+		var password = $.trim($(".pwd").val());
+		console.log(password,6666);
+		if(mobile == ""){
+			suredAlert($('body'),'手机不能为空!!!');
+			return
+		}else if(!condition.phonestate){  //验证手机通过正则
+			suredAlert($('body'),'请输入正确的手机号码!!!');
+			return
+		}
+		
+  if(password == ""){
+		// alert('密码不能为空');
+		suredAlert($('body'),'密码不能为空!!!');
+		return
+	}else if(!condition.pwdstate){ //验证密码格式通过
+		suredAlert($('body'),'用户名密码格式错误 6~16位!!!');
+		return
+	}
 	//ajax去服务器端校验
 
 		var data= {mobile:mobile,password:password};
+		console.log(data);
 
 		$.ajax({
 
@@ -81,11 +102,12 @@
 				suredAlert($('body'),msg.msg,msg.url);
 				// alert(msg.msg);
 
-				window.location.href=window.location;
+				// window.location.href=window.location;
 
 			}
 
 		});
 
 	});
+})
 </script>

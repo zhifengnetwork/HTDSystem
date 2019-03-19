@@ -1,35 +1,46 @@
 $(document).ready(function(){
-	$(".asset").on("click",function(){
+	
+	/*点击出现-币种详情*/
+	$(".wtf_xiala").on('click',function(){
 		$(".showZ").show();
 		$(".shadow").show();
 	})
-	$(".hideIcon").on("click",function(){
+	
+	/*关闭-币值详情*/
+	$(".hideIcon").on('click',function(){
 		$(".showZ").hide();
 		$(".shadow").hide();
 	})
-	$(".sum").on("click",function(){
-		$(".pop").show();
+	/*投资-按钮*/
+	$('.sum').on('click',function(){
+		console.log(111)
+		$(".hideEvm").show();
+		/*蒙版*/
 		$(".shadow").show();
 	})
-	$(".hideTz").on("click",function(){
-		$(".pop").hide();
+	/*二维码-弹框-关闭*/
+	$('.shut').on('click',function(){
+		$(".hideEvm").hide();
 		$(".shadow").hide();
 	})
-	$(".ur").on("click",function(){
-		$(".code-up").show();
-		$(".pop").hide();
-	})
-	$(".shut").on('click',function(){
-		$(".code-up").hide();
-		$(".shadow").hide();
-	})
+	
 })
 
-
+/*获取对应的币值*/
+function obtainFun(_id){
+	console.log(_id);
+	/*关闭弹窗*/
+	$(".showZ").hide();
+	$(".shadow").hide();
+	
+	/*ajax*/
+	
+}
 function wallet(aaa){
 	$("#span").html(aaa);
 	console.log(aaa);	
 }
+
 function sc(){
 	var animateimg = $("#f").val(); //获取上传的图片名 带//
 	var imgarr=animateimg.split('\\'); //分割

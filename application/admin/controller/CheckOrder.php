@@ -18,9 +18,9 @@ class CheckOrder extends AdminBase
 	*/
     public function checkOrder()
     {
-			if(!is_post()){
-				return json(array('code' => 0, 'msg' => '提交类型错误'));
-			}
+			// if(!is_post()){
+			// 	return json(array('code' => 0, 'msg' => '提交类型错误'));
+			// }
 			$order_id = input('post.order_id/d');
 			if(!$order_id){
 				return json(array('code' => 0, 'msg' => '获取订单id异常'));

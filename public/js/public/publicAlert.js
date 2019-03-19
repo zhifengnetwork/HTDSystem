@@ -5,7 +5,7 @@
  * **/
 function suredAlert(_butShow,_text,_url) {
 	/*如果未传，默认空*/
-	var pageUrl = _url || false;
+	var pageUrl = _url || "";
 	/*创建标签*/
 	var str = '';
 	str += '<div class="maskWrap">';
@@ -37,7 +37,8 @@ function thisButD(_this,_url) {
 	/*保存this*/
 	var _that = $(_this);
 	console.log('跳转的路径:',_that.attr('data-url'));
-	if(!_that.attr('data-url')){
+	if(_that.attr('data-url') != ""){
+		console.log(66666666)
 		window.location.href = _that.attr('data-url');
 	}
 	/*删除 => 弹框*/
