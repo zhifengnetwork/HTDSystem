@@ -46,20 +46,19 @@ class Login extends Controller
         echo $data;
        
     }
-//团队
-	public function directDrive(){
-  
-      
-        $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
+    //团队
+    public function directdrive(){
+            
+        $home = session('home');
+
+        
+    
+        $res = DB::name('user')->where(['pid'=>$home['id']])->select();
         if($res){
-            $ress = DB::name('user')->where("pid",$res['id'])->select();
-			$aas=json_encode($ress);
-            $this->assign('aa', $aas);
-        }else{
-            
-            $this->assign('aa',0);
-            
+            // dump($res);die;
+            $this->assign('aa', $res);
         }
+        
         return view();
     }
 

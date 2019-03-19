@@ -36,22 +36,6 @@ class Index extends HomeBase
         return view();
     }
 	
-	//团队
-	public function directDrive(){
-  
-     
-        $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
-        if($res){
-            $ress = DB::name('user')->where("pid",$res['id'])->select();
-			$aas=json_encode($ress);
-            $this->assign('aa', $aas);
-        }else{
-            
-            $this->assign('aa',0);
-            
-        }
-        return view();
-    }
     //提币页面
     public function present(){
         // if (!session('userid')) {
@@ -131,6 +115,25 @@ class Index extends HomeBase
         }
         return view();
     }
+
+    //今日收益
+    public function dayrevenue()
+    {   
+        $home = session('home');
+        if(empty($home)){
+            return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
+        }
+        //当天开始时间
+        $start_time=strtotime(date("Y-m-d",time()));
+        
+        //当天结束之间
+        $end_time=$start_time+60*60*24;
+        $income = db('income')->whereTime('create_time','today')->where("uid = '".$home['id']."'")->select();
+        if($income){
+            $this->assign('income',$income);
+        }
+        return view();
+    }
     
     //分享
     public function qrcode(){
@@ -168,6 +171,23 @@ class Index extends HomeBase
 
     public function errors()
     {
+        return view();
+    }
+
+    //钱包余额
+    public function money()
+    {
+        $home = session('home');
+        if(empty($home)){
+            return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
+        }
+        
+        $income = db('user_wallet')->where("uid = '".$home['id']."'")->select();
+        // dump($income);die;
+        if($income){
+            $this->assign('income',$income);
+        }
+        $this->assign('income',$income);
         return view();
     }
 
