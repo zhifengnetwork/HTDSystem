@@ -3,6 +3,10 @@
 */
 
 body {
+    width: 100%;
+    height: 100vh;
+    font-size: 0.24rem;
+    font-family: "PingFangMedium";
     background: -moz-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #5ebfc8));
     background: -webkit-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
@@ -11,12 +15,11 @@ body {
 }
 
 .header-zp{
-    /* background-color: transparent; */
-	background: -moz-linear-gradient(top, #2866a3 0%, #2866a3 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #2866a3));
-	background: -webkit-linear-gradient(top, #2866a3 0%, #2866a3 100%);
-	background: -o-linear-gradient(top, #2866a3 0%, #2866a3 100%);
-	background: -ms-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
+    background: -moz-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #2866a3));
+    background: -webkit-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -o-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -ms-linear-gradient(top, #2866a3 0%, #2866a3 100%);
 }
 .retrievebox{
 	padding-top: .88rem;
@@ -52,7 +55,7 @@ body {
 
  .from-group .from-cc{
     font-size: .3rem;
-    padding-left: .1rem;
+    
  }
 
 .from-tit {
@@ -60,7 +63,7 @@ body {
     width: 25%;
     font-size: .3rem;
     color: #ffffff;
-    padding-left: .1rem;
+    
 }
 
 .from-group .from-icon{
@@ -69,6 +72,12 @@ body {
     width: 80%;
     border-radius: .1rem;
     height:.8rem;
+    display: flex;
+    flex-flow: nowrap;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
 }
 /* 输入栏图片 */
 .from-group .from-icon img{
@@ -76,6 +85,7 @@ body {
     height:.3rem;
     width: .3rem;
     vertical-align: middle;
+    padding-top: .24rem;
 }
 /* 输入框样式 */
 .from-group input {
@@ -139,14 +149,15 @@ body {
  /* 提示文字样式 */
     .info.mistake {
         color: red;
-		font-size: .3rem;
+        font-size: .3rem;
     }
 /* 提示栏样式 */
-.info{
-    height: .5rem;
-    line-height: .5rem;
-    padding-left: 2rem;
-}
+    .info{
+        height: .5rem;
+        line-height: .5rem;
+        padding-left: 2rem;
+    }
+
 /* 输入框字体颜色 */
 .pptt::-webkit-input-placeholder { /* WebKit browsers */
     color:#b8c9cf
