@@ -8,7 +8,7 @@
 	    <link rel="stylesheet" href="__PUBLIC__/css/my/editPass.css" />
 	    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 	    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-	   
+		<link rel="stylesheet" href="__PUBLIC__css/public/alertWrap.css">
 	</head>
 	<body>
 		 <!-- 头部 -->
@@ -26,23 +26,75 @@
 					</li>-->
 					<li>
 						<img src="__PUBLIC__/images/home/lj_szmm_img2.png" />
-						<input type="text"  placeholder="新密码"/>
+						<input type="password" id="pwd" name="pwd" placeholder="请输入原始密码"/>
 					</li>
 					<li>
 						<img src="__PUBLIC__/images/home/lj_szmm_img2.png" />
-						<input type="text"  placeholder="确认新密码"/>
+						<input type="password" id="password" name="password"  placeholder="新密码"/>
+					</li>
+					<li>
+						<img src="__PUBLIC__/images/home/lj_szmm_img2.png" />
+						<input type="password" id="userpassword" name="userpassword" placeholder="确认新密码"/>
 					</li>
 					
 				</ul>
 				<div class="lj_szmm_a">
-					<a href="#">确认修改</a>
+					<a id="btn">确认修改</a>
 				</div>
-				
+
 				
 			</div>	
 		</div>
 		</div>
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		 <script src="__PUBLIC__js/public/publicAlert.js"></script>
+
 	</body>
 </html>
+<script>
+
+	$("#btn").click(function(){
+		var password = $.trim($("#password").val());
+		var pwd = $.trim($("#pwd").val());
+		var userpassword = $.trim($("#userpassword").val());
+		if (password == ''){
+			suredAlert($('body'),'密码不能为空');
+			return false;
+		}
+		if (pwd == ''){
+			suredAlert($('body'),'原始密码不能为空');
+			return false;
+		}
+		//ajax去服务器端校验
+		if (password !== userpassword) {
+			suredAlert($('body'),'密码不一致');
+			return false;
+		}
+		var data= {password:password,userpassword:userpassword,pwd:pwd};
+
+		$.ajax({
+
+			type:"POST",
+
+			url:"{:url('index/my/password')}",
+
+			data:data,
+			dataType:'json',
+			success:function(msg){
+				// console.log(msg);
+				var msg  = JSON.parse(msg);
+				suredAlert($('body'),msg.msg);
+				// alert(msg.msg);
+				if (msg.flag == '1') {
+					suredAlert($('body'),msg.msg,msg.url);
+					window.location.href="{:url('index/my/index')}";
+				}
+				// window.location.href=window.location;
+
+			}
+
+		});
+
+	});
+</script>
