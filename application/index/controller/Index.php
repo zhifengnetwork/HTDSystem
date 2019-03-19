@@ -126,18 +126,16 @@ class Index extends HomeBase
     
     //分享
     public function qrcode(){
-        $id = session('user.user_id');
-        $promotion = DB::name('user')->where('id',$id)->value('promotion');
-
-        $data = array(
-            'code' => $promotion,
-//            'url' => 'http://fw.pt1130.cn/index/login/register?code='.$promotion
-            'url' => 'http://'.$_SERVER['HTTP_HOST'].'/index/login/register?promotion='.$promotion
-        );
-
-//        dump($data);//exit;
+        $home = session('home');
+        if($home){
+            $id = $home['id'];
+            $promotion = DB::name('user')->where('id',$id)->value('promotion');
+            $data = array(
+                'code' => $promotion,
+                'url' => 'http://'.$_SERVER['HTTP_HOST'].'/index/login/register?promotion='.$promotion
+            );
+        }
         $this->assign('data',$data);
-
         return view();
     }
 	
