@@ -15,12 +15,13 @@ class Income extends AdminBase
 
     public function info()
     {
-        $income_list = Db::name('income')->alias('in')
-            ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.uid=u.id','left')
-            ->join('htd_currency c','in.cu_id=c.id','left')
-            ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
-            ->order('in.id desc')->paginate(10);
+        $income_list = Db::name('buy_order')->alias('buy')
+            ->join('htd_user u','buy.uid=u.id','left')
+            ->join('htd_currency c','buy.cu_id=c.id','left')
+            ->field('u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
+            ->order('buy.id desc')->paginate(10);
+//        dump($income_list);
+
         $this->assign('act','info');
 
         return $this->fetch('info',['income_list' => $income_list]);
@@ -34,6 +35,7 @@ class Income extends AdminBase
         if ($keyword) {
             session('userkeyword',$keyword);
             $map['mobile'] = ['like', "%{$keyword}%"];
+            dump($map);exit;
         }else{
 
             if(session('userkeyword')!=''&&$page>1){
@@ -43,12 +45,10 @@ class Income extends AdminBase
                 session('userkeyword',null);
             }
         }
-        $user_list = Db::name('income')->alias('in')
-            ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.id=u.id','left')
+        $user_list = Db::name('buy_order')->alias('buy')
+            ->join('htd_user u','buy.uid=u.id','left')
             ->join('htd_currency c','buy.cu_id=c.id','left')
-            ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
-            ->where($map)->order('in.id DESC')->paginate(10);
+            ->order('buy.id desc')->paginate(10);
         $this->assign('act', $act);
         return $this->fetch('Income_'.$act,['income_list' => $user_list]);
     }
@@ -56,11 +56,21 @@ class Income extends AdminBase
     public function static_income()
     {
         $income_list = Db::name('income')->alias('in')
-            ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.id=u.id','left')
-            ->join('htd_currency c','buy.cu_id=c.id','left')
-            ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
-            ->order('in.id desc')->paginate(10);
+            ->where('type',101)
+            ->join('htd_user u','in.uid=u.id')
+            ->field('in.*,u.username,u.mobile,u.flag')
+            ->order('in.uid desc')->select();
+        if($income_list){
+            $curr = Db::name('currency')->select();
+            foreach($income_list as $k1=>$v2){
+                foreach($curr as $k=>$v){
+                    if($v2['cu_id'] == $v['id']){
+                        $income_list[$k1]['cu_name'] = $v['alias_name'];
+                    }
+                }
+            }
+        }
+//        dump($income_list);
 
         $this->assign('act','static_income');
         return $this->fetch('Income_static_income',['income_list' => $income_list]);
@@ -69,11 +79,20 @@ class Income extends AdminBase
     public function dynamic_income()
     {
         $income_list = Db::name('income')->alias('in')
-            ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.id=u.id','left')
-            ->join('htd_currency c','buy.cu_id=c.id','left')
-            ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
-            ->order('in.id desc')->paginate(10);
+            ->where('type',103)
+            ->join('htd_user u','in.uid=u.id')
+            ->field('in.*,u.username,u.mobile,u.flag')
+            ->order('in.uid desc')->select();
+        if($income_list){
+            $curr = Db::name('currency')->select();
+            foreach($income_list as $k1=>$v2){
+                foreach($curr as $k=>$v){
+                    if($v2['cu_id'] == $v['id']){
+                        $income_list[$k1]['cu_name'] = $v['alias_name'];
+                    }
+                }
+            }
+        }
         $this->assign('act','dynamic_income');
 
         return $this->fetch('Income_dynamic_income',['income_list' => $income_list]);
@@ -82,11 +101,20 @@ class Income extends AdminBase
     public function push_income()
     {
         $income_list = Db::name('income')->alias('in')
-            ->join('htd_buy_order buy','in.order_no=buy.order_no','left')
-            ->join('htd_user u','in.id=u.id','left')
-            ->join('htd_currency c','buy.cu_id=c.id','left')
-            ->field('in.*, u.mobile, u.username, buy.*, c.name,c.alias_name,c.note')
-            ->order('in.id desc')->paginate(10);
+            ->where('type',102)
+            ->join('htd_user u','in.uid=u.id')
+            ->field('in.*,u.username,u.mobile,u.flag')
+            ->order('in.uid desc')->select();
+        if($income_list){
+            $curr = Db::name('currency')->select();
+            foreach($income_list as $k1=>$v2){
+                foreach($curr as $k=>$v){
+                    if($v2['cu_id'] == $v['id']){
+                        $income_list[$k1]['cu_name'] = $v['alias_name'];
+                    }
+                }
+            }
+        }
         $this->assign('act','push_income');
 
         return $this->fetch('Income_push_income',['income_list' => $income_list]);

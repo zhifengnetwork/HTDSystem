@@ -1,6 +1,6 @@
 
 
-$(function(){
+// $(function(){
     // 状态
         var condition={
             username:false,       //用户名
@@ -16,7 +16,7 @@ $(function(){
         $(".username").blur(statusname)       //用户名
         $(".phone").blur(statusphone)         //手机
         $(".password").blur(statuspwd)        //密码
-        $(".affirmpwd").blur(affirmpwd)    //确认密码
+        $(".affirmpwd").blur(affirmpwd)       //确认密码
         $(".email").blur(statusemail)         //邮箱
         $(".verify").blur(statusverify)       //验证码
         $(".icon").click(statusicon)          //勾选
@@ -63,6 +63,7 @@ $(function(){
         function statuspwd(){
             var reg = /^[\w_-]{6,16}$/;  /*用户密码*/
             var password = $(this)
+            var pwd2 = $(".affirmpwd")
             if(password.val()==""){
                 password.parent().parent().prev().addClass("mistake").html(`密码不能为空`)
                 return condition.pwdstate=false
@@ -71,6 +72,9 @@ $(function(){
                 return condition.pwdstate=false
             }else{
                 password.parent().parent().prev().removeClass("mistake").html("") 
+                if(pwd2.val() != ""){
+                    $(".affirmpwd").blur()  
+                }
                 return condition.pwdstate=true
             }
          }
@@ -80,7 +84,7 @@ $(function(){
              var $pwd =  $(".password").val() 
              var $pwd2 = $(this)
              if($pwd2.val() == ""){
-                $pwd2.parent().parent().prev().addClass("mistake").html(`*确认密码不能为空`)
+                $pwd2.parent().parent().prev().addClass("mistake").html(`*两次输入的密码不一致`)
                 return condition.inconsistent=false
              }else if($pwd2.val()!=$pwd){
                 $pwd2.parent().parent().prev().addClass("mistake").html(`*输入密码不一致`)
@@ -122,6 +126,7 @@ $(function(){
         //验证码
         function statusverify(){
             var code1=$(this)
+            var code=123456;
             if(code1.val()==""){
                 code1.parent().parent().prev().addClass("mistake").html(`验证码不能为空`)
                 return condition.securitycode=false
@@ -158,6 +163,7 @@ $(function(){
                 return condition.phonestate=false
             }else
                createCode()
+               $(".verify").focus();
                console.log(code)
                 daojishi(60,$(this))
                 $(".phone").attr("disabled","disabled") 
@@ -208,99 +214,123 @@ $(function(){
         } 
      
       //注册
-      $(".btn").click(function(){
-        let userName = $(".username")  //用户名
-        let userPhone = $(".phone")    //手机
-        let password = $(".password")  //密码
-        let affirmpwd = $(".affirmpwd")   //确认密码
-        let userEmail = $(".email")    //邮箱
-        let rec = $(".recommend")      //推荐人
-        let verify = $(".verify")      //验证码
-        let body = $("body")
+    //   $(".btn").click(function(){
+    //     let userName = $(".username")  //用户名
+    //     let userPhone = $(".phone")    //手机
+    //     let password = $(".password")  //密码
+    //     let affirmpwd = $(".affirmpwd")   //确认密码
+    //     let userEmail = $(".email")    //邮箱
+    //     let rec = $(".recommend")      //推荐人
+    //     let verify = $(".verify")      //验证码
+    //     let body = $("body")
         
         
-        if(condition.username&&condition.phonestate&&condition.pwdstate&&condition.inconsistent&&condition.emailstate&&condition.iconstate&&condition.securitycode&&condition.referrer){
-                
-                suredAlert(body,"注册成功~");
-                return
-        }else{
-        //注册用户名
-            if (userName.val() == ""){       //用户名为空
-                suredAlert(body,"用户名不能为空~");
-                userName.focus()
-                return 
-        }else if (!condition.username){  //用户名格式不正确
-                suredAlert(body,"请输入正确的用户名~");
-                userName.focus()
-                return 
-        }
-        //注册用户名密码
-        if (password.val() == ""){       //密码为空
-                suredAlert(body,"密码不能为空~");
-                password.focus()
-                return
-        }else if (!condition.pwdstate){  //用户名密码
-                suredAlert(body,"请输入正确的密码~");
-                password.focus()
-                return 
-        } 
+    //     if(condition.username&&condition.phonestate&&condition.pwdstate&&condition.inconsistent&&condition.emailstate&&condition.iconstate&&condition.securitycode&&condition.referrer){
+    //         // console.log(userName);
+    //         // $.ajax({
+	// 		// 	type:"POST",
+	// 		// 	url:"{:url('index/login/regis')}",
+	// 		// 	data:{
+    //         //         username:username,
+    //         //         phone:phone,
+    //         //         password:password,
+    //         //         email:email,
+    //         //         recommend:recommend,
+    //         //         verify:verify
+    //         //     },
+	// 		// 	dataType:'json',
+	// 		// 	success:function(msg){
+	// 		// 		if(msg.url){
+	// 		// 			console.log(msg.url);
+	// 		// 			suredAlert($('body'),msg.msg,msg.url);
+	// 		// 			window.location.replace(msg.url);
+	// 		// 		}else{
+	// 		// 			alert(msg.msg);
+	// 		// 		}
+	// 		// 	}
+    //         // });
+    //         return 
+    //     }else{
+    //     //注册用户名
+    //         if (userName.val() == ""){       //用户名为空
+    //             suredAlert(body,"用户名不能为空~");
+    //             userName.focus()
+    //             return 
+    //     }else if (!condition.username){  //用户名格式不正确
+    //             suredAlert(body,"请输入正确的用户名~");
+    //             userName.focus()
+    //             return 
+    //     }
+    //     //注册用户名密码
+    //     if (password.val() == ""){       //密码为空
+    //             suredAlert(body,"密码不能为空~");
+    //             password.focus()
+    //             return
+    //     }else if (!condition.pwdstate){  //用户名密码
+    //             suredAlert(body,"请输入正确的密码~");
+    //             password.focus()
+    //             return 
+    //     } 
     
-        //确认密码
-        if(password.val() != affirmpwd.val()){  //密码不一致
-            console.log(password.val(),affirmpwd.val())
-                suredAlert(body,"输入密码不一致 请重新输入~");
-                affirmpwd.focus()
-                return
-        }
+    //     //确认密码
+    //     if(password.val() != affirmpwd.val()){  //密码不一致
+    //         console.log(password.val(),affirmpwd.val())
+    //             suredAlert(body,"输入密码不一致 请重新输入~");
+    //             affirmpwd.focus()
+    //             return
+    //     }
         
-        //用户邮箱
-        if(userEmail.val() == ""){        //邮箱为空
-                suredAlert(body,"邮箱不能为空~");
-                userEmail.focus()
-                return
-        }else if (!condition.emailstate){ //用户邮箱为false
-                suredAlert(body,"请输入正确的邮箱~");
-                userEmail.focus()
-                return 
-        }
+    //     //用户邮箱
+    //     if(userEmail.val() == ""){        //邮箱为空
+    //             suredAlert(body,"邮箱不能为空~");
+    //             userEmail.focus()
+    //             return
+    //     }else if (!condition.emailstate){ //用户邮箱为false
+    //             suredAlert(body,"请输入正确的邮箱~");
+    //             userEmail.focus()
+    //             return 
+    //     }
     
-        //用户名手机
-        if(userPhone.val() == ""){    
-                suredAlert(body,"手机号码不能为空~");
-                userPhone.focus()
-                return
-        }else if (!condition.phonestate){ //用户手机号
-                suredAlert(body,"请输入正确的手机号~");
-                userPhone.focus()
-                return 
-        }
+    //     //用户名手机
+    //     if(userPhone.val() == ""){    
+    //             suredAlert(body,"手机号码不能为空~");
+    //             userPhone.focus()
+    //             return
+    //     }else if (!condition.phonestate){ //用户手机号
+    //             suredAlert(body,"请输入正确的手机号~");
+    //             userPhone.focus()
+    //             return 
+    //     }
        
-        //推荐人
-        if (!condition.referrer){    //推荐人
-            suredAlert(body,"请填写推荐人~");
-            return
-        }
+    //     //推荐人
+    //     if (!condition.referrer){    //推荐人
+    //         suredAlert(body,"请填写推荐人~");
+    //         return
+    //     }
     
-        //验证码
-        if(verify.val() == ""){
-            suredAlert(body,"验证码不能为空~");
-            verify.focus()
-            return
-        }else if (!condition.securitycode){  //验证码
-            suredAlert(body,"请输入正确的验证码~");
-            verify.focus()
-            return
-        }
+    //     //验证码
+    //     if(verify.val() == ""){
+    //         suredAlert(body,"验证码不能为空~");
+    //         verify.focus()
+    //         return
+    //     }else if (!condition.securitycode){  //验证码
+    //         suredAlert(body,"请输入正确的验证码~");
+    //         verify.focus()
+    //         return
+    //     }
         
-        //勾选协议
-        if (!condition.iconstate){      //勾选协议
-            suredAlert(body,"请勾选用户协议~");
-            return
-        }
-        }
+    //     //勾选协议
+    //     if (!condition.iconstate){      //勾选协议
+    //         suredAlert(body,"请勾选用户协议~");
+    //         return
+    //     }
+
+
+    //     }
        
         
     
        
-      })
-      })
+    //   })
+
+    //   })

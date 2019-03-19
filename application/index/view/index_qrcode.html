@@ -126,7 +126,7 @@
            </div>
 	        
 	        
-			<!--<input id="text" type="text" value="{$data.url}" style="width:80%;" hidden /><br />-->
+			<input id="text" type="text" value="{$data.url}" style="width:80%;" hidden /><br />
 
 			<!--<div >
 				<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 50%;left: 50%;transform: translate(-40%,70%);"></div>
@@ -185,17 +185,16 @@
 				document.body.style.overflow = ''; //出现滚动条
 				document.removeEventListener("touchmove", mo, false);
 			}
-			// var qrcode = new QRCode(document.getElementById("qrcode"), {
-			// 	width: 150,
-			// 	height: 150
-			// });
-			var url = '{$data.url}';
-			new  QRCode(document.getElementById("qrcode"), url);
-			// var qrcode = new QRCode(document.getElementById("qrcode"), {
-			// 	text: '{$data.url}',
-			// 	width: 150,
-			// 	height: 150
-			// });
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+				width: 150,
+				height: 150
+			});
+			// var url = '{$data.url}';
+			// new  QRCode(document.getElementById("qrcode"), url),
+			// 		{
+			// 			width :50,
+			// 			height: 50
+			// 		};
 
 			function makeCode() {
 				var elText = document.getElementById("text");
