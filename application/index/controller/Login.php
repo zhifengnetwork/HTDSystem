@@ -37,7 +37,7 @@ class Login extends Controller
             if($res['password'] == $password){
                 Session::set('home',$res);
                 $url = "http://".$_SERVER ['HTTP_HOST'];
-                $data=array('msg'=>'登录成功','flag'=>0,$url);
+                $data=array('msg'=>'登录成功','flag'=>0,'url'=>$url);
             }
         }else{
             $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
