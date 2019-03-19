@@ -36,8 +36,22 @@ $(document).ready(function(){
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-	
+		
+		var domain = document.domain;
+		// 组织url
+		var qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr';
+		console.log(qrCodeUrl);
 		layer.msg(111122222);
+		$.ajax({
+			url: '/index/wallet/showWalletAddr',//CONTROLLER_URL+'a=check_bj',
+			type: 'post',
+      dataType: 'json',
+			data:{},
+			success:function(msg){
+				console.log(msg);
+				
+			}
+		});
 
 		$(".hideEvm").show();
 		/*蒙版*/
