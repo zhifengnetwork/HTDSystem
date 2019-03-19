@@ -49,6 +49,13 @@ body {
     width: 80%;    
     border-radius: .1rem;
     height:.8rem;
+    display: -webkit-box; 
+    display: -moz-box; 
+    display: -webkit-flex; 
+    display: -moz-flex; 
+    display: -ms-flexbox; 
+    display: flex;
+    flex-wrap:nowrap;
 }
 
 .from-group .from-icon img{
@@ -56,10 +63,18 @@ body {
     height:.3rem;
     width: .3rem;
     vertical-align: middle;
+    padding-top: .24rem;
 }
  .from-group .from-tit{
     display: inline-block;
     width: 20%;
+    display: -webkit-box; 
+    display: -moz-box; 
+    display: -webkit-flex; 
+    display: -moz-flex; 
+    display: -ms-flexbox; 
+    display: flex;
+    flex-wrap:nowrap;
     font-size: .3rem;
     color: #ffffff;
     padding-left: .1rem;
