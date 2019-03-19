@@ -17,6 +17,7 @@ class Login extends Controller
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
 			}else{
+                
 				return $this->fetch();
 			}
     

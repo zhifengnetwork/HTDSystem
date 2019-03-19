@@ -26,7 +26,13 @@ class Index extends HomeBase
     public function index()
     {
 
-        $user_id = session('home');
+        $user = session('home');
+        if($user){
+            $id = 1;
+        }else{
+            $id = 2;
+        }
+        $this->assign('id',$id);
         return view();
     }
 	

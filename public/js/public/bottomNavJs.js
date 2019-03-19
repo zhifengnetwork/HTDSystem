@@ -12,18 +12,47 @@ var bottomTabArrTwo = [
 	"/public/images/public/bottomNav/wallet-icon-2@2x .png",
 	"/public/images/public/bottomNav/user-icon-2@2x.png"
 ];
-/*底部nav-点击url路径_按循序*/
-var buttonNavUrl = [
-	"'/index/index.html'",
-	"'/index/wallet/wallet.html'",
-	"'/index/login/'",
-];
 /*底部nav-title_按循序*/
 var buttonNavTitle = [
 	"首页",
 	"钱包",
 	"我的"
 ];
+
+// 000
+/*底部nav-点击url路径_按循序*/
+var buttonNavUrl = [];
+/*未-登陆路径*/
+var loginFalse = [
+	"'/index/index/'",
+	"'/index/login/'",
+	"'/index/login/'",
+]
+/*已-登陆路径*/
+var loginTrue = [
+	"'/index/index/'",
+	"'/index/wallet/wallet/'",
+	"'/index/my/my/'",
+]
+
+/**对应登陆状态=>路径
+ * 未登录=> 0;
+ * 已登陆=> 1;
+ * **/
+console.log($('#bottomNavWrap').attr('data-id'),111);
+
+if(Number($('#bottomNavWrap').attr('data-id')) == 2){
+	for(var l=0;l<bottomTabArrOne.length;l++){
+		buttonNavUrl[l] = loginFalse[l]
+	}
+}else {
+	for(var q=0;q<bottomTabArrOne.length;q++){
+		buttonNavUrl[q] = loginTrue[q]
+	}
+}
+console.log('最终路径:',buttonNavUrl);
+
+// 000
 
 /*js动态创建-底部导航栏*/
 var botNavdStr = '';
