@@ -2,10 +2,6 @@
     注册样式表
     */
     body {
-        width: 100%;
-        height: 100vh;
-        font-size: 0.24rem;
-        font-family: "PingFangMedium";
         background: -moz-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #5ebfc8));
         background: -webkit-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
@@ -13,7 +9,12 @@
         background: -ms-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
     }
     .header-zp{
-        background-color: transparent;
+        /* background-color: transparent; */
+    background: -moz-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #2866a3));
+    background: -webkit-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -o-linear-gradient(top, #2866a3 0%, #2866a3 100%);
+    background: -ms-linear-gradient(top, #2866a3 0%, #2866a3 100%);
     }
     .registerbox{
         padding-top: .88rem;
@@ -27,7 +28,7 @@
     }
 
     .reg-new-page{
-        padding:.2rem .3rem 0rem .3rem;
+        padding:.2rem .3rem .6rem .3rem;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -60,7 +61,7 @@
 
     .from-group .from-icon {
         display: inline-block;
-        border: .01rem solid #ffffff;
+        border: 1px solid #ffffff;
         width: 80%;
         border-radius: .1rem;
         height: .8rem;
@@ -78,9 +79,10 @@
     
     .from-group input{
         padding-left:.1rem;
-        font-size: .2rem;
+        font-size: .3rem;
         width: 85%; 
         height:.8rem;
+		color: #ffffff;
     }
 
     .from-group .from-verify{
@@ -88,7 +90,7 @@
     }
 
     .from-group .from-icon .verify{
-        width: 1.6rem;    
+        width: 80%;    
     }
     
     .from-group .send-code{
@@ -157,13 +159,13 @@
     }
     .info{
         height: .5rem;
-        text-align: center;
-        width: 80%;  
         line-height: .5rem;
+        padding-left: 2rem;
     }
 
     .info.mistake{
         color: red;
+		font-size: .3rem;
     }
 
     .pptt::-webkit-input-placeholder { /* WebKit browsers */
@@ -189,7 +191,7 @@
         display: -webkit-flex;
         display: flex;
         justify-content: space-between;
-        padding-top:.2rem;
+        padding-top:.6rem;
     }
     .login-new a{
         background-color: transparent;

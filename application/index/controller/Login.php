@@ -17,6 +17,7 @@ class Login extends Controller
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
 			}else{
+
 				return $this->fetch();
 			}
     
@@ -25,18 +26,24 @@ class Login extends Controller
     public function login()
     {
         $arr = $this->request->post();
-        $res = DB::name('user')->where(['mobile'=>$arr['phone']])->find();
-        $password = md5($arr['pwd'].$res['salt']);
-        //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
-       //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
-        if($res['password'] == $password){
-            Session::set('home',$res);
-            setcookie("id",$res['id'],time()+60*10);
-            $url = "http://".$_SERVER ['HTTP_HOST'];
-            header("refresh:1;url=$url");
+        $res = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
+        // dump($arr);die;
+        if($res){
+            $password = md5($arr['password'].$res['salt']);
+            // dump($res['password']);
+            // dump($password);die;
+            //这里直接通过返回值给前端，让前端页面实现自己跳转，以下替换
+           //前端想要什么类型的传值都在$data添加，前端我做好了传值样式。
+            if($res['password'] == $password){
+                Session::set('home',$res);
+                $url = "http://".$_SERVER ['HTTP_HOST'];
+                $data=array('msg'=>'登录成功','flag'=>0,$url);
+            }
         }else{
             $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
         }
+        $data = json_encode($data,1);
+        echo $data;
        
     }
 //团队
@@ -58,7 +65,7 @@ class Login extends Controller
 
     public function register()
     {
-        $promotion = input('get/d');
+        $promotion = input('get.promotion/d');
         $this->assign('promotion',$promotion);
         return $this->fetch();
     }
@@ -104,15 +111,16 @@ class Login extends Controller
                         "promotion"=>byTgNo(),
                         "salt"=>$arr['salt']
                     );
+                    
                     DB::name('user')->insert($data);
-                    $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+                    $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
                     $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
                 }else{
                     $data=array('msg'=>"推广码不存在,不能进行注册!!!",'flag'=>6);
                 }
             }   
             $data = json_encode($data);
-            // echo $data;
+            echo $data;
         }
     }
 

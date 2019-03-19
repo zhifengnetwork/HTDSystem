@@ -14,6 +14,13 @@ class Wallet extends HomeBase
     */
     public function wallet()
     {
+        $user = session('home');
+        if($user){
+            $id = 1;
+        }else{
+            $id = 2;
+        }
+        
         $user_id = session('home.id')?session('home.id'):1;
         $users = $this->users($user_id);
         $user_order = $this->user_order($user_id);
@@ -27,6 +34,7 @@ class Wallet extends HomeBase
         $this->assign('htd_currency',$htd_currency);
         $this->assign('min_money',$min_money['price_min1']['value']);
         $this->assign('user',$users);
+        $this->assign('id',$id);
         return $this->fetch();
     }
 

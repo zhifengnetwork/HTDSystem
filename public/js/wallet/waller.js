@@ -1,4 +1,14 @@
 $(document).ready(function(){
+	//点击总投资-弹出框
+	$(".asset").on("click",function(){
+		$(".pop").show();
+		$(".shadow").show();
+	})
+	//点击关闭总投资-弹出框
+	$(".hideTz").on("click",function(){
+		$(".pop").hide();
+		$(".shadow").hide();
+	})
 	
 	/*点击出现-币种详情*/
 	$(".wtf_xiala").on('click',function(){
@@ -12,19 +22,20 @@ $(document).ready(function(){
 		}
 		
 		$(".showZ").show();
+		/*蒙版*/
 		$(".shadow").show();
 	})
 	
 	/*关闭-币值详情*/
 	$(".hideIcon").on('click',function(){
-		$(".showZ").hide();
+		$(".assetPopup").hide();
+		/*蒙版*/
 		$(".shadow").hide();
 	})
 
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-		console.log(111)
 	
 		layer.msg(111122222);
 
@@ -35,6 +46,7 @@ $(document).ready(function(){
 	/*二维码-弹框-关闭*/
 	$('.shut').on('click',function(){
 		$(".hideEvm").hide();
+		/*蒙版*/
 		$(".shadow").hide();
 	})
 	
@@ -55,7 +67,7 @@ function obtainFun(id,name,price){
 		return false;
 	}
 	/*关闭弹窗*/
-	$(".showZ").hide();
+	$(".assetPopup").hide();
 	$(".shadow").hide();
 	// 点击获取name值到input框
 	$('#cu_name_input').html(name);	
