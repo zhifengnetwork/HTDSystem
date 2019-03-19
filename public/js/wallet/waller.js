@@ -136,7 +136,23 @@ function obtainFun(id,name,price,walletAddr){
 		return false;
 	}
 	getQrcode(walletAddr);
-
+	// 获取填充对应币种钱包地址
+	$('.p_text').html(walletAddr);
+	// 钱包地址二维码
+	var qrCodeUrl = '';
+	var domain = document.domain;
+	// 组织url
+	qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr/?walletAddr='+walletAddr;
+	console.log(qrCodeUrl);
+	new QRCode('tg_qrcode', {
+		text: qrCodeUrl, 
+		width: 220, 
+		height: 220, 
+		colorDark : '#000000', 
+		colorLight : '#ffffff', 
+		correctLevel : QRCode.CorrectLevel.H 
+	});
+	
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
 	$(".shadow").hide();
@@ -162,22 +178,7 @@ function obtainFun(id,name,price,walletAddr){
 // 生成对应二维码地址
 function getQrcode(walletAddr){
 	$('#tg_qrcode').html("");
-	// 获取填充对应币种钱包地址
-	$('.p_text').html(walletAddr);
-	// 钱包地址二维码
-	var qrCodeUrl = '';
-	var domain = document.domain;
-	// 组织url
-	qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr/?walletAddr='+walletAddr;
-	console.log(qrCodeUrl);
-	new QRCode('tg_qrcode', {
-		text: qrCodeUrl, 
-		width: 220, 
-		height: 220, 
-		colorDark : '#000000', 
-		colorLight : '#ffffff', 
-		correctLevel : QRCode.CorrectLevel.H 
-	});
+	
 }
 
 function sc(){
