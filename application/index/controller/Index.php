@@ -33,6 +33,8 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
+        $money = 0;
+        $this->assign('money',$money);
         return view();
     }
 	
@@ -138,6 +140,9 @@ class Index extends HomeBase
     //分享
     public function qrcode(){
         $home = session('home');
+        if(empty($home)){
+            return $this->redirect('index/login/index');
+        }
         if($home){
             $id = $home['id'];
             $promotion = DB::name('user')->where('id',$id)->value('promotion');
