@@ -206,8 +206,8 @@
 					success:function(msg){
 						if(msg.url){
 							// console.log(msg.url);
-							// suredAlert($('body'),msg.msg,msg.url);
-							window.location.replace(msg.url);
+							suredAlert($('body'),msg.msg,msg.url);
+							// window.location.replace(msg.url);
 						}else{
 							suredAlert($('body'),msg.msg);
 						}

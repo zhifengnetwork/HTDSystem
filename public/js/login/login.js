@@ -51,18 +51,16 @@
 	 	return false;
 	 }
 
-	 //输入框有值 botton切换样式
-	 $(".pptt").keyup(function(){
-		var input = [];
-		$(".pptt[value]").each(function(i,item){
-			if(item.value!=""){
-				input.push(item)
-			}
-	})	
-	  if(input.length==$(".from-icon>input").length){
-			$(".btn").removeClass("dis").addClass("active").attr("disabled",false)
-		}else{
-			$(".btn").addClass("dis").removeClass("active").attr("disabled",true)  
-		}
-})
+// 	 //输入框有值 botton切换样式
+// 	 $(".pptt").keyup(function(){
+// 		var input = [];
+// 		$(".pptt[value]").each(function(i,item){
+// 			if(item.value!=""){
+// 				input.push(item)
+// 			}
+// 	})	
+// 	  if(input.length==$(".from-icon>input").length){
+// 			$(".btn").removeClass("dis").addClass("active").attr("disabled",false)
+// 		}
+// })
 
