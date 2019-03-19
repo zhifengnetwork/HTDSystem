@@ -57,13 +57,13 @@ function obtainFun(id,name,price){
 	// 获取投资金额
 	var money = $('.inp').val();
 	// 获取最小投资金额
-	var min_money = $('.min_money').html();
+	// var min_money = $('.min_money').html();
 	if(!money){
 		layer.msg('请先输入投资额');
 		return false;
 	}
-	if(money<min_money){
-		layer.msg('投资额最低'+min_money);
+	if(money<1){
+		layer.msg('投资额额度不可为0');
 		return false;
 	}
 	/*关闭弹窗*/
