@@ -16,11 +16,11 @@ class Currency extends AdminBase
     public function index($name = '',$names = '')
     {
         if ($name){
-            $currencyData = Db::name('currency')->where('name','like','%'.$name.'%')->paginate(10);
+            $currencyData = Db::name('currency')->where('name','like','%'.$name.'%')->paginate(15);
             Session::set('name',$name);
             $names = Session::get('name');
         } else {
-            $currencyData = Db::name('currency')->paginate(10);
+            $currencyData = Db::name('currency')->paginate(15);
         }
 
         $i = 1;

@@ -1,4 +1,6 @@
-
+.user {
+	padding: .5rem 0 .95rem 0;
+}
 .active{
 	display: block !important;
 }
@@ -11,7 +13,7 @@
 	text-align: center;
 	border: 1px solid #fff;
 	border-radius:2rem;
-	margin: .5rem 20px;
+	margin: 0 20px .5rem 20px;
 	line-height: 1rem;
 }
 .zjy_box .zjy_ul li{
@@ -68,7 +70,7 @@ th,td{
 .zjy_box_conten .zjy_box_conten_item .bag-wrap {
 	margin: 0 auto;
 	width: 85%;
-	height: 1.75rem;
+	/*height: 1.25rem;*/
 	border-radius: 10px;
 	letter-spacing:15px;
 	background: linear-gradient(left,#5581f1,#1153fc);
@@ -78,11 +80,10 @@ th,td{
 	font-size: .55rem;
 	font-weight: 900;
 	text-align: center;
-	line-height: 1.75rem;
+	line-height: 1.25rem;
 }
 .amount {
-	margin-top: 15%;
-	padding-left: 25%;
+	margin-top: 10%;
 }
 .amount span {
 	font-size: .35rem;
@@ -101,7 +102,7 @@ th,td{
 }
 
 .sum {
-	margin: 15% auto;
+	margin: 5% auto;
 	width: 70%;
 	height: 1rem;
 	background: #1eb0d4;
@@ -121,7 +122,7 @@ th,td{
 	display: none;
 	position: absolute;
 	top: 15%;
-	left: 5%;
+	left: 4.1%;
 	z-index: 5;
 	width: 90%;
 	height: 9.5rem;
@@ -135,12 +136,7 @@ th,td{
 	font-size: .35rem;
 	text-align: center;
 }
-.assetPopup .iconfont {
-	position: absolute;
-	top: 2px;
-	right: 0;
-	font-size: .75rem;
-}
+
 
 /*二维码-弹框*/
 .code-up {
@@ -164,9 +160,9 @@ th,td{
 }
 .code-up .shut {
 	position: absolute;
-	top: -2px;
-	right: 0;
-	font-size: .75rem;
+	top: 0;
+	right: 1px;
+	font-size: .6rem;
 }
 .code-up .site {
 	width: 90%;
@@ -184,7 +180,7 @@ th,td{
 	
 }
 .code-up .notarize {
-	margin: .8rem auto;
+	margin: .65rem auto;
 	width: 50%;
 	background: linear-gradient(#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(#ffcb52,#ff7b02);
@@ -201,13 +197,24 @@ th,td{
 	margin-top: 1.2rem;
 }
 .det {
+	position: fixed;
+	width: 90%;
 	font-size: .35rem;
 	font-weight: 900;
 	line-height: .7rem;
+	letter-spacing: 5px;
 	color: #000;
 	text-align: center;
 	background: linear-gradient(left,#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(left,#ffcb52,#ff7b02);
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.assetPopup .iconfont {
+	position: fixed;
+	top: 2.25rem;
+	right: .45rem;
+	font-size: .6rem;
 }
 /*进度条*/
 .loader-container {
@@ -395,3 +402,146 @@ input::-webkit-inner-spin-button {
 .termBox span{display: block}
 .termBox span:nth-child(1){width:40%;text-align: right;float: left;}
 .termBox span:nth-child(2){width:60%;text-align: left;float: left;}
+
+/*<!--总投资-弹框-->*/
+.thead-zp {
+	padding-top: .7rem;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.thead-zp ul{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 0.3rem;
+    color: #fff;
+}
+.thead-zp ul li{
+    width: 25.5%;
+    text-align: center;
+}
+
+.tbody-zp ul li{
+    height: 0.6rem;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #fff;
+    font-size: 0.26rem;
+}
+.tbody-zp ul li div{
+    width: 25.5%;
+    text-align: center;
+}
+
+/*付款*/
+.payment{
+	width: 100%;
+	
+}
+.payment .wq_fa{
+	display: inline-block;
+	width: .4rem;
+	height: .4rem;
+	border: 1px solid #2b53b2;
+	border-radius: 50%;
+	vertical-align: bottom;
+	margin-right: .2rem;
+}
+.payment_active{
+	display:inline-block;
+	width: .3rem;
+	height: .3rem;
+	background: #4080ff;
+	border-radius: 50%;
+	vertical-align: bottom;
+}
+.payment .payment_ul{
+	display: flex;
+	text-align: center;
+}
+.payment .payment_ul li {
+	flex: 1;
+}
+.payment_cont_item{
+	display: none;
+}
+.payment_cont_item h3{
+	margin: .3rem .3rem;
+}
+.payment_cont_item .payment_cont_text textarea{
+	width: 90%;
+	height: 1rem;
+	margin: 0 auto;
+	display: block;
+	background: #0f184f;
+	color: #fff;
+	border-radius:.2rem ;
+}
+.payment_cont_sox{
+	display: flex;
+	margin:.7rem .5rem ;
+}
+.payment_cont_qb{
+	flex: 1;
+	line-height: .8rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+	text-align: center;
+	margin:0 .2rem;
+}
+.payment_cont_sc{
+	width:2rem;
+	line-height: .5rem;
+	text-align: center;
+	margin-left: .5rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+}
+.payment_cont_wz{
+	width: 90%;
+	color: #c8932b;
+	margin: .3rem auto;
+	text-align: center;
+}
+.payment_cont_img{
+	width: .4rem;
+	height: .4rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+/*付款结束*/
+
+/*账户余额*/
+.amount .bonus {
+	padding: 0 0 0 5%;
+	color: #7c9ee1;
+	font-size: .35rem;
+	line-height: .75rem;
+}
+.amount .t-inp-wrap {
+	padding: 5% 0;
+	width: 100%;
+	background: #0f184f;
+}
+.amount .t-inp-wrap .t-inp {
+	margin: 0 auto;
+	width: 90%;	
+	border: .01rem solid #2d3b7c;
+	border-radius: 5px;
+}
+.amount .t-inp-wrap .t-inp .number {
+	padding: 2%;
+	width: 85%;
+	height: .6rem;
+	color: #fff;
+}
