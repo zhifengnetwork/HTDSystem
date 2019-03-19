@@ -37,17 +37,17 @@ class My extends HomeBase
     }
     
     
-    public function editUser()
+    public function edituser()
     {
         return $this->fetch();
     }
 
-    public function setPass()
+    public function set_pass()
     {
         return $this->fetch();
     }
 
-    public function upIDCardNew()
+    public function up_id_card_new()
     {
         return $this->fetch();
     }
