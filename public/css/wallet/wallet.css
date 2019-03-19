@@ -1,6 +1,9 @@
 body {
 	overflow: hidden;
 }
+.user {
+	padding-top: .5rem;
+}
 .active{
 	display: block !important;
 }
@@ -13,7 +16,7 @@ body {
 	text-align: center;
 	border: 1px solid #fff;
 	border-radius:2rem;
-	margin: .5rem 20px;
+	margin: 0 20px .5rem 20px;
 	line-height: 1rem;
 }
 .zjy_box .zjy_ul li{
