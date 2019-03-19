@@ -282,25 +282,26 @@ $(function(){
        
         //推荐人
         if (!condition.referrer){    //推荐人
-            suredAlert(body,"请填写推荐人~");
-            return
+                suredAlert(body,"请填写推荐人~");
+                rec.focus()
+                return
         }
     
         //验证码
         if(verify.val() == ""){
-            suredAlert(body,"验证码不能为空~");
-            verify.focus()
-            return
+                suredAlert(body,"验证码不能为空~");
+                verify.focus()
+                return
         }else if (!condition.securitycode){  //验证码
-            suredAlert(body,"请输入正确的验证码~");
-            verify.focus()
-            return
+                suredAlert(body,"请输入正确的验证码~");
+                verify.focus()
+                return
         }
         
         //勾选协议
         if (!condition.iconstate){      //勾选协议
-            suredAlert(body,"请勾选用户协议~");
-            return
+                suredAlert(body,"请勾选用户协议~");
+                return
         }
         }
        
