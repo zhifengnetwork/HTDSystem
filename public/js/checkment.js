@@ -34,23 +34,30 @@ layui.use(['layer','jquery','form'],function(){
   var length= jq('.admin-table #content tr').length;
  
   layer.confirm('通过审核?', {icon: 3, title:'安全提示'}, function(index){
-		    loading = layer.load(2, {
-			      shade: [0.2,'#000']
-			    });
-		   
-			  
-			    jq.getJSON(url,function(data){
-			    	
-			      if(data.code == 200){
-			        layer.close(loading);
-			        layer.msg(data.msg, {icon: 1, time: 1000}, function(){
-			          
-			        });
-			      }else{
-			        layer.close(loading);
-			        layer.msg(data.msg, {icon: 2, anim: 6, time: 1000});
-			      }
-			    });
+      loading = layer.load(2, {
+          shade: [0.2,'#000']
+      });
+          jq.getJSON(url,function(data){
+
+              if(data.code == 200){
+                  layer.close(loading);
+                  layer.msg(data.msg, {icon: 1, time: 1000}, function(){
+                      //
+                      if(length-1>0){
+                          location.reload();
+                      }else{
+                          if(page>1){
+                              page=page-1;
+                          }
+                              window.location.reload();
+                      }
+
+                  });
+              }else{
+                  layer.close(loading);
+                  layer.msg(data.msg, {icon: 2, anim: 6, time: 1000});
+              }
+          });
 		 
 		}); 
 	  

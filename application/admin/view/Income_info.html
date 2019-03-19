@@ -41,7 +41,7 @@
                 <td>{$key+1}</td>
                 <td>{$vo.id}/{$vo.username}</td>
                 <td>{$vo.mobile}</td>
-                <td>{$vo.alias_name}{$vo.cu_id}&nbsp;&nbsp;&nbsp;{$vo.note}</td>
+                <td>{$vo.alias_name}</td>
                 <td>{$vo.price}</td>
                 <td>{$vo.total_money}</td>
                 <td>{$vo.num}</td>
@@ -56,7 +56,12 @@
                     {/switch}
                     </td>
                 <td>
+                    {if condition='$vo.is_check == 0'}
                     <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/CheckOrder/checkOrder',['order_id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
+                    {/if}
+                    {if condition='$vo.is_check == 1'}
+                    <span type="text">已审核</span>
+                    {/if}
                 </td>
             </tr>
             {/foreach}

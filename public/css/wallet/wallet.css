@@ -1,8 +1,5 @@
-body {
-	overflow: hidden;
-}
 .user {
-	padding-top: .5rem;
+	padding: .5rem 0 .95rem 0;
 }
 .active{
 	display: block !important;
@@ -73,7 +70,7 @@ th,td{
 .zjy_box_conten .zjy_box_conten_item .bag-wrap {
 	margin: 0 auto;
 	width: 85%;
-	height: 1.75rem;
+	/*height: 1.25rem;*/
 	border-radius: 10px;
 	letter-spacing:15px;
 	background: linear-gradient(left,#5581f1,#1153fc);
@@ -83,15 +80,16 @@ th,td{
 	font-size: .55rem;
 	font-weight: 900;
 	text-align: center;
-	line-height: 1.75rem;
+	line-height: 1.25rem;
 }
 .amount {
-	margin-top: 15%;
-	padding-left: 25%;
+	margin-top: 3%;
+	
 }
 .amount span {
 	font-size: .35rem;
 	font-weight: 900;
+	padding-left: 25%;
 }
 .amount .inp {
 	width: 35%;
@@ -162,6 +160,22 @@ th,td{
 .tu img {
 	width: 100%;
 }
+.p_text{
+	width: 6rem;
+    margin: 0 auto;
+    background: #0f184f;
+    border: 1px solid #4080ff;
+    color: #fff;
+    border-radius: .06rem;
+    padding: .08rem .03rem;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    word-break: break-word;
+    
+    
+    font-size: .26rem;
+}
 .code-up .shut {
 	position: absolute;
 	top: 0;
@@ -184,7 +198,7 @@ th,td{
 	
 }
 .code-up .notarize {
-	margin: .8rem auto;
+	margin: .65rem auto;
 	width: 50%;
 	background: linear-gradient(#ffcb52,#ff7b02);
 	background: -webkit-linear-gradient(#ffcb52,#ff7b02);
@@ -201,8 +215,8 @@ th,td{
 	margin-top: 1.2rem;
 }
 .det {
-	position: fixed;
-	width: 90%;
+	position: absolute;
+	width: 100%;
 	font-size: .35rem;
 	font-weight: 900;
 	line-height: .7rem;
@@ -215,9 +229,9 @@ th,td{
 	-webkit-box-sizing: border-box;
 }
 .assetPopup .iconfont {
-	position: fixed;
-	top: 2.35rem;
-	right: .45rem;
+	position: absolute;
+	top: 2px;
+	right: 0;
 	font-size: .6rem;
 }
 /*进度条*/
@@ -445,4 +459,167 @@ input::-webkit-inner-spin-button {
 .tbody-zp ul li div{
     width: 25.5%;
     text-align: center;
+}
+
+/*付款*/
+.payment{
+	width: 100%;
+	
+}
+.payment_cont {
+	background: #0f184f;
+}
+.payment .wq_fa{
+	display: inline-block;
+	width: .4rem;
+	height: .4rem;
+	border: 1px solid #2b53b2;
+	border-radius: 50%;
+	vertical-align: bottom;
+	margin-right: .2rem;
+}
+.payment_active{
+	display:inline-block;
+	width: .3rem;
+	height: .3rem;
+	background: #4080ff;
+	border-radius: 50%;
+	vertical-align: bottom;
+}
+.payment .payment_ul{
+	margin: 0 0 3%;
+	display: flex;
+	text-align: center;
+}
+.payment .payment_ul li {
+	flex: 1;
+}
+.payment_cont_item{
+	display: none;
+}
+.fshe{
+	padding: 3% 5%;
+    color: #7c9ee1;
+    font-size: .35rem;
+    line-height: .85rem;
+	
+}
+.payment_cont_item {
+	margin: .3rem 0;
+}
+.payment_cont_item .payment_cont_text textarea{
+	width: 90%;
+	height: 1rem;
+	margin: 0 auto;
+	display: block;
+	background: #0f184f;
+	color: #fff;
+	border-radius:.2rem ;
+}
+.payment_cont_sox{
+	display: flex;
+	margin:.7rem .5rem ;
+}
+.payment_cont_qb{
+	flex: 1;
+	line-height: .8rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+	text-align: center;
+	margin:0 .2rem;
+}
+.payment_cont_sc{
+	width:2rem;
+	line-height: .5rem;
+	text-align: center;
+	margin-left: .5rem;
+	border: 1px solid #4080ff;
+	border-radius:.2rem ;
+}
+.payment_cont_wz{
+	width: 90%;
+	color: #c8932b;
+	margin: .3rem auto;
+	text-align: center;
+}
+.payment_cont_img{
+	width: .4rem;
+	height: .4rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+/*付款结束*/
+
+/*账户余额*/
+.am .bonus {
+	padding: 3% 0 0 5%;
+	color: #7c9ee1;
+	font-size: .35rem;
+	line-height: .75rem;
+}
+.am .t-inp-wrap {
+	padding: 5% 0;
+	width: 100%;
+	background: #0f184f;
+}
+.am .t-inp-wrap .t-inp {
+	margin: 0 auto;
+	width: 90%;	
+	border: .01rem solid #2d3b7c;
+	border-radius: 5px;
+}
+.am .t-inp-wrap .t-inp .number {
+	padding: 2%;
+	width: 85%;
+	height: .6rem;
+	color: #fff;
+}
+
+/*二维码弹框*/
+.payment_wenma{
+	position: relative;
+	width: 70%;
+	height: 6rem;
+	background-color:#070a41;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	border: 1px solid #5b84fa;
+	border-radius:.3rem ;
+	z-index: 66;
+	display: none;
+}
+
+.qb_bg{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.4);
+	z-index: 33;
+	display: none;
+	
+}
+.payment_wenma_sc{
+	display: block;
+	position: absolute;
+	top: .1rem;
+	right: .1rem;
+	z-index: 1;	
+	width: .5rem;
+	height: .5rem;
+	/*float: right;*/
+}
+.payment_wenma_Two {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;	
+	margin: auto;
+	max-width: 80%;
+	max-height: 80%;
 }

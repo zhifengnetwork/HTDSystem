@@ -116,6 +116,7 @@ class User extends AdminBase
      */
     public function update($id)
     {
+
         if ($this->request->isPost()) {
             $data            = $this->request->param();
             $validate_result = $this->validate($data, 'User');
@@ -130,29 +131,18 @@ class User extends AdminBase
                 $user->mobile   = $data['mobile'];
                 $map['usermail']=$data['email'];
                 $map['id']=['neq',$id];
+
                 $hasuserhead = Db::name('user')->where($map)->count();
+
                 if($hasuserhead>0){
                     return json(array('code' => 0, 'msg' => '邮箱重复'));
                 }
-                $user->usermail    = $data['email'];
-                
-                if($data['status']==0&&$user['status']>0){
-                	$user->status   = 0-$user['status'];//等于 负的状态，当恢复时可以变为正数
-                }else if($data['status']==0&&$user['status']<=0){
-                	
-                	//不变
-                }else if($data['status']==1&&$user['status']>0){
-                	//不变
-                }else {
-                	$user->status   = 0-$user['status'];
-                }
-                
-               
-                $user->point   = $data['point'];
-                
+                $user->status = $data['status'];
+
                 if (!empty($data['password']) && !empty($data['confirm_password'])) {
                     $user->password = md5($data['password'] . $user['salt']);
                 }
+
                 if ($user->save() !== false) {
                    // $this->success('更新成功');
                     return json(array('code' => 200, 'msg' => '更新成功'));
