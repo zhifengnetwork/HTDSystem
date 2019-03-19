@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-		
+
 		var domain = document.domain;
 		// 组织url
 		var qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr';
