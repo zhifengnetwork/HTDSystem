@@ -45,6 +45,16 @@ $(document).ready(function(){
 		$(".payment_wenma").hide()
 	})
 
+	//出现弹框背景禁止滚动
+	$(".qb_bg").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap-up").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap").bind("touchmove","touchstart",function(e){
+		e.preventDefault();
+})
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
@@ -119,7 +129,7 @@ $(document).ready(function(){
 })
 
 /*获取对应的币值*/
-function obtainFun(id,name,price,walletAddr){
+function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 	// 获取投资金额
 	var money = $('.inp').val();
 	// 获取最小投资金额
@@ -132,23 +142,27 @@ function obtainFun(id,name,price,walletAddr){
 		layer.msg('投资额额度不可为0');
 		return false;
 	}
-	getQrcode(walletAddr);
-	// 获取填充对应币种钱包地址
-	$('.p_text').html(walletAddr);
-	// 钱包地址二维码
-	var qrCodeUrl = '';
 	var domain = document.domain;
-	// 组织url
-	qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
-	console.log(qrCodeUrl);
-	new QRCode('tg_qrcode', {
-		text: qrCodeUrl, 
-		width: 220, 
-		height: 220, 
-		colorDark : '#000000', 
-		colorLight : '#ffffff', 
-		correctLevel : QRCode.CorrectLevel.H 
-	});
+	var path_url = '/'+wallet_qrcode;
+	// 对应币种二维码放置
+	$('.payment_wenma_Two').attr('src',path_url);
+	// getQrcode(walletAddr);
+	// 获取填充对应币种钱包地址
+	// $('.p_text').html(walletAddr);
+	// 钱包地址二维码
+	// var qrCodeUrl = '';
+	// var domain = document.domain;
+	// // // 组织url
+	// // qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
+	// // console.log(qrCodeUrl);
+	// // new QRCode('tg_qrcode', {
+	// // 	text: qrCodeUrl, 
+	// // 	width: 220, 
+	// // 	height: 220, 
+	// // 	colorDark : '#000000', 
+	// // 	colorLight : '#ffffff', 
+	// // 	correctLevel : QRCode.CorrectLevel.H 
+	// // });
 
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
@@ -167,20 +181,17 @@ function obtainFun(id,name,price,walletAddr){
 		cu_num = cu_num.toFixed(8);
 		$('.p3').html(cu_num);
 	}
-	console.log(money);
 
 	/*ajax*/
 }
 
 // 生成对应二维码地址
-function getQrcode(walletAddr){
-	$('#tg_qrcode').html("");
+// function getQrcode(walletAddr){
+// 	$('#tg_qrcode').html("");
 	
-}
+// }
 
-function sc(){
-
-	layer.msg(111122222);
+/* function sc(){
 
 	var animateimg = $("#f").val(); //获取上传的图片名 带//
 	var imgarr=animateimg.split('\\'); //分割
@@ -266,7 +277,7 @@ function sc(){
 			// });  
 			//return false;
 		 }  
-	}
+	} */
 	
 //判断有内容则显示进度条
 	$("#f").on('change', function( e ){
