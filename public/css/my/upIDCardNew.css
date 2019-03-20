@@ -4,7 +4,7 @@
 
 .renderingRrpa{padding-top: 0.88rem;box-sizing: border-box;}
 
-.uploadWrap p{font-size: 0.3rem;color: #ffff;text-align: center;line-height: 0.8rem;}
+.uploadWrap p{font-size: 0.3rem;color: #fff;text-align: center;line-height: 0.8rem;}
 
 .imageEchoBox img{position: absolute; top: 50%;left: 50%;transform: translate(-50%,-50%);max-width: 100%;max-height: 100%;}
 .uploadFile{width: 100%;height: 0.6rem;line-height: 0.6rem;position: absolute;top: 105%;left: 0;opacity: 0;z-index: 10;}
