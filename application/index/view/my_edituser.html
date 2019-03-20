@@ -61,7 +61,7 @@
 				// var url = '{:url("index/my/change")}';
 				var user_id = '{$info.id}';
 
-				var email_reg= /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; /*用户邮箱*/
+				var email_reg= /^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/; /*用户邮箱*/
 				var mobile_reg = /^1[34578]\d{9}$/;  /*用户手机号*/
 
 				if (email != "") {
