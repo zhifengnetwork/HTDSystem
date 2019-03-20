@@ -27,7 +27,7 @@
                 <th>投资币种</th>
                 <th>币种价格</th>
                 <th>投资金额</th>
-                <th>币种数量</th>
+                <th>收益总币数</th>
                 <th>投资日期</th>
                 <th>凭证</th>
                 <th>支付方式</th>
@@ -38,7 +38,7 @@
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$key+1}</td>
-                <td>{$vo.id}/{$vo.username}</td>
+                <td>{$vo.username}</td>
                 <td>{$vo.mobile}</td>
                 <td>{$vo.alias_name}</td>
                 <td>{$vo.price}</td>
