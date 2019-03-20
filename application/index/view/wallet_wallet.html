@@ -242,29 +242,6 @@
 					</div>
 
 				</div>
-				<div class="zjy_box_conten_item">
-					<table width="90%" border="1" cellspacing="0" cellpadding="0">
-						<tr>
-							<th>日期</th>
-							<th>币种</th>
-							<th>数量</th>
-							<th>单价</th>
-							<th>金额</th>
-						</tr>
-						{foreach name="user_order" item="vo"}
-						<tr>
-							<td>{$vo.create_time|date="Ymd",###}</td>
-							<td>{$vo.cu_name}</td>
-							<td>{$vo.num}</td>
-							<td>{$vo.price}</td>
-							<td>{$vo.total_money}</td>
-						</tr>
-						{/foreach}
-        			</table>
-        		</div>
-        		
-        	</div>
-        </div>
         <!--弹出二维码-->
     	<div class="payment_wenma">
     		<!--背景-->
