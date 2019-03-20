@@ -7,13 +7,14 @@ use think\Request;
 class Wallet extends HomeBase
 {
 
+    public $user = '';
     public function _initialize()
     {  
-        // $user = session('home');
-        // if(!$user){
-        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-        //     header("refresh:1;url=$url");
-        // }
+        $this->user = session('home');
+        if(!$this->user){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+            header("refresh:1;url=$url");
+        }
     }
     
     /**
@@ -22,14 +23,13 @@ class Wallet extends HomeBase
     */
     public function wallet()
     {
-        $user = session('home');
-        if($user){
+        if($this->user){
             $id = 1;
         }else{
             $id = 2;
         }
         
-        $user_id = session('home.id')?session('home.id'):1;
+        $user_id = session('home.id');
         $users = $this->users($user_id);
         $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
@@ -52,40 +52,48 @@ class Wallet extends HomeBase
     */
     public function confirmInvest()
     {
-
         if(!is_post()){
             return json(array('code' => 0, 'msg' => '提交方式错误'));
         }
         $param = input('post.');
         $cu_id = intval($param['cu_id']);
+        $pay_way = intval($param['pay_way']);
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
+
         // 判断币种是否开启
         $currency_one = Db::name("currency")->where(['id'=>$cu_id])->find();
+        // 判断币种是否存在
+        if(!$currency_one){
+            return json(array('code' => 0, 'msg' => '当前币种不存在'));
+        }
         if($currency_one['status']!=1){
             return json(array('code' => 0, 'msg' => '当前币种暂不开放'));
         }
-        if(!$param['num']){
+    
+        if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
-        if(!$param['price']){
-            return json(array('code' => 0, 'msg' => '币种价格不可为空'));
+        if(!$param['cu_price']){
+            return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         }
-        $total_money = $param['num']*$param['price']; // 
-        if($total_money!=$param['total_money']){
-            return json(array('code' => 0, 'msg' => '投资金额出错'));
-        }
+        $total_money = $param['cu_num']*$currency_one['price']; // 
+        // if($total_money!=$param['money']){
+        //     return json(array('code' => 0, 'msg' => '投资金额出错'));
+        // }
+        // 获取数据库单价
+        $cu_num =  $param['money']/$currency_one['price'];
         // 订单信息入库
         $data = array(
             'order_no' => byOrderNo(),
             'uid' => session('home.id'),
             'cu_id' => $cu_id,
-            'num'   => $param['num'],
-            'price' => $param['price'],
-            'total_money' => $total_money,
-            'pay_way' => 1,
-            'voucher' => 'ddddd',
+            'num'   => $cu_num,
+            'price' => $currency_one['price'],
+            'total_money' => $param['money'],
+            'pay_way' => $pay_way,
+            // 'voucher' => '111',
             'create_time' => time()
         );
         $res = Db::name('buy_order')->insert($data);
@@ -148,19 +156,19 @@ class Wallet extends HomeBase
         return $users;
     }
 
-    /**
-     *  显示钱包地址二维码
-     */
-    public function showWalletAddr(){
+    // /**
+    //  *  显示钱包地址二维码
+    //  */
+    // public function showWalletAddr(){
 
-        $walletAddr = input('walletAddr/s');
-        if($walletAddr){
-            $walletAddr = $walletAddr;
-        }else{
-            $walletAddr = 'is null';
-        }
-        $this->assign('walletAddr',$walletAddr);
-        return $this->fetch('Wallet/addr');
-    }
+    //     $walletAddr = input('walletAddr/s');
+    //     if($walletAddr){
+    //         $walletAddr = $walletAddr;
+    //     }else{
+    //         $walletAddr = 'is null';
+    //     }
+    //     $this->assign('walletAddr',$walletAddr);
+    //     return $this->fetch('Wallet/addr');
+    // }
 
 }

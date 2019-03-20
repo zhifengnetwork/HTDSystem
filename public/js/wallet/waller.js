@@ -49,23 +49,62 @@ $(document).ready(function(){
 	})
 
 
-
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
 		
-		var domain = document.domain;
-		// 组织url
-		var qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr';
-		console.log(qrCodeUrl);
-		layer.msg(111122222);
+		// 获取投资金额
+		var money = $('.inp').val();
+		// 获取最小投资金额
+		// var min_money = $('.min_money').html();
+		if(!money){
+			layer.msg('请先输入投资额');
+			return false;
+		}
+		if(money<1){
+			layer.msg('投资额额度不可为0');
+			return false;
+		}
+		var cu_id = $('#cu_name_input').attr('data-name');
+		var cu_price = $('.cu_price').html();
+		var cu_num = $('.p3').html();
+		if(!cu_id){
+			layer.msg('请选择币种');
+			return false;
+		}
+		if(!cu_price){
+			layer.msg('币种单价获取出错！');
+			return false;
+		}
+		if(!cu_num){
+			layer.msg('币种数量获取出错');
+			return false;
+		}
+
+		// 获取支付方式
+		var pay_way = $('#pay_way_id').val();
+		if(pay_way==1){
+			// 判断是否上传发票
+			// todo
+			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
+		}else{
+			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
+		}
+
 		$.ajax({
-			url: '/index/wallet/showWalletAddr',//CONTROLLER_URL+'a=check_bj',
+			url: '/index/wallet/confirmInvest',
 			type: 'post',
       dataType: 'json',
-			data:{},
+			data: dataJson,
 			success:function(msg){
-				console.log(msg);
-				
+				if(msg.code==200){
+					// layer.msg(msg.msg);
+					layer.msg(msg.msg, function(){
+						location.reload();
+					});
+				}else{
+					layer.msg(msg.msg);
+					return false;
+				}
 			}
 		});
 
@@ -83,7 +122,7 @@ $(document).ready(function(){
 })
 
 /*获取对应的币值*/
-function obtainFun(id,name,price){
+function obtainFun(id,name,price,walletAddr){
 	// 获取投资金额
 	var money = $('.inp').val();
 	// 获取最小投资金额
@@ -96,6 +135,24 @@ function obtainFun(id,name,price){
 		layer.msg('投资额额度不可为0');
 		return false;
 	}
+	getQrcode(walletAddr);
+	// 获取填充对应币种钱包地址
+	$('.p_text').html(walletAddr);
+	// 钱包地址二维码
+	var qrCodeUrl = '';
+	var domain = document.domain;
+	// 组织url
+	qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
+	console.log(qrCodeUrl);
+	new QRCode('tg_qrcode', {
+		text: qrCodeUrl, 
+		width: 220, 
+		height: 220, 
+		colorDark : '#000000', 
+		colorLight : '#ffffff', 
+		correctLevel : QRCode.CorrectLevel.H 
+	});
+
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
 	$(".shadow").hide();
@@ -113,13 +170,16 @@ function obtainFun(id,name,price){
 		cu_num = cu_num.toFixed(8);
 		$('.p3').html(cu_num);
 	}
-	console.log(min_money);
 	console.log(money);
 
 	/*ajax*/
-	
 }
 
+// 生成对应二维码地址
+function getQrcode(walletAddr){
+	$('#tg_qrcode').html("");
+	
+}
 
 function sc(){
 

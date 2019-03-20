@@ -21,44 +21,24 @@
         <!-- 标题 -->
         <div class="thead-zp">
             <ul>
-                <li>名称</li>
-                <li>数量</li>
-                <li>单价</li>
-                <li>金额</li>
+                <li>币种名称</li>
+                <!-- <li>币种数量</li> -->
+                <li>主流币</li>
+                <li>平台币</li>
+                <li>时间</li>
             </ul>
         </div>
         <div class="tbody-zp">
             <ul>
+                {foreach name="income" item="vo"}
                 <li>
-                    <div class="name">Alan</div>
-                    <div class="number">10</div>
-                    <div class="price">99.00</div>
-                    <div class="total-price">990.00</div>
+                    <div class="name">{$vo.cu_id|cu_get}</div>
+                    <!-- <div class="number">{$vo.total_coin}</div> -->
+                    <div class="number">{$vo.main_coin}</div>
+                    <div class="price">{$vo.htd_coin}</div>
+                    <div class="total-price">{:date("Y-m-d",$vo.create_time)}</div>
                 </li>
-                <li>
-                    <div class="name">Alan</div>
-                    <div class="number">10</div>
-                    <div class="price">99.00</div>
-                    <div class="total-price">990.00</div>
-                </li>
-                <li>
-                    <div class="name">Alan</div>
-                    <div class="number">10</div>
-                    <div class="price">99.00</div>
-                    <div class="total-price">990.00</div>
-                </li>
-                <li>
-                    <div class="name">Alan</div>
-                    <div class="number">10</div>
-                    <div class="price">99.00</div>
-                    <div class="total-price">990.00</div>
-                </li>
-                <li>
-                    <div class="name">Alan</div>
-                    <div class="number">10</div>
-                    <div class="price">99.00</div>
-                    <div class="total-price">990.00</div>
-                </li>
+                {/foreach}
             </ul>
 
         </div>  

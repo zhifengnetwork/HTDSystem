@@ -1,75 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-	<meta charset="utf-8"> 
-    <title>直推</title>
-    <!-- 包含头部信息用于适应不同设备 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 包含 bootstrap 样式表 -->
-    <link rel="stylesheet" href="https://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
-  </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>我的团队</title>
+    <script src="__PUBLIC__/js/public/rem.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css">
+</head>
+<body>
+    <div class="wrapper totalRevenue-wrap">
+        <!-- 头部 -->
+        <div class="header-zp">
+            <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+            <h3>我的团队</h3>
+            <!-- <span class="share-btn"><img src="../image/public/share-btn-zp.png" /></span> -->
+        </div>
+        <!-- 标题 -->
+        <div class="thead-zp">
+            <ul>
+                <li>用户名</li>
+                <li>电话号码</li>
+                <li>状态</li>
+                <li>时间</li>
+            </ul>
+        </div>
+        <div class="tbody-zp">
+            <ul>
+                {foreach name="aa" item="vo"}
+                <li>
+                    <div class="name">{$vo.username}</div>
+                    <div class="number">{$vo.mobile}</div>
+                    {if condition="$vo.activation == 0"}
+                    <div class="price" style="color:crimson">未激活</div>
+                    {else}
+                    <div class="price" style="color:chartreuse">激活</div>
+                    {/if}
+                    <div class="total-price">{:date("Y-m-d",$vo.last_login_time)}</div>
+                </li>
+                {/foreach}
+            </ul>
 
-  <body>
-    <div class="container">
-      <h2>我的团队</h2>
-    
-      <div class="table-responsive">          
-       <table class="table table-striped table-bordered">
-         <thead>
-           <tr>
-             <th>日期</th>
-             <th>用户名</th>
-             <th>电话号码</th>
-              <th>状态</th>
-           </tr>
-         </thead>
-         <tbody id="tab">
-          
-          
-         </tbody>
-       </table>
-      </div>
-
+        </div>  
+        
     </div>
-
-    <!-- JavaScript 放置在文档最后面可以使页面加载速度更快 -->
-    <!-- 可选: 包含 jQuery 库 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 可选: 合并了 Bootstrap JavaScript 插件 -->
-    <script src="https://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  
-  
-  <script>
-if({$aa}){
-	var b={$aa};	
-	for(var i = 0; i <b.length; i++){
-	var unixTimestamp = new Date(b[i].regtime*1000) ;
-	commonTime = unixTimestamp.toLocaleString();
-	var as=commonTime.substring(0,10);
-	var ac;
-	if(b[i].activation){
-		
-		 ac="激活"
-		
-	}else{
-		
-		ac="未激活";
-	}
-	  
-	 var tr = "<tr>"+"<td>"+as+"</td>"+"<td>"+b[i].username+"</td>"+"<td>"+b[i].mobile+"</td>"+"<td>"+ac+"</td>"+"</tr>";
-	$("#tab").append(tr);
-	  	
-	}
-	
-	
-}
-  
-  
-  </script>
-  
- 
-  
-  
-  </body>
-
+    
+    <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+    <script src="__PUBLIC__/js/public/swiper.js"></script>
+    <script src="__PUBLIC__/js/public/base.js"></script>
+   
+</body>
 </html>
