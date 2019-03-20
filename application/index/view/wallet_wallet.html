@@ -40,7 +40,7 @@
 						<p style="margin-left: 0.1rem;width: 25%;" id="cu_name_input" data-name="">选择币种</p>
 						<p style="width: 53%;text-align: right;"></p>
 						<p class="p1" style="color: #7596d8;">CNY</p>
-						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.15rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
+						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
 					</div>
 					<div class="wtf_item2">
 						<div class="wtf_item2_div">
@@ -168,7 +168,7 @@
 								{foreach name="htd_currency" item="vo"}
 								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
 									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
-									<span class="currency_title">{$vo.alias_name}<font></font></span>
+									<span class="currency_title">{$vo.alias_name}</span>
 									<span class="currency_number">{$vo.price}</span><br>
 								</div>
 								{/foreach}
