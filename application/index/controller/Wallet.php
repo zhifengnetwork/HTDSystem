@@ -79,6 +79,9 @@ class Wallet extends HomeBase
         if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
+        if(!$param['imgUrl']){
+            return json(array('code' => 0, 'msg' => '请上传发票'));
+        }
         // if(!$param['cu_price']){
         //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
@@ -140,7 +143,7 @@ class Wallet extends HomeBase
                     'price' => $currency_one['price'],
                     'total_money' => $param['money'],
                     'pay_way' => $pay_way,
-                    // 'voucher' => '111',
+                    'voucher' => $param['imgUrl'],
                     'create_time' => time()
                 );
                 $res = Db::name('buy_order')->insert($data);
