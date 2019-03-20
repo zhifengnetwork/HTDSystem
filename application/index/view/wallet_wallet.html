@@ -202,45 +202,23 @@
 							<!-- 标题 -->
 							<div class="thead-zp">
 								<ul>
-									<li>名称</li>
-									<li>数量</li>
-									<li>单价</li>
-									<li>金额</li>
+									<li>币种名称</li>
+									<li>币种数量</li>
+									<li>奖金钱包</li>
+									<li>全球分红</li>
 								</ul>
 							</div>
 							<!--详情-->
 							<div class="tbody-zp">
 								<ul>
+									{foreach name="userWallet" item="vs"}
 									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
+										<div class="name">{$vs.alias_name}</div>
+										<div class="number">{cu_num}</div>
+										<div class="number">{bonus_wallet}</div>
+										<div class="number">{rate_wallet}</div>
 									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
+									{/foreach}
 
 								</ul>
 							</div>
@@ -309,20 +287,11 @@
     		<div class="qb_bg_img" id="tg_qrcode">
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
     			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
-<<<<<<< HEAD
-    		</div>  	
-        
-
-	</div>
-	<!-- 底部导航 -->        
-	<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
-=======
     		</div>  
 			</div>
 			<!-- 底部导航 -->        
 			<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
 
->>>>>>> aaf2dafc540d66800f4a8492d32c5621d88a46ff
 	<!--弹框-阴影-->
 	<!--<div class="shadow"></div>-->
 
