@@ -198,6 +198,7 @@
 			  		$(this).next().slideToggle(500)
 					$(this).parent().siblings(".currency_list").children(".pull_down_content").slideUp(500)
 					if(!$(this).find(".pull_down").hasClass("up")){
+						$(".pull_down").removeClass("up")
 						$(this).find(".pull_down").addClass("up").removeClass("down")
 					}else{
 						$(this).find(".pull_down").removeClass("up").addClass("down")	
