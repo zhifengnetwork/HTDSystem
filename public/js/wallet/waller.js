@@ -33,19 +33,16 @@ $(document).ready(function(){
 		$(".shadow-wrap").hide();
 	})
 
-//二维码显示隐藏
+	//弹出二维码显示隐藏
 	$("#sm_click").on("click",function(){
 		$(".payment_wenma").show()
-		$(".qb_bg").show()
 	})
-	//背景隐藏
 	$(".qb_bg").on("click",function(){
 		$(".payment_wenma").hide()
-		$(this).hide()
+
 	})
 	$(".payment_wenma_sc").on("click",function(){
 		$(".payment_wenma").hide()
-		$(".qb_bg").hide()		
 	})
 
 

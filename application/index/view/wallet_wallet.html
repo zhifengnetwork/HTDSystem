@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -11,9 +10,6 @@
 	<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 	<link rel="stylesheet" href="__PUBLIC__/css/wallet/wallet.css" />
 	<link rel="stylesheet" href="__PUBLIC__/font/iconfont.css" />
-	<!-- <script type="text/javascript" src="../../../public/js/jquery-1.8.3.min.js"></script> -->
-
-
 </head>
 
 <body>
@@ -33,7 +29,6 @@
 					<div class="bag-wrap">
 						<div class="asset">总资产<span style="font-size: .3rem;"></span></div>
 					</div>
-
 					<div class="amount">
 						<span>投资额度：</span><input class="inp" type="number" value="" placeholder="请输入人民币" />
 					</div>
@@ -96,10 +91,7 @@
 								<div class="payment_cont_item avtive">
 									<div class="fshe">支付硬币</div>
 									<div class="payment_cont_text">
-										<!--<p class="p_text">
-											1111111111111111111111111111111111111111111111111
-										</p>-->
-										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text"></textarea>
+										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text">11111111</textarea>
 										<div class="payment_cont_sox">
 											<p class="payment_cont_qb" id="codeBtn" data-clipboard-target="#codeNum"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbfz.png"/></span>复制钱包地址</p>
 											<p class="payment_cont_qb" id="sm_click"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbewm.png"/></span>请扫二维码</p>																			
@@ -130,9 +122,7 @@
 								</div>
 							</div>
 						</div>
-						<!--选择付款方式-->
-	
-
+				
 
 					<div class="sum">投资</div>
 					<!--选择币值-弹框-->
@@ -276,16 +266,21 @@
         	</div>
         </div>
         <!--弹出二维码-->
-    	<div class="payment_wenma" id="tg_qrcode">
-    		<!-- <img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
-    		<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/> -->
-    	</div>
-    	<!--背景-->
-    	<div class="qb_bg"></div>
-    	
+    	<div class="payment_wenma">
+    		<!--背景-->
+    		<div class="qb_bg"></div>
+    		<div class="qb_bg_img">
+    			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
+    			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
+    		</div>  	
         <!-- 底部导航 -->        
         <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
-    
+
+	</div>
+
+	<!--弹框-阴影-->
+	<!--<div class="shadow"></div>-->
+
     </div>
     
 	 <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> 
