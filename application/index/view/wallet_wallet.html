@@ -13,9 +13,6 @@
 
 <body>
 	<div class="user">
-		<!--<div class="header-zp">
-            <h3>总收益</h3>
-        </div>-->
 		<div class="zjy_box">
 			<ul class="zjy_ul">
 				<li class="on">我的钱包</li>
@@ -63,13 +60,6 @@
 								<p></p>
 							</div>
 						</div>
-						<!-- <div class="wtf_item2_div">
-						<p>复投最低限额</p >
-						<div class="wtf_item2_c">
-							<p class="p2" style="color: #4ecdd0;">9909.57515600</p >
-							<p>ADA</p >
-						</div>
-					</div> -->
 					</div>
 
 					
@@ -82,15 +72,15 @@
 								<li>
 									<p class="wq_fa"><span class="payment_active"></span></p>从发票
 								</li>
-								<li>
+								<!-- <li>
 									<p class="wq_fa"><span></span></p>从账户余额
-								</li>
+								</li> -->
 							</ul>
 							<div class="payment_cont">
 								<div class="payment_cont_item avtive">
 									<div class="fshe">支付地址</div>
 									<div class="payment_cont_text">
-										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text">11111111</textarea>
+										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text"></textarea>
 										<div class="payment_cont_sox">
 											<p class="payment_cont_qb" id="codeBtn" data-clipboard-target="#codeNum"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbfz.png"/></span>复制钱包地址</p>
 											<p class="payment_cont_qb" id="sm_click"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbewm.png"/></span>请扫二维码</p>																			
@@ -257,17 +247,13 @@
 						<tr>
 							<th>日期</th>
 							<th>币种</th>
-							<th>数量</th>
-							<th>单价</th>
-							<th>金额</th>
+							<th>总数量</th>
 						</tr>
 						{foreach name="user_order" item="vo"}
 						<tr>
 							<td>{$vo.create_time|date="Ymd",###}</td>
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
-							<td>{$vo.price}</td>
-							<td>{$vo.total_money}</td>
 						</tr>
 						{/foreach}
         			</table>

@@ -55,7 +55,8 @@ $(document).ready(function(){
 	$(".shadow-wrap").bind("touchmove","touchstart",function(e){
 		e.preventDefault();
 })
-
+	/**投资按钮-状态 */
+	var stateJ = true;
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
 		
@@ -97,23 +98,29 @@ $(document).ready(function(){
 			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
 		}
 
-		$.ajax({
-			url: '/index/wallet/confirmInvest',
-			type: 'post',
-      dataType: 'json',
-			data: dataJson,
-			success:function(msg){
-				if(msg.code==200){
-					// layer.msg(msg.msg);
-					layer.msg(msg.msg, function(){
-						location.reload();
-					});
-				}else{
-					layer.msg(msg.msg);
-					return false;
+		if(stateJ){
+			stateJ = false;
+			$.ajax({
+				url: '/index/wallet/confirmInvest',
+				type: 'post',
+				dataType: 'json',
+				data: dataJson,
+				success:function(msg){
+					if(msg.code==200){
+						// layer.msg(msg.msg);
+						layer.msg(msg.msg, function(){
+							location.reload();
+						});
+						stateJ = true;
+					}else{
+						layer.msg(msg.msg);
+						stateJ = true;
+						return false;
+					}
 				}
-			}
-		});
+			});
+		}
+		
 
 		// $(".hideEvm").show();
 		// /*蒙版*/
@@ -146,9 +153,9 @@ function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 	var path_url = '/'+wallet_qrcode;
 	// 对应币种二维码放置
 	$('.payment_wenma_Two').attr('src',path_url);
-	// getQrcode(walletAddr);
 	// 获取填充对应币种钱包地址
-	// $('.p_text').html(walletAddr);
+	$('.p_text').html(walletAddr);
+	// getQrcode(walletAddr);
 	// 钱包地址二维码
 	// var qrCodeUrl = '';
 	// var domain = document.domain;

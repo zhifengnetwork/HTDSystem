@@ -23,7 +23,7 @@ class AutoIncome
 		// $orderWhere['create_time'] = array('<', $toDayTime);
 		$orderWhere['is_check'] = 1; // 已审核
 		$orderWhere['is_stop'] = 0;  // 订单没有终止的
-		$orderAll = Db::name('buy_order')->where($orderWhere)->select();
+		$orderAll = Db::name('execute_order')->where($orderWhere)->select();
 		if($orderAll){
 			// 获取htd价格
 			$htd_price = Db::name('currency')->field('id,price')->where(['alias_name'=>'HTD'])->find();
