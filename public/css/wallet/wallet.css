@@ -161,11 +161,11 @@ th,td{
 	overflow-y: auto;
 	border-radius: 8px;
 }
-.assetPopup .currency {
+/* .assetPopup .currency {
 	padding: 10% 0 0;
 	font-size: .35rem;
 	text-align: center;
-}
+} */
 .pop {
 	z-index: 65;
 }
@@ -244,14 +244,18 @@ th,td{
 .clicTK{
 	margin-top: 1.2rem;
 }
+
 .det {
 	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
 	width: 100%;
 	font-size: .35rem;
 	font-weight: 900;
 	line-height: .7rem;
 	letter-spacing: 5px;
-	color: #000;
+	color: #fff;
 	text-align: center;
 	background: linear-gradient(left,#c165dd,#5c27fe);
 	background: -webkit-linear-gradient(left,#c165dd,#5c27fe);
@@ -260,7 +264,7 @@ th,td{
 }
 .assetPopup .iconfont {
 	position: absolute;
-	top: 2px;
+	top: .02rem;
 	right: 0;
 	font-size: .6rem;
 }
@@ -443,13 +447,56 @@ input::-webkit-inner-spin-button {
 .wtf_item2_c p:nth-child(1){font-size: 0.24rem;color: #fff;}
 .wtf_item2_c p:nth-child(2){font-size: 0.24rem;color: #6a86c7;margin-left: 0.2rem;}
 .wtf_item2_c{float: right;}
-.termBox {
-	width: 100%;
-	height: auto;
+/* 币种弹框 padding */
+.showZ {
+	padding-top: .7rem;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
-.termBox span{display: block}
-.termBox span:nth-child(1){width:40%;text-align: right;float: left;}
-.termBox span:nth-child(2){width:60%;text-align: left;float: left;}
+.termBox {
+	padding-left: 5%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	height: .6rem;
+	line-height: .6rem;
+	font-size: .3rem;
+	letter-spacing: .02rem;
+
+}
+.termBox .iconImgW {
+	position: relative;
+	float: left;
+	width: 8%;
+	height: 100%;
+
+}
+.iconImgW img {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: .46rem;
+	height: .46rem;
+
+}
+.termBox .currency_title, .termBox .currency_number{display: block}
+.termBox .currency_title {
+	float: left;
+	width: 20%;
+	text-align: right;
+}
+.termBox .currency_number {
+	float: left;
+	width: 65%;
+	text-align: center;
+
+}
 
 /*<!--总投资-弹框-->*/
 .thead-zp {
@@ -570,7 +617,62 @@ input::-webkit-inner-spin-button {
 	margin-left: .5rem;
 	border: 1px solid #4080ff;
 	border-radius:.2rem ;
+	position: relative;
 }
+
+/* 上传发票 */
+.uploadWrap{
+	display: -moz-box;  /* Firefox */
+	display: -ms-flexbox;    /* IE10 */
+	display: -webkit-box;    /* Safari */ 
+	display: -webkit-flex;    /* Chrome, WebKit */
+	display: box; 
+	display: flexbox; 
+	display: flex;
+	align-items: center;
+}
+.uploadWrap .uploadFile{
+	width: 2rem;
+	height: 0.5rem;
+	line-height: 0.5rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+.uploadWrap .upload-tips{
+	margin-left: 0.2rem;
+	color:red;
+	display: none;
+}
+
+.uploadWrap .succeed{
+	color: #00c64f;
+}
+
+.upload-tips .dotting{
+	display:none;
+}
+
+.uploading .dotting {
+	display: inline-block; width:10px; min-height: 2px;
+	padding-right: 2px;
+	border-left: 2px solid currentColor; border-right: 2px solid currentColor;   
+	background-color: currentColor; background-clip: content-box;
+	box-sizing: border-box;
+	animation: dot 1s infinite step-start both;
+}
+.dotting:before { content: '...'; } /* IE8 */
+.dotting::before { content: ''; }
+:root .dotting { margin-left: 2px; padding-left: 2px; } /* IE9+ */
+
+@keyframes dot {
+	25% { border-color: transparent; background-color: transparent; }          /* 0个点 */
+	50% { border-right-color: transparent; background-color: transparent; }    /* 1个点 */
+	75% { border-right-color: transparent; }                                   /* 2个点 */
+}
+
+
 .payment_cont_wz{
 	width: 90%;
 	color: #c8932b;
