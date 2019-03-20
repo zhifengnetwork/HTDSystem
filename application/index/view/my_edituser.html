@@ -7,9 +7,7 @@
 	    <script type="text/javascript" src="__PUBLIC__/js/public/rem.js" ></script>
 	    <link rel="stylesheet" href="__PUBLIC__/css/my/editPass.css" />
 	    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
-	    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-	    
-	</head>
+	    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />	</head>
 	<body>
 		 <!-- 头部 -->
         <div class="header-zp">
@@ -18,39 +16,86 @@
         </div>
 		
 		<div class="lj_all">
-			
-		
-		<div class="lj_wrap">
-			<div class="lj_sz_main">
-				<ul>
-					<li>
-						<p>邮箱:</p>
-						<input type="text" value="123456789@qq.com" />
-					</li>
-					<li>
-						<p>电话号码:</p>
-						<input type="text" value="18605480486" />
-					</li>
-					<!-- <a href="{:url('index/my/set_pass')}"></a> -->
-					<li onclick="jumpFun('set_pass.html')">
-						<p>修改密码</p>
-						<img src="__PUBLIC__/images/home/lj_sz_img1.png" />
-					</li>
-					<li class="lj_last_li" onclick="jumpFun('up_id_card_new.html')">
-						<p>上传身份证</p>
-						<img src="__PUBLIC__/images/home/lj_sz_img1.png" />
-					</li>
-					
-				</ul>
+			<form action="" method="post" >
+				<div class="lj_wrap">
+					<div class="lj_sz_main">
+						<ul>
+							<li>
+								<p>邮箱:</p>
+								<input id="email" type="text" value="{$info.email}" />
+							</li>
+							<li>
+								<p>电话号码:</p>
+								<input id="mobile" type="text" value="{$info.mobile}" />
+							</li>
+							<!-- <a href="{:url('index/my/set_pass')}"></a> -->
+							<li onclick="jumpFun('set_pass.html')">
+								<p>修改密码</p>
+								<img src="__PUBLIC__/images/home/lj_sz_img1.png" />
+							</li>
+							<li class="lj_last_li" onclick="jumpFun('up_id_card_new.html')">
+								<p>上传身份证</p>
+								<img src="__PUBLIC__/images/home/lj_sz_img1.png" />
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				
+				<div class="lj_sz_btn">
+					<a id="lj_sz_btn_a" href="JavaScript:void(0);" onclick="save()">保存</a>
+					<!-- <a class="lj_sz_btn_a" href="#">保存</a> -->
+					<a href="{:url('index')}">退出登录</a>
+				</div>
+			</form>
 			</div>
-		</div>
-		
-		<div class="lj_sz_btn">
-			<a class="lj_sz_btn_a" href="#">保存</a>
-			<a href="{:url('index')}">退出登录</a>
-		</div>
+			</div>
 		</div>
     	<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		<script type="text/javascript">
+
+			function save(){
+				var email = $('#email').val();
+				var mobile = $('#mobile').val();
+				// var url = '{:url("index/my/change")}';
+				var user_id = '{$info.id}';
+
+				var email_reg= /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; /*用户邮箱*/
+				var mobile_reg = /^1[34578]\d{9}$/;  /*用户手机号*/
+
+				if (email != "") {
+					if (!email_reg.test(email)) {
+						alert("邮箱格式不正确");
+					} else {
+						if (mobile != "") {
+							if (mobile_reg.test(mobile)) {
+								$.ajax({
+									type:'POST',
+									url:"{:url('index/my/change')}",
+									data:{'user_id':user_id,'email':email,'mobile':mobile},
+									dataType:'json',
+									error:function(data){
+										// console.log(data);
+										alert("服务器繁忙, 请联系管理员!");
+									},
+									success:function(data){
+										// console.log(data);
+										alert(data['msg']);
+										location.reload();
+									}
+								});
+							} else {
+								alert("电话格式不正确");
+							}
+						} else {
+							alert("手机不能为空");
+						}
+					}
+				} else {
+					alert("邮箱不能为空");
+				}
+			};
+		</script>
 	</body>
 </html>

@@ -4,18 +4,21 @@
 var bottomTabArrOne = [
 	"/public/images/public/bottomNav/home-icon-1@2x.png",
 	"/public/images/public/bottomNav/wallet-icon-1@2x.png",
+	"/public/images/public/bottomNav/browser-icon1@2x.png",
 	"/public/images/public/bottomNav/user-icon-1@2x.png"
 ];
 /*底部nav切换(已-点击)_按循序*/
 var bottomTabArrTwo = [
 	"/public/images/public/bottomNav/home-icon-2@2x.png",
-	"/public/images/public/bottomNav/wallet-icon-2@2x .png",
+	"/public/images/public/bottomNav/wallet-icon-2@2x.png",
+	"/public/images/public/bottomNav/browser-icon2@2x.png",
 	"/public/images/public/bottomNav/user-icon-2@2x.png"
 ];
 /*底部nav-title_按循序*/
 var buttonNavTitle = [
 	"首页",
 	"钱包",
+	"浏览器",
 	"我的"
 ];
 
@@ -27,11 +30,13 @@ var loginFalse = [
 	"'/index/index/'",
 	"'/index/login/'",
 	"'/index/login/'",
+	"'/index/login/'",
 ]
 /*已-登陆路径*/
 var loginTrue = [
 	"'/index/index/'",
 	"'/index/wallet/wallet/'",
+	"'/index/my/browser/'",
 	"'/index/my/my/'",
 ]
 
