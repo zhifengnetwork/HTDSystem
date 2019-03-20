@@ -44,6 +44,7 @@
         height: .8rem;
         line-height: .8rem;
         background-color: transparent;
+        position: relative;
     }
     .from-group .from-cc{
         font-size: .3rem;
@@ -55,6 +56,7 @@
         width: 20%;
         font-size: .3rem;
         color: #ffffff;
+        white-space: nowrap;    
     }
 
     .from-group .from-icon {
@@ -100,6 +102,8 @@
     }
     
     .from-group .send-code{
+        position: absolute;
+        right:0;
         margin-left:.5rem;
         border: 0;
         background: -moz-linear-gradient(top, #d224d5 0%, #d296e2 100%);
@@ -118,7 +122,7 @@
         display: block;
     }
     .policy .icon{
-        background: url("../../image/login/quanquan.png")no-repeat;
+        background: url("../../images/login/quanquan.png")no-repeat;
         background-size: 100%;
         width: .4rem;
         height: .4rem;
@@ -128,7 +132,7 @@
     }
 
     .policy .active{
-        background: url("../../image/login/gou.png")no-repeat;
+        background: url("../../images/login/gou.png")no-repeat;
         background-size: 100%;
         width: .4rem;
         height: .4rem;
@@ -194,13 +198,18 @@
     .login-new{
         display: -webkit-box;
         display: -moz-box;
-        display: -ms-flexbox;
         display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-pack: space-between;
+        -ms-flex-pack: space-between;
+        -webkit-justify-content: space-between;
         justify-content: space-between;
         padding-top:.6rem;
     }
     .login-new a{
+        display: block;
         background-color: transparent;
         border: 1px solid #fff;
         border-radius: .625rem;

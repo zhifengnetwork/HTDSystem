@@ -18,7 +18,7 @@ class Walletaddr extends HomeBase
             $walletAddr = 'is null';
         }
         $this->assign('walletAddr',$walletAddr);
-        return $this->fetch('Wallet/addr');
+        return $this->fetch('wallet/addr');
     }
 
 }

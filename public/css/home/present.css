@@ -101,12 +101,11 @@
 	width: .4rem;
 	height: .4rem;
 	transition: all 0.5s;
+	transform: rotateZ(0deg);
+
 }
 .up{
 	transform: rotateZ(180deg);	
-}
-.down{
-	transform: rotateZ(0deg);
 }
 .pull_down img{
 	width: 100%;
@@ -184,7 +183,7 @@
 	/*position: relative;*/
 	/*height: auto;*/
 	/*padding-bottom: 1rem;*/
-	line-height: 1rem;
+	line-height: .75rem;
 	/*margin-top: 2rem;*/
 	text-align: center;
 	background: #404786;
@@ -224,6 +223,12 @@
 	background: transparent;
 }
 .popover .popover_affirm{
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
 	width: 100%;
 	height: 1rem;
 	line-height: 1rem;
@@ -235,7 +240,8 @@
 .popover .popover_affirm span{
 	display: block;
 	float: left;
-	width: 49.9%;
+	margin: 0 auto;
+	width: 49%;
 	text-align: center;
 }
 .true{

@@ -75,6 +75,7 @@ class Currency extends AdminBase
         $curr = DB::name('currency')->where('id',$id)->find();
         $arr = $this->request->post();
         $file = request()->file('log');
+        $file1 = request()->file('cu_qrcode');
         if ($curr['name'] !== $name) {
             $names = DB::name('currency')->where('name', $name)->find();
             if ($names) {
@@ -87,6 +88,27 @@ class Currency extends AdminBase
             if ($alias_names) {
                 echo "<script>alert('币种简称不能重复');history.go(-1);</script>";
                 exit;
+            }
+        }
+
+        if($file1){
+            //上传文件
+            $res = DB::name('currency')->where('id',$id)->find();
+            //判断文件是否存在
+            if (is_file($res['wallet_qrcode'])) {
+                if ($res['wallet_qrcode']) {
+                    $log = unlink($res['wallet_qrcode']);
+                    //文件删除
+                    if (!$log) {
+                        $this->error('文件更新失败!');
+                    }
+                }
+            }
+            $info = $file1->move(ROOT_PATH . DS . 'uploads');
+            if($info){
+                //上传文件的更新
+                $arr['wallet_qrcode'] = 'uploads/'.date('Ymd',time()).'/'.$info->getFilename();
+
             }
         }
 
@@ -107,7 +129,6 @@ class Currency extends AdminBase
             if($info){
                 //上传文件的更新
                 $arr['log'] = 'uploads/'.date('Ymd',time()).'/'.$info->getFilename();
-                $arr['total_num'] = date('Y-m-d H:i:s',time());
 
                 $res = DB::name('currency')->where('id',$id)->update($arr);
                 if ($res){
@@ -128,6 +149,8 @@ class Currency extends AdminBase
                 exit;
             }
         }
+
+       
 
     }
     public function delete($id)
