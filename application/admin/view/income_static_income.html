@@ -26,23 +26,23 @@
                 <th>订单号</th>
                 <th>投资金额</th>
                 <th>投资币种</th>
-                <th>币种数量</th>
+                <th>收益总币数</th>
                 <th>收益利率</th>
                 <th>主流币收益</th>
                 <th>平台币收益</th>
-                <th>时间</th>
+                <th>收益时间</th>
             </tr>
             </thead>
             <tbody>
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$key+1}</td>
-                <td>{$vo.uid}/{$vo.username}</td>
+                <td>{$vo.username}</td>
                 <td>{$vo.order_no}</td>
-                <td>{$vo.burn_money}</td>
+                <td>{$vo.base_money}</td>
                 <td>{$vo.alias_name}</td>
                 <td>{$vo.total_coin}</td>
-                <td>{$vo.percent}%</td>
+                <td>{$vo.percent}</td>
                 <td>{$vo.main_coin}</td>
                 <td>{$vo.htd_coin}</td>
                 <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>

@@ -6,7 +6,6 @@ use think\Config;
 use think\Controller;
 use think\Db;
 use think\Session;
-use app\index\controller\createWallet;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
       public function index(){
@@ -111,7 +110,11 @@ class Login extends Controller
                         "salt"=>$arr['salt']
                     );
                     
-                    DB::name('user')->insert($data);
+                    $res = DB::name('user')->insert($data);
+                    // 生成钱包
+                    if($res){
+                        createWallet($res);
+                    }
                     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
                     $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
                 }else{
