@@ -38,7 +38,7 @@ $(document).ready(function(){
 		$(".payment_wenma").show()
 	})
 	$(".qb_bg").on("click",function(){
-		$(".tg_qrcodepayment_wenma").hide()
+		$(".payment_wenma").hide()
 
 	})
 	$(".payment_wenma_sc").on("click",function(){
