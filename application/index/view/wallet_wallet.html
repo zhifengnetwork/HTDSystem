@@ -202,46 +202,23 @@
 							<!-- 标题 -->
 							<div class="thead-zp">
 								<ul>
-									<li>名称</li>
-									<li>数量</li>
-									<li>单价</li>
-									<li>金额</li>
+									<li>币种名称</li>
+									<li>币种数量</li>
+									<li>静态收益</li>
+									<li>全球分红</li>
 								</ul>
 							</div>
 							<!--详情-->
 							<div class="tbody-zp">
 								<ul>
+									{foreach name="userWallet" item="vs"}
 									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
+										<div class="name">{$vs.alias_name}</div>
+										<div class="number">{$vs.cu_num}</div>
+										<div class="price">{$vs.bonus_wallet}</div>
+										<div class="total-price">{$vs.rate_wallet}</div>
 									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-
+									{/foreach}
 								</ul>
 							</div>
 							
