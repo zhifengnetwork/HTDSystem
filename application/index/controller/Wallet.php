@@ -148,6 +148,8 @@ class Wallet extends HomeBase
                 );
                 $res = Db::name('buy_order')->insert($data);
 
+                // 入单激活会员
+                Db::name('user')->where(['id'=>$uid])->update(['activation'=>1]);
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
                     $res = Db::name('execute_order')->insert($data);
