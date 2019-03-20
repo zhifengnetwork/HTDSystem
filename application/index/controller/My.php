@@ -100,6 +100,17 @@ class My extends Base
 
     public function up_id_card_new()
     {
+        $id = session('home.id');
+        $img = Db::name('user')->where('id',$id)->value('idcard_url');
+
+        $img = json_decode($img,true);
+        if (!$img) {
+            $img[0] = '';
+            $img[1] = '';
+        }
+        
+        $this->assign('img',$img);
+
         return $this->fetch();
     }
 

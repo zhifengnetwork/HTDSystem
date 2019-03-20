@@ -40,7 +40,8 @@
 						<!--提示-->
 						<span class="tipsText">请点击“选中图片”上传图片。</span>
 						<!--回显的图片-->
-						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'" src="/{$img[0]}"/>
+						<img src="/{$img[0]}">
 						<!--上传图片 tyle='file'-->
 						<a class="uploadFile2" href="#">选择图片</a>
 						<input class="uploadFile" type="file" onchange="UpLoad(this,0)" name="file" id="" value="0" accept="image/*" />
@@ -50,7 +51,8 @@
 					<div class="imageEchoBox">
 						<span class="tipsText">请点击“选中图片”上传图片。</span>
 						<!--回显的图片-->
-						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'" src="/{$img[1]}"/>
+						<img src="/{$img[1]}">
 						<!--上传图片 tyle='file'-->
 						<a class="uploadFile2" href="#">选择图片</a>
 						<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
