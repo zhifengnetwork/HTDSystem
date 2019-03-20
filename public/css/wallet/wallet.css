@@ -100,8 +100,7 @@ th,td{
 	font-size: .3rem;
 	font-weight: 600;
 	text-indent: .1rem;
-	-webkit-appearance: none;
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .sum {
