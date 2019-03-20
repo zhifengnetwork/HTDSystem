@@ -50,7 +50,7 @@ class Wallet extends HomeBase
 
     /**
      *  用户点击确定投资
-     * 
+     * 1、判断用户是否存在当前币种的
     */
     public function confirmInvest()
     {
