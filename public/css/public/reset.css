@@ -4,10 +4,10 @@
 	padding: 0;
 }
 /*字体库*/
-/* @font-face{
+@font-face{
 	font-family: 'PingFangMedium';
 	src: url("/public/css/font/PingFangMedium.ttf")
-} */
+}
 body {
 	width: 100%;
     min-height: 100vh;
