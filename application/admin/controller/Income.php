@@ -103,10 +103,13 @@ class Income extends AdminBase
     {
         $income_list = Db::name('income')->alias('in')
             ->join('htd_user u','in.uid=u.id','left')
+            ->join('htd_user us','in.get_uid=us.id','left')
             ->join('htd_currency c','in.cu_id=c.id','left')
-            ->field('u.mobile, u.username, in.*, c.name,c.alias_name,c.note')
+            ->field('u.mobile, u.username,us.username as get_username, in.*, c.name,c.alias_name,c.note')
             ->where('in.type',103)
             ->order('in.id desc')->paginate(10);
+
+        dump($income_list);
 
         return $this->fetch('income_dynamic_income',['income_list' => $income_list]);
     }
@@ -138,8 +141,9 @@ class Income extends AdminBase
     {
         $income_list = Db::name('income')->alias('in')
             ->join('htd_user u','in.uid=u.id','left')
+            ->join('htd_user us','in.get_uid=us.id','left')
             ->join('htd_currency c','in.cu_id=c.id','left')
-            ->field('u.mobile, u.username, in.*, c.name,c.alias_name,c.note')
+            ->field('u.mobile, u.username, us.username as get_username, in.*, c.name,c.alias_name,c.note')
             ->where('in.type',102)
             ->order('in.id desc')->paginate(10);
 
