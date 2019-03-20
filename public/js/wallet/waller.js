@@ -2,12 +2,12 @@ $(document).ready(function(){
 	//点击总投资-弹出框
 	$(".asset").on("click",function(){
 		$(".pop").show();
-		$(".shadow").show();
+		$(".shadow-wrap-up").show();
 	})
 	//点击关闭总投资-弹出框
 	$(".hideTz").on("click",function(){
 		$(".pop").hide();
-		$(".shadow").hide();
+		$(".shadow-wrap-up").hide();
 	})
 	
 	/*点击出现-币种详情*/
@@ -23,14 +23,14 @@ $(document).ready(function(){
 		
 		$(".showZ").show();
 		/*蒙版*/
-		$(".shadow").show();
+		$(".shadow-wrap").show();
 	})
 	
 	/*关闭-币值详情*/
 	$(".hideIcon").on('click',function(){
 		$(".assetPopup").hide();
 		/*蒙版*/
-		$(".shadow").hide();
+		$(".shadow-wrap").hide();
 	})
 
 	//弹出二维码显示隐藏
@@ -105,9 +105,9 @@ $(document).ready(function(){
 			}
 		});
 
-		$(".hideEvm").show();
-		/*蒙版*/
-		$(".shadow").show();
+		// $(".hideEvm").show();
+		// /*蒙版*/
+		// $(".shadow").show();
 	})
 	/*二维码-弹框-关闭*/
 //	$('.shut').on('click',function(){
@@ -152,7 +152,7 @@ function obtainFun(id,name,price,walletAddr){
 
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
-	$(".shadow").hide();
+	$(".shadow-wrap").hide();
 	// 点击获取name值到input框
 	$('#cu_name_input').html(name);	
 	$('#cu_name_input').attr('data-name',id);

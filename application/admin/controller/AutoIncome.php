@@ -82,10 +82,10 @@ class AutoIncome
 					// 累加到平台币 cu_id=11
 					$platform_res = Db::name('user_wallet')->where(['uid'=>$value['uid'], 'cu_id'=>11])->setInc('bonus_wallet', $platform_coin);
 					// 把收益记录插入收益表
-					$in_income_res1 =$this->insertToIncome($value['uid'],$value['uid'],$value['cu_id'],101,$value['total_money'],$giveIncome,$main_coin,$platform_coin,$rate);
+					$in_income_res1 =$this->insertToIncome($value['uid'],$value['uid'],$value['cu_id'],101,$value['total_money'],$giveIncome,$main_coin,$platform_coin,$rate,$value['order_no']);
 					// 插入日志
 					$logNote = '获得静态收益:'.$giveIncome.'个,主流币'.$main_coin.'平台币'.$platform_coin;
-					$in_log_res1 = $this->insertLog($value['uid'],$value['cu_id'],$logNote,$this->static_type);
+					$in_log_res1 = $this->insertLog($value['uid'],$value['cu_id'],$logNote,$this->static_type,$value['order_no']);
 					// 把相应收益累加到直推上级
 					$upUid = Db::name('user')->field('id,pid')->where(['id'=>$value['uid']])->find();
 					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1;die;
@@ -126,10 +126,10 @@ class AutoIncome
 						// echo $main_coin_res.'/'.$platform_coin_res;die;
 
 						// 把直推收益记录插入收益表
-						$in_income_res2 = $this->insertToIncome($value['uid'],$upUid['pid'],$value['cu_id'],102,$value['total_money'],$giveIncome,$main_coin,$platform_coin_push,$rate);
+						$in_income_res2 = $this->insertToIncome($value['uid'],$upUid['pid'],$value['cu_id'],102,$value['total_money'],$giveIncome,$main_coin,$platform_coin_push,$rate,$value['order_no']);
 						// 插入直推日志
 						$drLogNote = '获的直推收益:'.$giveIncome.'个,主流币'.$main_coin_push.'平台币'.$platform_coin_push;
-						$in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$drLogNote,$this->push_type);
+						$in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$drLogNote,$this->push_type,$value['order_no']);
 					}
 					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1.'/'.$main_coin_res.'/'.$platform_coin_res.'/'.$in_income_res2.'/'.$in_log_res2.'/'.$order_up_res;die;
 					// +++++++++++++++++++++++++++++++++直推收益++++++++++++++++++++++++++++++++++++++++++++++ end
@@ -205,10 +205,10 @@ class AutoIncome
 								$dy_platform_coin_res = Db::name('user_wallet')->where(['uid'=>$upId, 'cu_id'=>11])->setInc('bonus_wallet', $dy_platform_coin);
 
 								// 把动态收益记录插入收益表
-								$dy_in_income_res2 = $this->insertToIncome($value['uid'],$upId,$value['cu_id'],103,$value['total_money'],$dy_total_income,$dy_main_coin,$dy_platform_coin,$earnings_rate);
+								$dy_in_income_res2 = $this->insertToIncome($value['uid'],$upId,$value['cu_id'],103,$value['total_money'],$dy_total_income,$dy_main_coin,$dy_platform_coin,$earnings_rate,$value['order_no']);
 								// 插入直推日志
 								$dyLogNote = '获的动态收益:'.$dy_total_income.'个,主流币'.$dy_main_coin.'平台币'.$dy_platform_coin;
-								$dy_in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$dyLogNote,$this->dy_type);
+								$dy_in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$dyLogNote,$this->dy_type,$value['order_no']);
 							}
 							// // 循环获取当前上级的所有下线
 							// $upDown = getDownUserUids($upId);
@@ -246,11 +246,12 @@ class AutoIncome
 	}
 	
 	// 插入收益表
-	public function insertToIncome($uid, $get_uid, $cu_id, $type, $base_money, $total_coin, $main_coin, $htd_coin, $percent){
+	public function insertToIncome($uid, $get_uid, $cu_id, $type, $base_money, $total_coin, $main_coin, $htd_coin, $percent, $order_no){
 
 		$data = array(
 			'uid' => $uid,
 			'get_uid' => $get_uid,
+			'order_no' => $order_no,
 			'cu_id' => $cu_id,
 			'type' => $type,
 			'total_coin' => $total_coin,
@@ -267,10 +268,11 @@ class AutoIncome
 	}
 
 	// 插入日志表
-	public function insertLog($uid,$cu_id,$note,$type){
+	public function insertLog($uid,$cu_id,$note,$type,$order_no){
 
 		$data = array(
 			'uid' => $uid,
+			'order_no' => $order_no,
 			'cu_id' => $cu_id,
 			'note' => $note,
 			'type' => $type,
