@@ -81,8 +81,13 @@
 							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
-						<div class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">	
+						<div >
+							<p class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">	
 								提取
+							</p>
+							<p class="currency_btn" onclick="voting()">	
+								复投
+							</p>
 						</div>
 					</div>
 				</div>
@@ -141,13 +146,39 @@
 								<!--000-->
 								
 								<div class="popover_affirm">
-									<span class="true">确认</span>
+									<span class="true">提取</span>
 									<span class="false">取消</span>
 								</div>
 							</form>
 						</div>
 					</div>
 				<!-- 提取弹框-e -->
+				<!-- 复投弹框-s -->
+				<div class="voting">
+					<div class="voting_content">
+						<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
+							<div class="voting_box clearfix">
+									<span>请选择投币类型:</span>
+									<select name="type">
+											<option value ="0">请选择</option>	
+											<option value ="1">本金</option>
+											<option value ="2">静态收益</option>
+											<option value ="3">动态收益</option>
+											<option value ="4">分红</option>		
+									</select>	
+							</div>
+							<div class="voting_box clearfix">										
+								<span>投入额度:</span> <input id="voting_num" name="number" type="number" placeholder="请输入额度" /><br />
+								<span>转成美金:</span> <input id="voting_convert" name="voting_convert" type="number" readonly  />
+							</div>			
+							<div class="voting_affirm">
+								<span class="true">复投</span>
+								<span class="false">取消</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			<!-- 复投弹框-e -->
 			</div>
 
 		</div>
@@ -157,20 +188,11 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
-			$(document).ready(function() {
-				//阻止事件冒泡
-				$('.popover_content').click(function(e) {
-					e.stopPropagation();
-				});
-				//取消
-				$('.false').click(function() {
-					$('.popover').hide();
-				});
-				//点击背景隐藏
-				$('.popover').click(function() {
-					$(this).hide();
-				})
-			});
+			//复投按钮
+			function voting(){
+				$('.voting').show()
+			}
+			//提取按钮
 			function send(uid,cu_id){
 				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
 				$.ajax({
@@ -205,10 +227,12 @@
 				//弹框确认
 				$('.true').click(function() {
 					$('.popover').hide();
+					$('.voting').hide();
 				});
 				//弹框取消
 				$('.false').click(function() {
 					$('.popover').hide();
+					$('.voting').hide();
 				});
 				//点击背景隐藏and清空提取金额的值
 				$('.popover').click(function() {

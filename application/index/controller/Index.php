@@ -45,7 +45,9 @@ class Index extends HomeBase
         //     header("refresh:1;url=$url");
         // }      
         // $userid = session('userid');
-        $userid = 2;
+        $userid = 1;
+
+        // $userid = 2;
         
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
