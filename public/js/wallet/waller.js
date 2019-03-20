@@ -247,7 +247,7 @@ function UpLoad(e) {
 					//创建一个image对象，给canvas绘制使用 
 					image.onload = function() {
 						$.ajax({
-							url: '/index/walletaddr/uploadImg',
+							url: '/index/wallet/getUploadImg',
 							type: 'post',
 							dataType: 'json',
 							data: {dataImg:image.src},

@@ -19,16 +19,4 @@ class Walletaddr extends HomeBase
         $this->assign('walletAddr',$walletAddr);
         return $this->fetch('wallet/addr');
     }
-
-    /**
-     * base64图片上传
-     * @param $base64_img
-     * @return array
-     */
-    public function uploadImg(){
-                
-        $base64 = input('post.dataImg');
-        $res = uploadImg($base64);
-        return $res;
-    }
 }

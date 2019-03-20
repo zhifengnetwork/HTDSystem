@@ -235,4 +235,17 @@ class Wallet extends HomeBase
         }
         return $userWallet;
     }
+
+
+    /**
+     * base64图片上传
+     * @param $base64_img
+     * @return array
+     */
+    public function getUploadImg(){
+                
+        $base64 = input('post.dataImg');
+        $res = uploadImg($base64);
+        return $res;
+    }
 }
