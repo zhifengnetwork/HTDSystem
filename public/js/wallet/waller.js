@@ -203,7 +203,6 @@ function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 
 
 // 上传发票
-
 /*对应 回显图片的下标*/
 // var ind = null;
 /**存储丢给后台图片(发票)*/
@@ -264,19 +263,10 @@ function UpLoad(e) {
 								}
 							}
 						});
-
-
 						/*图片 回显 */
-						// that.siblings(".preViewImg").eq(0).attr("src", result);
-						// console.log(result);
 						dataImg = result;
-						// console.log('没-压缩:dataImg');
 					}
 				}
-
-				/*ajax*/
-				// console.log('图片的base64:',dataImg);
-
 			}
 		} else {
 			layer.msg("请选择图片");
