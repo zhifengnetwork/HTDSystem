@@ -193,7 +193,7 @@ class User extends AdminBase
         ->field('a.username,a.mobile,c.alias_name cu_name,b.*')
         ->join('htd_user_wallet b','a.id=b.uid')
         ->join('htd_currency c','b.cu_id=c.id')
-        ->where($map)->order('b.uid DESC')->paginate(10);
+        ->where($map)->order('b.uid DESC')->paginate(11);
         return $this->fetch('user_wallet', ['wallet_arr' => $wallet_arr, 'keyword' => $keyword]);
     }
 }

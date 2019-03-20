@@ -81,14 +81,10 @@
 							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
-						<div >
-							<p class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">	
-								提取
-							</p>
-							<p class="currency_btn" onclick="voting()">	
-								复投
-							</p>
-						</div>
+					<div class="currency_box">
+						<a class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">提取</a>
+						<a class="currency_btn" >复投</a>
+					 </div> 
 					</div>
 				</div>
 					{/foreach}
@@ -100,16 +96,20 @@
 							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 								<div class="popover_box clearfix">
 										<span>请选择提币类型:</span>
-										
-										<select name="type">
+										<span class="popover_click">请选择</span>
+										<!-- <select name="type">
 												<option value ="0">请选择</option>	
 												<option value ="1">本金</option>
 												<option value ="2">静态收益</option>
 												<option value ="3">动态收益</option>
-												<option value ="4">分红</option>
-											
-										</select>
-										
+												<option value ="4">分红</option>	
+										</select> -->
+										<ul class="ul_box">
+											<li>本金</li>
+											<li>静态收益</li>
+											<li>动态收益</li>
+											<li>分红</li>
+										</ul>
 								</div>
 
 								<div class="popover_box clearfix">
@@ -120,7 +120,7 @@
 										<input type="hidden" name="static_wallet" id="static_wallet" value="">
 										<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value="">
 										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">							
-									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="请输入额度" /><br />
+									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="小于50美金可提取" /><br />
 									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
 								</div>
 								<!--000-->
@@ -193,6 +193,12 @@
 				$('.voting').show()
 			}
 			//提取按钮
+			$(function(){
+				$(".popover_click").click(function(){
+					$(".ul_box").slideToggle("slow");
+				})
+			})
+
 			function send(uid,cu_id){
 				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
 				$.ajax({
