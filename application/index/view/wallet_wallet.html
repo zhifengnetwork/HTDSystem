@@ -155,8 +155,8 @@
 							<!-- list -->
 							<div class="currency">
 								{foreach name="htd_currency" item="vo"}
-								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
-									<p class="iconImgW"><img src="{$vo.wallet_qrcode}" alt=""></p>
+								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}','{$vo.wallet_qrcode}')">
+									<p class="iconImgW"><img src="/{$vo.log}" alt=""></p>
 									<span class="currency_title">{$vo.alias_name}</span>
 									<span class="currency_number">{$vo.price}</span><br>
 								</div>
@@ -267,8 +267,7 @@
     		<div class="qb_bg"></div>
     		<div class="qb_bg_img" id="tg_qrcode">
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
-    			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
-<<<<<<< HEAD
+    			<img class="payment_wenma_Two" src=""/>
     		</div>  
 			</div>
 			<!-- 底部导航 -->        
@@ -276,12 +275,6 @@
 
 	<!--弹框-阴影-->
 	<!--<div class="shadow"></div>-->
-=======
-    		</div>  	
-		</div>
-		<!-- 底部导航 -->        
-		<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
->>>>>>> 5ea7c20aca074a54df486340db8c71fc0fe3c3f3
 
     </div>
     

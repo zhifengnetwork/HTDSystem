@@ -40,28 +40,34 @@ class CheckOrder extends AdminBase
 			Db::startTrans();
 			try{
 
-				// 数量累加到execute_order
-				$res1 = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('num', $order['num']);
+				// 如果审核订单和当前execute_order订单号相同则不累加，该状态即可
+				// 修改execute_order订单状态
+				$execute_order_check = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->find();
+				if($execute_order_check['order_no'] != $order['order_no']){
+					// 数量累加到execute_order
+					$res1 = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('num', $order['num']);
+					// 累加total_money
+					Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('total_money', $order['total_money']);
+				}
 				// 数量累加到钱包对应币种数量
 				$res2 = Db::name('user_wallet')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('cu_num', $order['num']);
+
 				// 修改订单状态buy_order
 				$res3 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>1]);
 				
-				// 修改execute_order订单状态
-				$execute_order_check = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->find();
 				// execute_order审核过一次不需要审核
 				if($execute_order_check['is_check']==0){
-					$res4 = Db::name('execute_order')->where(['id'=>$order_id])->update(['is_check'=>1]);
+					$res4 = Db::name('execute_order')->where(['order_no'=> $order['order_no']])->update(['is_check'=>1]);
 				}
 				// 提交事务
 				Db::commit();   
-				return json(array('code' => 0, 'msg' => '操作异常，请联系管理员'));
+				return json(array('code' => 200, 'msg' => '订单审核成功！'));
 				
 			}catch(\Exception $e){
 
 				// 回滚事务
 				Db::rollback();
-				return json(array('code' => 200, 'msg' => '订单审核成功！'));
+				return json(array('code' => 0, 'msg' => '操作异常，请联系管理员'));
 			}
     }
    
