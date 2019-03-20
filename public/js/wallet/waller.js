@@ -142,7 +142,7 @@ function obtainFun(id,name,price,walletAddr){
 	var qrCodeUrl = '';
 	var domain = document.domain;
 	// 组织url
-	qrCodeUrl = 'http://'+domain+'/index/wallet/showWalletAddr/?walletAddr='+walletAddr;
+	qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
 	console.log(qrCodeUrl);
 	new QRCode('tg_qrcode', {
 		text: qrCodeUrl, 
@@ -152,7 +152,7 @@ function obtainFun(id,name,price,walletAddr){
 		colorLight : '#ffffff', 
 		correctLevel : QRCode.CorrectLevel.H 
 	});
-	
+
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
 	$(".shadow").hide();
