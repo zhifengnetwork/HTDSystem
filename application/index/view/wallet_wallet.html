@@ -154,21 +154,6 @@
 								</div>
 							</div>
 						</div>
-<<<<<<< HEAD
-
-
-						<div class="sum">投资</div>
-						<!--选择币值-弹框-->
-
-						<div class="shadow-wrap">
-							<div class="assetPopup showZ">
-								<!-- title -->
-								<div class="det">
-									<span>币种</span>
-									<p class="iconfont icon hideIcon">
-										<img src="/public/images/wallet/qbscq.png" />
-									</p>
-=======
 				
 
 					<div class="sum">投资</div>
@@ -190,30 +175,9 @@
 									<p class="iconImgW"><img src="{$vo.wallet_qrcode}" alt=""></p>
 									<span class="currency_title">{$vo.alias_name}<font></font></span>
 									<span class="currency_number">{$vo.price}</span><br>
->>>>>>> 5260dac27a04aaa32fd9c6db95c3481810d6ac72
 								</div>
-								<!-- list -->
-								<div class="currency">
-									{foreach name="htd_currency" item="vo"}
-									<div class="termBox clearfix"
-										onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
-										<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
-										<span class="currency_title">{$vo.alias_name}<font></font></span>
-										<span class="currency_number">{$vo.price}</span><br>
-									</div>
 									{/foreach}
-
 								</div>
-								<!-- 
-								<div class="currency">
-									{foreach name="user_wallet" item="user_wallet"}
-										<p class="termBox clearfix" onclick="obtainFun('id')">
-											<span>{$user_wallet.cu_id|wallet_name}：</span>
-											<span>{$user_wallet.cu_num}</span><br>
-										</p>
-									{/foreach}
-								</div -->
-
 							</div>
 						</div>
 
@@ -232,103 +196,28 @@
 								<!-- 标题 -->
 								<div class="thead-zp">
 									<ul>
-										<li>名称</li>
-										<li>数量</li>
-										<li>单价</li>
-										<li>金额</li>
+										<li>币种名称</li>
+										<li>币种数量</li>
+										<li>静态收益</li>
+										<li>全球分红</li>
 									</ul>
 								</div>
 								<!--详情-->
 								<div class="tbody-zp">
 									<ul>
+										{foreach name="userWallet" item="vs"}
 										<li>
-											<div class="name">Alan</div>
-											<div class="number">10</div>
-											<div class="price">99.00</div>
-											<div class="total-price">990.00</div>
+											<div class="name">{$vs.alias_name}</div>
+											<div class="number">{$vs.cu_num}</div>
+											<div class="price">[$vs.bonus_wallet]</div>
+											<div class="total-price">{$vs.rate_wallet}</div>
 										</li>
-										<li>
-											<div class="name">Alan</div>
-											<div class="number">10</div>
-											<div class="price">99.00</div>
-											<div class="total-price">990.00</div>
-										</li>
-										<li>
-											<div class="name">Alan</div>
-											<div class="number">10</div>
-											<div class="price">99.00</div>
-											<div class="total-price">990.00</div>
-										</li>
-										<li>
-											<div class="name">Alan</div>
-											<div class="number">10</div>
-											<div class="price">99.00</div>
-											<div class="total-price">990.00</div>
-										</li>
-										<li>
-											<div class="name">Alan</div>
-											<div class="number">10</div>
-											<div class="price">99.00</div>
-											<div class="total-price">990.00</div>
-										</li>
-
+										{/foreach}
 									</ul>
 								</div>
 
 							</div>
 						</div>
-						<!--点击投资-二维码-弹框-->
-						<!--<div class="code-up hideEvm">
-							<div class="site">							
-								<p class="hx">	
-									<p>地址:</p>
-									<span id="span">1111111111111111111111111111111111111111111111</span>
-								</p>
-							</div>
-							<div class="tu">
-								<img src="__PUBLIC__/images/wallet/timg.jpg" />
-							</div>
-							<i class="iconfont shut">&#xe66f;</i>
-							
-							<input type="file" id="f"  name="f" style="display:none"/>-->
-
-<<<<<<< HEAD
-						<!--进度条-->
-						<!--<div id="wrapper">
-								<div class="loader-container">
-									<div class="meter">0</div>
-									<span class="runner"></span>
-								</div>
-							</div>
-							<div class="clicTK">
-								<div class="notarize" onclick="f.click()" >上传凭证</div>
-								<div class="notarize" onclick="sc(this);">确认投资</div>
-=======
-							<!-- 标题 -->
-							<div class="thead-zp">
-								<ul>
-									<li>币种名称</li>
-									<li>币种数量</li>
-									<li>奖金钱包</li>
-									<li>全球分红</li>
-								</ul>
-							</div>
-							<!--详情-->
-							<div class="tbody-zp">
-								<ul>
-									{foreach name="userWallet" item="vs"}
-									<li>
-										<div class="name">{$vs.alias_name}</div>
-										<div class="number">{cu_num}</div>
-										<div class="number">{bonus_wallet}</div>
-										<div class="number">{rate_wallet}</div>
-									</li>
-									{/foreach}
-
-								</ul>
->>>>>>> 5260dac27a04aaa32fd9c6db95c3481810d6ac72
-							</div>
-						</div>-->
 
 					</div>
 					<div class="zjy_box_conten_item">
@@ -353,17 +242,6 @@
 					</div>
 
 				</div>
-<<<<<<< HEAD
-			</div>
-		<!--弹出二维码-->
-		<div class="payment_wenma">
-				<!--背景-->
-				<div class="qb_bg"></div>
-				<div class="qb_bg_img" id="tg_qrcode">
-						<img class="payment_wenma_sc" src="__PUBLIC__/images/wallet/qbscq.png" />
-						<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg" />
-				</div>
-=======
 				<div class="zjy_box_conten_item">
 					<table width="90%" border="1" cellspacing="0" cellpadding="0">
 						<tr>
@@ -395,7 +273,6 @@
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
     			<img class="payment_wenma_Two" src=""/>
     		</div>  	
->>>>>>> 5260dac27a04aaa32fd9c6db95c3481810d6ac72
 		</div>
 		<!-- 底部导航 -->
 		<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
