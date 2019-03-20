@@ -196,7 +196,7 @@ class Wallet extends HomeBase
      */
     private function user_order($user_id)
     {
-        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time')->where(['uid'=>$user_id])->select();
+        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time,is_check')->where(['uid'=>$user_id])->select();
         if($user_order){
             $currency_arr = $this->htd_currency();
             foreach($user_order as $k1=>$v2){
