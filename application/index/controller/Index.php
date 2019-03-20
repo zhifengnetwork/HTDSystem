@@ -64,7 +64,7 @@ class Index extends HomeBase
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
                 ->where('uid',$userid)
-                ->select();  
+                ->select();
         $this->assign('list',$list);
         $this->assign('uid',$userid);
         return $this->fetch();        
@@ -81,7 +81,7 @@ class Index extends HomeBase
 
               $base = new Base();
               if($result){
-                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd,'rmb'=>$rmb]]);
+                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd]]);
               }else{
                 $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
               }              
@@ -89,34 +89,76 @@ class Index extends HomeBase
 
     // 提币
     public function pick(){
-        $data   = input();
-        $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']); 
-        // dump($rmb);
+        $data   = input();        
+        // dump($data);exit;
         //美元汇率   
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
         $exchange_usd = arr2name($exchange_usd);
         $usd = $data['popover_convert'];
+        // 提币最低金额
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
+
+
+        $where  = array('uid'=>$data['uid'],'cu_id'=> $data['type']); 
+
         $where1 = [
             'uid' => $data['uid'],
-            'cu_id' => $data['cu_id'],
-            'cu_num' => $data['number']                 
+            'cu_id' => $data['type'],
+            'cu_num' => $data['number']
+            // 'tb_charge' => $data['number'],
+            // 'flag' = $data['number'],
+            // 'qrcode_addr' => $data['number'],
+            // 'wallet_addr' = $data['number']
+
         ];
-        $base = new Base();
-        if($data['remain_num']<$data['number']){
-            $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-        }else if($usd<=$withdraw_min){
-            $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50美元才能体现', 'result' =>'']);        
-        }else{
+
+            $base = new Base();
+
             // 先计算剩余货币数量
-            $data['remain_num'] = $data['remain_num']-$data['number'];
+            
+            // $data['type'] = ;
+
+            switch ($data['type'])
+            {
+              case 0:
+                $base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
+              break;  
+              case 1:
+                $data['remain_num'] = $data['remain_num'] ;
+              break;
+              case 2:
+                $data['remain_num'] = $data['static_wallet'] ;
+              break;
+              case 3:
+                $data['remain_num'] = $data['dynamic_wallet'] ;
+              break;
+              case 4:
+                $data['remain_num'] = $data['direct_wallet'] ;
+              break;                                          
+            // default:
+            //   表达式的值不等于 label1 及 label2 时执行的代码;
+            }
+            // 获取该类的剩余金额
+            // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
+            if($usd<=$withdraw_min){
+                $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于50美元才能体现', 'result' =>'']);        
+            }else if($data['remain_num']<$data['number']){
+                $base->ajaxReturn(['status' => 1, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
+            }
+            // 手续费
+            $charge = round($data['number']/100,3);
+            
+            $where1['tb_charge'] = $charge;
+            // dump($where1);
+            exit;
+            $data['remain_num'] = $data['remain_num']-$data['number']-$charge;
             // 更新钱包
             $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
             // 插入记录
             $user_extract = Db::table('htd_user_extract')->insert($where1);
             $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);           
         }
-    }
+    
 
     //总收益
     public function totalrevenue()

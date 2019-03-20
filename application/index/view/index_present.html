@@ -25,7 +25,7 @@
 			</div>
 			<!-- 头部-e -->
 			<!-- 固定导航-s -->
-			<div class="fixed_nav_wrap">
+			<!-- <div class="fixed_nav_wrap">
 				<div class="fixed_nav">
 					<div class="nav_name">
 						名称
@@ -37,65 +37,152 @@
 						状态
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- 固定导航-e -->
 			<!-- 内容主体 -->
 			<div class="currency">
 				<!-- 列表项 -s-->
 				{foreach name="list" item="v"}
 				<div class="currency_list">
-					<!-- 商品名称 -->
-					
+					<!-- 默认显示-s -->
+					<div class="list_tacitly">
+						<!-- 商品名称 -->
 						<div class="currency_name">
 							<div class="currency_name_text">
 								{$v.note}
 							</div>
+							</div>
+							<!-- 商品数量 -->
+							<div class="currency_num">
+									{$v.cu_num}
+							</div>
+							<!-- 下拉菜单 -->
+							<div class="pull_down">
+								<img src="__PUBLIC__/images/pull-down.png">
+							</div>
 						</div>
-						<!-- 商品数量 -->
-						<div class="currency_num">
-							 {$v.cu_num}
+					<!-- 默认显示-e -->
+					<!-- 下拉菜单内容 -->
+					<div class="pull_down_content">
+						<div class="down_list">
+							<p>本金</p>
+							<p>{$v.cu_num}</p>
+						</div>
+						<div class="down_list">
+							<p>静态收益</p>
+							<p>{$v.static_wallet}</p>
+						</div>
+						<div class="down_list">
+							<p>动态收益</p>
+							<p>{$v.dynamic_wallet}</p>
+						</div>
+						<div class="down_list">
+							<p>分红</p>
+							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
-						<div class="currency_btn" onclick="send({$v.cu_id},{$v.cu_num})">
-							提取
-						</div>
-					
-				</div>
-				{/foreach}
-				<!-- 列表项 -e -->
-				<!-- 提取弹框-s -->
-				<div class="popover" >
-					<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
-					<div class="popover_content" style="line-height: 0.8rem;">
-						<input type="hidden" name="uid" id="uid" value="{$uid}">
-						<input type="hidden" name="cu_id" id="cu_id" value="">
-						<input type="hidden" name="remain_num" id="remain_num" value="">
-						请输入提币数量:<input id="popover_num" type="number" name="number" value="" />
-						<br />
-						转换成人民币:<input id="popover_rmb" type="number" name="popover_rmb" value="" />
-						<br />
-						转换成美金:<input id="popover_convert" name="popover_convert" type="number" readonly value=""  />
-						<div class="popover_affirm">
-							<span id="true" class="true">确认</span>
-							<span class="false">取消</span>
+						<div class="currency_btn" onclick="send({$v.cu_id},{$v.cu_num},{$v.static_wallet},{$v.dynamic_wallet},{$v.rate_wallet})">
+								提取
 						</div>
 					</div>
-					</form>
 				</div>
+					{/foreach}
+					<!-- 列表项 -e -->
+				
+				<!-- 提取弹框-s -->
+				<div class="popover">
+						<div class="popover_content">
+							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
+								<div class="popover_box clearfix">
+										<span>请选择提币类型:</span>
+										
+										<select name="type">
+												<option value ="0">请选择</option>	
+												<option value ="1">本金</option>
+												<option value ="2">静态收益</option>
+												<option value ="3">动态收益</option>
+												<option value ="4">分红</option>
+											
+										</select>
+										
+								</div>
+
+								<div class="popover_box clearfix">
+										<input type="hidden" name="uid" id="uid" value="{$uid}">
+										<input type="hidden" name="cu_id" id="cu_id" value="">
+										<!-- 本金 -->
+										<input type="hidden" name="remain_num" id="remain_num" value="">
+										<input type="hidden" name="static_wallet" id="static_wallet" value="">
+										<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value="">
+										<input type="hidden" name="direct_wallet" id="direct_wallet" value="">							
+									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="请输入额度" /><br />
+									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
+								</div>
+								<!--000-->
+								<div class="popover_box clearfix">
+									<!-- '创建一个image对象'，给canvas绘制使用 -->
+									<canvas id="canvas" style="display: none;"></canvas>
+									<div class="imageEchoBox">
+										<span class="tipsText" style="font-size: 0.2rem !important;">请点击“选中图片”上传二维码。</span>
+										<!--回显的图片-->
+										<img class="preViewImg" style="display: none;" src="" onerror="javascript:this.src='__PUBLIC__/plugins/layui/images/loading-2.gif'"/>
+										<!--上传图片 tyle='file'-->
+										<a class="uploadFile2" href=" ">选择图片</a>
+										<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
+					
+									</div>
+								</div>
+								<div class="popover_box clearfix">
+									<div class="lj_p_address">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span> 地址:</span><input type="text" name="address"  /><br />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>备注:</span><input class="lj_input2" type="text" name="comment"  />
+									</div>
+								</div>
+								<!--000-->
+								
+								<div class="popover_affirm">
+									<span class="true">确认</span>
+									<span class="false">取消</span>
+								</div>
+							</form>
+						</div>
+					</div>
 				<!-- 提取弹框-e -->
 			</div>
 
 		</div>
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
+
 		<script>
-			/*提取 按钮*/
-			function send(cu_id,remain_num) {
-				$('.popover').show();
-				$('#cu_id').val(cu_id);
-				$('#remain_num').val(remain_num);
-				
-			}
+			$(document).ready(function() {
+				//阻止事件冒泡
+				$('.popover_content').click(function(e) {
+					e.stopPropagation();
+				});
+				//确认
+//				$('.true').click(function() {
+//					$('.popover').hide();
+//				});
+				//取消
+				$('.false').click(function() {
+					$('.popover').hide();
+				});
+				//点击背景隐藏
+				$('.popover').click(function() {
+					$(this).hide();
+				})
+			});
+				/*提取 按钮*/
+				function send(cu_id,remain_num,static_wallet,dynamic_wallet,direct_wallet) {
+					$('.popover').show();
+					$('#cu_id').val(cu_id);
+					$('#remain_num').val(remain_num);
+					$('#static_wallet').val(static_wallet);
+					$('#dynamic_wallet').val(dynamic_wallet);
+					$('#direct_wallet').val(direct_wallet);
+				};
 			$(document).ready(function() {
 				//阻止事件冒泡
 				$('.popover_content').click(function(e) {
@@ -115,7 +202,18 @@
 					$('#popover_num').val("");
 					$('#popover_convert').val("");
 				})
+				//点击下拉列表
+				$(".list_tacitly").click(function(){
+			  		$(this).next().slideToggle(500)
+					$(this).parent().siblings(".currency_list").children(".pull_down_content").slideUp(500)
+					if(!$(this).find(".pull_down").hasClass("up")){
+						$(this).find(".pull_down").addClass("up").removeClass("down")
+					}else{
+						$(this).find(".pull_down").removeClass("up").addClass("down")	
+					}
+				})
 			});
+	
 		function exchange(obj){
 			var val=$(obj).val();
 			var cu_id=$('#cu_id').val();
@@ -142,7 +240,7 @@
 			var layer = layui.layer
 			, form = layui.form
 			,jq = layui.jquery;
-			jq('#true').click(function(){	  
+			jq('.true').click(function(){	  
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize();
 					jq.getJSON(url,datas,function(data){						
@@ -158,7 +256,7 @@
 							}else {
 									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
 									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
-									window.location.reload(); 
+									// window.location.reload(); 
 									});
 										// window.location.reload(); 
 								}
@@ -186,7 +284,7 @@
 								$('#popover_rmb').val(data.result['rmb']);
 								$('#popover_convert').val(data.result['usd']);
 						} else {
-							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
+							layer.msg("操作失败11111", {icon: 2, time: 2000}, function(){					
 								window.location.reload(); 
 							}); 
 						}
@@ -194,6 +292,85 @@
 				});
         	})	
 		});		
+
+/*000*/
+			/*上传图片*/
+			function UpLoad(e) {
+				console.log(444);
+				/*保存 点击对应的this*/
+				var that = $(e);
+				if(e.files[0]) {
+					/* 出现加载图片，加载图片是回显图片的位置 */
+					that.siblings(".preViewImg").show();
+					/* 提示文字，隐藏 */
+					that.siblings(".tipsText").hide();
+					/*file上传图片*/
+					var f = e.files[0];
+					fileType = f.type;
+					if(/image\/\w+/.test(fileType)) {
+						var fileReader = new FileReader();
+						fileReader.readAsDataURL(f);
+						fileReader.onload = function(event) {
+							var result = event.target.result; //返回的dataURL   
+							var image = new Image();
+							image.src = result;
+							console.log(2222)
+							//若图片大小大于1M，压缩后再上传，否则直接上传  
+							if(f.size > 1024 * 1024) {
+								image.onload = function() {
+									//创建一个image对象，给canvas绘制使用
+									var canvas = document.getElementById("canvas");
+									canvas.width = image.width;
+									canvas.height = image.height; //计算等比缩小后图片宽高   
+									var ctx = canvas.getContext('2d');
+									ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
+									/* 图片 回显*/
+									// that.siblings(".preViewImg").attr("src", newImageData);
+									console.log(newImageData);
+
+									$("#canvas").hide();
+								}
+							} else {
+								//创建一个image对象，给canvas绘制使用 
+								image.onload = function() {
+									/*图片 回显 */
+									// that.siblings(".preViewImg").attr("src", result);
+									console.log(result);
+								}
+							}
+							
+							/*ajax=> 回显图片*/
+							that.siblings(".preViewImg").attr("src", result);
+
+							
+						}
+					} else {
+						alert("请选择图片");
+					}
+
+				} else {
+					console.log('取消选择图片！');
+				}
+			}
+			
+			/* 确认 */
+			$('.true').on('click', function() {
+				/*存储，base64*/
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
+
+				$('.popover').hide();
+			})
+			/*000*/
+
 		</script>
 	</body>
 
