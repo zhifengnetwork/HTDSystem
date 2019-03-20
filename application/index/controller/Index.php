@@ -45,8 +45,8 @@ class Index extends HomeBase
         //     header("refresh:1;url=$url");
         // }      
         // $userid = session('userid');
-        $userid = 2;
-        
+        // $userid = 2;
+        $userid = 1;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
