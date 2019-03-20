@@ -2142,3 +2142,16 @@ function createWallet($uid){
     return true;
 }
 
+// 根据传入数字保留位数
+function numberByRetain($number, $position){
+    // @number 需要处理的数字, @position 需要保留的位数
+    $ary = explode('.', (string)$number);
+    if (strlen($ary[1]) > $position) {
+        $decimal = substr($ary[1], 0, $position);
+        $result = $ary[0] . '.' . $decimal;
+        return (float)$result;
+    } else {
+        return $number;
+    }
+ }
+

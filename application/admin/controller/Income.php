@@ -73,7 +73,7 @@ class Income extends AdminBase
             ->where('in.type',101)
             ->order('in.id desc')->paginate(10);
 
-        return $this->fetch('Income_static_income',['income_list' => $income_list]);
+        return $this->fetch('income_static_income',['income_list' => $income_list]);
     }
 
     public function static_search($keyword = '', $page = 1){
@@ -96,7 +96,7 @@ class Income extends AdminBase
             ->where('in.type',101)
             ->where($map)
             ->order('in.id desc')->paginate(10);
-        return $this->fetch('Income_static_income',['income_list' => $income_list]);
+        return $this->fetch('income_static_income',['income_list' => $income_list]);
     }
 
     public function dynamic_income()
@@ -108,7 +108,7 @@ class Income extends AdminBase
             ->where('in.type',103)
             ->order('in.id desc')->paginate(10);
 
-        return $this->fetch('Income_dynamic_income',['income_list' => $income_list]);
+        return $this->fetch('income_dynamic_income',['income_list' => $income_list]);
     }
 
     public function dynamic_search($keyword = '', $page = 1)
@@ -131,7 +131,7 @@ class Income extends AdminBase
             ->where('in.type',103)
             ->where($map)
             ->order('in.id desc')->paginate(10);
-        return $this->fetch('Income_dynamic_income',['income_list' => $income_list]);
+        return $this->fetch('income_dynamic_income',['income_list' => $income_list]);
     }
 
     public function push_income()
@@ -143,7 +143,7 @@ class Income extends AdminBase
             ->where('in.type',102)
             ->order('in.id desc')->paginate(10);
 
-        return $this->fetch('Income_push_income',['income_list' => $income_list]);
+        return $this->fetch('income_push_income',['income_list' => $income_list]);
     }
 
     public function push_search($keyword = '', $page = 1)
@@ -166,7 +166,7 @@ class Income extends AdminBase
             ->where('in.type',102)
             ->where($map)
             ->order('in.id desc')->paginate(10);
-        return $this->fetch('Income_push_income',['income_list' => $income_list]);
+        return $this->fetch('income_push_income',['income_list' => $income_list]);
     }
 
     public function global_dividend()

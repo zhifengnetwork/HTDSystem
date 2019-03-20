@@ -63,7 +63,7 @@ body {
     width: 25%;
     font-size: .3rem;
     color: #ffffff;
-    
+    white-space: nowrap; 
 }
 
 .from-group .from-icon{
