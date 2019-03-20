@@ -78,6 +78,7 @@ body {
     font-size: .3rem;
     color: #ffffff;
     padding-left: .1rem;
+    white-space: nowrap; 
 }
   
  

@@ -21,7 +21,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">币种价格</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="price"  value="" oninput = "value=value.replace(/[^\d]/g,'')" required lay-verify="required" placeholder="请输入币种价格" class="layui-input txt">
+                        <input type="text" name="price" required lay-verify="required" placeholder="请输入币种价格" class="layui-input txt">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -34,6 +34,12 @@
                     <label class="layui-form-label">币种地址</label>
                     <div class="layui-input-inline">
                         <input type="text" name="wallet_addr"  value="" placeholder="请输入币种地址" class="layui-input txt">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">币种二维码</label>
+                    <div class="layui-input-inline">
+                        <input type="file" name="cu_qrcode" id="file1"  onchange="checkFileExt(this.value)">
                     </div>
                 </div>
                 <div class="layui-form-item">

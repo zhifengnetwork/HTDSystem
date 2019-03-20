@@ -112,9 +112,11 @@ class Index extends HomeBase
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
         $income = db('income')->where(['uid'=>$home['id']])->select();
-        if($income){
+        // dump($home['id']);die;
+        if(empty($income)){
             $this->assign('income',$income);
         }
+        $this->assign('income',$income);
         return view();
     }
 
@@ -134,6 +136,7 @@ class Index extends HomeBase
         if($income){
             $this->assign('income',$income);
         }
+        $this->assign('income',$income);
         return view();
     }
     

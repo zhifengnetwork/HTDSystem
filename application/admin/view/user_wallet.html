@@ -1,0 +1,57 @@
+{extend name="base" /} {block name="body"}
+<div class="admin-main layui-form">
+    <div class="layui-field-box">
+        <div class="layui-box-searchber">
+            <form class="layui-form layui-form-pane" action="{:url('admin/user/getUserWallet')}" method="get">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" value="{:session('userkeyword')}" placeholder="请输入关键词" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn  layui-btn-sm">搜索</button>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <table class="layui-table admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 30px;">ID</th>
+                    <th>用户名</th>
+                    <th>手机</th>
+                    <th>币种名称</th>
+                    <!-- <th>币种本金</th> -->
+                    <th>币种数量</th>
+                    <th>奖金钱包</th>
+                    <th>全球分红</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach name="wallet_arr" item="vo" key="k"}
+                <tr>
+                    <td>{$k+1}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.mobile}</td>
+                    <td>{$vo.cu_name}</td>
+                    <td>{$vo.cu_num}</td>
+                    <td>{$vo.bonus_wallet}</td>
+                    <td>{$vo.rate_wallet}</td>
+                    <!-- <td>{php}echo $vo['status']>=1 ? '启用' : '禁用';{/php}</td> -->
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
+        <!--分页-->
+
+    </div>
+</div>
+{/block} {block name="page"}
+<div class="btable-paged">
+    <div class="layui-main">
+        {$wallet_arr->render()}
+    </div>
+</div>
+{/block} {block name="js"}
+{/block}
