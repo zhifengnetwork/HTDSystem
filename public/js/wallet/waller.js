@@ -142,11 +142,10 @@ function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 		layer.msg('投资额额度不可为0');
 		return false;
 	}
-
-
+	var domain = document.domain;
+	var path_url = '/'+wallet_qrcode;
 	// 对应币种二维码放置
-	$('.payment_wenma_sc').attr('src',wallet_qrcode);
-	
+	$('.payment_wenma_Two').attr('src',path_url);
 	// getQrcode(walletAddr);
 	// 获取填充对应币种钱包地址
 	// $('.p_text').html(walletAddr);
@@ -182,7 +181,6 @@ function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 		cu_num = cu_num.toFixed(8);
 		$('.p3').html(cu_num);
 	}
-	console.log(money);
 
 	/*ajax*/
 }

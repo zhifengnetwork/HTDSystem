@@ -166,7 +166,7 @@
 							<!-- list -->
 							<div class="currency">
 								{foreach name="htd_currency" item="vo"}
-								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
+								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}','{$vo.wallet_qrcode}')">
 									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
 									<span class="currency_title">{$vo.alias_name}<font></font></span>
 									<span class="currency_number">{$vo.price}</span><br>
@@ -283,7 +283,7 @@
     		<div class="qb_bg"></div>
     		<div class="qb_bg_img" id="tg_qrcode">
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
-    			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
+    			<img class="payment_wenma_Two" src=""/>
     		</div>  	
 		</div>
 		<!-- 底部导航 -->        
