@@ -14,6 +14,7 @@ class Wallet extends HomeBase
         if(!$this->user){
             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
             header("refresh:1;url=$url");
+            exit;
         }
     }
     
@@ -50,16 +51,17 @@ class Wallet extends HomeBase
 
     /**
      *  用户点击确定投资
-     * 1、判断用户是否存在当前币种的
+     * 1、判断用户是否存在当前币种的订单,如果存在，则累加订单币种（复投）。
     */
     public function confirmInvest()
     {
         if(!is_post()){
             return json(array('code' => 0, 'msg' => '提交方式错误'));
         }
+        $uid = session('home.id');
         $param = input('post.');
         $cu_id = intval($param['cu_id']);
-        $pay_way = intval($param['pay_way']);
+        $pay_way = intval($param['pay_way']); // 1发票 2复投
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
@@ -77,32 +79,90 @@ class Wallet extends HomeBase
         if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
-        if(!$param['cu_price']){
-            return json(array('code' => 0, 'msg' => '币种价格异常出错'));
-        }
-        $total_money = $param['cu_num']*$currency_one['price']; // 
-        // if($total_money!=$param['money']){
-        //     return json(array('code' => 0, 'msg' => '投资金额出错'));
+        // if(!$param['cu_price']){
+        //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
+        $total_money = $param['cu_num']*$currency_one['price']; //
+        
         // 获取数据库单价
         $cu_num =  $param['money']/$currency_one['price'];
-        // 订单信息入库
-        $data = array(
-            'order_no' => byOrderNo(),
-            'uid' => session('home.id'),
-            'cu_id' => $cu_id,
-            'num'   => $cu_num,
-            'price' => $currency_one['price'],
-            'total_money' => $param['money'],
-            'pay_way' => $pay_way,
-            // 'voucher' => '111',
-            'create_time' => time()
-        );
-        $res = Db::name('buy_order')->insert($data);
-        if(!$res){
+
+        Db::startTrans();
+        try{
+
+            // 判断当前投资币种是否存在钱包表，如果没有插入一条
+            $wallet_is = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$currency_one['id']])->find();
+            if(!$wallet_is){
+                $data_in = array(
+                    'uid' => $uid,
+                    'cu_id' => $currency_one['id']
+                );
+                Db::name('user_wallet')->insert($data_in);
+            }
+
+            // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
+            $is_cu_order = Db::name('execute_order')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+            if($is_cu_order['cu_id'] && $pay_way==2){
+
+                // 获取当前用户对应币种的静态收益120、分红钱包金额121
+                $user_wallet = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+
+                $wallet_flag = intval($param['wallet_flag']);
+                // 判断钱包是否够复投对应币种数量
+                if($wallet_flag=120){
+                    if($user_wallet['bonus_wallet']<$cu_num){
+                    return json(array('code' => 0, 'msg' => '静态收益不足'));
+                    }
+                    // 扣减对应数量
+                    Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setDec('bonus_wallet', $cu_num);
+                }
+                if($wallet_flag=121){
+                    if($user_wallet['rate_wallet']<$cu_num){
+                        return json(array('code' => 0, 'msg' => '分红收益不足'));
+                    }
+                    Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setDec('rate_wallet', $cu_num);
+                }
+                // 复投累加对应币种数量execute_order
+                $inc_res = Db::name('execute_order')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setInc('num', $cu_num);
+                
+                // if(!$inc_res){
+                //     return json(array('code' => 0, 'msg' => '复投失败，稍后再试'));
+                // }
+                return json(array('code' => 200, 'msg' => '复投成功'));
+            }else{
+
+                // 订单信息入库
+                $data = array(
+                    'order_no' => byOrderNo(),
+                    'uid' => $uid,
+                    'cu_id' => $cu_id,
+                    'num'   => $cu_num,
+                    'price' => $currency_one['price'],
+                    'total_money' => $param['money'],
+                    'pay_way' => $pay_way,
+                    // 'voucher' => '111',
+                    'create_time' => time()
+                );
+                $res = Db::name('buy_order')->insert($data);
+
+                // 判断执行收益订单表是否存在，不存在插入一次
+                if(!$is_cu_order){
+                    $res = Db::name('execute_order')->insert($data);
+                }
+                // if(!$res){
+                //     return json(array('code' => 0, 'msg' => '网络异常，请稍后再试。'));
+                // }
+                // return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
+            }
+            // 提交事务
+            Db::commit(); 
+            return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
+            
+        }catch(\Exception $e){
+            // 回滚事务
+            Db::rollback();
             return json(array('code' => 0, 'msg' => '网络异常，请稍后再试。'));
         }
-        return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
     }
 
     /**

@@ -219,6 +219,10 @@
 			$(function(){
 				$(".popover_click").click(function(){
 					$(".ul_box").slideToggle("slow");
+				});
+				$(".ul_box>li").click(function(){
+					var $li = $(this).html();
+					$(".popover_click").html($li)
 				})
 			})
 
