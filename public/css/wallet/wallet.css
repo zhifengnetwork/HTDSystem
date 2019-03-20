@@ -447,13 +447,13 @@ input::-webkit-inner-spin-button {
 .wtf_item2_c{float: right;}
 /* 币种弹框 padding */
 .showZ {
-	padding-top: .7rem;
+	padding-top: .9rem;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
 .termBox {
-	padding-left: 5%;
+	padding-left: 8%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -467,7 +467,7 @@ input::-webkit-inner-spin-button {
 .termBox .iconImgW {
 	position: relative;
 	float: left;
-	width: 8%;
+	width: 10%;
 	height: 100%;
 
 }
@@ -486,13 +486,17 @@ input::-webkit-inner-spin-button {
 .termBox .currency_title, .termBox .currency_number{display: block}
 .termBox .currency_title {
 	float: left;
-	width: 20%;
-	text-align: right;
+	width: 32%;
+	text-align: left;
+	padding-left: 8%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 .termBox .currency_number {
 	float: left;
-	width: 65%;
-	text-align: center;
+	width: 50%;
+	text-align: left;
 
 }
 
