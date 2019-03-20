@@ -155,8 +155,7 @@ th,td{
 	z-index: 59;
 	width: 90%;
 	height: 9.5rem;
-	background: linear-gradient(#1de5e2,#b588f7);
-	background: -webkit-linear-gradient(#1de5e2,#b588f7);	
+	background:#3455ff;
 	line-height: .6rem;
 	overflow-y: auto;
 	border-radius: 8px;
@@ -253,12 +252,12 @@ th,td{
 	width: 100%;
 	font-size: .35rem;
 	font-weight: 900;
-	line-height: .7rem;
+	line-height: .8rem;
 	letter-spacing: 5px;
 	color: #fff;
 	text-align: center;
-	background: linear-gradient(left,#c165dd,#5c27fe);
-	background: -webkit-linear-gradient(left,#c165dd,#5c27fe);
+	background-color:#3455ff; 
+	border-bottom: 1px solid #fff;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
@@ -500,7 +499,7 @@ input::-webkit-inner-spin-button {
 
 /*<!--总投资-弹框-->*/
 .thead-zp {
-	padding-top: .7rem;
+	padding-top: .97rem;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
