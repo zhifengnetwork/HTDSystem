@@ -45,6 +45,16 @@ $(document).ready(function(){
 		$(".payment_wenma").hide()
 	})
 
+	//出现弹框背景禁止滚动
+	$(".qb_bg").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap-up").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap").bind("touchmove","touchstart",function(e){
+		e.preventDefault();
+})
 
 	/*投资-按钮*/
 	$('.sum').on('click',function(){

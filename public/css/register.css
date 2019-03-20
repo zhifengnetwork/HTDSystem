@@ -187,13 +187,18 @@
     .login-new{
         display: -webkit-box;
         display: -moz-box;
-        display: -ms-flexbox;
         display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-pack: space-between;
+        -ms-flex-pack: space-between;
+        -webkit-justify-content: space-between;
         justify-content: space-between;
         padding-top:.6rem;
     }
     .login-new a{
+        display: block;
         background-color: transparent;
         border: 1px solid #fff;
         border-radius: .625rem;
