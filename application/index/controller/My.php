@@ -39,7 +39,45 @@ class My extends HomeBase
     
     public function edituser()
     {
+        $user_id = session('home.id');
+        $user = Db::name('user')->where('id',$user_id)->field('id,mobile,usermail as email')->find();
+        
+        $this->assign('info',$user);
+
         return $this->fetch();
+    }
+
+    //修改邮箱或电话号码
+    public function change()
+    {
+        $data = input('post.');
+       
+        $bool = false;
+        $result = array();
+
+        $user = Db::name('user')->where('id',$data['user_id'])->find();
+
+        if (($user['mobile'] == $data['mobile']) && ($user['usermail'] == $data['email'])) {
+            return json(array('msg'=>"你没有任何修改", 'code'=>0));
+        }
+
+        if ($user['mobile'] != $data['mobile']) {
+            $result['mobile'] = $data['mobile'];
+        }
+
+        if ($user['usermail'] != $data['email']) {
+            $result['usermail'] = $data['email'];
+        }
+
+        if ($result) {
+            $bool = Db::name('user')->where('id',$data['user_id'])->update($result);
+        }
+
+        if ($bool) {
+            return json(array('msg'=>"修改成功",'code'=>200));
+        } else {
+            return json(array('msg'=>"修改失败", 'code'=>0));
+        }
     }
 
     public function set_pass()
