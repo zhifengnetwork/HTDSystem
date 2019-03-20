@@ -26,43 +26,44 @@
 			<h3>上传身份证</h3>
 		</div>
 		<div class="lj_wrap">
+		
 		<!--渲染wrpa-->
-		<div class="renderingRrpa">
-			<!-- '创建一个image对象'，给canvas绘制使用 -->
-			<canvas id="canvas" style="display: none;"></canvas>
-			
-			<!--上传图片wrap-->
-			<div class="uploadWrap">
-				<!--每个 上传图片box---->
-				<p>身份证正面</p>
-				<div class="imageEchoBox">
-					<!--提示-->
-					<span class="tipsText">请点击“选中图片”上传图片。</span>
-					<!--回显的图片-->
-					<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
-					<!--上传图片 tyle='file'-->
-					<a class="uploadFile2" href="#">选择图片</a>
-					<input class="uploadFile" type="file" onchange="UpLoad(this,0)" name="file" id="" value="0" accept="image/*" />
-				</div>
-				<p>身份证反面</p>
-				<!--上传图片box 2---->
-				<div class="imageEchoBox">
-					<span class="tipsText">请点击“选中图片”上传图片。</span>
-					<!--回显的图片-->
-					<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
-					<!--上传图片 tyle='file'-->
-					<a class="uploadFile2" href="#">选择图片</a>
-					<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
-				</div>
+			<div class="renderingRrpa">
+				<!-- '创建一个image对象'，给canvas绘制使用 -->
+				<canvas id="canvas" style="display: none;"></canvas>
 				
-			</div>
+				<!--上传图片wrap-->
+				<div class="uploadWrap">
+					<!--每个 上传图片box---->
+					<p>身份证正面</p>
+					<div class="imageEchoBox">
+						<!--提示-->
+						<span class="tipsText">请点击“选中图片”上传图片。</span>
+						<!--回显的图片-->
+						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						<!--上传图片 tyle='file'-->
+						<a class="uploadFile2" href="#">选择图片</a>
+						<input class="uploadFile" type="file" onchange="UpLoad(this,0)" name="file" id="" value="0" accept="image/*" />
+					</div>
+					<p>身份证反面</p>
+					<!--上传图片box 2---->
+					<div class="imageEchoBox">
+						<span class="tipsText">请点击“选中图片”上传图片。</span>
+						<!--回显的图片-->
+						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						<!--上传图片 tyle='file'-->
+						<a class="uploadFile2" href="#">选择图片</a>
+						<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
+					</div>
+					
+				</div>
 
-			<!-- 确定-->
-			<div class="decideToSell">
-				<!--确定 按钮-->
-				<p class="decideToSellBut">确定</p>
+				<!-- 确定-->
+				<div class="decideToSell">
+					<!--确定 按钮-->
+					<p class="decideToSellBut">确定</p>
+				</div>
 			</div>
-		</div>
 
 		</div>
 
@@ -123,7 +124,7 @@
 								image.onload = function() {
 									/*图片 回显 */
 									that.siblings(".preViewImg").attr("src", result);
-									console.log(result);
+									// console.log(result);
 								}
 							}
 						}
@@ -152,8 +153,25 @@
 					/*对话框*/
 					suredAlert($('body'),'请上传身份“正反”两张图片！');
 					return false;
+				} else {
+					arrImgUrl = JSON.stringify(arrImgUrl);
+					
+					$.ajax({
+						url:"{:url('index/my/upload')}",
+						type:"POST",
+			            dataType:"json",
+			            data:{'img':arrImgUrl},
+			            error:function(data){
+			            	// console.log(data);
+			            	alert("服务器繁忙, 请联系管理员!");
+			            },
+			            success:function(data){
+			            	// console.log(data);
+			            	alert(data.msg);
+			            }
+					});
 				}
-				console.log(arrImgUrl);
+				// console.log(arrImgUrl);
 			})
 		</script>
 	</body>
