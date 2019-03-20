@@ -9,9 +9,9 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
 		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
-		<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
-		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
+	
 	
 	</head>
 
@@ -54,7 +54,7 @@
 							</div>
 							<!-- 商品数量 -->
 							<div class="currency_num">
-									{$v.cu_num}
+									{$v.cu_num+$v.static_wallet+$v.dynamic_wallet+$v.rate_wallet}
 							</div>
 							<!-- 下拉菜单 -->
 							<div class="pull_down">
@@ -81,7 +81,7 @@
 							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
-						<div class="currency_btn" onclick="send({$v.cu_id},{$v.cu_num},{$v.static_wallet},{$v.dynamic_wallet},{$v.rate_wallet})">
+						<div class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">	
 								提取
 						</div>
 					</div>
@@ -111,10 +111,10 @@
 										<input type="hidden" name="uid" id="uid" value="{$uid}">
 										<input type="hidden" name="cu_id" id="cu_id" value="">
 										<!-- 本金 -->
-										<input type="hidden" name="remain_num" id="remain_num" value="">
+										<input type="hidden" name="cu_num" id="cu_num" value="">
 										<input type="hidden" name="static_wallet" id="static_wallet" value="">
 										<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value="">
-										<input type="hidden" name="direct_wallet" id="direct_wallet" value="">							
+										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">							
 									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="请输入额度" /><br />
 									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
 								</div>
@@ -134,8 +134,8 @@
 								</div>
 								<div class="popover_box clearfix">
 									<div class="lj_p_address">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span> 地址:</span><input type="text" name="address"  /><br />
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>备注:</span><input class="lj_input2" type="text" name="comment"  />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span> 地址:</span><input type="text" name="wallet_addr" id="wallet_addr" value=""  /><br />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>备注:</span><input class="lj_input2" type="text" name="note"  />
 									</div>
 								</div>
 								<!--000-->
@@ -154,6 +154,7 @@
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
 		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
+		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
 			$(document).ready(function() {
@@ -161,10 +162,6 @@
 				$('.popover_content').click(function(e) {
 					e.stopPropagation();
 				});
-				//确认
-//				$('.true').click(function() {
-//					$('.popover').hide();
-//				});
 				//取消
 				$('.false').click(function() {
 					$('.popover').hide();
@@ -174,15 +171,32 @@
 					$(this).hide();
 				})
 			});
-				/*提取 按钮*/
-				function send(cu_id,remain_num,static_wallet,dynamic_wallet,direct_wallet) {
-					$('.popover').show();
-					$('#cu_id').val(cu_id);
-					$('#remain_num').val(remain_num);
-					$('#static_wallet').val(static_wallet);
-					$('#dynamic_wallet').val(dynamic_wallet);
-					$('#direct_wallet').val(direct_wallet);
-				};
+			function send(uid,cu_id){
+				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
+				$.ajax({
+					type: "POST",
+					url: url,
+					dataType: "json",
+					error: function () {
+							alert('操作失败');
+					},
+					success: function (data) {
+						if (data.status == 1) {
+								// $('#popover_convert').val(data.result);
+								$('#cu_id').val(data['result']['cu_id']);
+								$('#cu_num').val(data['result']['cu_num']);
+								$('#static_wallet').val(data['result']['static_wallet']);
+								$('#dynamic_wallet').val(data['result']['dynamic_wallet']);
+								$('#rate_wallet').val(data['result']['rate_wallet']);
+								$('#wallet_addr').val(data['result']['wallet_addr']);								
+								$('.popover').show();
+						} else {
+								alert(data.msg); 
+						}
+					}
+				});	                
+			}
+
 			$(document).ready(function() {
 				//阻止事件冒泡
 				$('.popover_content').click(function(e) {
@@ -253,18 +267,23 @@
 								layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
 								// window.location.reload(); 
 								});
-							}else {
+							}else if(data.status == 3){
+								layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+								// window.location.reload(); 
+								});
+							}
+							else {
 									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
 									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
 									// window.location.reload(); 
 									});
 										// window.location.reload(); 
-								}
+							}
 						});
 			});			
-			jq('.false').click(function(){	  
-				window.location.reload();
-			});		
+			// jq('.false').click(function(){	  
+			// 	window.location.reload();
+			// });		
 			$(document).on("keyup",'#popover_num',function(){
 				var val=$(this).val();
 				var cu_id=$('#cu_id').val();
@@ -355,7 +374,7 @@
 			}
 			
 			/* 确认 */
-			$('.true').on('click', function() {
+			$('.popover_affirm .true').on('click', function() {
 				/*存储，base64*/
 				// var arrImgUrl = '';
 				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
@@ -367,6 +386,16 @@
 				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
 				// console.log(arrImgUrl);
 
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	$('.popover').hide();
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
 				$('.popover').hide();
 			})
 			/*000*/

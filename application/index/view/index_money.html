@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>总收益</title>
+    <title>钱包余额</title>
     <script src="__PUBLIC__/js/public/rem.js"></script>
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
@@ -15,17 +15,15 @@
         <!-- 头部 -->
         <div class="header-zp">
             <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
-            <h3>总收益</h3>
+            <h3>钱包余额</h3>
             <!-- <span class="share-btn"><img src="../image/public/share-btn-zp.png" /></span> -->
         </div>
         <!-- 标题 -->
         <div class="thead-zp">
             <ul>
                 <li>币种名称</li>
-                <!-- <li>币种数量</li> -->
-                <li>主流币</li>
-                <li>平台币</li>
-                <li>时间</li>
+                <li>本金数量</li>
+                <li>全球分红</li>
             </ul>
         </div>
         <div class="tbody-zp">
@@ -33,10 +31,8 @@
                 {foreach name="income" item="vo"}
                 <li>
                     <div class="name">{$vo.cu_id|cu_get}</div>
-                    <!-- <div class="number">{$vo.total_coin}</div> -->
-                    <div class="number">{$vo.main_coin}</div>
-                    <div class="price">{$vo.htd_coin}</div>
-                    <div class="total-price">{:date("Y-m-d",$vo.create_time)}</div>
+                    <div class="number">{$vo.bonus_wallet}</div>
+                    <div class="price">{$vo.rate_wallet}</div>
                 </li>
                 {/foreach}
             </ul>
