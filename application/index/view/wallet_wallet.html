@@ -129,16 +129,23 @@
 
 					<div class="shadow-wrap">
 						<div class="assetPopup showZ">
-
-							<div class="det">币值详情</div>
-
+							<!-- title -->
+							<div class="det">
+								<span>币种</span>
+								<p class="iconfont icon hideIcon">
+									<img src="/public/images/wallet/qbscq.png"/>
+								</p>
+							</div>
+							<!-- list -->
 							<div class="currency">
 								{foreach name="htd_currency" item="vo"}
-								<p class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
-									<span>{$vo.alias_name}<font>：</font></span>
-									<span>{$vo.price}</span><br>
-								</p>
+								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
+									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
+									<span class="currency_title">{$vo.alias_name}<font>：</font></span>
+									<span class="currency_number">{$vo.price}</span><br>
+								</div>
 								{/foreach}
+								
 							</div>
 							<!-- 
 							<div class="currency">
@@ -149,9 +156,7 @@
 									</p>
 								{/foreach}
 							</div -->
-							<div class="iconfont icon hideIcon">
-								<img src="/public/images/wallet/qbscq.png"/>
-							</div>
+							
 						</div>
 					</div>
 
