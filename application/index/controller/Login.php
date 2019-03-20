@@ -57,7 +57,7 @@ class Login extends Controller
             // dump($res);die;
             $this->assign('aa', $res);
         }
-        
+        $this->assign('aa', $res);
         return view();
     }
 
