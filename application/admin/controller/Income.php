@@ -109,8 +109,6 @@ class Income extends AdminBase
             ->where('in.type',103)
             ->order('in.id desc')->paginate(10);
 
-        dump($income_list);
-
         return $this->fetch('income_dynamic_income',['income_list' => $income_list]);
     }
 
