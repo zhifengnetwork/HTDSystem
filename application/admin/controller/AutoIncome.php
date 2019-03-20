@@ -65,8 +65,9 @@ class AutoIncome
 					$platform_coin_ratio = $configs['platform6']['value'];
 				}
 				
+				$rate = numberByRetain($rate/30, 8); // 除于30天取8位
 				// +++++++ 计算当前用户静态收益：币种收益=收益率*币种数量 +++++++ //
-				$giveIncome = $value['num']*$rate;
+				$giveIncome = $value['num']*$rate; 
 				// 根据后台设置的比例把总收益拆分为主流币+平台代币
 				$main_coin = $giveIncome*($main_coin_ratio/100);
 				$platform_coin = $giveIncome*($platform_coin_ratio/100);
