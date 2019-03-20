@@ -29,6 +29,7 @@
                         <th>状态</th>
                         <th>钱包地址</th>
                         <th>当前价格(CNY)</th>
+                        <th>钱包二维码</th>
                         <th>备注信息</th>
                         <th>操作</th>
                     </tr>
@@ -44,6 +45,8 @@
                         <td>{if condition="$vo['status'] eq 1"}<a href="{:url('admin/currency/status',['id'=>$vo['id']])}">显示</a>{else /}<a href="{:url('admin/currency/status',['id'=>$vo['id']])}">隐藏</a> {/if}
                         <td>{$vo.wallet_addr}</td>
                         <td>{$vo.price}</td>
+                        <td>{if condition="$vo['wallet_qrcode'] eq true"}<img src="/{$vo['wallet_qrcode']}" alt="111">{else /} {/if}
+                        </td>
                         <td>{$vo.note}</td>
                         <td>
                            

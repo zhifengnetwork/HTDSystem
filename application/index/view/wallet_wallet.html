@@ -136,84 +136,93 @@
 
 					<div class="sum">投资</div>
 					<!--选择币值-弹框-->
-					<div class="assetPopup showZ">
 
-						<div class="det">币值详情</div>
+					<div class="shadow-wrap">
+						<div class="assetPopup showZ">
 
-						<div class="currency">
-							{foreach name="htd_currency" item="vo"}
-							<p class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
-								<span>{$vo.alias_name}<font>：</font></span>
-								<span>{$vo.price}</span><br>
-							</p>
-							{/foreach}
-						</div>
-						<!-- 
-						<div class="currency">
-							{foreach name="user_wallet" item="user_wallet"}
-								<p class="termBox clearfix" onclick="obtainFun('id')">
-									<span>{$user_wallet.cu_id|wallet_name}：</span>
-									<span>{$user_wallet.cu_num}</span><br>
+							<div class="det">币值详情</div>
+
+							<div class="currency">
+								{foreach name="htd_currency" item="vo"}
+								<p class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
+									<span>{$vo.alias_name}<font>：</font></span>
+									<span>{$vo.price}</span><br>
 								</p>
-							{/foreach}
-						</div -->
-						<i class="iconfont icon hideIcon">&#xe66f;</i>
+								{/foreach}
+							</div>
+							<!-- 
+							<div class="currency">
+								{foreach name="user_wallet" item="user_wallet"}
+									<p class="termBox clearfix" onclick="obtainFun('id')">
+										<span>{$user_wallet.cu_id|wallet_name}：</span>
+										<span>{$user_wallet.cu_num}</span><br>
+									</p>
+								{/foreach}
+							</div -->
+							<div class="iconfont icon hideIcon">
+								<img src="/public/images/wallet/qbscq.png"/>
+							</div>
+						</div>
 					</div>
+
 
 					<!--总投资-弹框-->
-					<div class="assetPopup pop">
+					<div class="shadow-wrap-up">
+						<div class="assetPopup pop">
 
-						<div class="det">资产</div>
+							<div class="det">资产</div>
 
-						<!-- 标题 -->
-						<div class="thead-zp">
-							<ul>
-								<li>名称</li>
-								<li>数量</li>
-								<li>单价</li>
-								<li>金额</li>
-							</ul>
+							<!-- 标题 -->
+							<div class="thead-zp">
+								<ul>
+									<li>名称</li>
+									<li>数量</li>
+									<li>单价</li>
+									<li>金额</li>
+								</ul>
+							</div>
+							<!--详情-->
+							<div class="tbody-zp">
+								<ul>
+									<li>
+										<div class="name">Alan</div>
+										<div class="number">10</div>
+										<div class="price">99.00</div>
+										<div class="total-price">990.00</div>
+									</li>
+									<li>
+										<div class="name">Alan</div>
+										<div class="number">10</div>
+										<div class="price">99.00</div>
+										<div class="total-price">990.00</div>
+									</li>
+									<li>
+										<div class="name">Alan</div>
+										<div class="number">10</div>
+										<div class="price">99.00</div>
+										<div class="total-price">990.00</div>
+									</li>
+									<li>
+										<div class="name">Alan</div>
+										<div class="number">10</div>
+										<div class="price">99.00</div>
+										<div class="total-price">990.00</div>
+									</li>
+									<li>
+										<div class="name">Alan</div>
+										<div class="number">10</div>
+										<div class="price">99.00</div>
+										<div class="total-price">990.00</div>
+									</li>
+
+								</ul>
+							</div>
+
+							<div class="iconfont hideTz">
+								<img src="/public/images/wallet/qbscq.png"/>
+							</div>
 						</div>
-						<!--详情-->
-						<div class="tbody-zp">
-							<ul>
-								<li>
-									<div class="name">Alan</div>
-									<div class="number">10</div>
-									<div class="price">99.00</div>
-									<div class="total-price">990.00</div>
-								</li>
-								<li>
-									<div class="name">Alan</div>
-									<div class="number">10</div>
-									<div class="price">99.00</div>
-									<div class="total-price">990.00</div>
-								</li>
-								<li>
-									<div class="name">Alan</div>
-									<div class="number">10</div>
-									<div class="price">99.00</div>
-									<div class="total-price">990.00</div>
-								</li>
-								<li>
-									<div class="name">Alan</div>
-									<div class="number">10</div>
-									<div class="price">99.00</div>
-									<div class="total-price">990.00</div>
-								</li>
-								<li>
-									<div class="name">Alan</div>
-									<div class="number">10</div>
-									<div class="price">99.00</div>
-									<div class="total-price">990.00</div>
-								</li>
-
-							</ul>
-						</div>
-
-						<div class="iconfont icon hideTz">&#xe66f;</div>
 					</div>
-
 					<!--点击投资-二维码-弹框-->
 					<!--<div class="code-up hideEvm">
 						<div class="site">							
