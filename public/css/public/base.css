@@ -10,10 +10,18 @@
     z-index: 99;
 }
 .header-zp .return{
+    width: 10%;
+    height: 100%;
     position: absolute;
     left: 0;
-    top: 0.1rem;
-    padding: 0.2rem;
+    top: 0;
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+  	align-items: center;
+    justify-content: center;
 }
 .header-zp .return img{
     width: 0.16rem;
