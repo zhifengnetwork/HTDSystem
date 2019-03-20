@@ -34,12 +34,14 @@ class Wallet extends HomeBase
         $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
+        $userWallet = $this->getUserWallet($user_id);
         // 获取最低投资金额
         // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
         // $min_money = arr2name($min_money);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
+        $this->assign('userWallet',$userWallet);
         // $this->assign('min_money',$min_money['price_min1']['value']);
         $this->assign('user',$users);
         $this->assign('id',$id);
@@ -154,5 +156,20 @@ class Wallet extends HomeBase
         $field = "balance,id,pid,username,mobile,promotion,activation";
         $users = db('user')->field($field)->where(['id'=>$user_id])->find();
         return $users;
+    }
+
+    /**
+     * 当前用户的资产列表
+     */
+    public function getUserWallet($uid){
+
+        if($uid){
+            $userWallet = Db::name('user_wallet')
+            ->alias('a')
+            ->field('a.*, b.alias_name')
+            ->join('htd_currency b', 'a.cu_id=b.id')
+            ->where(['a.uid'=>$uid])->select();
+        }
+        return $userWallet;
     }
 }
