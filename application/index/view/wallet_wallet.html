@@ -168,7 +168,7 @@
 								{foreach name="htd_currency" item="vo"}
 								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
 									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
-									<span class="currency_title">{$vo.alias_name}<font>：</font></span>
+									<span class="currency_title">{$vo.alias_name}<font></font></span>
 									<span class="currency_number">{$vo.price}</span><br>
 								</div>
 								{/foreach}
@@ -193,10 +193,10 @@
 						<div class="assetPopup pop">
 
 							<div class="det">
-									<span>资产</span>
-									<p class="iconfont hideTz">
-										<img src="/public/images/wallet/qbscq.png"/>
-									</p>
+								<span>资产</span>
+								<p class="iconfont hideTz">
+									<img src="/public/images/wallet/qbscq.png"/>
+								</p>
 							</div>
 
 							<!-- 标题 -->
@@ -244,10 +244,7 @@
 
 								</ul>
 							</div>
-
-							<!-- <div class="iconfont hideTz">
-								<img src="/public/images/wallet/qbscq.png"/>
-							</div> -->
+							
 						</div>
 					</div>
 					<!--点击投资-二维码-弹框-->
@@ -309,22 +306,10 @@
     		<div class="qb_bg_img" id="tg_qrcode">
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
     			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
-<<<<<<< HEAD
     		</div>  	
-        
-
-	</div>
-	<!-- 底部导航 -->        
-	<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
-=======
-    		</div>  
-			</div>
-			<!-- 底部导航 -->        
-			<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
-
->>>>>>> aaf2dafc540d66800f4a8492d32c5621d88a46ff
-	<!--弹框-阴影-->
-	<!--<div class="shadow"></div>-->
+		</div>
+		<!-- 底部导航 -->        
+		<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
 
     </div>
     
