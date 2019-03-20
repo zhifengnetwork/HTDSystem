@@ -25,6 +25,19 @@ class My extends HomeBase
         return view();
        
     }
+
+    //区块浏览器
+    public function browser()
+    {
+        $home = session('home');
+        if($home){
+            $id = 1;
+        }else{
+            $id = 2;
+        }
+        $this->assign('id',$id);
+        return view();
+    }
     //退出登录
    public function index()
     {
