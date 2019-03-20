@@ -9,6 +9,13 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/my/upIDCardNew.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
+		<!--弹框-->
+		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css?v=1552363434" />
+		<style type="text/css">
+			.preViewImg {
+				display: none;
+			}
+		</style>
 		
 	</head>
 
@@ -29,24 +36,25 @@
 				<!--每个 上传图片box---->
 				<p>身份证正面</p>
 				<div class="imageEchoBox">
+					<!--提示-->
+					<span class="tipsText">请点击“选中图片”上传图片。</span>
 					<!--回显的图片-->
-					<img class="preViewImg" src="__PUBLIC__/images/home/acc_img.png" />
+					<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
 					<!--上传图片 tyle='file'-->
 					<a class="uploadFile2" href="#">选择图片</a>
-					<input class="uploadFile" type="file" onchange="UpLoad(this)" name="file" id="" value="0" accept="image/*" />
+					<input class="uploadFile" type="file" onchange="UpLoad(this,0)" name="file" id="" value="0" accept="image/*" />
 				</div>
 				<p>身份证反面</p>
 				<!--上传图片box 2---->
 				<div class="imageEchoBox">
+					<span class="tipsText">请点击“选中图片”上传图片。</span>
 					<!--回显的图片-->
-					<img class="preViewImg" src="__PUBLIC__/images/home/acc_img.png" />
+					<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
 					<!--上传图片 tyle='file'-->
 					<a class="uploadFile2" href="#">选择图片</a>
-					<input class="uploadFile" type="file" onchange="UpLoad(this)" name="file" id="" value="1" accept="image/*"  />
+					<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
 				</div>
-
 				
-
 			</div>
 
 			<!-- 确定-->
@@ -60,23 +68,31 @@
 
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
-
+		<!--弹窗 函数的js => sAFail($(最外的边框),text)-->
+		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
 		<script>
-			/*对应 回显图片的下标*/
-			var ind = null;
-			
-			/*上传图片 按钮  */
-//			function uploadImgBut(_index) {
-//				ind = _index;
-//				/* 关联 '选择上传文件'的按钮 */
-//				$(".uploadFile").eq(_index).trigger("click");
-//				return false;
-//			}
 
 			/*上传图片*/
-			function UpLoad(e) {
+			function UpLoad(e,_num) {
+				/*保存 点击对应的this*/
 				var that = $(e);
 				if(e.files[0]) {
+					/*判断哪张图片回显中..*/
+					if(_num == 0){
+						/*提示*/
+						$('.tipsText').eq(0).hide();
+						/*清空路径，调用默认图片*/
+						$('.preViewImg').eq(0).attr('src','');
+						/*图片显示*/
+						$('.preViewImg').eq(0).show();
+					}else {
+						$('.tipsText').eq(1).hide();
+						$('.preViewImg').eq(1).attr('src','');
+						$('.preViewImg').eq(1).show();
+						
+					}
+					
+					/*file上传图片*/
 					var f = e.files[0];
 					fileType = f.type;
 					if(/image\/\w+/.test(fileType)) {
@@ -101,14 +117,12 @@
 									console.log(newImageData);
 
 									$("#canvas").hide();
-									/*根据点击的下标 =>显示 '回显图片'*/
-//									$(".echoImages").eq(ind).show();
 								}
 							} else {
 								//创建一个image对象，给canvas绘制使用 
 								image.onload = function() {
 									/*图片 回显 */
-									that.siblings(".preViewImg").eq(ind).attr("src", result);
+									that.siblings(".preViewImg").attr("src", result);
 									console.log(result);
 								}
 							}
@@ -118,17 +132,26 @@
 					}
 
 				} else {
-					console.log('取消选择图片！')
+					console.log('取消选择图片！');
 				}
 			}
 			
 			/* 确认 */
 			$('.decideToSellBut').on('click', function() {
+				/*存储，base64*/
 				var arrImgUrl = [];
+				/*对应上传=>丢进数组*/
 				for(var i = 0; i < $('.imageEchoBox').length; i++) {
-					if($('.imageEchoBox').eq(i).css('display') == 'block') {
+					if($('.imageEchoBox .preViewImg').eq(i).attr('src').indexOf('base64') != -1 ) {
 						arrImgUrl.push($('.preViewImg').eq(i).attr('src'))
 					}
+				}
+				/*判断=>传两个图片*/
+				if(arrImgUrl.length != 2){
+					console.log('请上传身份正反两张图片！')
+					/*对话框*/
+					suredAlert($('body'),'请上传身份“正反”两张图片！');
+					return false;
 				}
 				console.log(arrImgUrl);
 			})
