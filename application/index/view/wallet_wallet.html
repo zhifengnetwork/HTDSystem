@@ -167,7 +167,7 @@
 							<div class="currency">
 								{foreach name="htd_currency" item="vo"}
 								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}','{$vo.wallet_qrcode}')">
-									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
+									<p class="iconImgW"><img src="{$vo.wallet_qrcode}" alt=""></p>
 									<span class="currency_title">{$vo.alias_name}<font></font></span>
 									<span class="currency_number">{$vo.price}</span><br>
 								</div>
