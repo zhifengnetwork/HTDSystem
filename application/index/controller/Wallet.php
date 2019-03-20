@@ -11,10 +11,10 @@ class Wallet extends HomeBase
     public function _initialize()
     {  
         $this->user = session('home');
-        // if(!$this->user){
-        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
-        //     header("refresh:1;url=$url");
-        // }
+        if(!$this->user){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+            header("refresh:1;url=$url");
+        }
     }
     
     /**
@@ -155,4 +155,20 @@ class Wallet extends HomeBase
         $users = db('user')->field($field)->where(['id'=>$user_id])->find();
         return $users;
     }
+
+    // /**
+    //  *  显示钱包地址二维码
+    //  */
+    // public function showWalletAddr(){
+
+    //     $walletAddr = input('walletAddr/s');
+    //     if($walletAddr){
+    //         $walletAddr = $walletAddr;
+    //     }else{
+    //         $walletAddr = 'is null';
+    //     }
+    //     $this->assign('walletAddr',$walletAddr);
+    //     return $this->fetch('Wallet/addr');
+    // }
+
 }
