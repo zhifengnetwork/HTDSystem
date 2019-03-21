@@ -120,7 +120,7 @@ class Wallet extends HomeBase
                 // 判断钱包是否够复投对应币种数量
                 if($wallet_flag=120){
                     if($user_wallet['bonus_wallet']<$cu_num){
-                    return json(array('code' => 0, 'msg' => '静态收益不足'));
+                        return json(array('code' => 0, 'msg' => '收益不足'));
                     }
                     // 扣减对应数量
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setDec('bonus_wallet', $cu_num);
