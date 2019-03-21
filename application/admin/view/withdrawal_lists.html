@@ -9,6 +9,7 @@
                 <th>提币的币种名称</th>
                 <th>提币数量</th>
                 <th>提币手续费</th>
+                <th>应拨币数量</th>
                 <th>状态</th>
                 <th>电子钱包地址</th>
                 <th>电子钱包二维码</th>
@@ -23,6 +24,7 @@
                 <td>{$vo.cu_id|cu_name}</td>
                 <td>{$vo.cu_num}</td>
                 <td>{$vo.tb_charge|default='0'}</td>
+                <td>{$vo.cu_num-$vo.tb_charge}</td>
                 <td>
                 	{switch name='$vo.status'}
 					    {case value='0'}审核中{/case}
