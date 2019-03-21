@@ -445,11 +445,18 @@ class Index extends HomeBase
         }
         
         $income = db('user_wallet')->where("uid = '".$home['id']."'")->select();
-        // dump($income);die;
-        if($income){
-            $this->assign('income',$income);
+        $moeny =0;
+        $cu =[];
+        foreach($income as $k => $v){
+            $cu[$k]['cu_id']= $v['cu_id'];
+
+            $moeny +=$v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
+            $cu[$k]['bonus_wallet'] = $moeny;
+        };
+        if($cu){
+            $this->assign('income',$cu);
         }
-        $this->assign('income',$income);
+        $this->assign('income',$cu);
         return view();
     }
 

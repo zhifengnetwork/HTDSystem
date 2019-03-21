@@ -40,7 +40,7 @@
                 {foreach name="aa" item="vo"}
                 <li>
                     <div class="name">{$vo.username}</div>
-                    <div class="number">{$vo.mobile}</div>
+                    <div class="number">{:substr_replace($vo.mobile,'****',3,4);}</div>
                     {if condition="$vo.activation == 0"}
                     <div class="price" style="color:crimson">未激活</div>
                     {else}

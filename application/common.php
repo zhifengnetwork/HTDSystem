@@ -2142,7 +2142,7 @@ function createWallet($uid){
     return true;
 }
 
-// 根据传入数字保留位数
+// 根据传入数字保留小数位数
 function numberByRetain($number, $position){
     // @number 需要处理的数字, @position 需要保留的位数
     $ary = explode('.', (string)$number);
@@ -2208,10 +2208,10 @@ function getPhoneCode($data){
 	// $content=str_replace('{$code}',$code,$tpl);
     $content = $tpl;
     $result=sendSms($data['phone'],$content);
-	// if($result!='1'){
-    $res_num = strpos($result,'ok');
-	if($res_num != 8){
-        return json(array('code' => 0, 'msg' => '短信发送失败'.$result));
+	if($result!='1'){
+    // $res_num = strpos($result,'ok');
+	// if($res_num != 8){
+        return json(array('code' => 0, 'msg' => '短信发送失败-'.$result));
 	}
 	// 插入verify_code记录
 	$db_data=array(
@@ -2226,7 +2226,7 @@ function getPhoneCode($data){
 	if(!$res){
         return json(array('code' => 0, 'msg' => '系统繁忙请稍后再试'));
 	}
-    return json(array('code' => 200, 'msg' => '发送成功'));
+    return json(array('code' => 200, 'msg' => '已发送成功'));
     
 }
 
@@ -2252,6 +2252,47 @@ function sendSms($phone,$content){
     $result= curl_post($url,$post_data);
     // return $result['output'];
     return $result;
+}
+
+
+// 校验验证码
+function checkPhoneCode($data){
+	if(!$data['sms_type']||!$data['code']||!$data['phone']){
+        return json(array('code' => 0, 'msg' => '缺少验证参数'));
+    }
+    $item = Db::name('verify_code')->where(['phone'=>$data['phone'], 'sms_type'=>$data['sms_type']])->order('id desc')->find();
+	if(!$item['id']){
+        return json(array('code' => 0, 'msg' => '该验证码不正确'));
+	}
+	if($item['status']||$item['verify_num']>2){
+        return json(array('code' => 0, 'msg' => '请重新获取验证码'));
+	}
+	//查到验证码且验证使用未达到限制次数
+	$msg='';
+	$db_data=array('verify_num'=>$item['verify_num']+1);
+	if($data['code']==$item['code']){
+		//检测验证码有效期
+		if(time()-$item['create_time']>1800){
+			$msg='该验证码已失效';
+			$db_data['status']=1;
+		}else{
+			$db_data['status']=2;
+		}
+	}else{
+		$msg='该验证码不正确';
+		if($db_data['verify_num']>2){
+			$db_data['status']=1;
+		}
+	}
+    $db_data['verify_time'] = time();
+    $res = Db::name('verify_code')->where(['id'=>$item['id']])->update($db_data);
+	if(!$res){
+		$msg='该验证码不正确';
+	}
+	if($msg){
+        return json(array('code' => 0, 'msg' => $msg));
+	}
+    return json(array('code' => 200, 'msg' => '验证通过'));
 }
 
 // 发送验证码
