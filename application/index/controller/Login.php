@@ -98,7 +98,7 @@ class Login extends Controller
     public function regis()
     {
         $arr = $this->request->post();
-
+        // p($arr);die;
         if($arr){
            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
@@ -106,6 +106,19 @@ class Login extends Controller
             $arr['password'] = md5($arr['password'] . $arr['salt']);
             $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
+            if(!$arr['verify']){
+                $data=array('msg'=>"验证码不可为空",'flag'=>5);
+            }
+            if(!$arr['userPhone']){
+                $data=array('msg'=>"手机号不可为空",'flag'=>5);
+            }
+            $checkData['sms_type'] = $arr['sms_type'];
+            $checkData['code'] = $arr['verify'];
+            $checkData['phone'] = $arr['userPhone'];
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                return array('code' => 0, 'msg' => $res['msg']);
+            }
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
             }else if($reaa){
@@ -134,7 +147,6 @@ class Login extends Controller
                     }else{
                             $data=array('msg'=>"注册失败",'flag'=>5);
                     }
-
                    
                 }else{
                     $data=array('msg'=>"推广码不存在,不能进行注册!!!",'flag'=>6);
@@ -165,7 +177,7 @@ class Login extends Controller
         }
         $data = ['sms_type'=>$sms_type, 'phone'=>$param['phone']];
         $res = getPhoneCode($data);
-        return $res;
+        return json($res);
         // p($res);
     }
 

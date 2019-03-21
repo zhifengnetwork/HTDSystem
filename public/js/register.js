@@ -125,18 +125,20 @@
     
         //验证码
         function statusverify(){
-            var code1=$(this)
-            var code=123456;
-            if(code1.val()==""){
+            var code1 = $('.verify').val();
+            // var code=123456;
+            if(code1 ==""){
+                var code1=$(this)
                 code1.parent().parent().prev().addClass("mistake").html(`验证码不能为空`)
                 return condition.securitycode=false
-            }else if(code1.val()!=code){
-                code1.parent().parent().prev().addClass("mistake").html(`请输入正确的验证码`)
-                return condition.securitycode=false
-            }else{
-                code1.parent().parent().prev().removeClass("mistake").html("")
-                return condition.securitycode=true
             }
+            // else if(code1.val()!=code){
+            //     code1.parent().parent().prev().addClass("mistake").html(`请输入正确的验证码`)
+            //     return condition.securitycode=false
+            // }else{
+            //     code1.parent().parent().prev().removeClass("mistake").html("")
+            //     return condition.securitycode=true
+            // }
         }
     
         //推荐人
@@ -174,8 +176,9 @@
                 dataType: 'json',
                 data: {phone:phoneS, sms_type:sms_type},
                 success:function(msg){
-                    if(msg.code==200){
-                        layer.msg(msg.msg);
+                    // console.log(msg);
+                    if(msg.code!=0){
+                        layer.msg('已发送');
                     }else{
                         layer.msg(msg.msg);
                         return false;

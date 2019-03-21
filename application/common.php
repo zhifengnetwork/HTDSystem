@@ -2191,7 +2191,7 @@ function numberByRetain($number, $position){
 function getPhoneCode($data){
 
 	if(!$data['sms_type']||!$data['phone']){
-        return json(array('code' => 0, 'msg' => '缺少验证参数'));
+        return array('code' => 0, 'msg' => '缺少验证参数');
 	}
 	
     $limit_time = 60;// 60秒以内不能重复获取
@@ -2199,9 +2199,10 @@ function getPhoneCode($data){
     $where['sms_type'] = $data['sms_type'];
     $where['create_time'] = array('<', time()+$limit_time);
     $list = Db::name('verify_code')->where($where)->select();
-	$cnt=count($list);
-	if($cnt>1){
-        return json(array('code' => 0, 'msg' => '获取验证码过于频繁，请稍后再试'));
+    $cnt=count($list);
+    // 1分钟20调条
+	if($cnt>20){
+        return array('code' => 0, 'msg' => '获取验证码过于频繁，请稍后再试');
 	}
 	$code = rand(123456,999999);
     $tpl = '【HTD】您的手机验证码：'.$code.' 若非您本人操作，请忽略本短信。';
@@ -2211,7 +2212,7 @@ function getPhoneCode($data){
 	if($result!='1'){
     // $res_num = strpos($result,'ok');
 	// if($res_num != 8){
-        return json(array('code' => 0, 'msg' => '短信发送失败-'.$result));
+        return array('code' => 0, 'msg' => '短信发送失败-'.$result);
 	}
 	// 插入verify_code记录
 	$db_data=array(
@@ -2224,9 +2225,9 @@ function getPhoneCode($data){
 	);
     $res = Db::name('verify_code')->insert($db_data);
 	if(!$res){
-        return json(array('code' => 0, 'msg' => '系统繁忙请稍后再试'));
+        return array('code' => 0, 'msg' => '系统繁忙请稍后再试');
 	}
-    return json(array('code' => 200, 'msg' => '已发送成功'));
+    return array('code' => 200, 'msg' => '已发送成功');
     
 }
 
@@ -2255,18 +2256,19 @@ function sendSms($phone,$content){
 }
 
 
-// 校验验证码
+// 校验手机验证码
 function checkPhoneCode($data){
 	if(!$data['sms_type']||!$data['code']||!$data['phone']){
-        return json(array('code' => 0, 'msg' => '缺少验证参数'));
+        return array('code' => 0, 'msg' => '缺少验证参数');
     }
     $item = Db::name('verify_code')->where(['phone'=>$data['phone'], 'sms_type'=>$data['sms_type']])->order('id desc')->find();
 	if(!$item['id']){
-        return json(array('code' => 0, 'msg' => '该验证码不正确'));
-	}
+        return array('code' => 0, 'msg' => '该验证码不正确');
+    }
 	if($item['status']||$item['verify_num']>2){
-        return json(array('code' => 0, 'msg' => '请重新获取验证码'));
-	}
+        return array('code' => 0, 'msg' => '请重新获取验证码');
+    }
+    
 	//查到验证码且验证使用未达到限制次数
 	$msg='';
 	$db_data=array('verify_num'=>$item['verify_num']+1);
@@ -2290,9 +2292,9 @@ function checkPhoneCode($data){
 		$msg='该验证码不正确';
 	}
 	if($msg){
-        return json(array('code' => 0, 'msg' => $msg));
+        return array('code' => 0, 'msg' => $msg);
 	}
-    return json(array('code' => 200, 'msg' => '验证通过'));
+    return array('code' => 200, 'msg' => '验证通过');
 }
 
 // 发送验证码
