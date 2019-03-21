@@ -61,6 +61,12 @@
 								<img src="__PUBLIC__/images/pull-down.png">
 							</div>
 						</div>
+
+						<div class="load" style="display:none">
+								<div class="currency_name_text">
+									暂时没有数据
+								</div>
+						</div>						
 					<!-- 默认显示-e -->
 					<!-- 下拉菜单内容 -->
 					<div class="pull_down_content">
@@ -146,11 +152,11 @@
 									<div class="lj_p_address">
 										<h2>备注:</h2><input class="lj_input2" type="text" name="note"  />
 									</div>
-									<!-- <div class="lj_p_address">
+									<div class="lj_p_address">
 										<h2>验证码:</h2>
 										<input class="lj_input3" type="text" name="note"  />
 										<button class="btn">获取验证码</button>
-									</div> -->
+									</div>
 									
 											
 									
@@ -291,7 +297,7 @@
 					}
 				})
 			});
-	
+
 		function exchange(obj){
 			var val=$(obj).val();
 			var cu_id=$('#cu_id').val();
@@ -370,7 +376,7 @@
 								$('#popover_rmb').val(data.result['rmb']);
 								$('#popover_convert').val(data.result['usd']);
 						} else {
-							layer.msg("操作失败11111", {icon: 2, time: 2000}, function(){					
+							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
 								window.location.reload(); 
 							}); 
 						}
