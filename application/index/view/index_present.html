@@ -61,16 +61,22 @@
 								<img src="__PUBLIC__/images/pull-down.png">
 							</div>
 						</div>
+
+						<!-- <div class="load" style="display:none">
+								<div class="currency_name_text">
+									暂时没有数据
+								</div>
+						</div>						 -->
 					<!-- 默认显示-e -->
 					<!-- 下拉菜单内容 -->
 					<div class="pull_down_content">
 						<div class="down_list">
 							<p>本金</p>
-							<p>{$v.cu_num}</p>
+							<p>{$v.cu_num}({$v.alias_name})</p>
 						</div>
 						<div class="down_list">
 							<p>收益</p>
-							<p>{$v.bonus_wallet}</p>
+							<p>{$v.bonus_wallet}({$v.alias_name})</p>
 						</div>
 						<!-- <div class="down_list">
 							<p>动态收益</p>
@@ -78,7 +84,7 @@
 						</div> -->
 						<div class="down_list">
 							<p>分红</p>
-							<p>{$v.rate_wallet}</p>
+							<p>{$v.rate_wallet}({$v.alias_name})</p>
 						</div>
 						<!-- 提取按钮 -->
 					<div class="currency_box">
@@ -98,7 +104,7 @@
 										<span>请选择提币类型:</span>
 										<span class="popover_click">请选择</span>
 										
-										<ul class="ul_box">
+										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
 											<li data-index="2">收益</li>
@@ -115,7 +121,7 @@
 										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">							
-									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="小于50美金可提取" /><br />
+									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于50美金可提取" /><br />
 									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
 								</div>
 								<!--000-->
@@ -140,11 +146,11 @@
 									<div class="lj_p_address">
 										<h2>备注:</h2><input class="lj_input2" type="text" name="note"  />
 									</div>
-									<!-- <div class="lj_p_address">
+									<div class="lj_p_address">
 										<h2>验证码:</h2>
 										<input class="lj_input3" type="text" name="note"  />
 										<button class="btn">获取验证码</button>
-									</div> -->
+									</div>
 									
 											
 									
@@ -168,7 +174,7 @@
 									<span>请选择投入类型:</span>
 									<span class="voting_click">请选择</span>
 									
-									<ul class="ul_box">
+									<ul class="ul_box voting_ul">
 										<li data-val="1">本金</li>
 										<li data-val="2">静态收益</li>
 										<li data-val="3">动态收益</li>
@@ -221,19 +227,31 @@
 			function voting(){
 				$('.voting').show()
 			}
-			//提取按钮
+			
 			$(function(){
+               //提取按钮
 				$(".popover_click,.voting_click").click(function(){
 					$(".ul_box").slideToggle("slow");
 				});
-				$(".ul_box>li").click(function(){
+               //提取下拉框-类型 
+				$(".popover_ul>li").click(function(){
 				
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
+					$(".popover_ul").slideToggle()
 					console.log(index)
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
 				})
+				 //复投下拉框-类型 
+				$(".voting_ul>li").click(function(){
+				var $li = $(this).html();
+				var index =$(this).attr("data-val")
+				$(".voting_ul").slideToggle()
+				console.log(index)
+				$(".voting_click").html($li)
+				$(".voting_click").attr("data-id",index)
+			})
 			})
 
 			function send(uid,cu_id){
@@ -295,7 +313,7 @@
 					}
 				})
 			});
-	
+
 		function exchange(obj){
 			var val=$(obj).val();
 			var cu_id=$('#cu_id').val();
@@ -325,6 +343,7 @@
 			jq('.true').click(function(){	 
 				   
 				    var val = $(".popover_click").attr("data-id") 
+					console.log(val)
 					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize()+'&type='+val;
@@ -374,7 +393,7 @@
 								$('#popover_rmb').val(data.result['rmb']);
 								$('#popover_convert').val(data.result['usd']);
 						} else {
-							layer.msg("操作失败11111", {icon: 2, time: 2000}, function(){					
+							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
 								window.location.reload(); 
 							}); 
 						}
