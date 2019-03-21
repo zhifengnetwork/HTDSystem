@@ -2187,3 +2187,48 @@ function numberByRetain($number, $position){
     }
 }
 
+
+// 获取短信验证码接口
+function setSMS(){
+
+    $smsCode = rand(123456,999999);
+    $post_data = array();
+    $post_data['userid'] = 999;
+    $post_data['account'] = '1069088000';
+    $post_data['password'] = '1069088000';
+    $post_data['content'] = '【HTD】您的手机验证码：'.$smsCode.' 若非您本人操作，请忽略本短信。'; // 短信的内容，内容需要UTF-8编码
+    $post_data['mobile'] = '18228178860'; // 发信发送的目的号码.多个号码之间用半角逗号隔开 
+    $post_data['sendtime'] = ''; // 为空表示立即发送，定时发送格式2010-10-24 09:08:10
+    $url='http://120.25.105.164:8888/sms.aspx?action=send';
+    $o='';
+    foreach ($post_data as $k=>$v)
+    {
+    $o.="$k=".urlencode($v).'&';
+    }
+    $post_data=substr($o,0,-1);
+    $result= curl_post($url,$post_data);
+    // p($result);
+}
+
+// 发送验证码
+function curl_post($url,$data='',$timeout=30){
+    $arrCurlResult = array();
+    $ch = curl_init();
+    //curl_setopt ($ch, CURLOPT_SAFE_UPLOAD, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);//ssl检测跳过
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt ($ch,CURLOPT_REFERER,"");
+    $output = curl_exec($ch);
+    $responseCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+    $arrCurlResult['output'] = $output;//返回结果
+    $arrCurlResult['response_code'] = $responseCode;//返回http状态
+    curl_close($ch);
+    unset($ch);
+    return $arrCurlResult;
+}
+
