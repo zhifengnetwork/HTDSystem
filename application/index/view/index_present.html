@@ -75,7 +75,7 @@
 							<p>{$v.rate_wallet}({$v.alias_name})</p>
 						</div>
 						<!-- 提取按钮 -->
-					<div class="currency_box">
+					<div class="currency_box" data-phone="{$phone}">
 						<a class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">提取</a>
 						<a class="currency_btn" onclick="voting({$v.uid},{$v.cu_id})">复投</a>
 					 </div> 
@@ -107,7 +107,9 @@
 										<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
 										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
-										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">							
+										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
+										<input type="hidden" name="sms_type" id="sms_type" value="">
+										<input type="hidden" name="verify" id="verify" value="">						
 									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于{$withdraw_min}美金可提取" /><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
@@ -136,7 +138,7 @@
 									<div class="lj_p_address">
 										<h2>验证码:</h2>
 										<input class="lj_input3" type="text" name="note"  />
-										<button class="btn">获取验证码</button>
+										<button class="btn" onclick="phonecode('{$phone}')">获取验证码</button>
 									</div>
 									
 											
@@ -174,11 +176,7 @@
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
-									<!-- <input type="hidden" name="cu_num" id="cu_num" class="cu_num" value=""> -->
-									<!-- <input type="hidden" name="static_wallet" id="static_wallet" value="">
-									<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
-									<!-- <input type="hidden" name="bonus_wallet" id="bonus_wallet" class="bonus_wallet" value="">
-									<input type="hidden" name="rate_wallet" id="rate_wallet" class="rate_wallet" value="">							 -->
+
 								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number"/><br />
 							</div>
 							<!--000-->
@@ -211,6 +209,32 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
+			// function phonecode(phoneS){
+			// 	        // var phone= {$phone}
+			// 			// 获取验证码
+			// 			// console.log(phoneS)
+			// 			// return false;
+			// 			var a = '13612560591';
+			// 			$.ajax({
+			// 				url: '/index/index/getPhoneVerify',
+			// 				type: 'post',
+			// 				dataType: 'json',
+			// 				data: {phone:a, sms_type:2},
+			// 				success:function(msg){
+			// 				// console.log(msg);
+            //                 // $('#sms_type').val(1);
+			// 				// $('#verify').val(msg.code);
+			// 				if(msg.code!=0){
+			// 				layer.msg('已发送');
+			// 				}else{
+			// 				layer.msg(msg.msg);
+			// 				return false;
+			// 				}
+			// 			}
+			// 			});
+			// }
+
+
 			//复投按钮
 			function voting(uid,cu_id){
 				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
@@ -361,17 +385,18 @@
 			});			
 		}	
 
+
 		layui.use(['layer','jquery','form'],function(){
 			var layer = layui.layer
 			, form = layui.form
 			,jq = layui.jquery;
 			jq('.true').click(function(){	 
-				     
+				    var verify = $('.lj_input3').val(); 
 				    var val = $(".popover_click").attr("data-id") 
 					var val1 = $(".voting_click").attr("data-id") 
 					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
-					var datas =  $('#handleposition').serialize()+'&type='+val;
+					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
 									layer.msg(data.msg, {icon: 1, time: 2000}, function(){					

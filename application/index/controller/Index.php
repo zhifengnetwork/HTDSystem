@@ -57,7 +57,7 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
         }      
         $userid = session('home.id');
-       
+        // $phone=session('home.mobile');
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -69,6 +69,7 @@ class Index extends HomeBase
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
         $this->assign('withdraw_min',$withdraw_min);
         $this->assign('list',$list);
+        $this->assign('phone',session('home.mobile'));
         $this->assign('uid',$userid);
 
         return $this->fetch();        
@@ -108,8 +109,24 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
+            // dump($data);
+            // exit;
             $validate   = new Indexv();
             $base       = new Base();
+            // if(!$data['verify']){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
+            // }
+
+            // $checkData['sms_type'] = $data['sms_type'];
+            // $checkData['code'] = $data['verify'];
+
+            // $checkData['phone'] =  '13612560591';
+            // //  session('home.mobile');
+              
+            // $res = checkPhoneCode($checkData);
+            // if($res['code']==0){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
+            // }
 
             if(!$validate->check($data)){
                 $msg = $validate->getError();
@@ -223,38 +240,7 @@ class Index extends HomeBase
                 }    
 
             }else{
-                $charge = numberByRetain($data['number']/100, 8);
-                // if($res<=0){
-                //     // $can = $data['cu_num']-$charge;
-                //     // 剩余货币数量为0
-                    
-                //     try{
-                //         $where1 = [
-                //             'uid'      => $data['uid'],
-                //             'cu_id'    => $data['cu_id'],
-                //             'cu_num'   => $data['cu_num'],
-                //             // 'cu_num'   => $data['number'],
-                //             'tb_charge'=> $charge,
-                //             'note'     => $data['note'],
-                //             // 'qrcode_addr' => $data['number'],    
-                //         ];      
-
-                //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
-                //         // update([$cu_type => 0]);
-                //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
-                //         // 用于插入数据
-                //         Db::table('htd_user_extract')->insert($where1);
-                //         // 提交事务
-                //         Db::commit();
-                //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-                //     } catch (\Exception $e) {
-                //         // 回滚事务
-                //         Db::rollback();
-                //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-                //     } 
-                // }
-                
-              
+                $charge = numberByRetain($data['number']/100, 8);              
                 $where1 = [
                     'uid'      => $data['uid'],
                     'cu_id'    => $data['cu_id'],
@@ -264,10 +250,6 @@ class Index extends HomeBase
                     'note'     => $data['note'],
                     'qrcode_addr' => $data['qrcode_addr'],    
                 ];                                 
-                // 剩余货币数量
-                // $subtract = $data['number']+$charge;
-                // $data['cu_num'] = $data['cu_num']-$subtract;
-                // $res = Db::table('htd_user_wallet')->where($where)->update([$cu_type => $data['cu_num']]);
 
                 try{
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
@@ -281,76 +263,29 @@ class Index extends HomeBase
                     Db::rollback();
                     $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
                 }
-
-
-            }             
- 
-            // if($res==0){                                
-            //     // $charge = round($data['number']/100*5,8);
-            //     $charge = numberByRetain($data['number']/100*5, 8);
-            //     // 可以提币数量否则为$data['cu_num']
-            //     $can = $data['cu_num']-$charge;
-            //     // 剩余货币数量为0
-               
-            //     try{
-            //         $where1 = [
-            //             'uid'      => $data['uid'],
-            //             'cu_id'    => $data['cu_id'],
-            //             'cu_num'   => $can,
-            //             // 'cu_num'   => $data['number'],
-            //             'tb_charge'=> $charge,
-            //             'note'     => $data['note'],
-            //             // 'qrcode_addr' => $data['number'],    
-            //         ];      
-
-            //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
-            //         // update([$cu_type => 0]);
-            //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
-            //         // 用于插入数据
-            //         Db::table('htd_user_extract')->insert($where1);
-            //         // 提交事务
-            //         Db::commit();
-            //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-            //     } catch (\Exception $e) {
-            //         // 回滚事务
-            //         Db::rollback();
-            //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-            //     }    
-            // }else{
-                
-            //     // $charge = round($data['number']/100,3);
-            //     $charge = numberByRetain($data['number']/100, 8);
-            //     $where1 = [
-            //         'uid'      => $data['uid'],
-            //         'cu_id'    => $data['cu_id'],
-            //         // 提币数量
-            //         'cu_num'   => $data['number'],
-            //         'tb_charge'=> $charge,
-            //         'note'     => $data['note'],
-            //         'qrcode_addr' => $data['qrcode_addr'],    
-            //     ];                                 
-            //     // 剩余货币数量
-            //     $subtract = $data['number']+$charge;
-            //     // $data['cu_num'] = $data['cu_num']-$subtract;
-            //     // $res = Db::table('htd_user_wallet')->where($where)->update([$cu_type => $data['cu_num']]);
-
-            //     try{
-            //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$subtract);
-            //         Db::name('execute_order')->where($where)->setDec('num',$subtract);
-            //         Db::table('htd_user_extract')->insert($where1);
-            //         // 提交事务
-            //         Db::commit(); 
-            //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-            //     } catch (\Exception $e) {
-            //         // 回滚事务
-            //         Db::rollback();
-            //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-            //     }
-
-
-            // }
-                              
+            }                                           
     }
+
+
+    public function getPhoneVerify(){
+        /**
+        * 获取手机验证码
+        * @param $sms_type int
+        * @param $phone string
+        */
+
+        // 传入类型：1注册 2提币；手机号
+        $param = input('post.');
+        $sms_type = intval($param['sms_type']);
+        if(!$sms_type || !$param['phone']){
+        return json(array('code' => 0, 'msg' => '缺少参数'));
+        }
+        $data = ['sms_type'=>$sms_type, 'phone'=>$param['phone']];
+        $res = getPhoneCode($data);
+        return json($res);
+        // p($res);
+    }
+    
     public function upload(){
         $base64 = input('post.dataImg');
         $res = uploadImg($base64);
