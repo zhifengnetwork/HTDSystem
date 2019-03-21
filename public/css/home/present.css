@@ -173,7 +173,7 @@
 
 /* 下拉菜单-e*/
 .popover{
-	display: block;
+	display: none;
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -367,7 +367,7 @@
    color:    #c4c4c4;
 }
 
-.popover_box{position: relative;}
+.lj_p_address{position: relative;}
 .popover_box span{display: inline-block}
 .popover_box ul {z-index: 1000; display: none;   width: 30%;position: absolute;left: 54%;background: #c4c4c4;border-radius: 0.09rem; }
 .popover_box ul li{font-size: 0.3rem;color: #000;border-bottom: 1px solid #ffffff; }
@@ -380,7 +380,7 @@
 	 border-radius:.1rem;	
 	 padding:.1rem;
 	 position: absolute;
-	 top:1.43rem;
-	 right: 0.4rem;
+	 top:0rem;
+	 right: 0.45rem;
 }
 
