@@ -15,7 +15,6 @@
 	
 	</head>
 
-
 	<body>
 		<!-- 最大的外套 -->
 		<div class="currency_wrap">
@@ -400,15 +399,25 @@
 
 			jq('.retrue').click(function(){	 
 				     
-					 var val = $(".popover_click").attr("data-id") 
+					//  var val = $(".popover_click").attr("data-id") 
 					 var val1 = $(".voting_click").attr("data-id") 
 					//  console.log(val)
 					//  console.log(val1)
 					 // console.log($('#handleposition').serialize())
 					 var url = "{:url('/index/wallet/confirmInvest')}";
+					 
 					 var datas =  $('#handleposition1').serialize()+'&wallet_flag='+val1+'&pay_way='+2;
-					 jq.getJSON(url,datas,function(data){						
-							 if (data.status == 1) {
+
+					 $.ajax({
+						type: "POST",
+						url: url,
+						data:datas,
+						dataType: "json",
+						error: function () {
+								alert('操作失败');
+						},
+						success: function (data) {
+							if (data.status == 200) {
 									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
 									 window.location.reload(); 
 								 });
@@ -419,7 +428,23 @@
 									 	window.location.reload(); 
 									});
 							 }
-						 });
+						}
+					});
+
+
+					//  jq.getJSON(url,datas,function(data){						
+					// 		 if (data.status == 200) {
+					// 				 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
+					// 				 window.location.reload(); 
+					// 			 });
+														 
+					// 		 }
+					// 		 else{	 
+					// 				layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+					// 				 	window.location.reload(); 
+					// 				});
+					// 		 }
+					// 	 });
  
  
 			 });
