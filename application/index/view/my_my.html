@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
 		<link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css">
-		<link rel="stylesheet" href="__PUBLIC__/css/my/my.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/my/my.css?v=3" />
 		
 	</head>
 
@@ -18,7 +18,7 @@
 		<div id="wrap">
 			<!--header-->
 			<div class="header-zp">
-				<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+			
 				<h3>我的</h3>
 				<a href="{:url('index/my/editUser')}">
 					<span class="share-btn bottmBut">
@@ -64,28 +64,28 @@
 			</ul>
 
 			<!--列表项-->
-			<div class="tbody-zp">
+			<!--<div class="tbody-zp">
 				<ul>
-					<li onclick="shopAlert('暂未开放，敬请期待')">
+					<li onclick="shopAlert('正在开发中，敬请期待')">
 						<a class="name">
 							<span>商城</span>
 							<img src="__PUBLIC__/images/my/jiantou.png" />
 						</a>
 					</li>
-					<li  onclick="shopAlert('暂未开放，敬请期待')">
+					<li  onclick="shopAlert('正在开发中，敬请期待')">
 						<a class="name">
 							<span>交易所</span>
 							<img src="__PUBLIC__/images/my/jiantou.png" />
 						</a>
 						
 					</li>
-					<li  onclick="shopAlert('暂未开放，敬请期待')">
+					<li  onclick="shopAlert('正在开发中，敬请期待')">
 						<a class="name">
 							<span>基金</span>
 							<img src="__PUBLIC__/images/my/jiantou.png" />
 						</a>
 					</li>
-					<li  onclick="shopAlert('暂未开放，敬请期待')">
+					<li  onclick="shopAlert('正在开发中，敬请期待')">
 						<a class="name ">
 							<span>云服务</span>
 							<img src="__PUBLIC__/images/my/jiantou.png" />
@@ -94,7 +94,57 @@
 					
 				</ul>
 
+			</div>-->
+			
+			<div class="tbody-zp">
+				
+					<div onclick="shopAlert('正在开发中，敬请期待')" class="item" >
+						
+							<img src="../../../public/images/my/shangcheng.png" />
+					
+							<span>商城</span>
+						
+					</div>
+					<div  onclick="shopAlert('正在开发中，敬请期待')" class="item">
+						
+						    <img src="../../../public/images/my/jiaoyisuo.png" />
+							<span>交易所</span>							
+						
+					</div>
+					<br />
+					<div  onclick="shopAlert('正在开发中，敬请期待')" class="item">
+						
+						    <img src="../../../public/images/my/jijin.png"  />
+							<span>基金</span>							
+						
+					</div>
+					<div  onclick="shopAlert('正在开发中，敬请期待')" class="item">
+						
+						    <img src="../../../public/images/my/yunfuwu.png" />
+							<span>云服务</span>
+							
+						
+					</div>
+					
+				
+
 			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		</div>
 		<!-- 底部导航 -->
 		<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
