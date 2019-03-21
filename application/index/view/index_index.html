@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css"/>
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=666">
 </head>
 <body>
     <div class="wrapper">
@@ -27,6 +27,11 @@
                 </div>
             </div>
             <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- 公告 -->
+        <div class="notice-zp">
+            <a href="#">EOS充值提现已全面恢复</a>
         </div>
 
         <!-- 菜单导航 -->
@@ -65,7 +70,7 @@
                 <li class="itemColor-6">
                    <a href="{:url('Index/login/directDrive')}">
                         <img src="__PUBLIC__/images/home/Assets-icon@2x.png" alt="">
-                        <span>我的团队</span>
+                        <span>我的业绩</span>
                     </a>
                 </li>
                 <li class="itemColor-7">
@@ -89,6 +94,23 @@
 
         <!-- 底部导航 -->
         <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+
+        <!-- 蒙层 -->
+        <div class="mode">
+            <!-- 公告对话框 -->
+            <div class="dialog-notice">
+                <div class="dialog-header">
+                    <h3>公告</h3>
+                    <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
+                </div>
+                <div class="dialog-content">
+                    <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
+                </div>
+                <div class="dialog-btn">
+                    <a href="javascript:void(0)">确定</a>
+                </div>
+            </div>         
+        </div>
         
     </div>
     
@@ -96,16 +118,31 @@
     <!--底部nav=>Tab功能-->
 	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
     <script src="__PUBLIC__/js/public/swiper.js"></script>
+    <script src="__PUBLIC__/js/public/base.js"></script>
     
     <script>
-        var swiper = new Swiper('.banner-wrap-zp', {
-            loop:true,
-            pagination: '.swiper-pagination',
-            paginationClickable: true,
-            spaceBetween: 30,
-            autoplay: 3000,
-            autoplayDisableOnInteraction: false
-        });
+        $(document).ready(function(){
+
+        
+            var swiper = new Swiper('.banner-wrap-zp', {
+                loop:true,
+                pagination: '.swiper-pagination',
+                paginationClickable: true,
+                spaceBetween: 30,
+                autoplay: 3000,
+                autoplayDisableOnInteraction: false
+            });
+
+            $(".mode").show();
+            stop();
+        
+            //公告弹窗关闭
+            $(".dialog-notice .close,.dialog-btn a").click(function(){
+                $(".mode").hide();
+                move();
+            })
+        })
+
     </script>
 </body>
 </html>

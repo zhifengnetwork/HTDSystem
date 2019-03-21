@@ -114,7 +114,7 @@ class Wallet extends HomeBase
             if($is_cu_order['cu_id'] && $pay_way==2){
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
-                $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
+                $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
 
                 $wallet_flag = intval($param['wallet_flag']);
                 // 判断钱包是否够复投对应币种数量
@@ -123,16 +123,16 @@ class Wallet extends HomeBase
                         return json(array('code' => 0, 'msg' => '收益不足'));
                     }
                     // 扣减对应数量
-                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setDec('bonus_wallet', $cu_num);
+                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('bonus_wallet', $cu_num);
                 }
                 if($wallet_flag=121){
                     if($user_wallet['rate_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '分红收益不足'));
                     }
-                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setDec('rate_wallet', $cu_num);
+                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('rate_wallet', $cu_num);
                 }
                 // 复投累加对应币种数量execute_order
-                $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setInc('num', $cu_num);
+                $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('num', $cu_num);
                 // 插入日志
                 $this->insertLog($user_one['id'],$cu_id,'复投'.$cu_num,101);
 
