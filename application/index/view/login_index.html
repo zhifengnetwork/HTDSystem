@@ -25,10 +25,10 @@
 					  <form action="" method="post" class="sms-login-from" id="form">
 						  <div class="info mistake"></div>
 						  <div class="from-group">
-							  <span class="from-tit">手机号:</span>
+							  <span class="from-tit">用户名:</span>
 							  <div class="from-icon">
 									<img src="__PUBLIC__images/login/shouji.png" alt="">
-							  <input type="tel" name="phone" placeholder="请输入手机号"class="pptt phone" value>
+							  <input type="tel" name="username" placeholder="请输入用户名"class="pptt username" value >
 								</div>
 						  </div>
 						  <div class="info mistake"></div>
@@ -36,9 +36,15 @@
 								<span class="from-tit">密码:</span>
 								<div class="from-icon">
 										<img src="__PUBLIC__images/login/suo.png" alt="">
-								<input type="password" name="pwd" placeholder="请输入密码" class="pptt pwd" value>
+								<input type="password" name="pwd" placeholder="请输入密码" class="pptt pwd" value >
 							</div>
-							</div>
+						  </div>
+						  <div class="info mistake"></div>
+						  <div class="from-group">
+							  <span class="from-tit">验证码:</span>
+							  <input style="width:100px;float:left;margin-right: 10px;border: 1px solid #ffffff;border-radius: .1rem;" type="text" name="verify" placeholder="验证码" required lay-verify="required" autocomplete="off" class="layui-input verify">
+							  <img id="captcha" src="{:url('login/captcha')}" onclick="this.src='{:url('login/captcha')}?'+Math.random();" width="150" style="float:left; cursor:pointer;" alt="captcha" />
+						  </div>
 					  </form>
 						<button class="btn active" id="btn">登录</button>
 				  <div class="login-new">
@@ -60,17 +66,19 @@ $(function(){
 
 	$("#btn").click(function(){
 
-		var mobile = $.trim($(".phone").val());
+		var username = $.trim($(".username").val());
 
 		var password = $.trim($(".pwd").val());
+		var verify = $.trim($(".verify").val());
 		console.log(password,6666);
-		if(mobile == ""){
-			suredAlert($('body'),'手机不能为空!!!');
-			return
-		}else if(!condition.phonestate){  //验证手机通过正则
-			suredAlert($('body'),'请输入正确的手机号码!!!');
+		if(username == ""){
+			suredAlert($('body'),'用户名不能为空!!!');
 			return
 		}
+		// else if(!condition.phonestate){  //验证手机通过正则
+		// 	suredAlert($('body'),'请输入正确的用户名!!!');
+		// 	return
+		// }
 		
   if(password == ""){
 		// alert('密码不能为空');
@@ -82,7 +90,7 @@ $(function(){
 	}
 	//ajax去服务器端校验
 
-		var data= {mobile:mobile,password:password};
+		var data= {username:username,password:password,verify:verify};
 		console.log(data);
 
 		$.ajax({
@@ -96,8 +104,13 @@ $(function(){
 			dataType:'json',
 
 			success:function(msg){
-				suredAlert($('body'),msg.msg,msg.url);
+				if (msg.flag == '0'){
+					suredAlert($('body'),msg.msg,msg.url);
+				} else {
+					$('#captcha').attr('src',"{:url('login/captcha')}?"+Math.random());
+					suredAlert($('body'),msg.msg);
 
+				}
 			}
 
 		});
