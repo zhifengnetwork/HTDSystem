@@ -163,37 +163,37 @@ class Index extends HomeBase
               
                 $charge = numberByRetain($data['number']/100*5, 8);
                 
-                // 剩余货币数量为0
-                if($res<=0){
+                // // 剩余货币数量为0
+                // if($res<=0){
                     
-                    $can = $data['cu_num']-$charge;
-                    // 剩余货币数量为0
+                //     $can = $data['cu_num'];
+                //     // 剩余货币数量为0
                 
-                    try{
-                        $where1 = [
-                            'uid'      => $data['uid'],
-                            'cu_id'    => $data['cu_id'],
-                            'cu_num'   => $can,
-                            // 'cu_num'   => $data['number'],
-                            'tb_charge'=> $charge,
-                            'note'     => $data['note'],
-                            // 'qrcode_addr' => $data['number'],    
-                        ];      
+                //     try{
+                //         $where1 = [
+                //             'uid'      => $data['uid'],
+                //             'cu_id'    => $data['cu_id'],
+                //             'cu_num'   => $data['cu_num'],
+                //             // 'cu_num'   => $data['number'],
+                //             'tb_charge'=> $charge,
+                //             'note'     => $data['note'],
+                //             // 'qrcode_addr' => $data['number'],    
+                //         ];      
 
-                        Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
-                        // update([$cu_type => 0]);
-                        Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
-                        // 用于插入数据
-                        Db::table('htd_user_extract')->insert($where1);
-                        // 提交事务
-                        Db::commit();
-                        $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-                    } catch (\Exception $e) {
-                        // 回滚事务
-                        Db::rollback();
-                        $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-                    }                            
-                }
+                //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+                //         // update([$cu_type => 0]);
+                //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+                //         // 用于插入数据
+                //         Db::table('htd_user_extract')->insert($where1);
+                //         // 提交事务
+                //         Db::commit();
+                //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                //     } catch (\Exception $e) {
+                //         // 回滚事务
+                //         Db::rollback();
+                //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+                //     }                            
+                // }
          
                 try{
                     // $can = $data['cu_num']-$charge;
@@ -207,10 +207,10 @@ class Index extends HomeBase
                         // 'qrcode_addr' => $data['number'],    
                     ];      
                     
-                    $subtract = $data['number']+$charge;
-                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$subtract);
+                    // $subtract = $data['number']+$charge;
+                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
                     // update([$cu_type => 0]);
-                    Db::name('execute_order')->where($where)->setDec('num',$subtract);
+                    Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
                     // 提交事务
@@ -224,35 +224,35 @@ class Index extends HomeBase
 
             }else{
                 $charge = numberByRetain($data['number']/100, 8);
-                if($res<=0){
-                    $can = $data['cu_num']-$charge;
-                    // 剩余货币数量为0
-                
-                    try{
-                        $where1 = [
-                            'uid'      => $data['uid'],
-                            'cu_id'    => $data['cu_id'],
-                            'cu_num'   => $can,
-                            // 'cu_num'   => $data['number'],
-                            'tb_charge'=> $charge,
-                            'note'     => $data['note'],
-                            // 'qrcode_addr' => $data['number'],    
-                        ];      
+                // if($res<=0){
+                //     // $can = $data['cu_num']-$charge;
+                //     // 剩余货币数量为0
+                    
+                //     try{
+                //         $where1 = [
+                //             'uid'      => $data['uid'],
+                //             'cu_id'    => $data['cu_id'],
+                //             'cu_num'   => $data['cu_num'],
+                //             // 'cu_num'   => $data['number'],
+                //             'tb_charge'=> $charge,
+                //             'note'     => $data['note'],
+                //             // 'qrcode_addr' => $data['number'],    
+                //         ];      
 
-                        Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
-                        // update([$cu_type => 0]);
-                        Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
-                        // 用于插入数据
-                        Db::table('htd_user_extract')->insert($where1);
-                        // 提交事务
-                        Db::commit();
-                        $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-                    } catch (\Exception $e) {
-                        // 回滚事务
-                        Db::rollback();
-                        $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-                    } 
-                }
+                //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+                //         // update([$cu_type => 0]);
+                //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+                //         // 用于插入数据
+                //         Db::table('htd_user_extract')->insert($where1);
+                //         // 提交事务
+                //         Db::commit();
+                //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                //     } catch (\Exception $e) {
+                //         // 回滚事务
+                //         Db::rollback();
+                //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+                //     } 
+                // }
                 
               
                 $where1 = [
@@ -265,13 +265,13 @@ class Index extends HomeBase
                     'qrcode_addr' => $data['qrcode_addr'],    
                 ];                                 
                 // 剩余货币数量
-                $subtract = $data['number']+$charge;
+                // $subtract = $data['number']+$charge;
                 // $data['cu_num'] = $data['cu_num']-$subtract;
                 // $res = Db::table('htd_user_wallet')->where($where)->update([$cu_type => $data['cu_num']]);
 
                 try{
-                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$subtract);
-                    Db::name('execute_order')->where($where)->setDec('num',$subtract);
+                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
+                    Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     Db::table('htd_user_extract')->insert($where1);
                     // 提交事务
                     Db::commit(); 

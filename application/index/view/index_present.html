@@ -306,8 +306,9 @@
 				});
 				//弹框取消
 				$('.false').click(function() {
-					$('.popover').hide();
-					$('.voting').hide();
+					// $('.popover').hide();
+					// $('.voting').hide();
+					window.location.reload(); 
 				});
 				//点击背景隐藏and提取按钮清空提取金额的值
 				$('.popover,.popover_affirm').click(function() {
@@ -374,7 +375,7 @@
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
 									layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
-									// window.location.reload(); 
+									window.location.reload(); 
 								});
 							}
 							else {
