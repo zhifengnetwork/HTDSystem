@@ -85,9 +85,12 @@ class Wallet extends HomeBase
         if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
-        if(!$param['imgUrl']){
-            return json(array('code' => 0, 'msg' => '请上传发票'));
+        if($pay_way==1){
+            if(!$param['imgUrl']){
+                return json(array('code' => 0, 'msg' => '请上传发票'));
+            }
         }
+        
         // if(!$param['cu_price']){
         //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
