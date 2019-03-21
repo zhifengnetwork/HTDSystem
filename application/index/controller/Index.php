@@ -172,7 +172,7 @@ class Index extends HomeBase
                     'cu_num'   => $data['number'],
                     'tb_charge'=> $charge,
                     'note'     => $data['note'],
-                    // 'qrcode_addr' => $data['number'],    
+                    'qrcode_addr' => $data['qrcode_addr'],    
                 ];                                 
                 // 剩余货币数量
                 $subtract = $data['number']+$charge;

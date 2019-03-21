@@ -119,7 +119,8 @@
 										<input type="hidden" name="cu_num" id="cu_num" value="">
 										<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
 										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
-										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">							
+										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
+										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">							
 									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="小于50美金可提取" /><br />
 									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
 								</div>
@@ -137,6 +138,7 @@
 					
 									</div>
 								</div>
+
 								<div class="popover_box clearfix">
 									<div class="lj_p_address">
 										<h2> 地址:</h2><input type="text" name="wallet_addr" id="wallet_addr" value=""  />
@@ -427,7 +429,7 @@
 							              data: {dataImg:image.src},
 							              success:function(msg){
 							                if(msg.code==200){
-							                  $('#imgUrl_id').val(msg.imgUrl);
+							                  $('#qrcode_addr').val(msg.imgUrl);
 							                  $('.text').html('成功');
 							                  // console.log(msg);
 							                  layer.msg(msg.msg)
