@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css?v=888">
 </head>
 <body>
     <div class="wrapper totalRevenue-wrap">
@@ -23,6 +23,7 @@
             <ul>
                 <li>币种名称</li>
                 <li>本金数量</li>
+                <li>收益</li>
                 <li>全球分红</li>
             </ul>
         </div>
@@ -31,8 +32,9 @@
                 {foreach name="income" item="vo"}
                 <li>
                     <div class="name">{$vo.cu_id|cu_get}</div>
-                    <div class="number">{$vo.bonus_wallet}</div>
-                    <div class="price">{$vo.rate_wallet}</div>
+                    <div class="number publicEllipsis">{$vo.bonus_wallet}</div>
+                    <div class="profit publicEllipsis"></div>
+                    <div class="price publicEllipsis">{$vo.rate_wallet}</div>
                 </li>
                 {/foreach}
             </ul>

@@ -47,7 +47,7 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
         }      
         $userid = session('home.id');
-        // $userid = 14;
+       
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -97,21 +97,22 @@ class Index extends HomeBase
 
     // 提币
     public function pick(){
-            $data  = input();
-
-            $validate = Loader::validate('Indexv');
+            $data       = input();
+            $validate   = new Indexv();
+            $base       = new Base();
 
             if(!$validate->check($data)){
-                dump($validate->getError());
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
             }
-            exit;
+            
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
             $exchange_usd = arr2name($exchange_usd);
             $usd = $data['popover_convert'];
             // 提币最低金额
             $withdraw_min = $exchange_usd['withdraw_min']['value'];
-            $base = new Base();
+           
             switch ($data['type'])
             {
               case 0:

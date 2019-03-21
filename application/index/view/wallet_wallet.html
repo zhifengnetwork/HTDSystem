@@ -157,8 +157,8 @@
 								{foreach name="htd_currency" item="vo"}
 								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}','{$vo.wallet_qrcode}')">
 									<p class="iconImgW"><img src="/{$vo.log}" alt=""></p>
-									<span class="currency_title">{$vo.alias_name}</span>
-									<span class="currency_number">{$vo.price}</span><br>
+									<span class="currency_title ">{$vo.alias_name}</span>
+									<span class="currency_number publicEllipsis">{$vo.price}</span><br>
 								</div>
 								{/foreach}
 								
@@ -193,8 +193,7 @@
 								<ul>
 									<li>币种名称</li>
 									<li>币种数量</li>
-									<li>静态收益</li>
-									<li>全球分红</li>
+									<li>收益</li>
 								</ul>
 							</div>
 							<!--详情-->
@@ -202,10 +201,9 @@
 								<ul>
 									{foreach name="userWallet" item="vs"}
 									<li>
-										<div class="name">{$vs.alias_name}</div>
-										<div class="number">{$vs.cu_num}</div>
-										<div class="price">{$vs.bonus_wallet}</div>
-										<div class="total-price">{$vs.rate_wallet}</div>
+										<div class="name publicEllipsis">{$vs.alias_name}</div>
+										<div class="number publicEllipsis">{$vs.cu_num}</div>
+										<div class="price publicEllipsis">{$vs.bonus_wallet}</div>
 									</li>
 									{/foreach}
 								</ul>
