@@ -2142,3 +2142,42 @@ function createWallet($uid){
     return true;
 }
 
+// 根据传入数字保留位数
+function numberByRetain($number, $position){
+    // @number 需要处理的数字, @position 需要保留的位数
+    $ary = explode('.', (string)$number);
+    if (strlen($ary[1]) > $position) {
+        $decimal = substr($ary[1], 0, $position);
+        $result = $ary[0] . '.' . $decimal;
+        return (float)$result;
+    } else {
+        return $number;
+    }
+ }
+
+
+ function uploadImg($base64){
+    header("content-type:text/html;charset=utf-8");
+    $base64_image = str_replace(' ', '+', $base64);
+    //post的数据里面，加号会被替换为空格，需要重新替换回来，如果不是post的数据，则注释掉这一行
+    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image, $result)){
+        //匹配成功
+        if($result[2] == 'jpeg'){
+            $image_name = uniqid().'.jpg';
+            //纯粹是看jpeg不爽才替换的
+        }else{
+            $image_name = uniqid().'.'.$result[2];
+        }
+        $image_file = "/uploads/".date('Ymd',time()).'/'."{$image_name}";
+        //服务器文件存储路径
+        if (file_put_contents('.'.$image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
+            return json(['code'=>200, 'msg'=>'上传成功', 'imgUrl'=>$image_file]);
+        }else{
+            return json(['code'=>0, 'msg'=>'上传失败']);
+
+        }
+    }else{
+        return json(['code'=>0, 'msg'=>'上传失败..']);
+    }
+}
+

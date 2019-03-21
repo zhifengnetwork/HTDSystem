@@ -168,4 +168,32 @@ class User extends AdminBase
             return json(array('code' => 0, 'msg' => '删除失败'));
         }
     }
+    
+    /*
+    *   获取所有用户的钱包列表
+    */
+    public function getUserWallet($keyword = '', $page = 1){
+
+        $map = [];
+        if ($keyword) {
+        	session('userkeyword',$keyword);
+        	  $map['a.username|a.mobile|a.usermail'] = ['like', "%{$keyword}%"];
+        }else{
+        
+        	if(session('userkeyword')!=''&&$page>1){
+        		$map['a.username|a.mobile|a.usermail'] = ['like', "%".session('userkeyword')."%"];
+        	
+        	}else{
+        		session('userkeyword',null);
+        	}  
+        }
+       
+        $wallet_arr = Db::name('user')
+        ->alias('a')
+        ->field('a.username,a.mobile,c.alias_name cu_name,b.*')
+        ->join('htd_user_wallet b','a.id=b.uid')
+        ->join('htd_currency c','b.cu_id=c.id')
+        ->where($map)->order('b.uid DESC')->paginate(11);
+        return $this->fetch('user_wallet', ['wallet_arr' => $wallet_arr, 'keyword' => $keyword]);
+    }
 }

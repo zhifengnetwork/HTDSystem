@@ -7,7 +7,7 @@
 		<script src="/public/js/rem.js"></script>
 		<link rel="stylesheet" href="__PUBLIC__css/reset.css">
 		<link rel="stylesheet" href="__PUBLIC__css/base.css" />
-		<link rel="stylesheet" href="__PUBLIC__css/register.css">
+		<link rel="stylesheet" href="__PUBLIC__css/login/register.css">
 		<link rel="stylesheet" href="__PUBLIC__css/public/alertWrap.css">
 	  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
 </script>
@@ -61,7 +61,7 @@
 							<span class="from-tit">手机号:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/shouji.png" alt="">
-								<input type="phone" placeholder="请输入手机号码" name="phone"  value class="pptt phone">
+								<input type="tel" placeholder="请输入手机号码" name="phone"  value class="pptt phone">
 							</div>
 						</div>
 						<div class="info mistake"></div>
@@ -69,8 +69,13 @@
 							<span class="from-tit">推荐码:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/good.png" alt="">
+								{notempty name='$promotion'}
+									<input type="text" placeholder="请输入推荐码" name="directname" value="{$promotion}"  readonly  unselectable="on" class="pptt recommend">
+								{else/}
+									<input type="text" placeholder="请输入推荐码" name="directname"  class="pptt recommend">
+								{/notempty}
 								<!-- readonly  unselectable="on" -->
-								<input type="text" placeholder="请输入推荐码" name="directname" value="{$promotion}"  class="pptt recommend">
+								<!-- <input type="text" placeholder="请输入推荐码" name="directname" value="{$promotion}"  class="pptt recommend"> -->
 							</div>
 						</div>
 						<div class="send-codemsg mistake info"></div>

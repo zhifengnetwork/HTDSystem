@@ -6,7 +6,6 @@ use think\Config;
 use think\Controller;
 use think\Db;
 use think\Session;
-use app\index\controller\createWallet;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
       public function index(){
@@ -46,26 +45,25 @@ class Login extends Controller
         echo $data;
        
     }
-//团队
-	public function directDrive(){
-  
-      
-        $res = DB::name('user')->where("id",Session::get('home')['id'])->find();
+    //团队
+    public function directdrive(){
+            
+        $home = session('home');
+
+        
+    
+        $res = DB::name('user')->where(['pid'=>$home['id']])->select();
         if($res){
-            $ress = DB::name('user')->where("pid",$res['id'])->select();
-			$aas=json_encode($ress);
-            $this->assign('aa', $aas);
-        }else{
-            
-            $this->assign('aa',0);
-            
+            // dump($res);die;
+            $this->assign('aa', $res);
         }
+        $this->assign('aa', $res);
         return view();
     }
 
     public function register()
     {
-        $promotion = input('get.promotion/d');
+        $promotion = input('promotion/d');
         $this->assign('promotion',$promotion);
         return $this->fetch();
     }
@@ -112,9 +110,18 @@ class Login extends Controller
                         "salt"=>$arr['salt']
                     );
                     
-                    DB::name('user')->insert($data);
-                    $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
-                    $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
+                    $res = DB::name('user')->insert($data);
+                    // 生成钱包
+                    if($res){
+                        $in_res = createWallet($res);
+                        if($in_res){
+                            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
+                            $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
+                        }else{
+                            $data=array('msg'=>"注册失败",'flag'=>5);
+                        }
+                    }
+                   
                 }else{
                     $data=array('msg'=>"推广码不存在,不能进行注册!!!",'flag'=>6);
                 }

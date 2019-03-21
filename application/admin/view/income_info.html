@@ -1,0 +1,108 @@
+{extend name="base" /} {block name="body"}
+<div class="admin-main layui-form">
+    <div class="layui-field-box">
+        <div class="layui-box-searchber">
+            <!--<a href="{:url('admin/user/add')}" class="layui-btn layui-btn-sm" id="add" style="float:left">-->
+                <!--<i class="layui-icon">&#xe608;</i> 添加用户-->
+            <!--</a>-->
+            <form class="layui-form layui-form-pane" action="{:url('admin/income/info_search')}" method="get">
+                <div class="layui-inline">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" value="{:session('userkeyword')}" placeholder="请输入手机号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn  layui-btn-sm">搜索</button>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <table class="layui-table admin-table">
+            <thead>
+            <tr>
+                <th style="width: 30px;">序列号</th>
+                <th>账号</th>
+                <th>手机号</th>
+                <th>投资币种</th>
+                <th>币种价格</th>
+                <th>投资金额</th>
+                <th>收益总币数</th>
+                <th>投资日期</th>
+                <th>凭证</th>
+                <th>支付方式</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name="income_list" item="vo"}
+            <tr>
+                <td>{$key+1}</td>
+                <td>{$vo.username}</td>
+                <td>{$vo.mobile}</td>
+                <td>{$vo.alias_name}</td>
+                <td>{$vo.price}</td>
+                <td>{$vo.total_money}</td>
+                <td>{$vo.num}</td>
+                <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                <!--<input type="hidden" value="{$vo.voucher}" name="">-->
+                <td><button data-method="offset" data-type="auto" data-id="{$vo.voucher}" class="viewphoto layui-btn">查看</button></td>
+                <!--<td><a href="{$vo.voucher}" class="viewphoto layui-btn layui-btn-normal layui-btn-sm">查看</a></td>-->
+                <td>{switch name='$vo.pay_way'}
+                    {case value='1'}发票{/case}
+                    {case value='2'}账户余额{/case}
+                    {default /}default
+                    {/switch}
+                    </td>
+                <td>
+                    {if condition='$vo.is_check == 0'}
+                    <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/CheckOrder/checkOrder',['order_id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
+                    {/if}
+                    {if condition='$vo.is_check == 1'}
+                    <span type="text">已审核</span>
+                    {/if}
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        <!--分页-->
+
+    </div>
+</div>
+{/block} {block name="page"}
+<div class="btable-paged">
+    <div class="layui-main">
+        {$income_list->render()}
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript" src="__ADMIN__/js/checkment.js"></script>
+<script type="text/javascript">
+    layui.use(['layer','jquery','form'],function(){
+        var layer = layui.layer
+            , form = layui.form
+            ,jq = layui.jquery;
+
+        //点击事件
+        jq('.viewphoto').click(function(index){
+            var url= jq(this).data('id');
+            layer.open({
+                type:1,
+                content:'<img src='+url+'>',
+                time:5000,
+                closeBtn:1,
+
+                yes: function(){
+                    layer.closeAll();
+                },
+                cancel:function(){
+                    layer.close();
+                }
+
+            })
+        });
+    });
+</script>
+{/block}

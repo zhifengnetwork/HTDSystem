@@ -49,6 +49,13 @@ body {
     width: 80%;    
     border-radius: .1rem;
     height:.8rem;
+    display: -webkit-box; 
+    display: -moz-box; 
+    display: -webkit-flex; 
+    display: -moz-flex; 
+    display: -ms-flexbox; 
+    display: flex;
+    flex-wrap:nowrap;
 }
 
 .from-group .from-icon img{
@@ -56,13 +63,22 @@ body {
     height:.3rem;
     width: .3rem;
     vertical-align: middle;
+    padding-top: .24rem;
 }
  .from-group .from-tit{
     display: inline-block;
     width: 20%;
+    display: -webkit-box; 
+    display: -moz-box; 
+    display: -webkit-flex; 
+    display: -moz-flex; 
+    display: -ms-flexbox; 
+    display: flex;
+    flex-wrap:nowrap;
     font-size: .3rem;
     color: #ffffff;
     padding-left: .1rem;
+    white-space: nowrap; 
 }
   
  
@@ -127,13 +143,18 @@ color: #b8c9cf
 .login-new{
     display: -webkit-box;
 	display: -moz-box;
-	display: -ms-flexbox;
 	display: -webkit-flex;
-    display: flex;
-    justify-content: space-between;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+    -webkit-box-pack: space-between;
+	-ms-flex-pack: space-between;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
     padding-top:.3rem;
 }
 .login-new a{
+    display: block;
     background-color: transparent;
     border: 1px solid #fff;
     border-radius: .625rem;

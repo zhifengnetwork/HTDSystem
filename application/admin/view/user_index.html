@@ -43,8 +43,8 @@
                         <input type="checkbox" lay-skin="switch" lay-text="免审|一般" lay-filter="switchdeveloper" value="{$vo['id']}" {php}echo $vo[ 'developer']==1 ? 'checked' : '';{/php}>
                         </a>
                     </td> -->
-                    <td>{$vo.regtime}</td>
-                    <td>{$vo.last_login_time|date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.regtime|date="Y-m-d H:i:s",###}</td>
+                    <!-- <td>{$vo.last_login_time|date="Y-m-d H:i:s",###}</td> -->
                     <!-- <td>{$vo.last_login_ip}</td> -->
                     <td>
                         <a href="{:url('admin/user/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>

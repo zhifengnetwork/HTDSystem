@@ -45,6 +45,7 @@ li{
 input[type=button], input[type=submit], input[type=file], button { 
 	cursor: pointer; 
 	-webkit-appearance: none; 
+	-moz-appearance:textfield;
 }
 
 
@@ -74,6 +75,7 @@ input[type=button], input[type=submit], input[type=file], button {
 /*去除IOS下 => input, select默认样式*/
 input, select {
 	-webkit-appearance:none; 
+	-moz-appearance:textfield;
 	background: none;
 	border: none;
 	outline: none;
