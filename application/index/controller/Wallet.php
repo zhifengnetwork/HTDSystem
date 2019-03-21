@@ -85,9 +85,12 @@ class Wallet extends HomeBase
         if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
-        if(!$param['imgUrl']){
-            return json(array('code' => 0, 'msg' => '请上传发票'));
+        if($pay_way==1){
+            if(!$param['imgUrl']){
+                return json(array('code' => 0, 'msg' => '请上传发票'));
+            }
         }
+        
         // if(!$param['cu_price']){
         //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
@@ -96,23 +99,18 @@ class Wallet extends HomeBase
         // 获取数据库单价
         $cu_num =  $param['money']/$currency_one['price'];
 
+        // 判断当前投资币种是否存在钱包表，如果没有插入一条
+        $wallet_is = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
+        
+
         Db::startTrans();
         try{
-            // 判断当前投资币种是否存在钱包表，如果没有插入一条
-            $wallet_is = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$currency_one['id']])->find();
-            if(!$wallet_is){
-                $data_in = array(
-                    'uid' => $uid,
-                    'cu_id' => $currency_one['id']
-                );
-                Db::name('user_wallet')->insert($data_in);
-            }
-
+            
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
             if($is_cu_order['cu_id'] && $pay_way==2){
 
-                // 获取当前用户对应币种的静态收益120、分红钱包金额121
+                // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
 
                 $wallet_flag = intval($param['wallet_flag']);
@@ -132,9 +130,20 @@ class Wallet extends HomeBase
                 }
                 // 复投累加对应币种数量execute_order
                 $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setInc('num', $cu_num);
-                
+                // 插入日志
+                $this->insertLog($user_one['id'],$cu_id,'复投'.$cu_num,101);
+
                 return json(array('code' => 200, 'msg' => '复投成功'));
             }else{
+
+                if(!$wallet_is){
+                    $data_in = array(
+                        'uid' => $user_one['id'],
+                        'cu_id' => $currency_one['id']
+                    );
+                    Db::name('user_wallet')->insert($data_in);
+                }
+
                 $res3 = true;
                 $resUp = true;
                 // 订单信息入库
@@ -251,4 +260,18 @@ class Wallet extends HomeBase
         $res = uploadImg($base64);
         return $res;
     }
+
+    // 插入日志表
+	public function insertLog($uid,$cu_id,$note,$type){
+
+		$data = array(
+			'uid' => $uid,
+			'cu_id' => $cu_id,
+			'note' => $note,
+			'type' => $type,
+			'create_time' => time()
+		);
+		$res12 = Db::name('user_log')->insert($data);
+		return $res12;
+	}
 }
