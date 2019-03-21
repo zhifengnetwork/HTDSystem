@@ -132,6 +132,4 @@ class Login extends Controller
         return $this->fetch();
     }
 
-
-
 }
