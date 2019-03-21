@@ -5,6 +5,9 @@
     color: #333;
 }
 
+*{
+	font-size:.3rem;
+}
 .renderingRrpa{padding-top: 0.88rem;box-sizing: border-box;}
 
 .uploadWrap p{font-size: 0.3rem;color: #fff;text-align: center;line-height: 0.8rem;}
@@ -367,33 +370,13 @@
 	 right: 0.45rem;
 	 font-size: 0.2rem;
 }
-
-/* 加载 */
-.loading{
-	
-	margin-top: .25rem;
-	overflow: hidden;
-	width: 100%;
-    height: .5rem;
-	display: flex;
-	display: -webkit-box;
-	display: -moz-box;
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flexbox;
-	justify-content:center;
-	-webkit-justify-content:center;
-	justify-content:center;
-	-moz-box-pack:center;
-	-webkit--moz-box-pack:center;
-	box-pack:center;
+.payment_cont_wz{
+	float: right;
+	color: #c8932b;
+	text-align: center;
 }
 
-.loading>img{
-	height: .5rem;
-	
-}
-
-.loading>span{
-	color: white;
+.payment_cont_wz>p{
+	padding:.4rem;
+	font-size: 0.3rem;
 }
