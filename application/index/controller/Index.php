@@ -41,18 +41,21 @@ class Index extends HomeBase
     //提币页面
     public function present(){
 
-        // if (!session('userid')) {
-        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
-        //     header("refresh:1;url=$url");
-        // }      
-        // $userid = session('userid');
-        $userid = 14;
+        if (!session('home.id')) {
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+            header("refresh:1;url=$url");
+        }      
+        $userid = session('home.id');
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
                 ->where('uid',$userid)
                 ->select();
                 // dump($list);
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','withdraw_min')->select();
+        $exchange_usd = arr2name($exchange_usd);
+        $withdraw_min = $exchange_usd['withdraw_min']['value'];
+        $this->assign('withdraw_min',$withdraw_min);
         $this->assign('list',$list);
         $this->assign('uid',$userid);
 
@@ -62,6 +65,7 @@ class Index extends HomeBase
     // 点击提取按钮
     public function ajaxsend(){
            $data = input();
+        //    dump($data);exit;
            $res = Db::name('user_wallet')->where($data)->find();
            $base = new Base();
            if($res){            
@@ -194,11 +198,15 @@ class Index extends HomeBase
 
 
             }
-            
-            
-    
-                      
+                              
     }
+
+
+    // public function repick(){
+    //     $data = input();
+    //     dump($data);
+    // }
+
 
     public function upload(){
         $base64 = input('post.dataImg');

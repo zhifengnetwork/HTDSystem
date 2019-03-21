@@ -18,6 +18,7 @@
 .totalRevenue-wrap .thead-zp ul li{
     width: 25%;
     text-align: center;
+    margin: 0 0.1rem;
 }
 
 .totalRevenue-wrap .tbody-zp ul li{
@@ -36,6 +37,7 @@
 .totalRevenue-wrap .tbody-zp ul li div{
     width: 25%;
     text-align: center;
+    margin: 0 0.1rem;
 }
 .totalRevenue-wrap .tbody-zp ul li:nth-child(odd){
     background-color: #5462af;

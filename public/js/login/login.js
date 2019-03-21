@@ -5,15 +5,15 @@
 		pwdstate:false,      //用户密码
 	}
 
-	// 验证用户手机格式
+	// 验证用户
 	 $(".phone").blur(function(){
-		 let reg= /^1[34578]\d{9}$/;  /*用户手机号*/
+		let reg = /^[a-zA-Z0-9_-]{4,16}$/; /*用户名*/
 		 let $phone=$(this)
 		   if($phone.val()==""){
-		   			 $phone.parent().parent().prev().addClass("mistake").html("*手机号不能为空")
+		   			 $phone.parent().parent().prev().addClass("mistake").html("*用户名不能为空")
 		   			 return condition.phonestate=false
 		   }else if(!reg.test($phone.val())){
-		   			 $phone.parent().parent().prev().addClass("mistake").html("*请输入正确的手机号~")
+		   			 $phone.parent().parent().prev().addClass("mistake").html("*请输入正确的用户名~")
 		   			 return condition.phonestate=false
 		   }else{
 							$phone.parent().parent().prev().removeClass("mistake").html("")
