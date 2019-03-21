@@ -127,6 +127,7 @@ class Index extends HomeBase
             {
               case 0:
                 $base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
+                
               break;  
               case 1:
                 $data['cu_num'] = $data['cu_num'] ;
@@ -141,41 +142,75 @@ class Index extends HomeBase
                 $cu_type = 'rate_wallet';
               break;                                          
             }
-            // 获取该类的剩余金额
+            // dump($cu_type);
             // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
             if($usd<$withdraw_min&&$data['type']!=1){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);        
             }else if($data['cu_num']<$data['number']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-            }else if(empty($data['qrcode_addr'])){
-                $base->ajaxReturn(['status' => 0, 'msg' =>'请选择图片', 'result' =>'']);
             }
+            // else if(empty($data['qrcode_addr'])){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请选择图片', 'result' =>'']);
+            // }
             Db::startTrans();
             // 用于更新数据
             $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
             // 计算手续费
             $res = $data['cu_num']-$data['number'];
-            if($res==0){                                
-                // $charge = round($data['number']/100*5,8);
+           
+            // 如果为本金，手续费为5%，其他则为1%
+            if($cu_type === 'cu_num'){
+              
                 $charge = numberByRetain($data['number']/100*5, 8);
-                // 可以提币数量否则为$data['cu_num']
-                $can = $data['cu_num']-$charge;
+                
                 // 剩余货币数量为0
-               
+                if($res<=0){
+                    
+                    $can = $data['cu_num']-$charge;
+                    // 剩余货币数量为0
+                
+                    try{
+                        $where1 = [
+                            'uid'      => $data['uid'],
+                            'cu_id'    => $data['cu_id'],
+                            'cu_num'   => $can,
+                            // 'cu_num'   => $data['number'],
+                            'tb_charge'=> $charge,
+                            'note'     => $data['note'],
+                            // 'qrcode_addr' => $data['number'],    
+                        ];      
+
+                        Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+                        // update([$cu_type => 0]);
+                        Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+                        // 用于插入数据
+                        Db::table('htd_user_extract')->insert($where1);
+                        // 提交事务
+                        Db::commit();
+                        $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                    } catch (\Exception $e) {
+                        // 回滚事务
+                        Db::rollback();
+                        $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+                    }                            
+                }
+         
                 try{
+                    // $can = $data['cu_num']-$charge;
                     $where1 = [
                         'uid'      => $data['uid'],
                         'cu_id'    => $data['cu_id'],
-                        'cu_num'   => $can,
+                        'cu_num'   => $data['number'],
                         // 'cu_num'   => $data['number'],
                         'tb_charge'=> $charge,
                         'note'     => $data['note'],
                         // 'qrcode_addr' => $data['number'],    
                     ];      
-
-                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+                    
+                    $subtract = $data['number']+$charge;
+                    Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$subtract);
                     // update([$cu_type => 0]);
-                    Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+                    Db::name('execute_order')->where($where)->setDec('num',$subtract);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
                     // 提交事务
@@ -186,10 +221,40 @@ class Index extends HomeBase
                     Db::rollback();
                     $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
                 }    
+
             }else{
-                
-                // $charge = round($data['number']/100,3);
                 $charge = numberByRetain($data['number']/100, 8);
+                if($res<=0){
+                    $can = $data['cu_num']-$charge;
+                    // 剩余货币数量为0
+                
+                    try{
+                        $where1 = [
+                            'uid'      => $data['uid'],
+                            'cu_id'    => $data['cu_id'],
+                            'cu_num'   => $can,
+                            // 'cu_num'   => $data['number'],
+                            'tb_charge'=> $charge,
+                            'note'     => $data['note'],
+                            // 'qrcode_addr' => $data['number'],    
+                        ];      
+
+                        Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+                        // update([$cu_type => 0]);
+                        Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+                        // 用于插入数据
+                        Db::table('htd_user_extract')->insert($where1);
+                        // 提交事务
+                        Db::commit();
+                        $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                    } catch (\Exception $e) {
+                        // 回滚事务
+                        Db::rollback();
+                        $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+                    } 
+                }
+                
+              
                 $where1 = [
                     'uid'      => $data['uid'],
                     'cu_id'    => $data['cu_id'],
@@ -218,15 +283,74 @@ class Index extends HomeBase
                 }
 
 
-            }
+            }             
+ 
+            // if($res==0){                                
+            //     // $charge = round($data['number']/100*5,8);
+            //     $charge = numberByRetain($data['number']/100*5, 8);
+            //     // 可以提币数量否则为$data['cu_num']
+            //     $can = $data['cu_num']-$charge;
+            //     // 剩余货币数量为0
+               
+            //     try{
+            //         $where1 = [
+            //             'uid'      => $data['uid'],
+            //             'cu_id'    => $data['cu_id'],
+            //             'cu_num'   => $can,
+            //             // 'cu_num'   => $data['number'],
+            //             'tb_charge'=> $charge,
+            //             'note'     => $data['note'],
+            //             // 'qrcode_addr' => $data['number'],    
+            //         ];      
+
+            //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
+            //         // update([$cu_type => 0]);
+            //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
+            //         // 用于插入数据
+            //         Db::table('htd_user_extract')->insert($where1);
+            //         // 提交事务
+            //         Db::commit();
+            //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+            //     } catch (\Exception $e) {
+            //         // 回滚事务
+            //         Db::rollback();
+            //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+            //     }    
+            // }else{
+                
+            //     // $charge = round($data['number']/100,3);
+            //     $charge = numberByRetain($data['number']/100, 8);
+            //     $where1 = [
+            //         'uid'      => $data['uid'],
+            //         'cu_id'    => $data['cu_id'],
+            //         // 提币数量
+            //         'cu_num'   => $data['number'],
+            //         'tb_charge'=> $charge,
+            //         'note'     => $data['note'],
+            //         'qrcode_addr' => $data['qrcode_addr'],    
+            //     ];                                 
+            //     // 剩余货币数量
+            //     $subtract = $data['number']+$charge;
+            //     // $data['cu_num'] = $data['cu_num']-$subtract;
+            //     // $res = Db::table('htd_user_wallet')->where($where)->update([$cu_type => $data['cu_num']]);
+
+            //     try{
+            //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$subtract);
+            //         Db::name('execute_order')->where($where)->setDec('num',$subtract);
+            //         Db::table('htd_user_extract')->insert($where1);
+            //         // 提交事务
+            //         Db::commit(); 
+            //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+            //     } catch (\Exception $e) {
+            //         // 回滚事务
+            //         Db::rollback();
+            //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+            //     }
+
+
+            // }
                               
     }
-
-    public function repick(){
-        $data = input();
-        dump($data);
-    }
-
     public function upload(){
         $base64 = input('post.dataImg');
         $res = uploadImg($base64);
