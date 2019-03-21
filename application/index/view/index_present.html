@@ -72,11 +72,11 @@
 					<div class="pull_down_content">
 						<div class="down_list">
 							<p>本金</p>
-							<p>{$v.cu_num}</p>
+							<p>{$v.cu_num}({$v.alias_name})</p>
 						</div>
 						<div class="down_list">
 							<p>收益</p>
-							<p>{$v.bonus_wallet}</p>
+							<p>{$v.bonus_wallet}({$v.alias_name})</p>
 						</div>
 						<!-- <div class="down_list">
 							<p>动态收益</p>
@@ -84,7 +84,7 @@
 						</div> -->
 						<div class="down_list">
 							<p>分红</p>
-							<p>{$v.rate_wallet}</p>
+							<p>{$v.rate_wallet}({$v.alias_name})</p>
 						</div>
 						<!-- 提取按钮 -->
 					<div class="currency_box">
@@ -120,7 +120,7 @@
 										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">							
-									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="小于50美金可提取" /><br />
+									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于50美金可提取" /><br />
 									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
 								</div>
 								<!--000-->
