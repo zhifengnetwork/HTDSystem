@@ -531,7 +531,8 @@ input::-webkit-inner-spin-button {
 }
 .tbody-zp ul li div{
     width: 25.5%;
-    text-align: center;
+		text-align: center;
+		font-size: .2rem;
 }
 
 /*付款*/
