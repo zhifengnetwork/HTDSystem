@@ -303,7 +303,7 @@
 	bottom: 0;
 	left: 0;
 	margin: auto;
-	height: calc(100vh - 400px);
+	height: calc(100vh - 500px);
 	padding-right: 0.3rem; 
 }
 .voting_box span{font-size: 0.3rem;}
@@ -374,9 +374,10 @@
 	float: right;
 	color: #c8932b;
 	text-align: center;
+	line-height: .3rem;
 }
 
 .payment_cont_wz>p{
-	padding:.4rem;
-	font-size: 0.3rem;
+	padding:.4rem .4rem 0 .4rem;
+	font-size:0.24rem;
 }
