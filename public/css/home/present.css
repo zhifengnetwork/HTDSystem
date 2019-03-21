@@ -5,6 +5,9 @@
     color: #333;
 }
 
+*{
+	font-size:.3rem;
+}
 .renderingRrpa{padding-top: 0.88rem;box-sizing: border-box;}
 
 .uploadWrap p{font-size: 0.3rem;color: #fff;text-align: center;line-height: 0.8rem;}
@@ -367,5 +370,13 @@
 	 right: 0.45rem;
 	 font-size: 0.2rem;
 }
+.payment_cont_wz{
+	float: right;
+	color: #c8932b;
+	text-align: center;
+}
 
-
+.payment_cont_wz>p{
+	padding:.4rem;
+	font-size: 0.3rem;
+}
