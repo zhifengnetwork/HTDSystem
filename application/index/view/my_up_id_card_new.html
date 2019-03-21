@@ -6,16 +6,11 @@
 		<title>上传身份证</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<script src="__PUBLIC__/js/public/rem.js"></script>
-		<link rel="stylesheet" href="__PUBLIC__/css/my/upIDCardNew.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/my/upIDCardNew.css?v=1552363666" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<!--弹框-->
-		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css?v=1552363434" />
-		<style type="text/css">
-			.preViewImg {
-				display: none;
-			}
-		</style>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css?v=1552363666" />
 		
 	</head>
 
@@ -27,7 +22,7 @@
 		</div>
 		<div class="lj_wrap">
 		
-		<!--渲染wrpa-->
+			<!--渲染wrpa-->
 			<div class="renderingRrpa">
 				<!-- '创建一个image对象'，给canvas绘制使用 -->
 				<canvas id="canvas" style="display: none;"></canvas>
@@ -37,11 +32,14 @@
 					<!--每个 上传图片box---->
 					<p>身份证正面</p>
 					<div class="imageEchoBox">
-						<!--提示-->
-						<span class="tipsText">请点击“选中图片”上传图片。</span>
-						<!--回显的图片-->
-						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'" src="/{$img[0]}"/>
-						<img src="/{$img[0]}">
+						{empty name="$img[0]"}
+							<!--提示-->
+							<span class="tipsText">请点击“选中图片”上传图片。</span>
+							<!--回显的图片-->
+							<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						{else/}
+							<img class="preViewImg preViewImg_show" src="{$img[0]}" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						{/empty}
 						<!--上传图片 tyle='file'-->
 						<a class="uploadFile2" href="#">选择图片</a>
 						<input class="uploadFile" type="file" onchange="UpLoad(this,0)" name="file" id="" value="0" accept="image/*" />
@@ -49,10 +47,14 @@
 					<p>身份证反面</p>
 					<!--上传图片box 2---->
 					<div class="imageEchoBox">
-						<span class="tipsText">请点击“选中图片”上传图片。</span>
-						<!--回显的图片-->
-						<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'" src="/{$img[1]}"/>
-						<img src="/{$img[1]}">
+						{empty name="$img[1]"}
+							<!--提示-->
+							<span class="tipsText">请点击“选中图片”上传图片。</span>
+							<!--回显的图片-->
+							<img class="preViewImg" src="" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						{else/}
+							<img class="preViewImg preViewImg_show" src="{$img[1]}" onerror="javascript:this.src='__PUBLIC__/images/public/loading.gif'"/>
+						{/empty}
 						<!--上传图片 tyle='file'-->
 						<a class="uploadFile2" href="#">选择图片</a>
 						<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
@@ -74,7 +76,8 @@
 		<!--弹窗 函数的js => sAFail($(最外的边框),text)-->
 		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
 		<script>
-
+			/* 防止客户重复上传*/ 
+			var stateImg = true;
 			/*上传图片*/
 			function UpLoad(e,_num) {
 				/*保存 点击对应的this*/
@@ -117,7 +120,7 @@
 									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
 									/* 图片 回显*/
 									that.siblings(".preViewImg").attr("src", newImageData);
-									console.log(newImageData);
+									// console.log(newImageData);
 
 									$("#canvas").hide();
 								}
@@ -145,33 +148,46 @@
 				var arrImgUrl = [];
 				/*对应上传=>丢进数组*/
 				for(var i = 0; i < $('.imageEchoBox').length; i++) {
-					if($('.imageEchoBox .preViewImg').eq(i).attr('src').indexOf('base64') != -1 ) {
-						arrImgUrl.push($('.preViewImg').eq(i).attr('src'))
+					console.log(898989,$('.preViewImg').eq(i).attr('src'));
+					if($('.imageEchoBox .preViewImg').eq(i).attr('src').indexOf('.gif') == -1 ) {
+						arrImgUrl.push($('.preViewImg').eq(i).attr('src'));
+						// console.log($('.preViewImg').eq(i).attr('src'));
 					}
 				}
+				
 				/*判断=>传两个图片*/
 				if(arrImgUrl.length != 2){
-					console.log('请上传身份正反两张图片！')
+					// console.log('请上传身份正反两张图片！')
 					/*对话框*/
 					suredAlert($('body'),'请上传身份“正反”两张图片！');
 					return false;
 				} else {
-					arrImgUrl = JSON.stringify(arrImgUrl);
-					
-					$.ajax({
-						url:"{:url('index/my/upload')}",
-						type:"POST",
-			            dataType:"json",
-			            data:{'img':arrImgUrl},
-			            error:function(data){
-			            	// console.log(data);
-			            	alert("服务器繁忙, 请联系管理员!");
-			            },
-			            success:function(data){
-			            	// console.log(data);
-			            	alert(data.msg);
-			            }
-					});
+					// console.log('图片',arrImgUrl);
+					if(stateImg){
+						stateImg = false;
+						arrImgUrl = JSON.stringify(arrImgUrl);
+						
+						$.ajax({
+							url:"{:url('index/my/upload')}",
+							type:"POST",
+				            dataType:"json",
+				            data:{'img':arrImgUrl},
+				            error:function(data){
+				            	// console.log(data);
+				            	/*对话框*/
+								suredAlert($('body'),'服务器繁忙, 请联系管理员!');
+				            	stateImg = true;
+				            },
+				            success:function(data){
+				            	// console.log(data);
+				            	alert(data.msg);
+				            	stateImg = true;
+				            	location.reload();	            	
+				            }
+
+						});
+
+					}
 				}
 				// console.log(arrImgUrl);
 			})
