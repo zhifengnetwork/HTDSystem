@@ -62,11 +62,11 @@
 							</div>
 						</div>
 
-						<div class="load" style="display:none">
+						<!-- <div class="load" style="display:none">
 								<div class="currency_name_text">
 									暂时没有数据
 								</div>
-						</div>						
+						</div>						 -->
 					<!-- 默认显示-e -->
 					<!-- 下拉菜单内容 -->
 					<div class="pull_down_content">
@@ -104,7 +104,7 @@
 										<span>请选择提币类型:</span>
 										<span class="popover_click">请选择</span>
 										
-										<ul class="ul_box">
+										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
 											<li data-index="2">收益</li>
@@ -174,7 +174,7 @@
 									<span>请选择投入类型:</span>
 									<span class="voting_click">请选择</span>
 									
-									<ul class="ul_box">
+									<ul class="ul_box voting_ul">
 										<li data-val="1">本金</li>
 										<li data-val="2">静态收益</li>
 										<li data-val="3">动态收益</li>
@@ -227,19 +227,31 @@
 			function voting(){
 				$('.voting').show()
 			}
-			//提取按钮
+			
 			$(function(){
+               //提取按钮
 				$(".popover_click,.voting_click").click(function(){
 					$(".ul_box").slideToggle("slow");
 				});
-				$(".ul_box>li").click(function(){
+               //提取下拉框-类型 
+				$(".popover_ul>li").click(function(){
 				
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
+					$(".popover_ul").slideToggle()
 					console.log(index)
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
 				})
+				 //复投下拉框-类型 
+				$(".voting_ul>li").click(function(){
+				var $li = $(this).html();
+				var index =$(this).attr("data-val")
+				$(".voting_ul").slideToggle()
+				console.log(index)
+				$(".voting_click").html($li)
+				$(".voting_click").attr("data-id",index)
+			})
 			})
 
 			function send(uid,cu_id){
@@ -331,6 +343,7 @@
 			jq('.true').click(function(){	 
 				   
 				    var val = $(".popover_click").attr("data-id") 
+					console.log(val)
 					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize()+'&type='+val;
