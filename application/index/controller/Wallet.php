@@ -245,7 +245,6 @@ class Wallet extends HomeBase
      * @return array
      */
     public function getUploadImg(){
-                
         $base64 = input('post.dataImg');
         $res = uploadImg($base64);
         return $res;
