@@ -14,6 +14,14 @@
 	
 	
 	</head>
+<style>
+.payment_cont_wz {
+    width: 90%;
+	color: #c8932b;
+    margin: .3rem auto;
+    text-align: center;
+}
+</style>
 
 	<body>
 		<!-- 最大的外套 -->
@@ -89,7 +97,7 @@
 						<!-- 提取按钮 -->
 					<div class="currency_box">
 						<a class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">提取</a>
-						<a class="currency_btn" onclick="voting()">复投</a>
+						<a class="currency_btn" onclick="voting({$v.uid},{$v.cu_id})">复投</a>
 					 </div> 
 					</div>
 				</div>
@@ -102,8 +110,7 @@
 							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 								<div class="popover_box clearfix">
 										<span>请选择提币类型:</span>
-										<span class="popover_click">请选择</span>
-										
+										<span class="popover_click">请选择 </span>▼
 										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
@@ -121,8 +128,8 @@
 										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">							
-									<span>提取额度:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于50美金可提取" /><br />
-									<span>转成美金:</span> <input id="popover_convert" name="popover_convert" type="number" readonly  />
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于{$withdraw_min}美金可提取" /><br />
+									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
 								<!--000-->
 								<div class="popover_box clearfix">
@@ -156,7 +163,9 @@
 									
 								</div>
 								<!--000-->
-								
+								<div class="payment_cont_wz">
+									<p>*请仔细检查提币钱包地址，如填写钱包地址错误导致提现未到账，公司将不承担此次损失</p>
+								</div>
 								
 								<div class="popover_affirm">
 									<span class="true">提取</span>
@@ -169,29 +178,29 @@
 				<!-- 复投弹框-s -->
 				<div class="voting">
 					<div class="voting_content">
-						<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
+						<form class="form-horizontal" id="handleposition1" method="post" onsubmit="return false;">
 							<div class="voting_box clearfix">
-									<span>请选择复投类型:</span>
-									<span class="voting_click">请选择</span>
+									<span>请选择投入类型:</span>
+									<span class="voting_click">请选择  </span>▼
 									
 									<ul class="ul_box voting_ul">
-										<li data-val="1">本金</li>
-										<li data-val="2">静态收益</li>
-										<li data-val="3">动态收益</li>
-										<li data-val="4">分红</li>
+										<li data-val="120">收益</li>
+										<li data-val="121">分红</li>
+									
 									</ul>
 							</div>
 					
 							<div class="voting_box clearfix">
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
-									<input type="hidden" name="cu_id" id="cu_id" value="">
+									<input type="hidden" name="cu_id1" id="cu_id1" value="">
 									<!-- 本金 -->
-									<input type="hidden" name="cu_num" id="cu_num" value="">
-									<input type="hidden" name="static_wallet" id="static_wallet" value="">
-									<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value="">
-									<input type="hidden" name="rate_wallet" id="rate_wallet" value="">							
-								<span>提取额度:</span> <input id="voting_num" name="number" type="number"  /><br />
-								<span>转成美金:</span> <input id="voting_convert" name="voting_convert" type="number" readonly  />
+									<input type="hidden" name="cu_num1" id="cu_num1" value="">
+									<!-- <input type="hidden" name="static_wallet" id="static_wallet" value="">
+									<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
+									<input type="hidden" name="bonus_wallet1" id="bonus_wallet" value="">
+									<input type="hidden" name="rate_wallet1" id="rate_wallet" value="">							
+								<span>复投数量:</span> <input id="voting_num" name="number" type="number"  /><br />
+								<input id="voting_convert" name="voting_convert" type="hidden" readonly  />
 							</div>
 							<!--000-->
 							
@@ -207,7 +216,7 @@
 							
 							
 							<div class="voting_affirm">
-								<span class="true">复投</span>
+								<span class="retrue">复投</span>
 								<span class="false">取消</span>
 							</div>
 						</form>
@@ -224,36 +233,61 @@
 
 		<script>
 			//复投按钮
-			function voting(){
-				$('.voting').show()
+			function voting(uid,cu_id){
+				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
+				$.ajax({
+					type: "POST",
+					url: url,
+					dataType: "json",
+					error: function () {
+							alert('操作失败');
+					},
+					success: function (data) {
+						if (data.status == 1) {
+								// $('#popover_convert').val(data.result);
+								// alert(data['result']['cu_id'])
+								$('#cu_id1').val(data['result']['cu_id']);
+								$('#cu_num1').val(data['result']['cu_num']);
+								$('#bonus_wallet1').val(data['result']['bonus_wallet']);
+								// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
+								$('#rate_wallet1').val(data['result']['rate_wallet']);
+								// $('#wallet_addr').val(data['result']['wallet_addr']);								
+								$('.voting').show()
+						} else {
+								alert(data.msg); 
+						}
+					}
+				});	 				
 			}
 			
 			$(function(){
                //提取按钮
-				$(".popover_click,.voting_click").click(function(){
-					$(".ul_box").slideToggle("slow");
+				$(".popover_click").click(function(){
+					$(".popover_ul").slideToggle("slow");
 				});
+				//复投按钮
+				$(".voting_click").click(function(){
+					$(".voting_ul").slideToggle("slow");
+				});
+				
                //提取下拉框-类型 
 				$(".popover_ul>li").click(function(){
-				
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
-					$(".popover_ul").slideToggle()
-					console.log(index)
+					$(".popover_box>.popover_ul").slideToggle()
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
 				})
 				 //复投下拉框-类型 
 				$(".voting_ul>li").click(function(){
-				var $li = $(this).html();
-				var index =$(this).attr("data-val")
-				$(".voting_ul").slideToggle()
-				console.log(index)
-				$(".voting_click").html($li)
-				$(".voting_click").attr("data-id",index)
+					var $li = $(this).html();
+					var index =$(this).attr("data-val")
+					$(".voting_box>.voting_ul").slideToggle()
+					$(".voting_click").html($li)
+					$(".voting_click").attr("data-id",index)
 			})
 			})
-
+            // 提取按钮
 			function send(uid,cu_id){
 				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
 				$.ajax({
@@ -341,9 +375,11 @@
 			, form = layui.form
 			,jq = layui.jquery;
 			jq('.true').click(function(){	 
-				   
+				     
 				    var val = $(".popover_click").attr("data-id") 
+					var val1 = $(".voting_click").attr("data-id") 
 					console.log(val)
+					console.log(val1)
 					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize()+'&type='+val;
@@ -370,7 +406,47 @@
 										// window.location.reload(); 
 							}
 						});
-			});			
+
+
+			});
+
+			jq('.retrue').click(function(){	 
+				     
+					 var val = $(".popover_click").attr("data-id") 
+					 var val1 = $(".voting_click").attr("data-id") 
+					//  console.log(val)
+					//  console.log(val1)
+					 // console.log($('#handleposition').serialize())
+					 var url = "{:url('Index/repick')}";
+					 var datas =  $('#handleposition1').serialize()+'&type='+val1;
+					 jq.getJSON(url,datas,function(data){						
+							 if (data.status == 1) {
+									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
+									 window.location.reload(); 
+								 });
+														 
+							 }
+							//  else if(data.status == 2){
+							// 	 layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+							// 	 // window.location.reload(); 
+							// 	 });
+							//  }else if(data.status == 3){
+							// 	 layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+							// 	 // window.location.reload(); 
+							// 	 });
+							//  }else{
+							// 		 // layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
+							// 		 layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+							// 		 // window.location.reload(); 
+							// 		 });
+							// 			 // window.location.reload(); 
+							//  }
+						 });
+ 
+ 
+			 });
+
+
 			// jq('.false').click(function(){	  
 			// 	window.location.reload();
 			// });		
