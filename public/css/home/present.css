@@ -173,7 +173,7 @@
 
 /* 下拉菜单-e*/
 .popover{
-	display: block;
+	display: none;
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -367,17 +367,11 @@
    color:    #c4c4c4;
 }
 
-.popover_box{position: relative;}
+.lj_p_address{position: relative;}
 .popover_box span{display: inline-block}
-<<<<<<< HEAD
-.popover_box ul {z-index: 1000; display: none;   width: 30%;position: absolute;left: 54%;background: #142a5d;border-radius: 0.09rem; }
-.popover_box ul li{font-size: 0.3rem;color: #000;border-bottom: 1px solid #c4c4c4; color:#fff}
-.popover_box usl li:hover{background: #5a62af;color: #fff}
-=======
 .popover_box ul {z-index: 1000; display: none;   width: 30%;position: absolute;left: 54%;background: #c4c4c4;border-radius: 0.09rem; }
 .popover_box ul li{font-size: 0.3rem;color: #000;border-bottom: 1px solid #ffffff; }
 .popover_box ul li:hover{background: #5a62af;color: #fff}
->>>>>>> 79b06188e8ad9f90216f1b0fe96fb962a63baf0c
 .popover_box ul li:last-child{border-bottom: none}
 
 
@@ -386,7 +380,7 @@
 	 border-radius:.1rem;	
 	 padding:.1rem;
 	 position: absolute;
-	 top:1.43rem;
-	 right: 0.4rem;
+	 top:0rem;
+	 right: 0.45rem;
 }
 
