@@ -5,7 +5,7 @@ use think\Db;
 use Think\Page;
 
 /**
- * 投资列表
+ * 投资管理
  */
 class Income extends AdminBase
 {
@@ -14,6 +14,9 @@ class Income extends AdminBase
         parent::_initialize();
     }
 
+    /**
+     * 列表
+     */
     public function info()
     {
         $income_list = Db::name('buy_order')->alias('buy')
@@ -26,6 +29,9 @@ class Income extends AdminBase
         return $this->fetch();
     }
 
+    /**
+     * 列表搜索
+     */
     public function info_search($keyword = '', $page = 1){
 
         $map = [];
@@ -48,6 +54,9 @@ class Income extends AdminBase
         return $this->fetch('info',['income_list' => $income_list]);
     }
 
+    /**
+     * 静态收益
+     */
     public function static_income()
     {
     //    $income_list = Db::name('income')->alias('in')
@@ -99,12 +108,16 @@ class Income extends AdminBase
         return $this->fetch('income_static_income',['income_list' => $income_list]);
     }
 
+    /**
+     * 动态收益
+     */
     public function dynamic_income()
     {
         $income_list = Db::name('income')->alias('in')
             ->join('htd_user u','in.uid=u.id','left')
+            ->join('htd_user us','in.get_uid=us.id','left')
             ->join('htd_currency c','in.cu_id=c.id','left')
-            ->field('u.mobile, u.username, in.*, c.name,c.alias_name,c.note')
+            ->field('u.mobile, u.username,us.username as get_username, in.*, c.name,c.alias_name,c.note')
             ->where('in.type',103)
             ->order('in.id desc')->paginate(10);
 
@@ -134,12 +147,16 @@ class Income extends AdminBase
         return $this->fetch('income_dynamic_income',['income_list' => $income_list]);
     }
 
+    /**
+     * 直推收益
+     */
     public function push_income()
     {
         $income_list = Db::name('income')->alias('in')
             ->join('htd_user u','in.uid=u.id','left')
+            ->join('htd_user us','in.get_uid=us.id','left')
             ->join('htd_currency c','in.cu_id=c.id','left')
-            ->field('u.mobile, u.username, in.*, c.name,c.alias_name,c.note')
+            ->field('u.mobile, u.username, us.username as get_username, in.*, c.name,c.alias_name,c.note')
             ->where('in.type',102)
             ->order('in.id desc')->paginate(10);
 
@@ -169,6 +186,9 @@ class Income extends AdminBase
         return $this->fetch('income_push_income',['income_list' => $income_list]);
     }
 
+    /**
+     * 全球分红
+     */
     public function global_dividend()
     {
 

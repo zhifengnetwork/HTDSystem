@@ -1,0 +1,27 @@
+.browser-list-zp{
+    padding: 0.88rem 0.15rem 0;
+    box-sizing: border-box;
+}
+.browser-list-zp ul{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.browserItem{
+    text-align: center;
+    
+    margin: 0.4rem 0.4rem 0 0.4rem;
+
+}
+.browserItem img{
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.browserItem a{
+    color: #fff;
+}
+.browserItem span{
+    font-size: 0.3rem;
+}

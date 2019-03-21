@@ -20,11 +20,13 @@ class AutoIncome
 
 		// 获取创建时候小于当天并且后台审核的订单
 		$toDayTime = strtotime(date('Y-m-d'));
-		$orderWhere['create_time'] = array('<', $toDayTime);
+		// $orderWhere['create_time'] = array('<', $toDayTime);
 		$orderWhere['is_check'] = 1; // 已审核
 		$orderWhere['is_stop'] = 0;  // 订单没有终止的
-		$orderAll = Db::name('buy_order')->where($orderWhere)->select();
+		$orderAll = Db::name('execute_order')->where($orderWhere)->select();
 		if($orderAll){
+			// 获取htd价格
+			$htd_price = Db::name('currency')->field('id,price')->where(['alias_name'=>'HTD'])->find();
 			// 获取配置表
 			$configs = Db::name('income_config')->field('name,value')->select();
 			// 把配置项name转换成$configs['price_min1']['value']
@@ -70,7 +72,9 @@ class AutoIncome
 				$giveIncome = $value['num']*$rate; 
 				// 根据后台设置的比例把总收益拆分为主流币+平台代币
 				$main_coin = $giveIncome*($main_coin_ratio/100);
+				// 平台币*当前对应币种的价格
 				$platform_coin = $giveIncome*($platform_coin_ratio/100);
+				$platform_coin = $platform_coin*$value['price']/$htd_price['price'];
 				
 				// 开启事务
 				Db::startTrans();
@@ -114,6 +118,7 @@ class AutoIncome
 							$push_total_income = $giveIncome*($push_rate/100);
 							$main_coin_push = $push_total_income*($main_coin_ratio/100);
 							$platform_coin_push = $push_total_income*($platform_coin_ratio/100);
+							$platform_coin_push = $platform_coin_push*$value['price']/$htd_price['price'];
 						}
 						
 						$whereUp['uid'] = $upUid['pid'];
@@ -196,6 +201,8 @@ class AutoIncome
 									// 根据后台设置的比例把总收益拆分为主流币+平台代币
 									$dy_main_coin = $dy_total_income*($main_coin_ratio/100);
 									$dy_platform_coin = $dy_total_income*($platform_coin_ratio/100);
+									$dy_platform_coin = $dy_platform_coin*$value['price']/$htd_price['price'];
+
 								}
 
 								$whereDy['uid'] = $upId;

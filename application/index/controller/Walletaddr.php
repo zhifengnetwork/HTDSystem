@@ -10,7 +10,6 @@ class Walletaddr extends HomeBase
      *  显示钱包地址二维码
      */
     public function showWalletAddr(){
-
         $walletAddr = input('walletAddr/s');
         if($walletAddr){
             $walletAddr = $walletAddr;
@@ -20,5 +19,4 @@ class Walletaddr extends HomeBase
         $this->assign('walletAddr',$walletAddr);
         return $this->fetch('wallet/addr');
     }
-
 }

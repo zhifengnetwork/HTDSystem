@@ -45,7 +45,18 @@ $(document).ready(function(){
 		$(".payment_wenma").hide()
 	})
 
-
+	//出现弹框背景禁止滚动
+	$(".qb_bg").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap-up").bind("touchmove","touchstart",function(e){
+			e.preventDefault();
+	})
+	$(".shadow-wrap").bind("touchmove","touchstart",function(e){
+		e.preventDefault();
+})
+	/**投资按钮-状态 */
+	var stateJ = true;
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
 		
@@ -81,29 +92,39 @@ $(document).ready(function(){
 		var pay_way = $('#pay_way_id').val();
 		if(pay_way==1){
 			// 判断是否上传发票
-			// todo
-			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
+			var imgUrl = $("#imgUrl_id").val();
+			if(!imgUrl){
+				layer.msg('请上传发票');
+				return false;
+			}
+			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way,imgUrl:imgUrl};
 		}else{
 			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
 		}
 
-		$.ajax({
-			url: '/index/wallet/confirmInvest',
-			type: 'post',
-      dataType: 'json',
-			data: dataJson,
-			success:function(msg){
-				if(msg.code==200){
-					// layer.msg(msg.msg);
-					layer.msg(msg.msg, function(){
-						location.reload();
-					});
-				}else{
-					layer.msg(msg.msg);
-					return false;
+		if(stateJ){
+			stateJ = false;
+			$.ajax({
+				url: '/index/wallet/confirmInvest',
+				type: 'post',
+				dataType: 'json',
+				data: dataJson,
+				success:function(msg){
+					if(msg.code==200){
+						// layer.msg(msg.msg);
+						layer.msg(msg.msg, function(){
+							location.reload();
+						});
+						stateJ = true;
+					}else{
+						layer.msg(msg.msg);
+						stateJ = true;
+						return false;
+					}
 				}
-			}
-		});
+			});
+		}
+		
 
 		// $(".hideEvm").show();
 		// /*蒙版*/
@@ -119,7 +140,7 @@ $(document).ready(function(){
 })
 
 /*获取对应的币值*/
-function obtainFun(id,name,price,walletAddr){
+function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 	// 获取投资金额
 	var money = $('.inp').val();
 	// 获取最小投资金额
@@ -132,23 +153,27 @@ function obtainFun(id,name,price,walletAddr){
 		layer.msg('投资额额度不可为0');
 		return false;
 	}
-	getQrcode(walletAddr);
+	var domain = document.domain;
+	var path_url = '/'+wallet_qrcode;
+	// 对应币种二维码放置
+	$('.payment_wenma_Two').attr('src',path_url);
 	// 获取填充对应币种钱包地址
 	$('.p_text').html(walletAddr);
+	// getQrcode(walletAddr);
 	// 钱包地址二维码
-	var qrCodeUrl = '';
-	var domain = document.domain;
-	// 组织url
-	qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
-	console.log(qrCodeUrl);
-	new QRCode('tg_qrcode', {
-		text: qrCodeUrl, 
-		width: 220, 
-		height: 220, 
-		colorDark : '#000000', 
-		colorLight : '#ffffff', 
-		correctLevel : QRCode.CorrectLevel.H 
-	});
+	// var qrCodeUrl = '';
+	// var domain = document.domain;
+	// // // 组织url
+	// // qrCodeUrl = 'http://'+domain+'/index/walletaddr/showWalletAddr/?walletAddr='+walletAddr;
+	// // console.log(qrCodeUrl);
+	// // new QRCode('tg_qrcode', {
+	// // 	text: qrCodeUrl, 
+	// // 	width: 220, 
+	// // 	height: 220, 
+	// // 	colorDark : '#000000', 
+	// // 	colorLight : '#ffffff', 
+	// // 	correctLevel : QRCode.CorrectLevel.H 
+	// // });
 
 	/*关闭弹窗*/
 	$(".assetPopup").hide();
@@ -167,155 +192,113 @@ function obtainFun(id,name,price,walletAddr){
 		cu_num = cu_num.toFixed(8);
 		$('.p3').html(cu_num);
 	}
-	console.log(money);
 
 	/*ajax*/
 }
 
 // 生成对应二维码地址
-function getQrcode(walletAddr){
-	$('#tg_qrcode').html("");
-	
+// function getQrcode(walletAddr){
+// 	$('#tg_qrcode').html("");
+// }
+
+
+// 上传发票
+/*对应 回显图片的下标*/
+// var ind = null;
+/**存储丢给后台图片(发票)*/
+var dataImg = null;
+
+/*上传图片*/
+function UpLoad(e) {
+	//显示提示信息
+	$(".upload-tips").css("display","block");
+
+	var that = $(e);
+	if(e.files[0]) {
+		var f = e.files[0];
+		fileType = f.type;
+		if(/image\/\w+/.test(fileType)) {
+			var fileReader = new FileReader();
+			fileReader.readAsDataURL(f);
+			fileReader.onload = function(event) {
+				var result = event.target.result; //返回的dataURL   
+				var image = new Image();
+				image.src = result;
+				//若图片大小大于1M，压缩后再上传，否则直接上传  
+				if(f.size > 1024 * 1024) {
+					image.onload = function() {
+						//创建一个image对象，给canvas绘制使用
+						var canvas = document.getElementById("canvas");
+						canvas.width = image.width;
+						canvas.height = image.height; //计算等比缩小后图片宽高   
+						var ctx = canvas.getContext('2d');
+						ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+						var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
+						/* 图片 回显*/
+						// that.siblings(".preViewImg").eq(0).attr("src", newImageData);
+						console.log(newImageData);
+						dataImg	= newImageData;
+						$("#canvas").hide();
+						/*根据点击的下标 =>显示 '回显图片'*/
+						console.log('压缩:dataImg');
+					}
+				}else {
+					//创建一个image对象，给canvas绘制使用 
+					image.onload = function() {
+						$.ajax({
+							url: '/index/wallet/getUploadImg',
+							type: 'post',
+							dataType: 'json',
+							data: {dataImg:image.src},
+							success:function(msg){
+								if(msg.code==200){
+									$('#imgUrl_id').val(msg.imgUrl);
+									$('.text').html('成功');
+									// console.log(msg);
+									layer.msg(msg.msg)
+								}else{
+									$('.text').html('失败');
+									layer.msg(msg.msg)
+									return false;
+								}
+							}
+						});
+						/*图片 回显 */
+						dataImg = result;
+					}
+				}
+			}
+		} else {
+			layer.msg("请选择图片");
+		}
+
+	} else {
+		console.log('取消选择图片！')
+	}
 }
 
-function sc(){
 
-	layer.msg(111122222);
+  //  var form = layui.form,
+  //           upload = layui.upload,
+  //           element = layui.element,
+  //           jq = layui.jquery;
 
-	var animateimg = $("#f").val(); //获取上传的图片名 带//
-	var imgarr=animateimg.split('\\'); //分割
-	var myimg=imgarr[imgarr.length-1]; //去掉 // 获取图片名
-	var houzui = myimg.lastIndexOf('.'); //获取 . 出现的位置
-	
-	var ext = myimg.substring(houzui, myimg.length).toUpperCase();  //切割 . 获取文件后缀
-	
-	var file = $('#f').get(0).files[0]; //获取上传的文件
-	var fileSize = file.size;           //获取上传的文件大小
-	var maxSize = 1048576; //最大1MB
-//	console.log(file)
-	
-	
-	if(ext !='.PNG' && ext !='.GIF' && ext !='.JPG' && ext !='.JPEG' && ext !='.BMP'){
-			parent.layer.msg('文件类型错误,请上传图片类型');
-			return false;
-	}else if(parseInt(fileSize) >= parseInt(maxSize)){
-			parent.layer.msg('上传的文件不能超过1MB');
-			return false;
-	}else{  
-		// var data = new FormData($('#form1')); 
-		var img = file.name;
-		var size = file.size;
-		var type = file.type;
-		// console.log(name);
-		// console.log(name);
-		// console.log(name);
-			$.ajax({  
-					url: "http://www.szpt.com/index/wallet/uppic", 
-					type: 'POST',  
-					data: {
-						img :img,
-						size:size,
-						type:type
-					},  
-					dataType: 'JSON',  
-					cache: false,  
-					processData: false,  
-					contentType: false  
-			}).done(function(ret){  
-					if(ret['isSuccess']){
-							var result = '';
-							var result1 = '';
-							// $("#show").attr('value',+ ret['f'] +);
-							result += '<img src="' + '__ROAD__' + ret['f']  + '" width="100">';
-							result1 += '<input uploadFile value="' + ret['f']  + '" name="user_headimg" style="display:none;" webkitRelativePath>';
-							$('#result').html(result);
-							$('#show').html(result1);
-							layer.msg('上传成功');
-							console.log(ret['isSuccess'])
-					}else{  
-							layer.msg('上传失败');
-					}  
-					
-			});  
-		//console.log(file);
-			// $.ajax({  
-			// 		url: "http://www.szpt.com/index/wallet/uppic", 
-			// 		type: 'POST',  
-			// 		data: {
-			// 			img :img,
-			// 			size:size,
-			// 			type:type
-			// 		},  
-			// 		dataType: 'JSON',  
-			// 		cache: false,  
-			// 		processData: false,  
-			// 		contentType: false  
-			// }).done(function(ret){  
-			// 		if(ret['isSuccess']){
-			// 				var result = '';
-			// 				var result1 = '';
-			// 				// $("#show").attr('value',+ ret['f'] +);
-			// 				result += '<img src="' + '__ROAD__' + ret['f']  + '" width="100">';
-			// 				result1 += '<input value="' + ret['f']  + '" name="user_headimg" style="display:none;">';
-			// 				$('#result').html(result);
-			// 				$('#show').html(result1);
-			// 				layer.msg('上传成功');
-			// 		}else{  
-			// 				layer.msg('上传失败');
-			// 		}  
-			// });  
-			//return false;
-		 }  
-	}
-	
-//判断有内容则显示进度条
-	$("#f").on('change', function( e ){
-         //e.currentTarget.files 是一个数组，如果支持多个文件，则需要遍历
-         //上传图片
-        var rd = new FileReader();//创建文件读取对象
-        var files = f.files[0];//获取file组件中的文件
-        rd.readAsDataURL(files);//文件读取装换为base64类型
-        var name = e.currentTarget.files[0].name;
-        //添加图片
-//      $(".tu").append(`<img src='__public__/${name}'/>`)
-        if(e.currentTarget.files.length ==1){
-        	$("#wrapper").show()
-        	console.log(e.currentTarget.files)
-        	//进度条
-			var Loader = function () {    
-			  var loader = document.querySelector('.loader-container'),
-			      meter = document.querySelector('.meter'),
-			      k, i = 1,
-			      counter = function () {
-			        if (i <= 100) {   
-			          meter.innerHTML = i.toString();
-			          i++;
-			        }else if(i>=100){
-				       $("#wrapper").hide(5000)
-			        }else {
-			          window.clearInterval(k);
-			        }
-			      };
-				return {
-			  	init: function (options) {
-			      options = options || {};
-			      var time = options.time ? options.time : 0,
-				        interval = time/100;
-			      
-			    	loader.classList.add('run');
-			      k = window.setInterval(counter, interval); 
-			      setTimeout(function () {        
-			      	loader.classList.add('done');
-			      }, time);
-			    },
-			  }
-			}();
 
-			Loader.init({
-			  	time: 2000
-			});
-        	
-        }
-    });
+  //       upload.render({
+  //           elem: '#image',
+  //           url: '{:url("index/upload/upimage")}',
+  //           done: function(res) {
+  //               //如果上传失败
+  //               if (res.code == '200') {
+  //                   jq('input[name=userhead]').val(res.path);
+  //                   headedit.src = res.headpath;
+  //                   return layer.msg('上传成功');
+  //               } else {
+  //                   //上传成功
+  //                   return layer.msg(res.msg);
+  //               }
+
+  //           }
+  //       });
 	
 

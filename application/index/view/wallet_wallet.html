@@ -8,15 +8,11 @@
 	<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
 	<link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
 	<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-	<link rel="stylesheet" href="__PUBLIC__/css/wallet/wallet.css" />
-	<link rel="stylesheet" href="__PUBLIC__/font/iconfont.css" />
+	<link rel="stylesheet" href="__PUBLIC__/css/wallet/wallet.css?version=1.1.0" />
 </head>
 
 <body>
 	<div class="user">
-		<!--<div class="header-zp">
-            <h3>总收益</h3>
-        </div>-->
 		<div class="zjy_box">
 			<ul class="zjy_ul">
 				<li class="on">我的钱包</li>
@@ -40,7 +36,7 @@
 						<p style="margin-left: 0.1rem;width: 25%;" id="cu_name_input" data-name="">选择币种</p>
 						<p style="width: 53%;text-align: right;"></p>
 						<p class="p1" style="color: #7596d8;">CNY</p>
-						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.15rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
+						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
 					</div>
 					<div class="wtf_item2">
 						<div class="wtf_item2_div">
@@ -64,13 +60,6 @@
 								<p></p>
 							</div>
 						</div>
-						<!-- <div class="wtf_item2_div">
-						<p>复投最低限额</p >
-						<div class="wtf_item2_c">
-							<p class="p2" style="color: #4ecdd0;">9909.57515600</p >
-							<p>ADA</p >
-						</div>
-					</div> -->
 					</div>
 
 					
@@ -83,15 +72,15 @@
 								<li>
 									<p class="wq_fa"><span class="payment_active"></span></p>从发票
 								</li>
-								<li>
+								<!-- <li>
 									<p class="wq_fa"><span></span></p>从账户余额
-								</li>
+								</li> -->
 							</ul>
 							<div class="payment_cont">
 								<div class="payment_cont_item avtive">
 									<div class="fshe">支付地址</div>
 									<div class="payment_cont_text">
-										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text">11111111</textarea>
+										<textarea readonly name="" id="codeNum" cols="30" rows="10" class="p_text"></textarea>
 										<div class="payment_cont_sox">
 											<p class="payment_cont_qb" id="codeBtn" data-clipboard-target="#codeNum"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbfz.png"/></span>复制钱包地址</p>
 											<p class="payment_cont_qb" id="sm_click"><span><img  class="payment_cont_img" src="__PUBLIC__/images/wallet/qbewm.png"/></span>请扫二维码</p>																			
@@ -111,10 +100,10 @@
 												上传发票
 												<input class="uploadFile" onchange="UpLoad(this)" type="file"  name="file"  value="0" accept="image/*" />
 											</p>
-
+											<input type="hidden" name="imgUrl" value="" id="imgUrl_id"/>
 											<span class="upload-tips uploading">
 												<span class="text">上传中</span>
-												<span class="dotting"></span>
+												<!-- <span class="dotting"></span> -->
 											</span>
 
 											<!--上传成功后更好类名succeed -->
@@ -166,9 +155,9 @@
 							<!-- list -->
 							<div class="currency">
 								{foreach name="htd_currency" item="vo"}
-								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}')">
-									<p class="iconImgW"><img src="__PUBLIC__/images/coin.png" alt=""></p>
-									<span class="currency_title">{$vo.alias_name}<font>：</font></span>
+								<div class="termBox clearfix" onclick="obtainFun('{$vo.id}','{$vo.alias_name}','{$vo.price}','{$vo.wallet_addr}','{$vo.wallet_qrcode}')">
+									<p class="iconImgW"><img src="/{$vo.log}" alt=""></p>
+									<span class="currency_title">{$vo.alias_name}</span>
 									<span class="currency_number">{$vo.price}</span><br>
 								</div>
 								{/foreach}
@@ -193,61 +182,35 @@
 						<div class="assetPopup pop">
 
 							<div class="det">
-									<span>资产</span>
-									<p class="iconfont hideTz">
-										<img src="/public/images/wallet/qbscq.png"/>
-									</p>
+								<span>资产</span>
+								<p class="iconfont hideTz">
+									<img src="/public/images/wallet/qbscq.png"/>
+								</p>
 							</div>
 
 							<!-- 标题 -->
 							<div class="thead-zp">
 								<ul>
-									<li>名称</li>
-									<li>数量</li>
-									<li>单价</li>
-									<li>金额</li>
+									<li>币种名称</li>
+									<li>币种数量</li>
+									<li>静态收益</li>
+									<li>全球分红</li>
 								</ul>
 							</div>
 							<!--详情-->
 							<div class="tbody-zp">
 								<ul>
+									{foreach name="userWallet" item="vs"}
 									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
+										<div class="name">{$vs.alias_name}</div>
+										<div class="number">{$vs.cu_num}</div>
+										<div class="price">{$vs.bonus_wallet}</div>
+										<div class="total-price">{$vs.rate_wallet}</div>
 									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-									<li>
-										<div class="name">Alan</div>
-										<div class="number">10</div>
-										<div class="price">99.00</div>
-										<div class="total-price">990.00</div>
-									</li>
-
+									{/foreach}
 								</ul>
 							</div>
-
-							<!-- <div class="iconfont hideTz">
-								<img src="/public/images/wallet/qbscq.png"/>
-							</div> -->
+							
 						</div>
 					</div>
 					<!--点击投资-二维码-弹框-->
@@ -285,16 +248,14 @@
 							<th>日期</th>
 							<th>币种</th>
 							<th>数量</th>
-							<th>单价</th>
-							<th>金额</th>
+							<th>状态</th>
 						</tr>
 						{foreach name="user_order" item="vo"}
 						<tr>
 							<td>{$vo.create_time|date="Ymd",###}</td>
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
-							<td>{$vo.price}</td>
-							<td>{$vo.total_money}</td>
+							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
 						</tr>
 						{/foreach}
         			</table>
@@ -308,7 +269,7 @@
     		<div class="qb_bg"></div>
     		<div class="qb_bg_img" id="tg_qrcode">
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
-    			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
+    			<img class="payment_wenma_Two" src=""/>
     		</div>  
 			</div>
 			<!-- 底部导航 -->        
@@ -321,7 +282,7 @@
     
 	 <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> 
 	<script src="__PUBLIC__/js/public/tab.js" ></script>
-	<script  src="__PUBLIC__/js/wallet/waller.js" ></script>
+	<script  src="__PUBLIC__/js/wallet/waller.js?v=1.1.0" ></script>
 	<script src="__PUBLIC__/plugins/layer/layer-min.js"></script>
 	<script src="/public/plugins/qrcode/qrcode.min.js"></script>
 	<!--底部nav=>Tab功能-->
@@ -348,70 +309,7 @@
 			});
 
 
-			// 上传发票
-
-			/*对应 回显图片的下标*/
-			// var ind = null;
-			/**存储丢给后台图片(发票)*/
-			var dataImg = null;
-
-			/*上传图片*/
-			function UpLoad(e) {
-				//显示提示信息
-				$(".upload-tips").css("display","block");
-
-				var that = $(e);
-				if(e.files[0]) {
-					var f = e.files[0];
-					fileType = f.type;
-					if(/image\/\w+/.test(fileType)) {
-						var fileReader = new FileReader();
-						fileReader.readAsDataURL(f);
-						fileReader.onload = function(event) {
-							var result = event.target.result; //返回的dataURL   
-							var image = new Image();
-							image.src = result;
-							//若图片大小大于1M，压缩后再上传，否则直接上传  
-							if(f.size > 1024 * 1024) {
-								image.onload = function() {
-									//创建一个image对象，给canvas绘制使用
-									var canvas = document.getElementById("canvas");
-									canvas.width = image.width;
-									canvas.height = image.height; //计算等比缩小后图片宽高   
-									var ctx = canvas.getContext('2d');
-									ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
-									/* 图片 回显*/
-									// that.siblings(".preViewImg").eq(0).attr("src", newImageData);
-									console.log(newImageData);
-									dataImg	= newImageData;
-									$("#canvas").hide();
-									/*根据点击的下标 =>显示 '回显图片'*/
-									console.log('压缩:dataImg');
-								}
-							}else {
-								//创建一个image对象，给canvas绘制使用 
-								image.onload = function() {
-									/*图片 回显 */
-									// that.siblings(".preViewImg").eq(0).attr("src", result);
-									console.log(result);
-									dataImg = result;
-									console.log('没-压缩:dataImg');
-								}
-							}
-
-							/*ajax*/
-							console.log('图片的base64:',dataImg);
-
-						}
-					} else {
-						alert("请选择图片");
-					}
-
-				} else {
-					console.log('取消选择图片！')
-				}
-			}
+			
 
 		</script>
 

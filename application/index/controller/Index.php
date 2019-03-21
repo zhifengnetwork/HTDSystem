@@ -45,13 +45,16 @@ class Index extends HomeBase
         //     header("refresh:1;url=$url");
         // }      
         // $userid = session('userid');
-        $userid = 1;
+        // $userid = 1;
+
+         $userid = 14;
         
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
                 ->where('uid',$userid)
                 ->select();
+                // dump($list);
         $this->assign('list',$list);
         $this->assign('uid',$userid);
 
@@ -91,7 +94,7 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data   = input();        
-            dump($data);exit;
+           
 
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
