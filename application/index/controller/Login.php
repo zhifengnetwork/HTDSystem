@@ -113,7 +113,7 @@ class Login extends Controller
                     $res = DB::name('user')->insert($data);
                     // 生成钱包
                     if($res){
-                        $in_res = createWallet($res);
+                        // $in_res = createWallet($res);
                         if($in_res){
                             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
                             $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
