@@ -80,10 +80,11 @@
 			dataType:'json',
 			success:function(msg){
 				var msg  = JSON.parse(msg);
-				suredAlert($('body'),msg.msg);
 				if (msg.flag == '1') {
 					suredAlert($('body'),msg.msg,msg.url);
-					window.location.href="{:url('index/my/index')}";
+					// window.location.href="{:url('index/my/index')}";
+				} else {
+					suredAlert($('body'),msg.msg);
 				}
 			}
 		});

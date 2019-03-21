@@ -29,7 +29,7 @@
 							<span class="from-tit">用户名:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/user.png" alt="">
-								<input type="text" placeholder="请输入用户名 6~16位" name="uname" value class="pptt username ">
+								<input type="text" placeholder="请输入用户名 6~16位" name="username" value class="pptt username ">
 							</div>
 						</div>
 						<div class="info mistake"></div>	
@@ -37,7 +37,7 @@
 							<span class="from-tit">密码:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/suo.png" alt="">
-								<input type="password" placeholder="请输入密码 6~16位" name="pwd" value class="pptt password">
+								<input type="password" placeholder="请输入密码 6~16位" name="password" value class="pptt password">
 							</div>
 						</div>
 						<div class="info mistake"></div>
@@ -53,7 +53,7 @@
 							<span class="from-tit">邮箱:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/youxiang.png" alt="">
-								<input type="text" placeholder="请输入用户邮箱" name="email" value class="pptt email">
+								<input type="text" placeholder="请输入用户邮箱" name="usermail" value class="pptt email">
 							</div>
 						</div>
 						<div class="info mistake"></div>
@@ -61,7 +61,7 @@
 							<span class="from-tit">手机号:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/shouji.png" alt="">
-								<input type="tel" placeholder="请输入手机号码" name="phone"  value class="pptt phone">
+								<input type="tel" placeholder="请输入手机号码" name="mobile"  value class="pptt phone">
 							</div>
 						</div>
 						<div class="info mistake"></div>
@@ -70,9 +70,9 @@
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/good.png" alt="">
 								{notempty name='$promotion'}
-									<input type="text" placeholder="请输入推荐码" name="directname" value="{$promotion}"  readonly  unselectable="on" class="pptt recommend">
+									<input type="text" placeholder="请输入推荐码" name="promotion" value="{$promotion}"  readonly  unselectable="on" class="pptt recommend">
 								{else/}
-									<input type="text" placeholder="请输入推荐码" name="directname"  class="pptt recommend">
+									<input type="text" placeholder="请输入推荐码" name="promotion"  class="pptt recommend">
 								{/notempty}
 								<!-- readonly  unselectable="on" -->
 								<!-- <input type="text" placeholder="请输入推荐码" name="directname" value="{$promotion}"  class="pptt recommend"> -->
