@@ -41,12 +41,12 @@ class Index extends HomeBase
     //提币页面
     public function present(){
 
-        if (!session('userid')) {
-            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
-            header("refresh:1;url=$url");
-        }      
-        $userid = session('userid');
-        
+        // if (!session('userid')) {
+        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+        //     header("refresh:1;url=$url");
+        // }      
+        // $userid = session('userid');
+        $userid = 14;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -92,7 +92,6 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data   = input();        
-           
 
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -173,7 +172,7 @@ class Index extends HomeBase
                     'cu_num'   => $data['number'],
                     'tb_charge'=> $charge,
                     'note'     => $data['note'],
-                    // 'qrcode_addr' => $data['number'],    
+                    'qrcode_addr' => $data['qrcode_addr'],    
                 ];                                 
                 // 剩余货币数量
                 $subtract = $data['number']+$charge;
