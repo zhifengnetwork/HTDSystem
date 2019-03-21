@@ -240,7 +240,25 @@ function UpLoad(e) {
 						dataImg	= newImageData;
 						$("#canvas").hide();
 						/*根据点击的下标 =>显示 '回显图片'*/
-						console.log('压缩:dataImg');
+						//console.log('压缩:dataImg');
+						$.ajax({
+							url: '/index/wallet/getUploadImg',
+							type: 'post',
+							dataType: 'json',
+							data: {dataImg:image.src},
+							success:function(msg){
+								if(msg.code==200){
+									$('#imgUrl_id').val(msg.imgUrl);
+									$('.text').html('成功');
+									// console.log(msg);
+									layer.msg(msg.msg)
+								}else{
+									$('.text').html('失败');
+									layer.msg(msg.msg)
+									return false;
+								}
+							}
+						});
 					}
 				}else {
 					//创建一个image对象，给canvas绘制使用 
