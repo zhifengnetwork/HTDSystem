@@ -368,32 +368,3 @@
 	 font-size: 0.2rem;
 }
 
-/* 加载 */
-.loading{
-	
-	margin-top: .25rem;
-	overflow: hidden;
-	width: 100%;
-    height: .5rem;
-	display: flex;
-	display: -webkit-box;
-	display: -moz-box;
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flexbox;
-	justify-content:center;
-	-webkit-justify-content:center;
-	justify-content:center;
-	-moz-box-pack:center;
-	-webkit--moz-box-pack:center;
-	box-pack:center;
-}
-
-.loading>img{
-	height: .5rem;
-	
-}
-
-.loading>span{
-	color: white;
-}
