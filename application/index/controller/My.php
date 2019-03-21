@@ -7,15 +7,17 @@ use think\Db;
 use think\Cache;
 use think\Controller;
 use think\Request;
+use think\Exception;
 
 class My extends Base
 {
       public function my()
     {
         $home = session('home');
+
         if($home){
             setcookie("as",1,time()+6000);
-            $user = db('user')->where(['mobile'=>$home['mobile']])->find();
+            $user = DB::name('user')->where('username',$home['username'])->find();
             $id = 1;
         }else{
             $id = 2;
@@ -98,12 +100,11 @@ class My extends Base
         return $this->fetch();
     }
 
+    //显示图片
     public function up_id_card_new()
     {
-        $id = session('home.id');
-        $img = Db::name('user')->where('id',$id)->value('idcard_url');
-
-        $img = json_decode($img,true);
+        $img = $this->get_img();    //获取图片路径
+        
         if (!$img) {
             $img[0] = '';
             $img[1] = '';
@@ -120,13 +121,28 @@ class My extends Base
         $id = session('home.id');
         $img = input('post.');
         $img = json_decode($img['img'],true);
-        
-        if (!$img) {
-            return json(array('code'=>0,'msg'=>$img));
-        }
 
         $data = array();
+        $del_img = array();
         $is_img = false;
+        $user_img = $this->get_img();   //获取图片路径
+
+        //判断是否已存在照片
+        foreach ($img as $k1 => $v1) {
+            foreach ($user_img as $k2 => $v2) {
+                if ($v1 == $v2) {
+                    $data[$k1] = $v2;
+                    unset($img[$k1]);
+                    $is_img = true;
+                }
+            }
+        }
+
+        //是否有照片上传,没有直接返回
+        if (!$img) {
+            return json(array('code'=>0,'msg'=>'没有上传图片'));
+        }
+        
         foreach ($img as $key => $value) {
             $imageName = md5(mt_rand(0,100000).time()).'.png';  //文件名
 
@@ -142,13 +158,15 @@ class My extends Base
 
             $imageSrc= $path.DS.$imageName;
 
+            //图片写入文件
             $image = file_put_contents($imageSrc, base64_decode($image));
 
            if ($image) {
-                array_push($data ,$imageSrc);
+                $data[$key] = DS.$imageSrc;
                 $is_img = true;
            }else{
                 $is_img = false;
+                break;
            }
        }
 
@@ -163,6 +181,16 @@ class My extends Base
        } else{
             return json(array('code'=>0,'msg'=>'上传失败'));
        }
+    }
+
+    //获取图片路径
+    public function get_img()
+    {
+        $id = session('home.id');
+        $url = Db::name('user')->where('id',$id)->value('idcard_url');
+        $url = $url ? json_decode($url,true) : array();
+
+        return $url;
     }
 
     //修改密码

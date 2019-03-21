@@ -32,20 +32,8 @@
 				<h3>提币</h3>
 			</div>
 			<!-- 头部-e -->
-			<!-- 固定导航-s -->
-			<!-- <div class="fixed_nav_wrap">
-				<div class="fixed_nav">
-					<div class="nav_name">
-						名称
-					</div>
-					<div class="nav_sum">
-						数量
-					</div>
-					<div class="nav_btn">
-						状态
-					</div>
-				</div>
-			</div> -->
+
+			
 			<!-- 固定导航-e -->
 			<!-- 内容主体 -->
 			<div class="currency">
@@ -103,7 +91,11 @@
 				</div>
 					{/foreach}
 					<!-- 列表项 -e -->
-				
+				<!-- 加载中 -->
+				<div class="loading">
+					<img src="__PUBLIC__/images/public/loding.gif" alt="">
+					<span>加载中.....</span>
+				</div>
 				<!-- 提取弹框-s -->
 				<div class="popover">
 						<div class="popover_content">
@@ -316,7 +308,7 @@
 
 			$(document).ready(function() {
 				//阻止事件冒泡
-				$('.popover_content').click(function(e) {
+				$('.popover_content,.voting_content').click(function(e) {
 					e.stopPropagation();
 				});
 				//弹框确认
@@ -329,11 +321,21 @@
 					$('.popover').hide();
 					$('.voting').hide();
 				});
-				//点击背景隐藏and清空提取金额的值
-				$('.popover').click(function() {
-					$(this).hide();
+				//点击背景隐藏and提取按钮清空提取金额的值
+				$('.popover,.popover_affirm').click(function() {
+					$(".popover").hide();
 					$('#popover_num').val("");
+					$(".lj_input2").val("");
+					$(".lj_input3").val("");
 					$('#popover_convert').val("");
+					$(".preViewImg").attr("src","/public//plugins/layui/images/loading-2.gif").hide();
+					$(".tipsText").show();
+				})
+				//点击复投按钮清空提取金额的值
+				$('.voting,.voting_affirm').click(function() {
+					$(".voting").hide();
+					$('#voting_num').val("");
+					$(".lj_input3").val("");
 				})
 				//点击下拉列表
 				$(".list_tacitly").click(function(){

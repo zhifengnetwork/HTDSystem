@@ -128,6 +128,7 @@ $(document).ready(function(){
 						  location.reload();
 						}
 					});
+
 				}else{
 					obj.attr('has-click','0');
 					layer.msg(msg.msg);

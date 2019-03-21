@@ -62,6 +62,12 @@ class Wallet extends HomeBase
         $param = input('post.');
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
+
+        // 判断当前用户是否存在
+        $user_one = Db::name('user')->where(['id'=>$uid])->find();
+        if(!$user_one){
+            return json(array('code' => 0, 'msg' => '当前用户不存在'));
+        }
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
@@ -92,7 +98,6 @@ class Wallet extends HomeBase
 
         Db::startTrans();
         try{
-
             // 判断当前投资币种是否存在钱包表，如果没有插入一条
             $wallet_is = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$currency_one['id']])->find();
             if(!$wallet_is){
@@ -104,11 +109,11 @@ class Wallet extends HomeBase
             }
 
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
-            $is_cu_order = Db::name('execute_order')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+            $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
             if($is_cu_order['cu_id'] && $pay_way==2){
 
                 // 获取当前用户对应币种的静态收益120、分红钱包金额121
-                $user_wallet = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+                $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
 
                 $wallet_flag = intval($param['wallet_flag']);
                 // 判断钱包是否够复投对应币种数量
@@ -117,27 +122,25 @@ class Wallet extends HomeBase
                     return json(array('code' => 0, 'msg' => '静态收益不足'));
                     }
                     // 扣减对应数量
-                    Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setDec('bonus_wallet', $cu_num);
+                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setDec('bonus_wallet', $cu_num);
                 }
                 if($wallet_flag=121){
                     if($user_wallet['rate_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '分红收益不足'));
                     }
-                    Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setDec('rate_wallet', $cu_num);
+                    Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setDec('rate_wallet', $cu_num);
                 }
                 // 复投累加对应币种数量execute_order
-                $inc_res = Db::name('execute_order')->where(['uid'=>$uid,'cu_id'=>$cu_id])->setInc('num', $cu_num);
+                $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->setInc('num', $cu_num);
                 
-                // if(!$inc_res){
-                //     return json(array('code' => 0, 'msg' => '复投失败，稍后再试'));
-                // }
                 return json(array('code' => 200, 'msg' => '复投成功'));
             }else{
-
+                $res3 = true;
+                $resUp = true;
                 // 订单信息入库
                 $data = array(
                     'order_no' => byOrderNo(),
-                    'uid' => $uid,
+                    'uid' => $user_one['id'],
                     'cu_id' => $cu_id,
                     'num'   => $cu_num,
                     'price' => $currency_one['price'],
@@ -147,18 +150,17 @@ class Wallet extends HomeBase
                     'create_time' => time()
                 );
                 $res = Db::name('buy_order')->insert($data);
-
-                // 入单激活会员
-                Db::name('user')->where(['id'=>$uid])->update(['activation'=>1]);
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
-                    $res = Db::name('execute_order')->insert($data);
+                    $res3 = Db::name('execute_order')->insert($data);
                 }
-                // if(!$res){
-                //     return json(array('code' => 0, 'msg' => '网络异常，请稍后再试。'));
-                // }
-                // return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
+
+                // 入单激活会员
+                if(!$user_one['activation']){
+                    $resUp = Db::name('user')->where(['id'=>$user_one['id']])->update(['activation'=>1]);
+                }
             }
+
             // 提交事务
             Db::commit(); 
             return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
