@@ -2168,10 +2168,16 @@ function numberByRetain($number, $position){
         }else{
             $image_name = uniqid().'.'.$result[2];
         }
-        $image_file = "/uploads/".date('Ymd',time()).'/'."{$image_name}";
+        $image_file = "./uploads/".date('Ymd',time()).'/';
+        if (!file_exists($image_file)) {
+
+            mkdir($image_file,0755,true);
+        }
+        $image_url = "./uploads/".date('Ymd',time()).'/'."{$image_name}";
+        $res_url = "/uploads/".date('Ymd',time()).'/'."{$image_name}";
         //服务器文件存储路径
-        if (file_put_contents('.'.$image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
-            return json(['code'=>200, 'msg'=>'上传成功', 'imgUrl'=>$image_file]);
+        if (file_put_contents($image_url, base64_decode(str_replace($result[1], '', $base64_image)))){
+            return json(['code'=>200, 'msg'=>'上传成功', 'imgUrl'=>$res_url]);
         }else{
             return json(['code'=>0, 'msg'=>'上传失败']);
 
