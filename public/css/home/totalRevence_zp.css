@@ -18,6 +18,7 @@
 .totalRevenue-wrap .thead-zp ul li{
     width: 25%;
     text-align: center;
+    margin: 0 0.1rem;
 }
 
 .totalRevenue-wrap .tbody-zp ul li{
@@ -32,7 +33,6 @@
     color: #fff;
     font-size: 0.26rem;
     background-color: #5462af;
-    margin: 0 0.1rem;
 }
 .totalRevenue-wrap .tbody-zp ul li div{
     width: 25%;
