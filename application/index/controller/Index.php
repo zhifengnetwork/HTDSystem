@@ -41,12 +41,12 @@ class Index extends HomeBase
     //提币页面
     public function present(){
 
-        // if (!session('userid')) {
-        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
-        //     header("refresh:1;url=$url");
-        // }      
-        // $userid = session('userid');
-        $userid = 14;
+        if (!session('userid')) {
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+            header("refresh:1;url=$url");
+        }      
+        $userid = session('userid');
+        // $userid = 14;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
