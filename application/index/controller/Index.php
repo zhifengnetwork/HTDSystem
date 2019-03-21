@@ -203,10 +203,10 @@ class Index extends HomeBase
     }
 
 
-    public function repick(){
-        $data = input();
-        dump($data);
-    }
+    // public function repick(){
+    //     $data = input();
+    //     dump($data);
+    // }
 
 
     public function upload(){

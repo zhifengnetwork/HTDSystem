@@ -92,10 +92,7 @@
 					{/foreach}
 					<!-- 列表项 -e -->
 				<!-- 加载中 -->
-				<div class="loading">
-					<img src="__PUBLIC__/images/public/loding.gif" alt="">
-					<span>加载中.....</span>
-				</div>
+				
 				<!-- 提取弹框-s -->
 				<div class="popover">
 						<div class="popover_content">
@@ -184,15 +181,14 @@
 					
 							<div class="voting_box clearfix">
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
-									<input type="hidden" name="cu_id1" id="cu_id1" value="">
+									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
-									<input type="hidden" name="cu_num1" id="cu_num1" value="">
+									<!-- <input type="hidden" name="cu_num" id="cu_num" class="cu_num" value=""> -->
 									<!-- <input type="hidden" name="static_wallet" id="static_wallet" value="">
 									<input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
-									<input type="hidden" name="bonus_wallet1" id="bonus_wallet" value="">
-									<input type="hidden" name="rate_wallet1" id="rate_wallet" value="">							
-								<span>复投数量:</span> <input id="voting_num" name="number" type="number"  /><br />
-								<input id="voting_convert" name="voting_convert" type="hidden" readonly  />
+									<!-- <input type="hidden" name="bonus_wallet" id="bonus_wallet" class="bonus_wallet" value="">
+									<input type="hidden" name="rate_wallet" id="rate_wallet" class="rate_wallet" value="">							 -->
+								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number"  /><br />
 							</div>
 							<!--000-->
 							
@@ -238,11 +234,11 @@
 						if (data.status == 1) {
 								// $('#popover_convert').val(data.result);
 								// alert(data['result']['cu_id'])
-								$('#cu_id1').val(data['result']['cu_id']);
-								$('#cu_num1').val(data['result']['cu_num']);
-								$('#bonus_wallet1').val(data['result']['bonus_wallet']);
+								$('.cu_id').val(data['result']['cu_id']);
+								// $('.cu_num').val(data['result']['cu_num']);
+								$('.bonus_wallet1').val(data['result']['bonus_wallet']);
 								// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
-								$('#rate_wallet1').val(data['result']['rate_wallet']);
+								$('.rate_wallet1').val(data['result']['rate_wallet']);
 								// $('#wallet_addr').val(data['result']['wallet_addr']);								
 								$('.voting').show()
 						} else {
@@ -419,8 +415,8 @@
 					//  console.log(val)
 					//  console.log(val1)
 					 // console.log($('#handleposition').serialize())
-					 var url = "{:url('Index/repick')}";
-					 var datas =  $('#handleposition1').serialize()+'&type='+val1;
+					 var url = "{:url('/index/wallet/confirmInvest')}";
+					 var datas =  $('#handleposition1').serialize()+'&wallet_flag='+val1+'&pay_way='+2;
 					 jq.getJSON(url,datas,function(data){						
 							 if (data.status == 1) {
 									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
