@@ -95,10 +95,13 @@ class Wallet extends HomeBase
         //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
         $total_money = $param['cu_num']*$currency_one['price']; //
-        
-        // 获取数据库单价
-        $cu_num =  $param['money']/$currency_one['price'];
-
+        if($pay_way==1){
+             // 获取数据库单价
+            $cu_num =  $param['money']/$currency_one['price'];
+        }else{
+            $cu_num = $param['cu_num'];
+        }
+       
         // 判断当前投资币种是否存在钱包表，如果没有插入一条
         $wallet_is = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
         
