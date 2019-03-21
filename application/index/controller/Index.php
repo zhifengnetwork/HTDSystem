@@ -23,6 +23,16 @@ class Index extends HomeBase
 
         $this->site_config = Cache::get('site_config');
     }
+    
+    public function my_message()
+    {
+    	return view();
+    }
+    
+    public function news_details()
+    {
+    	return view();
+    }
 
     public function index()
     {
