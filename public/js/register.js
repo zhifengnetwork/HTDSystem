@@ -154,25 +154,48 @@
         //发送验证码
         $(".send-code").click(function(){
             var reg = /^1[34578]\d{9}$/;  /*用户手机号*/
-            var phone = $(".phone")
+            var phone = $(".phone");
+            var phoneS = $(".phone").val();
             if(phone.val()==""){
-                phone.parent().parent().prev().addClass("mistake").html(`手机不能为空`)
+                phone.parent().parent().prev().addClass("mistake").html('手机不能为空')
                 return condition.phonestate=false
-            }else if(!reg.test(phone.val())){
-                phone.parent().parent().prev().addClass("mistake").html(`请输入正确的手机号码~`)
+            }
+            if(!reg.test(phone.val())){
+                phone.parent().parent().prev().addClass("mistake").html('请输入正确的手机号码~')
                 return condition.phonestate=false
-            }else
-               createCode()
-               $(".verify").focus();
-               console.log(code)
-                daojishi(60,$(this))
-                $(".phone").attr("disabled","disabled") 
-                return condition.phonestate=true
+            }
+
+            var sms_type = $('#sms_type_id').val();
+            // layer.msg(111); return false;
+            // 获取验证码
+            $.ajax({
+                url: '/index/login/getPhoneVerify',
+                type: 'post',
+                dataType: 'json',
+                data: {phone:phoneS, sms_type:sms_type},
+                success:function(msg){
+                    if(msg.code==200){
+                        layer.msg(msg.msg);
+                    }else{
+                        layer.msg(msg.msg);
+                        return false;
+                    }
+                }
+            });
+
+            
+            // createCode()
+            $(".verify").focus();
+            daojishi(60,$(this))
+            $(".phone").attr("disabled","disabled") 
+            return condition.phonestate=true
+            
+               
         })
         function daojishi(seconds,obj){
             if (seconds > 1){
                     seconds--;
-                    $(obj).html(seconds+"秒后重新获取 ").attr("disabled", true);
+                    $(obj).html(seconds+"重新获取 ").attr("disabled", true);
                     setTimeout(function(){
                         daojishi(seconds,obj);
                     },1000);
@@ -199,19 +222,19 @@
         })
     
         // 随机验证码
-        var code ; 
-        function createCode(){ 
-           code = "";  
-           var codeLength = 4;
-           var random = new Array
-        (0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R', 'S','T','U','V','W','X','Y','Z');  
-           for(var i = 0; i < codeLength; i++) {  
-            var index = Math.floor(Math.random()*36);
-            code += random[index];
-          }  
-           code = code.replace(/[^a-z\d]/ig,"")
-        return code;
-        } 
+        // var code ; 
+        // function createCode(){ 
+        //    code = "";  
+        //    var codeLength = 4;
+        //    var random = new Array
+        // (0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R', 'S','T','U','V','W','X','Y','Z');  
+        //    for(var i = 0; i < codeLength; i++) {  
+        //     var index = Math.floor(Math.random()*36);
+        //     code += random[index];
+        //   }  
+        //    code = code.replace(/[^a-z\d]/ig,"")
+        // return code;
+        // } 
      
       //注册
     //   $(".btn").click(function(){

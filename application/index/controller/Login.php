@@ -157,28 +157,16 @@ class Login extends Controller
     */
     public function getPhoneVerify(){
 
-        // $str = 'Success ok 3 14737212 1';
-        // $as = strpos($str,'ok');
-
-        // if($as != 8){
-        //     echo 1;die;
-        // }else{
-        //     echo 2;die;
-        // }
-        // $as = strpos($str,'ok');
-        // echo $as;die;
         // 传入类型：1注册 2提币；手机号
         $param = input('post.');
-        $sms_type = 1; //intval($param['sms_type']);
-        $param['phone'] = '18228178860';
+        $sms_type = intval($param['sms_type']);
         if(!$sms_type || !$param['phone']){
             return json(array('code' => 0, 'msg' => '缺少参数'));
         }
         $data = ['sms_type'=>$sms_type, 'phone'=>$param['phone']];
         $res = getPhoneCode($data);
         return $res;
-        p($res);
-
+        // p($res);
     }
 
 }
