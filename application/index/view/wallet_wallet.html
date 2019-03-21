@@ -100,10 +100,10 @@
 												上传发票
 												<input class="uploadFile" onchange="UpLoad(this)" type="file"  name="file"  value="0" accept="image/*" />
 											</p>
-
+											<input type="hidden" name="imgUrl" value="" id="imgUrl_id"/>
 											<span class="upload-tips uploading">
 												<span class="text">上传中</span>
-												<span class="dotting"></span>
+												<!-- <span class="dotting"></span> -->
 											</span>
 
 											<!--上传成功后更好类名succeed -->
@@ -247,13 +247,15 @@
 						<tr>
 							<th>日期</th>
 							<th>币种</th>
-							<th>总数量</th>
+							<th>数量</th>
+							<th>状态</th>
 						</tr>
 						{foreach name="user_order" item="vo"}
 						<tr>
 							<td>{$vo.create_time|date="Ymd",###}</td>
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
+							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
 						</tr>
 						{/foreach}
         			</table>
@@ -266,12 +268,16 @@
     		<!--背景-->
     		<div class="qb_bg"></div>
     		<div class="qb_bg_img" id="tg_qrcode">
+					<!-- 关闭按钮 -->
     			<img class="payment_wenma_sc"  src="__PUBLIC__/images/wallet/qbscq.png"/>
-    			<img class="payment_wenma_Two" src="__PUBLIC__/images/wallet/timg.jpg"/>
-    		</div>  	
-		</div>
-		<!-- 底部导航 -->        
-		<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+    			<img class="payment_wenma_Two" src=""/>
+    		</div>  
+			</div>
+			<!-- 底部导航 -->        
+			<div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+
+	<!--弹框-阴影-->
+	<!--<div class="shadow"></div>-->
 
     </div>
     
@@ -304,70 +310,7 @@
 			});
 
 
-			// 上传发票
-
-			/*对应 回显图片的下标*/
-			// var ind = null;
-			/**存储丢给后台图片(发票)*/
-			var dataImg = null;
-
-			/*上传图片*/
-			function UpLoad(e) {
-				//显示提示信息
-				$(".upload-tips").css("display","block");
-
-				var that = $(e);
-				if(e.files[0]) {
-					var f = e.files[0];
-					fileType = f.type;
-					if(/image\/\w+/.test(fileType)) {
-						var fileReader = new FileReader();
-						fileReader.readAsDataURL(f);
-						fileReader.onload = function(event) {
-							var result = event.target.result; //返回的dataURL   
-							var image = new Image();
-							image.src = result;
-							//若图片大小大于1M，压缩后再上传，否则直接上传  
-							if(f.size > 1024 * 1024) {
-								image.onload = function() {
-									//创建一个image对象，给canvas绘制使用
-									var canvas = document.getElementById("canvas");
-									canvas.width = image.width;
-									canvas.height = image.height; //计算等比缩小后图片宽高   
-									var ctx = canvas.getContext('2d');
-									ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
-									/* 图片 回显*/
-									// that.siblings(".preViewImg").eq(0).attr("src", newImageData);
-									console.log(newImageData);
-									dataImg	= newImageData;
-									$("#canvas").hide();
-									/*根据点击的下标 =>显示 '回显图片'*/
-									console.log('压缩:dataImg');
-								}
-							}else {
-								//创建一个image对象，给canvas绘制使用 
-								image.onload = function() {
-									/*图片 回显 */
-									// that.siblings(".preViewImg").eq(0).attr("src", result);
-									console.log(result);
-									dataImg = result;
-									console.log('没-压缩:dataImg');
-								}
-							}
-
-							/*ajax*/
-							console.log('图片的base64:',dataImg);
-
-						}
-					} else {
-						alert("请选择图片");
-					}
-
-				} else {
-					console.log('取消选择图片！')
-				}
-			}
+			
 
 		</script>
 

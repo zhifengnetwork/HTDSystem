@@ -79,6 +79,9 @@ class Wallet extends HomeBase
         if(!$param['cu_num']){
             return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
+        if(!$param['imgUrl']){
+            return json(array('code' => 0, 'msg' => '请上传发票'));
+        }
         // if(!$param['cu_price']){
         //     return json(array('code' => 0, 'msg' => '币种价格异常出错'));
         // }
@@ -140,11 +143,13 @@ class Wallet extends HomeBase
                     'price' => $currency_one['price'],
                     'total_money' => $param['money'],
                     'pay_way' => $pay_way,
-                    // 'voucher' => '111',
+                    'voucher' => $param['imgUrl'],
                     'create_time' => time()
                 );
                 $res = Db::name('buy_order')->insert($data);
 
+                // 入单激活会员
+                Db::name('user')->where(['id'=>$uid])->update(['activation'=>1]);
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
                     $res = Db::name('execute_order')->insert($data);
@@ -196,7 +201,7 @@ class Wallet extends HomeBase
      */
     private function user_order($user_id)
     {
-        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time')->where(['uid'=>$user_id])->select();
+        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time,is_check')->where(['uid'=>$user_id])->select();
         if($user_order){
             $currency_arr = $this->htd_currency();
             foreach($user_order as $k1=>$v2){
@@ -231,5 +236,18 @@ class Wallet extends HomeBase
             ->where(['a.uid'=>$uid])->select();
         }
         return $userWallet;
+    }
+
+
+    /**
+     * base64图片上传
+     * @param $base64_img
+     * @return array
+     */
+    public function getUploadImg(){
+                
+        $base64 = input('post.dataImg');
+        $res = uploadImg($base64);
+        return $res;
     }
 }

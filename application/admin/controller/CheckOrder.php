@@ -53,7 +53,7 @@ class CheckOrder extends AdminBase
 				$res2 = Db::name('user_wallet')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('cu_num', $order['num']);
 
 				// 修改订单状态buy_order
-				$res3 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>1]);
+				$res3 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>1,'check_time'=>time()]);
 				
 				// execute_order审核过一次不需要审核
 				if($execute_order_check['is_check']==0){

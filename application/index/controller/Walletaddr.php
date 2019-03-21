@@ -19,5 +19,4 @@ class Walletaddr extends HomeBase
         $this->assign('walletAddr',$walletAddr);
         return $this->fetch('wallet/addr');
     }
-
 }
