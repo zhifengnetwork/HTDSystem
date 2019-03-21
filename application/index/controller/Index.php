@@ -8,7 +8,8 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Session;
-
+use \think\Loader;
+use app\index\validate\Index as Indexv;
 class Index extends HomeBase
 {
     protected $site_config;
@@ -56,6 +57,7 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
         }      
         $userid = session('home.id');
+       
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -105,15 +107,22 @@ class Index extends HomeBase
 
     // 提币
     public function pick(){
-            $data   = input();        
+            $data       = input();
+            $validate   = new Indexv();
+            $base       = new Base();
 
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
+            
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
             $exchange_usd = arr2name($exchange_usd);
             $usd = $data['popover_convert'];
             // 提币最低金额
             $withdraw_min = $exchange_usd['withdraw_min']['value'];
-            $base = new Base();
+           
             switch ($data['type'])
             {
               case 0:
@@ -135,9 +144,11 @@ class Index extends HomeBase
             // 获取该类的剩余金额
             // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
             if($usd<$withdraw_min&&$data['type']!=1){
-                $base->ajaxReturn(['status' => 2, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);        
+                $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);        
             }else if($data['cu_num']<$data['number']){
-                $base->ajaxReturn(['status' => 3, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
+                $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
+            }else if(empty($data['qrcode_addr'])){
+                $base->ajaxReturn(['status' => 0, 'msg' =>'请选择图片', 'result' =>'']);
             }
             Db::startTrans();
             // 用于更新数据
@@ -211,12 +222,10 @@ class Index extends HomeBase
                               
     }
 
-
-    // public function repick(){
-    //     $data = input();
-    //     dump($data);
-    // }
-
+    public function repick(){
+        $data = input();
+        dump($data);
+    }
 
     public function upload(){
         $base64 = input('post.dataImg');
@@ -312,11 +321,18 @@ class Index extends HomeBase
         }
         
         $income = db('user_wallet')->where("uid = '".$home['id']."'")->select();
-        // dump($income);die;
-        if($income){
-            $this->assign('income',$income);
+        $moeny =0;
+        $cu =[];
+        foreach($income as $k => $v){
+            $cu[$k]['cu_id']= $v['cu_id'];
+
+            $moeny +=$v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
+            $cu[$k]['bonus_wallet'] = $moeny;
+        };
+        if($cu){
+            $this->assign('income',$cu);
         }
-        $this->assign('income',$income);
+        $this->assign('income',$cu);
         return view();
     }
 
