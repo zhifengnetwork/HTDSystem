@@ -428,11 +428,19 @@
         <!-- 全球分红 -->
         <div class="layui-tab-item">
             <div class="layui-inline">
-                <label class="layui-form-label" style="color:red;width: 300px;">注意：数据设置为0时，直接统计系统数据。</label>
+                <label class="layui-form-label" style="width: auto;color:red;">注意：天数为0时，不执行分红。</label>
             </div>
         	<div class="layui-form-item">
-                
-        		<div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">每</label>
+        			<div class="layui-input-inline" style="width: 100px;">
+        				<input type="text" name="global_par[profit_day]" autocomplete="off" class="layui-input" value="{$global_par.profit_day|default=''}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+        			</div>
+				<label class="layui-form-mid" style="width: auto;">天分红一次</label> 
+                <label class="layui-form-label" style="width: auto;">分红比例</label>
+        			<div class="layui-input-inline" style="width: 100px;">
+        				<input type="text" name="global_par[profit_rate]" autocomplete="off" class="layui-input" value="{$global_par.profit_rate|default=''}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+        			</div>
+				<label class="layui-form-mid" style="width: auto;">%</label>        		<!-- <div class="layui-inline">
         			<label class="layui-form-label">静态</label>
         			<div class="layui-input-inline" style="width: 100px;">
         				<input type="text" name="global_par[global_static]"  autocomplete="off" class="layui-input" value="{$global_par.global_static|default=0}">
@@ -443,7 +451,7 @@
         			<div class="layui-input-inline" style="width: 100px;">
         				<input type="text" name="global_par[global_dy]"  autocomplete="off" class="layui-input" value="{$global_par.global_dy|default=0}">
         			</div>
-        		</div>
+        		</div> -->
         	</div>
         </div>
 
