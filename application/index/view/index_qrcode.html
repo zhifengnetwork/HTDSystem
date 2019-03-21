@@ -136,7 +136,7 @@
 			
 			
 			<!--背景样式-->
-			<img src="__PUBLIC__/images/qrcode/1.jpg" id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
+			<img  id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
 			
 
 		</div>
@@ -146,7 +146,7 @@
 			<div class="bottomAlertBox">
 				<!--内容-->
 				<div class="BAlertContent">
-					<p class="BACTerm" alt="0">换个样式</p>
+					<p class="BACTerm styty" alt="0">换个样式</p>
 					<a class="down BACTerm" alt="1" href="" download="downImg">保存到手机</a>
 					<p class="BACTerm cancelYF" alt="2">取消</p>
 				</div>
@@ -221,25 +221,40 @@
 				}
 			});
 			
+			
 			//保存二维码成图片
-			var canvas2 = document.createElement("canvas");
-		    let _canvas = document.querySelector('div');
-		    var w = parseInt(window.getComputedStyle(_canvas).width);
-		    var h = parseInt(window.getComputedStyle(_canvas).height);
-		    //将canvas画布放大若干倍，然后盛放在较小的容器内，就显得不模糊了
-		    canvas2.width = w * 2;
-		    canvas2.height = h * 2;
-		    canvas2.style.width = w + "px";
-		    canvas2.style.height = h + "px";
-		    //可以按照自己的需求，对context的参数修改,translate指的是偏移量
-               var context = canvas2.getContext("2d");
-               context.translate(-0,-270);
-               context.scale(2, 2);
-		       html2canvas(document.querySelector('div'), { canvas: canvas2 }).then(function(canvas) {
-		        //document.body.appendChild(canvas);
-		        //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
-		        document.querySelector(".down").setAttribute('href', canvas.toDataURL());
-		    });
+			function getpic(){
+				var canvas2 = document.createElement("canvas");
+			    let _canvas = document.querySelector('div');
+			    var w = parseInt(window.getComputedStyle(_canvas).width);
+			    var h = parseInt(window.getComputedStyle(_canvas).height);
+			    //将canvas画布放大若干倍，然后盛放在较小的容器内，就显得不模糊了
+			    canvas2.width = w * 2;
+			    canvas2.height = h * 2;
+			    canvas2.style.width = w + "px";
+			    canvas2.style.height = h + "px";
+			    //可以按照自己的需求，对context的参数修改,translate指的是偏移量
+	               var context = canvas2.getContext("2d");
+	               context.translate(-0,-270);
+	               context.scale(2, 2);
+			       html2canvas(document.querySelector('div'), { canvas: canvas2 }).then(function(canvas) {
+			        //document.body.appendChild(canvas);
+			        //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+			        document.querySelector(".down").setAttribute('href', canvas.toDataURL());
+			    
+			    });
+			}
+			
+			
+			
+			
+			
+			
+		    
+		    
+		    
+		    
+		    
 			    
 			    
 			
@@ -284,9 +299,12 @@
 					/*利用 冒泡事件(不能使用 return false;)=> 关闭蒙版*/
 					if(methodD == 0) {
 						//切换背景代码
-						var random_bg = parseInt(7 * Math.random());
-						var bg = 'url(__PUBLIC__/image/qrcode/' + random_bg + '.jpg)';
+						var random_bg = parseInt(6 * Math.random());
+						var bg = 'url(__PUBLIC__/images/qrcode/' + random_bg + '.jpg)';
 						$("#pic").css("background-image", bg);
+//						调用截取二维码的方法
+				 		getpic();
+						
 					} 
 				})
 			})

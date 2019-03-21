@@ -8,11 +8,12 @@ use think\Db;
 use think\Session;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
-      public function index(){
+      public function index()
+      {
           $home = session('home');
             // dump($home['id']);die;
             if(!empty($home['id'])){
-                
+
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
 			}else{
@@ -21,13 +22,32 @@ class Login extends Controller
 			}
     
     }
+    public function captcha()
+    {
+        $m = new Captcha(Config::get('captcha'));
+
+        $img = $m->entry();
+        return $img;
+    }
    //登录
     public function login()
     {
+        $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
+        $site_config = unserialize($site_config['value']);
+        $yzmarr = explode(',', $site_config['site_yzm']);
+        if (in_array(4, $yzmarr)) {
+            $yzm = 1;
+        } else {
+            $yzm = 0;
+        }
         $arr = $this->request->post();
+        $data = $this->request->only( 'verify');
+        if ($yzm == 1) {
+            if (!captcha_check($data['verify'])) {
+                return json(array('flag' => 1, 'msg' => '验证码错误'));
+            }
+        }
         $res = DB::name('user')->where(['username'=>$arr['username']])->find();
-
-        // dump($arr);die;
         if($res){
             $password = md5($arr['password'].$res['salt']);
             // dump($res['password']);
