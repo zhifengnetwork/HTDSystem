@@ -94,6 +94,7 @@ class Currency extends AdminBase
         if($file1){
             //上传文件
             $res = DB::name('currency')->where('id',$id)->find();
+            dump($res);die;
             //判断文件是否存在
             if (is_file($res['wallet_qrcode'])) {
                 if ($res['wallet_qrcode']) {
