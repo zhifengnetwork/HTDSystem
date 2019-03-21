@@ -105,18 +105,16 @@ class Login extends Controller
                         "promotion"=>byTgNo(),
                         "salt"=>$arr['salt']
                     );
-
                     $res = DB::name('user')->insert($data);
                     // 生成钱包
                     if($res){
                         // $in_res = createWallet($res);
-                        if($in_res){
                             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
                             $data=array('msg'=>"注册成功",'flag'=>5,'url'=>$url);
-                        }else{
+                    }else{
                             $data=array('msg'=>"注册失败",'flag'=>5);
-                        }
                     }
+
                    
                 }else{
                     $data=array('msg'=>"推广码不存在,不能进行注册!!!",'flag'=>6);
