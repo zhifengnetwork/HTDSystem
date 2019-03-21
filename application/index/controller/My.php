@@ -13,9 +13,10 @@ class My extends Base
       public function my()
     {
         $home = session('home');
+
         if($home){
             setcookie("as",1,time()+6000);
-            $user = db('user')->where(['mobile'=>$home['mobile']])->find();
+            $user = DB::name('user')->where('username',$home['username'])->find();
             $id = 1;
         }else{
             $id = 2;

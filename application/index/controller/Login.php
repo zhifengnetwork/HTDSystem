@@ -25,7 +25,8 @@ class Login extends Controller
     public function login()
     {
         $arr = $this->request->post();
-        $res = DB::name('user')->where(['mobile'=>$arr['mobile']])->find();
+        $res = DB::name('user')->where(['username'=>$arr['username']])->find();
+
         // dump($arr);die;
         if($res){
             $password = md5($arr['password'].$res['salt']);
@@ -37,9 +38,11 @@ class Login extends Controller
                 Session::set('home',$res);
                 $url = "http://".$_SERVER ['HTTP_HOST'];
                 $data=array('msg'=>'登录成功','flag'=>0,'url'=>$url);
+            }else{
+                $data=array('msg'=>'密码填写错误!!!','flag'=>2);
             }
         }else{
-            $data=array('msg'=>'账号或密码填写错误!!!','flag'=>2);
+            $data=array('msg'=>'用户名填写错误!!!','flag'=>2);
         }
         $data = json_encode($data,1);
         echo $data;
@@ -75,29 +78,22 @@ class Login extends Controller
     public function regis()
     {
         $arr = $this->request->post();
-       
+
         if($arr){
            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
-            
             $arr['salt'] = generate_password(18);
             $arr['password'] = md5($arr['password'] . $arr['salt']);
             $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
-            $reac = DB::name('user')->where(['mobile'=>$arr['userPhone']])->find();
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
-
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
             }else if($reaa){
                 $data=array('msg'=>'用户名已经存在','flag'=>3);
-            }else if($reac){
-                $data=array('msg'=>'电话号码已经存在,请重新输入!!!','flag'=>2);
             }else if($reab){
                 $data=array('msg'=>'邮箱已经存在','flag'=>4);
-            }else if(!$reaa&&!$reab&&!$reac){
+            }else if(!$reaa&&!$reab){
                 $read=DB::name('user')->where(['promotion'=>$arr['rec']])->find();
-                
-                
                 if($read){
                     $data = array(
                         "username"=>$arr['userName'],
@@ -109,7 +105,7 @@ class Login extends Controller
                         "promotion"=>byTgNo(),
                         "salt"=>$arr['salt']
                     );
-                    
+
                     $res = DB::name('user')->insert($data);
                     // 生成钱包
                     if($res){
