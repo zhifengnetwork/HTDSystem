@@ -102,8 +102,7 @@
 							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 								<div class="popover_box clearfix">
 										<span>请选择提币类型:</span>
-										<span class="popover_click">请选择</span>
-										
+										<span class="popover_click">请选择 </span>▼
 										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
@@ -172,7 +171,7 @@
 						<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 							<div class="voting_box clearfix">
 									<span>请选择投入类型:</span>
-									<span class="voting_click">请选择</span>
+									<span class="voting_click">请选择  </span>▼
 									
 									<ul class="ul_box voting_ul">
 										<li data-val="1">本金</li>
@@ -230,27 +229,29 @@
 			
 			$(function(){
                //提取按钮
-				$(".popover_click,.voting_click").click(function(){
-					$(".ul_box").slideToggle("slow");
+				$(".popover_click").click(function(){
+					$(".popover_ul").slideToggle("slow");
 				});
+				//复投按钮
+				$(".voting_click").click(function(){
+					$(".voting_ul").slideToggle("slow");
+				});
+				
                //提取下拉框-类型 
 				$(".popover_ul>li").click(function(){
-				
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
-					$(".popover_ul").slideToggle()
-					console.log(index)
+					$(".popover_box>.popover_ul").slideToggle()
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
 				})
 				 //复投下拉框-类型 
 				$(".voting_ul>li").click(function(){
-				var $li = $(this).html();
-				var index =$(this).attr("data-val")
-				$(".voting_ul").slideToggle()
-				console.log(index)
-				$(".voting_click").html($li)
-				$(".voting_click").attr("data-id",index)
+					var $li = $(this).html();
+					var index =$(this).attr("data-val")
+					$(".voting_box>.voting_ul").slideToggle()
+					$(".voting_click").html($li)
+					$(".voting_click").attr("data-id",index)
 			})
 			})
 
@@ -341,9 +342,11 @@
 			, form = layui.form
 			,jq = layui.jquery;
 			jq('.true').click(function(){	 
-				   
+				     
 				    var val = $(".popover_click").attr("data-id") 
+					var val1 = $(".voting_click").attr("data-id") 
 					console.log(val)
+					console.log(val1)
 					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize()+'&type='+val;
