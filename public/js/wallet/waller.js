@@ -1,3 +1,5 @@
+/**投资按钮-状态 */
+// var stateJ = true;
 $(document).ready(function(){
 	//点击总投资-弹出框
 	$(".asset").on("click",function(){
@@ -55,11 +57,10 @@ $(document).ready(function(){
 	$(".shadow-wrap").bind("touchmove","touchstart",function(e){
 		e.preventDefault();
 })
-	/**投资按钮-状态 */
-	var stateJ = true;
+	
 	/*投资-按钮*/
 	$('.sum').on('click',function(){
-		
+		var obj=$(this);
 		// 获取投资金额
 		var money = $('.inp').val();
 		// 获取最小投资金额
@@ -101,29 +102,39 @@ $(document).ready(function(){
 		}else{
 			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
 		}
-
-		if(stateJ){
-			stateJ = false;
-			$.ajax({
-				url: '/index/wallet/confirmInvest',
-				type: 'post',
-				dataType: 'json',
-				data: dataJson,
-				success:function(msg){
-					if(msg.code==200){
-						// layer.msg(msg.msg);
-						layer.msg(msg.msg, function(){
-							location.reload();
-						});
-						stateJ = true;
-					}else{
-						layer.msg(msg.msg);
-						stateJ = true;
-						return false;
-					}
-				}
-			});
+		//防止快速双击 
+		var has_click=obj.attr('has-click');
+		if(has_click=='1'){
+			return false;
+		}else{
+			obj.attr('has-click','1');
 		}
+		$.ajax({
+			url: '/index/wallet/confirmInvest',
+			type: 'post',
+			dataType: 'json',
+			data: dataJson,
+			success:function(msg){
+				if(msg.code==200){
+					obj.attr('has-click','0');
+					layer.open({
+						content: msg.msg,
+						icon: 1,
+						skin:'my-layer-cancelcheck-btn',
+						closeBtn: 0,
+						shade:0.3,
+						yes: function(index){
+						  layer.close(index); //如果设定了yes回调，需进行手工关闭
+						  location.reload();
+						}
+					});
+				}else{
+					obj.attr('has-click','0');
+					layer.msg(msg.msg);
+					// stateJ = true;
+				}
+			}
+		});
 		
 
 		// $(".hideEvm").show();

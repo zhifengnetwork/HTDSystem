@@ -181,8 +181,8 @@ class My extends Base
         if ($info) {
             Session('home',null);
 //            $url = $_SERVER['HTTP_HOST']."/index/my/index";
-
-            return json_encode(array('msg'=>'修改成功','flag'=>1));
+            $url = "http://".$_SERVER ['HTTP_HOST'];
+            return json_encode(array('msg'=>'修改成功','flag'=>1,'url'=>$url));
         } else {
 
             return json_encode(array('msg'=>'修改失败','flag'=>0));

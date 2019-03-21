@@ -41,12 +41,12 @@ class Index extends HomeBase
     //提币页面
     public function present(){
 
-        if (!session('userid')) {
-            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
-            header("refresh:1;url=$url");
-        }      
-        $userid = session('userid');
-        // $userid = 14;
+        // if (!session('userid')) {
+        //     $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/";
+        //     header("refresh:1;url=$url");
+        // }      
+        // $userid = session('userid');
+        $userid = 14;
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
@@ -120,8 +120,8 @@ class Index extends HomeBase
             }
             // 获取该类的剩余金额
             // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
-            if($usd<=$withdraw_min&&$data['type']!=1){
-                $base->ajaxReturn(['status' => 2, 'msg' =>'货币大于50美元才能体现', 'result' =>'']);        
+            if($usd<$withdraw_min&&$data['type']!=1){
+                $base->ajaxReturn(['status' => 2, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);        
             }else if($data['cu_num']<$data['number']){
                 $base->ajaxReturn(['status' => 3, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
             }
