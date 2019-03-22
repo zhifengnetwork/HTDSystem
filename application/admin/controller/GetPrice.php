@@ -3,7 +3,7 @@ namespace app\admin\controller;
 
 use think\Db;
 
-class CheckOrder 
+class GetPrice
 {
 	
 	public function getPriceApi(){
