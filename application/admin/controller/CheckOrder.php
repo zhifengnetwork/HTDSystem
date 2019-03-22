@@ -75,6 +75,8 @@ class CheckOrder extends AdminBase
 				Db::rollback();
 				return json(array('code' => 0, 'msg' => '操作异常，请联系管理员'));
 			}
-    }
+	}
+	
+	// 用户提取对应币种本金
    
 }

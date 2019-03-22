@@ -20,7 +20,6 @@ body {
 	width: 100%;
     min-height: 100vh;
 	font-size: 0.24rem;
-	font-family:"PingFangMedium";
 	background: -moz-linear-gradient(top, #142785 0%, #101b59 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #142785), color-stop(100%, #101b59));
 	background: -webkit-linear-gradient(top, #142785 0%, #101b59 100%);
