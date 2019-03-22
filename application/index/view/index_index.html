@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
-    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=999">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css?v=111">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=111">
 </head>
 
 <body>
@@ -95,19 +95,19 @@
         <div class="bottomNavWrap container" id="bottomNavWrap" data-id=""></div>
 
         <!-- 蒙层 -->
-        <div class="mode"></div>
-        <!-- 公告对话框 -->
-        <div class="dialog-notice">
-            <div class="dialog-header">
-                <h3>公告</h3>
-                <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
-            </div>
-            <div class="dialog-content">
-                <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复
-                </p>
-            </div>
-            <div class="dialog-btn">
-                <a href="javascript:void(0)">确定</a>
+        <div class="mode">
+            <!-- 公告对话框 -->
+            <div class="dialog-notice">
+                <div class="dialog-header">
+                    <h3>公告</h3>
+                    <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
+                </div>
+                <div class="dialog-content">
+                    <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
+                </div>
+                <div class="dialog-btn">
+                    <a href="#">查看详情</a>
+                </div>
             </div>
         </div>
 
@@ -137,19 +137,14 @@
                 $(".mode").show();
                 $(".dialog-notice").show();
                 stop(".mode");
+                document.body.style.overflow = 'hidden';
             }, 1000)
-
-            //阻止冒泡，点击弹框禁止页面滚动
-            $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
-                event.stopPropagation();  
-                document.body.style.overflow = 'hidden';//禁止页面滚动
-            })
 
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
-                document.body.style.overflow = ''; //出现滚动条
+                document.body.style.overflow = '';
             })
 
         })
