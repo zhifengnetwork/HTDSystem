@@ -93,7 +93,7 @@
 										<span class="popover_click">请选择 </span>
 										<img src="__PUBLIC__/images/xia.png" class="down">
 										<ul class="ul_box popover_ul">
-											<li data-index="0">请选择</li>
+											<!-- <li data-index="0">请选择</li> -->
 											<li data-index="1">本金</li>
 											<li data-index="2">收益</li>
 											<li data-index="3">分红</li>
@@ -113,7 +113,7 @@
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
 										<input type="hidden" name="sms_type" id="sms_type" value="">
 										<input type="hidden" name="verify" id="verify" value="">						
-									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="除本金以外大于等于{$withdraw_min}美金可提取" /><br />
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" /><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
 								<!--000-->
@@ -258,30 +258,30 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
-			function phonecode(phoneS){
-				        // var phone= {$phone}
-						// 获取验证码
-						// console.log(phoneS)
-						// return false;
-						var a = '13612560591';
-						$.ajax({
-							url: '/index/index/getPhoneVerify',
-							type: 'post',
-							dataType: 'json',
-							data: {phone:phoneS, sms_type:2},
-							success:function(msg){
-							// console.log(msg);
-                            // $('#sms_type').val(1);
-							// $('#verify').val(msg.code);
-							if(msg.code!=0){
-							layer.msg('已发送');
-							}else{
-							layer.msg(msg.msg);
-							return false;
-							}
-						}
-						});
-			}
+			// function phonecode(phoneS){
+			// 	        // var phone= {$phone}
+			// 			// 获取验证码
+			// 			// console.log(phoneS)
+			// 			// return false;
+			// 			var a = '13612560591';
+			// 			$.ajax({
+			// 				url: '/index/index/getPhoneVerify',
+			// 				type: 'post',
+			// 				dataType: 'json',
+			// 				data: {phone:phoneS, sms_type:2},
+			// 				success:function(msg){
+			// 				// console.log(msg);
+            //                 // $('#sms_type').val(1);
+			// 				// $('#verify').val(msg.code);
+			// 				if(msg.code!=0){
+			// 				layer.msg('已发送');
+			// 				}else{
+			// 				layer.msg(msg.msg);
+			// 				return false;
+			// 				}
+			// 			}
+			// 			});
+			// }
 
 
 			//复投按钮
@@ -330,11 +330,19 @@
 				
                //提取下拉框-类型 
 				$(".popover_ul>li").click(function(){
+				    
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
 					$(".popover_box>.popover_ul").slideToggle()
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
+
+                    if(index==1){
+                        //   var a = $('#popover_num').val();
+						  $('#popover_num').attr('placeholder','本金提币不限额')	  
+					}else{
+						  $('#popover_num').attr('placeholder','大于等于{$withdraw_min}美金可提取')	  
+					}					
 				})
 				 //复投下拉框-类型 
 				$(".voting_ul>li").click(function(){
@@ -460,7 +468,6 @@
 				}
 			});			
 		}	
-
 
 		layui.use(['layer','jquery','form'],function(){
 			var layer = layui.layer
