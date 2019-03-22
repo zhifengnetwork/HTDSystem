@@ -157,6 +157,7 @@
     top: 0;
     left: 0;
     z-index: 99;
+    overflow: auto;
     display: none;
 }
 /* 公告弹框 */
@@ -190,13 +191,15 @@
     display: block;
 }
 .dialog-notice .dialog-content{
-    max-height: 2rem;
+    min-height: 1rem;
+    max-height: 6rem;
     padding: 0.1rem 0;
     box-sizing: border-box;
     font-size: 0.3rem;
-    margin: 0.1rem auto 0.4rem;
+    margin: 0.2rem auto 0.3rem;
     overflow-y: auto;
 }
+
 .dialog-notice .dialog-btn{
     display: flex;
     justify-content: center;

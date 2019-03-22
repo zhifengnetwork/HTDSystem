@@ -16,8 +16,9 @@ function jumpFun(_url){
 
 //阻止默认事件，禁止滑动
 function stop(name) {
-	var $name = $(name)
+	var $name = $(name);
 	$name.bind("touchmove","touchstart",function(e){
 		e.preventDefault();
 	})
 }
+

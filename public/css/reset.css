@@ -4,15 +4,26 @@
 	padding: 0;
 }
 /*字体库*/
+<<<<<<< HEAD
 /*@font-face{
 	font-family: 'PingFangMedium';
 	src: "/public/font/PingFangMedium.ttf"
 }*/
+=======
+/* @font-face{
+	font-family: 'PingFangMedium';
+	src: "/public/font/PingFangMedium.ttf"
+} */
+>>>>>>> 28eed2f7b1c653cd247e1ffaf0b8585ef8f116e6
 body {
 	width: 100%;
     min-height: 100vh;
 	font-size: 0.24rem;
+<<<<<<< HEAD
 	/*font-family:"PingFangMedium";*/
+=======
+	/* font-family:"PingFangMedium"; */
+>>>>>>> 28eed2f7b1c653cd247e1ffaf0b8585ef8f116e6
 	background: -moz-linear-gradient(top, #142785 0%, #101b59 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #142785), color-stop(100%, #101b59));
 	background: -webkit-linear-gradient(top, #142785 0%, #101b59 100%);
