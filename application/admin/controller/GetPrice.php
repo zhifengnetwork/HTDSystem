@@ -31,7 +31,7 @@ class GetPrice
 			// update币种表对应币种价格
 			if($currency['status']=='ok' && $currency['price']>0){
 				$updates['price'] = $currency['price'];
-				$updates['update_time'] = $currency['update_time'];
+				$updates['update_price_time'] = time();
 				Db::name('currency')->where(['alias_name'=>$currency['cu_name']])->update($updates);
 			}
 		}
