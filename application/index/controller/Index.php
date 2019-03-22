@@ -9,6 +9,7 @@ use think\Db;
 use think\Request;
 use think\Session;
 use \think\Loader;
+use Captcha\Captcha;
 use app\index\validate\Index as Indexv;
 class Index extends HomeBase
 {
@@ -64,16 +65,28 @@ class Index extends HomeBase
                 ->where('uid',$userid)
                 ->select();
                 // dump($list);
+
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','withdraw_min')->select();
         $exchange_usd = arr2name($exchange_usd);
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
+
         $this->assign('withdraw_min',$withdraw_min);
         $this->assign('list',$list);
         $this->assign('phone',session('home.mobile'));
         $this->assign('uid',$userid);
-
+        // $captcha = new Captcha();
+        // $captcha->entry();
         return $this->fetch();        
     } 
+
+
+    public function captcha()
+    {
+        $m = new Captcha(Config::get('captcha'));
+
+        $img = $m->entry();
+        return $img;
+    }
 
     // 点击提取按钮
     public function ajaxsend(){
@@ -109,29 +122,30 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
+            dump($data);exit;
             // dump($data);
             // exit;
             $validate   = new Indexv();
             $base       = new Base();
-            if(!$data['verify']){
-                $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
-            }
+            // if(!$data['verify']){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
+            // }
 
-            $checkData['sms_type'] = $data['sms_type'];
-            $checkData['code'] = $data['verify'];
+            // $checkData['sms_type'] = $data['sms_type'];
+            // $checkData['code'] = $data['verify'];
 
-            $checkData['phone'] =  session('home.mobile');
-            //  session('home.mobile');
+            // $checkData['phone'] =  session('home.mobile');
+            // //  session('home.mobile');
               
-            $res = checkPhoneCode($checkData);
-            if($res['code']==0){
-                $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            }
+            // $res = checkPhoneCode($checkData);
+            // if($res['code']==0){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
+            // }
 
-            if(!$validate->check($data)){
-                $msg = $validate->getError();
-                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            }
+            // if(!$validate->check($data)){
+            //     $msg = $validate->getError();
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            // }
             
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -179,39 +193,7 @@ class Index extends HomeBase
             if($cu_type === 'cu_num'){
               
                 $charge = numberByRetain($data['number']/100*5, 8);
-                
-                // // 剩余货币数量为0
-                // if($res<=0){
-                    
-                //     $can = $data['cu_num'];
-                //     // 剩余货币数量为0
-                
-                //     try{
-                //         $where1 = [
-                //             'uid'      => $data['uid'],
-                //             'cu_id'    => $data['cu_id'],
-                //             'cu_num'   => $data['cu_num'],
-                //             // 'cu_num'   => $data['number'],
-                //             'tb_charge'=> $charge,
-                //             'note'     => $data['note'],
-                //             // 'qrcode_addr' => $data['number'],    
-                //         ];      
-
-                //         Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['cu_num']);
-                //         // update([$cu_type => 0]);
-                //         Db::name('execute_order')->where($where)->setDec('num',$data['cu_num']);
-                //         // 用于插入数据
-                //         Db::table('htd_user_extract')->insert($where1);
-                //         // 提交事务
-                //         Db::commit();
-                //         $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
-                //     } catch (\Exception $e) {
-                //         // 回滚事务
-                //         Db::rollback();
-                //         $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
-                //     }                            
-                // }
-         
+            
                 try{
                     // $can = $data['cu_num']-$charge;
                     $where1 = [
@@ -230,13 +212,22 @@ class Index extends HomeBase
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
+                    // $suc_money = session('home');                                    
                     // 提交事务
                     Db::commit();
-                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                    // dump(session('home.username'));
+                    // $u_name = session('home.username');
+                    $suc_data = [
+                        'suc_name'  => session('home.username'),
+                        'su_num'=> $data['number'],
+                        'su_time'   => time(),
+                        'su_charge' => $charge 
+                    ];
+                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);    
                 } catch (\Exception $e) {
                     // 回滚事务
                     Db::rollback();
-                    $base->ajaxReturn(['status' => 0, 'msg' =>'操作失败', 'result' =>'']);
+                    $base->ajaxReturn(['status' => 0, 'msg' =>$e->getMessage(), 'result' =>'']);
                 }    
 
             }else{

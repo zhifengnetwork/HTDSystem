@@ -60,6 +60,7 @@ class Wallet extends HomeBase
         }
         $uid = session('home.id');
         $param = input('post.');
+        dump($param);
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
 
@@ -112,6 +113,13 @@ class Wallet extends HomeBase
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
             if($is_cu_order['cu_id'] && $pay_way==2){
+
+                if (!captcha_check($param['verify'])) {
+                    return json(array('code' => 0, 'msg' => '验证码错误'));
+                    // return json(array('code' => 0, 'msg' => '收益不足'));
+                }
+
+
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
