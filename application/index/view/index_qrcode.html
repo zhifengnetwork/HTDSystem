@@ -67,7 +67,9 @@
 				-moz-box-sizing: border-box;
 				width: 100%;
 				height: .8rem;
-				font: .3rem/.8rem "PingFangMedium";
+				/*font: .3rem/.8rem "PingFangMedium";*/
+				font-size: .3rem;
+				line-height: .8rem;
 				color: #333;
 				text-align: center;
 				letter-spacing: .02rem;
@@ -122,22 +124,22 @@
 	       <div class="header-zp">
             <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
             <h3>分享</h3>
-            <span class="share-btn bottmBut"><img src="__PUBLIC__/images/public/share-btn-zp.png" /></span>
+            <!--点击保存到手机和切换样式的按钮-->
+            <!--<span class="share-btn bottmBut"><img src="__PUBLIC__/images/public/share-btn-zp.png" /></span>-->
            </div>
 	        
 	        
 			<input id="text" type="text" value="{$data.url}" style="width:80%;" hidden /><br />
-
-			<!--<div >
-				<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 50%;left: 50%;transform: translate(-40%,70%);"></div>
-			</div>-->
+			
+            <p style="padding-top: 2.7rem; width: 100%; text-align: center;font-size: .3rem;color: white;font-family:'微软雅黑';">我的推广二维码</p>
+			
 			
 			<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;"></div>
 			
 			
 			<!--背景样式-->
 
-			<img  id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;" src=" " onerror="this.src='__PUBLIC__/images/qrcode/3.jpg'" />
+			<img  id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;" src="__PUBLIC__/images/qrcode/white.png" onerror="this.src='__PUBLIC__/images/qrcode/3.jpg'" />
 
 			<img id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
 
@@ -273,7 +275,7 @@
 						'bottom': -($('.bottomAlertBox').height())
 					});
 					/*底部页面-可以滑动*/
-					move();
+					
 				})
 				/*选择-对应项*/
 				$('.BACTerm').on('click', function() {
