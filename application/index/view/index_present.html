@@ -164,7 +164,7 @@
 					<div class="true_popUp">
 						<!-- 弹框标题 -->
 						<div class="popUp_titel">
-							交易成功
+							提币成功
 						</div>
 						<!-- 弹框内容 -->
 						<div class="popUp_content">
@@ -173,19 +173,21 @@
 							<!-- 内容主体 -->
 							<p>
 								<span>用户名</span>
-								<span>ICEY-I-SEE</span>
+								<span class="user"></span>
 							</p>
 							<p>
-								<span>总额度</span>
-								<span>999999999999999</span>
+								<span>提币额度</span>
+								<span class="total">
+									
+								</span>
 							</p>
 							<p>
 								<span>手续费</span>
-								<span>23333333</span>
+								<span class="charge"></span>
 							</p>
 							<p>
 								<span>日期</span>
-								<span>03-22-2019&nbsp;12:09:09</span>
+								<span class="time"></span>
 							</p>
 						</div>
 						<!-- 弹框按钮 -->
@@ -238,12 +240,7 @@
 							</div>
 							
 							<!--000-->
-							
-							
-							<!-- <div class="voting_affirm">
-								<span class="retrue">复投</span>
-								<span class="false">取消</span>
-							</div> -->
+	
 						</form>
 					</div>
 				</div>
@@ -376,7 +373,7 @@
 				$('.true').click(function() {
 					$('.popover').hide();
 					$('.voting').hide();
-					$('.true_popUp_wrap').show();
+					
 				});
 				//弹框取消
 				$('.false').click(function() {
@@ -453,11 +450,19 @@
 					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
-									layer.msg(data.msg, {icon: 1, time: 2000}, function(){
+									// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
 										console.log(data.result)	
-										console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
+										$(".user").html(data.result['suc_name']);
+										$(".total").html(data.result['su_num']);
+										$(".charge").html(data.result['su_charge']);
+										$(".time").html(data.result['su_time']);
+										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
+										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
+										$('.true_popUp_wrap').show();
+										
+										// console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
 									// window.location.reload(); 
-								});
+								// });
 							}
 							else {
 									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
