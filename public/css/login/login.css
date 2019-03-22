@@ -2,6 +2,10 @@
 登录样式表
 */
 body {
+    width: 100%;
+    height: 100vh;
+    font-size: 0.24rem;
+    font-family: "PingFangMedium";
     background: -moz-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2866a3), color-stop(100%, #5ebfc8));
     background: -webkit-linear-gradient(top, #2866a3 0%, #5ebfc8 100%);
@@ -163,6 +167,7 @@ color: #b8c9cf
     line-height: .5rem;
     text-align: center;
     width: 2rem;
+    font-size: .24rem;
 }
 /* 验证框 */
 .from-group .from-verify{
