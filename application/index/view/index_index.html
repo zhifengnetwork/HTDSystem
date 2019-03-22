@@ -34,7 +34,7 @@
 
         <!-- 公告 -->
         <div class="notice-zp">
-            <a href="{:url('index/my_message')}">EOS充值提现已全面恢复</a>
+            <a href="{:url('index/my_message')}">{$res['title']}</a>
         </div>
 
         <!-- 菜单导航 -->
@@ -103,10 +103,11 @@
                     <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
                 </div>
                 <div class="dialog-content">
-                    <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
+                    <p>{$res['title']}</p>
+
                 </div>
                 <div class="dialog-btn">
-                    <a href="#">查看详情</a>
+                    <a href="{:url('index/news_details',['id'=>$res['id']])}">查看详情</a>
                 </div>
             </div>
         </div>
@@ -130,23 +131,58 @@
                 spaceBetween: 30,
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
-            });
-
-            //公告弹框
-            setTimeout(function () {
+            }); 
+            var now = new Date().getTime() //当前的时间
+            var alread  //现在的时间  3600000
+         function ttmm(aa,bb){
+                if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
+                    alread=parseInt(sessionStorage.getItem('begin'))
+                    console.log(now)
+                    console.log(alread)
+                    console.log(now-alread)
+                }
+                if(now-alread>5000){
+                     console.log(now-alread>5000)
+                    $(".mode").show();
+                    $(".dialog-notice").show();
+                    stop(".mode");
+                    sessionStorage.clear()
+                }
+                 //sessionStorage.clear()
+            } 
+            setTimeout(ttmm(now,alread), 1000)
+            //公告弹框 
+            setTimeout(function (){
                 $(".mode").show();
                 $(".dialog-notice").show();
                 stop(".mode");
                 document.body.style.overflow = 'hidden';
             }, 1000)
 
+
+             var time = new Date().getTime()
+             
+            //阻止冒泡，点击弹框禁止页面滚动
+            $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
+                event.stopPropagation();  
+                document.body.style.overflow = 'hidden';//禁止页面滚动
+            })
+
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
-                document.body.style.overflow = '';
+                sessionStorage.setItem('begin',time)
+                console.log(time)
+                console.log( sessionStorage.getItem('begin'))
+                document.body.style.overflow = ''; //出现滚动条
             })
-
+        
+            
+            
+             
+           
+            
         })
 
     </script>

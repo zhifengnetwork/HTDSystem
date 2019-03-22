@@ -22,47 +22,15 @@
 			<div class="wtf_wrap">
 				<div class="wtf_item">
 					<!--循环-->
+					{foreach name="res" as item="vo"}　
+					<div class="wtf_item1" onclick="window.location.href = '{:url('index/news_details',[\'id\'=>$vo[\'id\']])}'">
+						<p>{$vo['title']}</p>
+						<p>{$vo['updatetime']|date="Y-m-d",###}</p>
 					<div class="wtf_item1" onclick="window.location.href = '{:url('index/news_details')}'">
-						<p class="publicEllipsis">EOS充值提现已全面恢复正常EOS充值提现已全面恢复正常EOS充值提现已全面恢复正常EOS充值提现已全面恢复正常EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
 					</div>
+					{/foreach}
 					<!--删-->
-					<div class="wtf_item1">
-						<p>关于暂停EOS充币提币的通知</p>
-						<p>02-25</p>
-					</div>
-					<div class="wtf_item1">
-						<p>关于服务器扩容优化的通知</p>
-						<p>01-31</p>
-					</div>
-					<div class="wtf_item1">
-						<p>关于第一批糖果空头的通知</p>
-						<p>01-26</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
-					<div class="wtf_item1">
-						<p>EOS充值提现已全面恢复正常</p>
-						<p>03-03</p>
-					</div>
+
 					<!--删-->
 				</div>
 			</div>
