@@ -122,7 +122,7 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
-            dump($data);exit;
+            // dump($data);exit;
             // dump($data);
             // exit;
             $validate   = new Indexv();
@@ -209,6 +209,7 @@ class Index extends HomeBase
                     // $subtract = $data['number']+$charge;
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
                     // update([$cu_type => 0]);
+                    // 减掉相应数量
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
