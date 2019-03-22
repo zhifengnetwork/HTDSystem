@@ -6,6 +6,7 @@ use app\index\controller\Base;
 use think\Cache;
 use think\Controller;
 use think\Db;
+use think\Config;
 use think\Request;
 use think\Session;
 use \think\Loader;
