@@ -2200,8 +2200,8 @@ function getPhoneCode($data){
     $where['create_time'] = array('<', time()+$limit_time);
     $list = Db::name('verify_code')->where($where)->select();
     $cnt=count($list);
-    // 1分钟20调条
-	if($cnt>20){
+    // 1分钟
+	if($cnt>1){
         return array('code' => 0, 'msg' => '获取验证码过于频繁，请稍后再试');
 	}
 	$code = rand(123456,999999);
@@ -2327,5 +2327,38 @@ function curl_post($url,$data='',$timeout=30){
     curl_close($ch);
     unset($ch);
     return $result;
+}
+
+
+// 用户提取对应币种本金时,获取htd_execute_order里面对应币种的create_time,
+// 如果当前时间小于第一次投资记录时间+6个月，则当前提币数量*单价的人民币总额去减掉股权。
+function checkStock($uid,$cu_id,$cu_num){
+    if(!$uid || !$cu_id || !$cu_num){
+        return false;
+    }
+    $stock_one = Db::name('execute_order')->field('id,price,create_time')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+    if(!$stock_one){
+        return true;
+    }
+    // 对比时间
+    $end_time = $stock_one['create_time']+(36000*180);
+    if(time()<$end_time){
+        return true;
+    }
+    // 计算总金额
+    $total_money = $cu_num*$stock_one['price'];
+    if(!$total_money){
+        return true;
+    }
+    // 扣减股权
+    $user = Db::name('user')->field('id,stock_rights')->where(['id'=>$uid])->find();
+    // 如果当前用户的股权小于提币的转换金额，则全部扣除stock_rights
+    if($user['stock_rights']<$total_money && $user['stock_rights']>0){ 
+        $res = Db::name('user')->where(['id'=>$uid])->setDec('stock_rights', $user['stock_rights']);
+    }
+    if($user['stock_rights'] >= $total_money){
+        $res = Db::name('user')->where(['id'=>$uid])->setDec('stock_rights', $total_money);
+    }
+    return $res;
 }
 
