@@ -130,15 +130,36 @@
                 spaceBetween: 30,
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
-            });
-
-            //公告弹框
-            setTimeout(function () {
+            }); 
+            var now = new Date().getTime() //当前的时间
+            var alread  //现在的时间  3600000
+         function ttmm(aa,bb){
+                if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
+                    alread=parseInt(sessionStorage.getItem('begin'))
+                    console.log(now)
+                    console.log(alread)
+                    console.log(now-alread)
+                }
+                if(now-alread>5000){
+                     console.log(now-alread>5000)
+                    $(".mode").show();
+                    $(".dialog-notice").show();
+                    stop(".mode");
+                    sessionStorage.clear()
+                }
+                 //sessionStorage.clear()
+            } 
+            setTimeout(ttmm(now,alread), 1000)
+            //公告弹框 
+            setTimeout(function (){
                 $(".mode").show();
                 $(".dialog-notice").show();
                 stop(".mode");
             }, 1000)
 
+
+             var time = new Date().getTime()
+             
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  
@@ -149,9 +170,17 @@
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
+                sessionStorage.setItem('begin',time)
+                console.log(time)
+                console.log( sessionStorage.getItem('begin'))
                 document.body.style.overflow = ''; //出现滚动条
             })
-
+        
+            
+            
+             
+           
+            
         })
 
     </script>
