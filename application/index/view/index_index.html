@@ -92,7 +92,7 @@
         </div>
 
         <!-- 底部导航 -->
-        <div class="bottomNavWrap container" id="bottomNavWrap" data-id=""></div>
+        <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
 
         <!-- 蒙层 -->
         <div class="mode"></div>
@@ -111,7 +111,6 @@
             </div>
         </div>
 
-
     </div>
 
     <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
@@ -122,7 +121,7 @@
 
     <script>
         $(document).ready(function () {
-
+        	
             var swiper = new Swiper('.banner-wrap-zp', {
                 loop: true,
                 pagination: '.swiper-pagination',
@@ -131,14 +130,45 @@
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
             });
-
-            //公告弹框
-            setTimeout(function () {
-                $(".mode").show();
-                $(".dialog-notice").show();
-                stop(".mode");
-            }, 1000)
-
+            /*0000*/
+			/*获取当前时间=>转换为时间戳*/
+			function time() { 
+				var today = new Date(); 
+				var hou; 
+				if (today.getHours() < 12 && today.getHours() >= 0) { 
+					hou = today.getHours(); 
+				} else if (today.getHours() <= 24 && today.getHours() > 12) { 
+					hou = today.getHours() - 12; 
+				} 
+				/*填上 01:01:01*/
+				/*时*/
+				var timeText = hou > 9 ? hou : '0' + hou;
+				/*分*/
+				var branchText = today.getMinutes() > 9 ? today.getMinutes() : '0' + today.getMinutes();
+				/*秒*/
+				var secondText = today.getSeconds() > 9 ? today.getSeconds() : '0' + today.getSeconds();
+				/*获取当前时间*/
+				var currentTime = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + " " + timeText + ":" + branchText + ":" + secondText;
+				
+				/**/
+				var timeStamp = new Date(currentTime);
+				console.log(timeStamp.getTime()/1000);
+				return timeStamp.getTime()/1000;
+			}
+			time();
+			/*判断是否登陆*/
+			if($('#bottomNavWrap').attr('data-id') == '1'){
+				/**
+				 * 一个小时时间戳间距=> 359;
+				 * 两个小时时间戳间距=> 719;
+				 * **/
+				/*当前时间=>关闭的时间是否是2个时间的间隔*/
+				if((time()-719) >= window.localStorage.getItem("stamp")){
+					$(".mode").show();
+					$(".dialog-notice").show();
+				}
+			}
+			
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  
@@ -150,6 +180,9 @@
                 $(".mode").hide();
                 $(".dialog-notice").hide();
                 document.body.style.overflow = ''; //出现滚动条
+                /*当前时间戳=>写入localStorage中*/
+				window.localStorage.setItem('stamp',time());
+                
             })
 
         })
