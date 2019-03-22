@@ -210,7 +210,7 @@
 									</ul>
 							</div>
 					
-							<div class="voting_box clearfix">
+							<div class="voting_box vo_mg clearfix">
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
@@ -222,14 +222,16 @@
 							<div class="voting_box clearfix">
 							
 								<div class="lj_p_address">
-									<h2>验证码:</h2>
-									<input class="lj_input3" type="text" name="verify"  />
+									<h2 class="h2_input4">验证码:</h2>
+									<input class="lj_input4" type="text" name="verify"  />
+									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" />
 								</div>
 
-									<!-- <div>{:captcha_img()}</div> -->
+									
+									 
 							</div>
 							<div class="voting_verify">
-									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>
+									<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
 								<!-- <button class="btn">验证码</button> -->
 								<div class="voting_affirm">
 									<span class="retrue">复投</span>
