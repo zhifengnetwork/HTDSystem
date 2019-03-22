@@ -100,7 +100,7 @@
 }
 .text{
 	
-	display: inline-block;
+	display: inline-block; 
 	width: 3.9rem;
 	height: .39rem;
 	line-height: .39rem;
@@ -136,7 +136,7 @@
 	width: 100%;
 	color: white;
 	margin-top: .7rem;
-	padding-bottom: .7rem;
+	padding-bottom: 1.2rem;
 	
 
 }

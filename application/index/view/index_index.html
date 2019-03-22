@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css"/>
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=666">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=999">
 </head>
 <body>
     <div class="wrapper">
@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li class="itemColor-8">
-                    <a href="javascript:void(0);">
+                    <a href="{:url('Index/stock')}">
                         <img src="__PUBLIC__/images/home/stock-icon.png" alt="">
                         <span>当前股权</span>
                     </a>
@@ -93,21 +93,21 @@
         <div class="bottomNavWrap container" id="bottomNavWrap" data-id=""></div>
 
         <!-- 蒙层 -->
-        <div class="mode">
-            <!-- 公告对话框 -->
-            <div class="dialog-notice">
-                <div class="dialog-header">
-                    <h3>公告</h3>
-                    <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
-                </div>
-                <div class="dialog-content">
-                    <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
-                </div>
-                <div class="dialog-btn">
-                    <a href="javascript:void(0)">确定</a>
-                </div>
-            </div>         
-        </div>
+        <div class="mode"></div>
+        <!-- 公告对话框 -->
+        <div class="dialog-notice">
+            <div class="dialog-header">
+                <h3>公告</h3>
+                <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
+            </div>
+            <div class="dialog-content">
+                <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
+            </div>
+            <div class="dialog-btn">
+                <a href="javascript:void(0)">确定</a>
+            </div>
+        </div>         
+        
         
     </div>
     
@@ -132,12 +132,14 @@
             //公告弹框
             setTimeout(function(){
                 $(".mode").show();
+                $(".dialog-notice").show();
                 stop(".mode");
             },1000)           
         
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function(){
                 $(".mode").hide();
+                $(".dialog-notice").hide();
             })
             
         })

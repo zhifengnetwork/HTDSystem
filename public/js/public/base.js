@@ -18,6 +18,6 @@ function jumpFun(_url){
 function stop(name) {
 	var $name = $(name)
 	$name.bind("touchmove","touchstart",function(e){
-			e.preventDefault();
+		e.preventDefault();
 	})
 }

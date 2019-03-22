@@ -136,9 +136,12 @@
 			
 			
 			<!--背景样式-->
-			<img id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
-			
 
+			<img  id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;" src=" " onerror="this.src='__PUBLIC__/images/qrcode/3.jpg'" />
+
+			<img id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
+
+			
 		</div>
 		<!--底部弹窗（蒙版）body-->
 		<div class="bottomAlertWrap">
@@ -162,12 +165,12 @@
 		<script src="__PUBLIC__/js/public/base.js"></script>
 		<!--蒙版出现=> 底部（box）不能滑动-->
 		<script>
-			$(document).ready(function() {
-				/*背景图*/
-				//var random_bg=parseInt(3*Math.random());
-				var bg = 'url(__PUBLIC__/images/qrcode/' + "1" + '.jpg)';
-				$("#pic").css("background-image", bg);
-			});
+//			$(document).ready(function() {
+//				/*背景图*/
+//				//var random_bg=parseInt(3*Math.random());
+//				var bg = 'url(__PUBLIC__/images/qrcode/' + "1" + '.jpg)';
+//				$("#pic").css("background-image", bg);
+//			});
 
 		
 			var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -286,7 +289,9 @@
 						//切换背景代码
 						var random_bg = parseInt(6 * Math.random());
 						var bg = 'url(__PUBLIC__/images/qrcode/' + random_bg + '.jpg)';
-						$("#pic").css("background-image", bg);
+//						$("#pic").css("background-image", bg);
+                        document.getElementById("pic").src='__PUBLIC__/images/qrcode/' + random_bg + '.jpg'; 
+						console.log("ddd")
 //						调用截取二维码的方法
 				 		getpic();
 						

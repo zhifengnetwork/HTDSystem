@@ -3,39 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>钱包余额</title>
+    <title>当前股权</title>
     <script src="__PUBLIC__/js/public/rem.js"></script>
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css?v=999">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css">
 </head>
 <body>
     <div class="wrapper totalRevenue-wrap">
         <!-- 头部 -->
         <div class="header-zp">
             <span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
-            <h3>钱包余额</h3>
+            <h3>当前股权</h3>
             <!-- <span class="share-btn"><img src="../image/public/share-btn-zp.png" /></span> -->
         </div>
-        <!-- 标题 -->
-        <div class="thead-zp">
-            <ul>
-                <li>币种名称</li>
-                <li>总数量</li>
-            </ul>
+        <div class="community ">
+            <div class="community_content">
+                <div class="community_num publicEllipsis">&nbsp;<strong>{$stock_rights}</strong></div>
+            </div>
         </div>
-        <div class="tbody-zp">
-            <ul>
-                {foreach name="income" item="vo"}
-                <li>
-                    <div class="name">{$vo.cu_id|cu_get}</div>
-                    <div class="number">{$vo.bonus_wallet}</div>
-                </li>
-                {/foreach}
-            </ul>
-
-        </div>  
         
     </div>
     
