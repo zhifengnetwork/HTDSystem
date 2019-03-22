@@ -89,18 +89,3 @@ $('#bottomNavWrap .bottomNavTerm').eq(thisInd).find('.bottomNavIcon').attr('src'
 /*title的color*/
 $('#bottomNavWrap .bottomNavTerm').eq(thisInd).find('.bottomNavTitle').addClass('bNavYseFontColor').removeClass('bNavNoFontColor');
 
-$(document).ready(function() {
-	
-	/**获取焦点
-	 * 手机端=>input=>点击隐藏=>底部导航栏
-	 * **/
-	$('input').focus(function() {
-		/*底部导航栏*/
-		$('.bottomNavWrap').hide();
-	})
-	/*失去焦点*/
-	$('input').blur(function() {
-		/*底部导航栏*/
-		$('.bottomNavWrap').show();
-	})
-})
