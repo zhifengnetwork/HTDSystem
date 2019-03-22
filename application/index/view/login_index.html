@@ -42,14 +42,19 @@
 						  <div class="info mistake"></div>
 						  <div class="from-group">
 							  <span class="from-tit">验证码:</span>
-							  <input style="width:100px;float:left;margin-right: 10px;border: 1px solid #ffffff;border-radius: .1rem;" type="text" name="verify" placeholder="验证码" required lay-verify="required" autocomplete="off" class="layui-input verify">
-							  <img id="captcha" src="{:url('login/captcha')}" onclick="this.src='{:url('login/captcha')}?'+Math.random();" width="150" style="float:left; cursor:pointer;" alt="captcha" />
+							  <div class="from-icon from-verify">
+									<img src="__PUBLIC__images/login/yanz.png" alt="">
+									<!-- style="width:100px;float:left;margin-right: 10px;border: 1px solid #ffffff;border-radius: .1rem;" -->
+							  <input  type="text" name="verify" placeholder="验证码" required lay-verify="required" autocomplete="off" class="layui-input verify" maxlength="4">
+						  </div>
+						  <!-- width="150" style="float:left; cursor:pointer;" -->
+						  <img id="captcha" src="{:url('login/captcha')}" onclick="this.src='{:url('login/captcha')}?'+Math.random();"  alt="captcha" />
 						  </div>
 					  </form>
 						<button class="btn active" id="btn">登录</button>
 				  <div class="login-new">
 					  <a href="{:url('index/login/register')}" class="register">注册</a>
-					  <a href="./retrieve.html" class="retrieve">忘记密码?</a>
+					  <a href="{:url('index/login/retrieve')}" class="retrieve">忘记密码?</a>
 				  </div>    
 				 </div>
 				</div>
@@ -109,7 +114,7 @@ $(function(){
 				} else {
 					$('#captcha').attr('src',"{:url('login/captcha')}?"+Math.random());
 					suredAlert($('body'),msg.msg);
-
+                   
 				}
 			}
 

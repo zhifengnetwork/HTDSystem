@@ -164,3 +164,12 @@ color: #b8c9cf
     text-align: center;
     width: 2rem;
 }
+/* 验证框 */
+.from-group .from-verify{
+    width: 40%;
+}
+#captcha{
+    width: 35%;
+    padding-left: .18rem;
+    cursor:pointer;
+}
