@@ -142,11 +142,11 @@ class Index extends HomeBase
             // if($res['code']==0){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
             // }
-
-            // if(!$validate->check($data)){
-            //     $msg = $validate->getError();
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            // }
+            
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
             
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
