@@ -23,6 +23,7 @@ class Index extends HomeBase
         if(!$home['id']){
             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
             header("refresh:1;url=$url");
+            exit;
         }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
@@ -43,16 +44,18 @@ class Index extends HomeBase
 
     public function index()
     {
-
-        $user = session('home');
-        if($user){
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
+        if($home){
             $id = 1;
         }else{
             $id = 2;
         }
         $this->assign('id',$id);
-        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
-        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
         return view();
     }
 	
@@ -508,5 +511,13 @@ class Index extends HomeBase
 
             return view();
         }
+    }
+
+    // 股权页面
+    public function stock(){
+        $user = session('home');
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
+        return view();
     }
 }
