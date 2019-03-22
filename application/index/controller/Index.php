@@ -23,6 +23,7 @@ class Index extends HomeBase
         if(!$home['id']){
             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
             header("refresh:1;url=$url");
+            exit;
         }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
@@ -43,9 +44,13 @@ class Index extends HomeBase
 
     public function index()
     {
-
-        $user = session('home');
-        if($user){
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
+        if($home){
             $id = 1;
         }else{
             $id = 2;
