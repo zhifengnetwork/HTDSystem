@@ -3,10 +3,11 @@
 	var condition={
 		phonestate:false,    //用户名手机
 		pwdstate:false,      //用户密码
+		verifystate:false    //验证码
 	}
 
 	// 验证用户
-	 $(".phone").blur(function(){
+	 $(".username").blur(function(){
 		let reg = /^[a-zA-Z0-9_-]{4,16}$/; /*用户名*/
 		 let $phone=$(this)
 		   if($phone.val()==""){
@@ -38,6 +39,17 @@
 		 }
 	 })
 	 
+	//  验证码
+	$(".verify").blur(function(){
+		let $verify=$(this)
+		if($verify.val()==""){
+			$verify.parent().parent().prev().addClass("mistake").html("*请输入验证码")
+			return condition.verifystate=false
+		}else{
+			$verify.parent().parent().prev().removeClass("mistake").html("")
+	    return condition.verifystate=true
+		}
+	})
 	 // 返回上一页
 	     function returnFun(){
 	 	/*返回上一页*/

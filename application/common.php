@@ -2142,7 +2142,7 @@ function createWallet($uid){
     return true;
 }
 
-// 根据传入数字保留位数
+// 根据传入数字保留小数位数
 function numberByRetain($number, $position){
     // @number 需要处理的数字, @position 需要保留的位数
     $ary = explode('.', (string)$number);
@@ -2187,17 +2187,61 @@ function numberByRetain($number, $position){
     }
 }
 
+//获取验证码短信
+function getPhoneCode($data){
+
+	if(!$data['sms_type']||!$data['phone']){
+        return array('code' => 0, 'msg' => '缺少验证参数');
+	}
+	
+    $limit_time = 60;// 60秒以内不能重复获取
+    $where['phone'] = $data['phone'];
+    $where['sms_type'] = $data['sms_type'];
+    $where['create_time'] = array('<', time()+$limit_time);
+    $list = Db::name('verify_code')->where($where)->select();
+    $cnt=count($list);
+    // 1分钟20调条
+	if($cnt>20){
+        return array('code' => 0, 'msg' => '获取验证码过于频繁，请稍后再试');
+	}
+	$code = rand(123456,999999);
+    $tpl = '【HTD】您的手机验证码：'.$code.' 若非您本人操作，请忽略本短信。';
+	// $content=str_replace('{$code}',$code,$tpl);
+    $content = $tpl;
+    $result=sendSms($data['phone'],$content);
+	if($result!='1'){
+    // $res_num = strpos($result,'ok');
+	// if($res_num != 8){
+        return array('code' => 0, 'msg' => '短信发送失败-'.$result);
+	}
+	// 插入verify_code记录
+	$db_data=array(
+		'code'=>$code,
+		'phone'=>$data['phone'],
+		'sms_type'=>$data['sms_type'],
+		'create_time'=> time(),
+		// 'create_ip'=>CLIENT_IP,
+		'sms_con'=>$content
+	);
+    $res = Db::name('verify_code')->insert($db_data);
+	if(!$res){
+        return array('code' => 0, 'msg' => '系统繁忙请稍后再试');
+	}
+    return array('code' => 200, 'msg' => '已发送成功');
+    
+}
+
 
 // 获取短信验证码接口
-function setSMS(){
+function sendSms($phone,$content){
 
     $smsCode = rand(123456,999999);
     $post_data = array();
     $post_data['userid'] = 999;
     $post_data['account'] = '1069088000';
     $post_data['password'] = '1069088000';
-    $post_data['content'] = '【HTD】您的手机验证码：'.$smsCode.' 若非您本人操作，请忽略本短信。'; // 短信的内容，内容需要UTF-8编码
-    $post_data['mobile'] = '18228178860'; // 发信发送的目的号码.多个号码之间用半角逗号隔开 
+    $post_data['content'] = $content; // 短信的内容，内容需要UTF-8编码
+    $post_data['mobile'] = $phone; // 发信发送的目的号码.多个号码之间用半角逗号隔开 
     $post_data['sendtime'] = ''; // 为空表示立即发送，定时发送格式2010-10-24 09:08:10
     $url='http://120.25.105.164:8888/sms.aspx?action=send';
     $o='';
@@ -2207,7 +2251,50 @@ function setSMS(){
     }
     $post_data=substr($o,0,-1);
     $result= curl_post($url,$post_data);
-    // p($result);
+    // return $result['output'];
+    return $result;
+}
+
+
+// 校验手机验证码
+function checkPhoneCode($data){
+	if(!$data['sms_type']||!$data['code']||!$data['phone']){
+        return array('code' => 0, 'msg' => '缺少验证参数');
+    }
+    $item = Db::name('verify_code')->where(['phone'=>$data['phone'], 'sms_type'=>$data['sms_type']])->order('id desc')->find();
+	if(!$item['id']){
+        return array('code' => 0, 'msg' => '该验证码不正确');
+    }
+	if($item['status']||$item['verify_num']>2){
+        return array('code' => 0, 'msg' => '请重新获取验证码');
+    }
+    
+	//查到验证码且验证使用未达到限制次数
+	$msg='';
+	$db_data=array('verify_num'=>$item['verify_num']+1);
+	if($data['code']==$item['code']){
+		//检测验证码有效期
+		if(time()-$item['create_time']>1800){
+			$msg='该验证码已失效';
+			$db_data['status']=1;
+		}else{
+			$db_data['status']=2;
+		}
+	}else{
+		$msg='该验证码不正确';
+		if($db_data['verify_num']>2){
+			$db_data['status']=1;
+		}
+	}
+    $db_data['verify_time'] = time();
+    $res = Db::name('verify_code')->where(['id'=>$item['id']])->update($db_data);
+	if(!$res){
+		$msg='该验证码不正确';
+	}
+	if($msg){
+        return array('code' => 0, 'msg' => $msg);
+	}
+    return array('code' => 200, 'msg' => '验证通过');
 }
 
 // 发送验证码
@@ -2215,20 +2302,30 @@ function curl_post($url,$data='',$timeout=30){
     $arrCurlResult = array();
     $ch = curl_init();
     //curl_setopt ($ch, CURLOPT_SAFE_UPLOAD, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);//ssl检测跳过
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-    curl_setopt ($ch,CURLOPT_REFERER,"");
-    $output = curl_exec($ch);
-    $responseCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-    $arrCurlResult['output'] = $output;//返回结果
-    $arrCurlResult['response_code'] = $responseCode;//返回http状态
+
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);//ssl检测跳过
+    // curl_setopt($ch, CURLOPT_URL, $url);
+    // curl_setopt($ch, CURLOPT_POST, true);
+    // curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // curl_setopt($ch, CURLOPT_HEADER, false);
+    // curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    // curl_setopt ($ch,CURLOPT_REFERER,"");
+    // $output = curl_exec($ch);
+    // $responseCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+    // $arrCurlResult['output'] = $output;//返回结果
+    // $arrCurlResult['response_code'] = $responseCode;//返回http状态
+    // curl_close($ch);
+    // unset($ch);
+    // return $arrCurlResult;
+
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $result = curl_exec($ch);
     curl_close($ch);
     unset($ch);
-    return $arrCurlResult;
+    return $result;
 }
 

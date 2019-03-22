@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css?v=888">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/totalRevence_zp.css">
 </head>
 <body>
     <div class="wrapper totalRevenue-wrap">
@@ -19,24 +19,24 @@
             <!-- <span class="share-btn"><img src="../image/public/share-btn-zp.png" /></span> -->
         </div>
         <!-- 标题 -->
-        <div class="thead-zp">
+        <div class="thead-zp" style="padding-top: 40px;">
             <ul>
                 <li>币种名称</li>
                 <!-- <li>币种数量</li> -->
                 <li>主流币</li>
-                <li>HTD</li>
+                <li>平台币</li>
                 <li>时间</li>
             </ul>
         </div>
         <div class="tbody-zp">
-            <ul>  
+            <ul>
                 {foreach name="income" item="vo"}
                 <li>
                     <div class="name">{$vo.cu_id|cu_get}</div>
                     <!-- <div class="number">{$vo.total_coin}</div> -->
-                    <div class="number publicEllipsis">{$vo.main_coin}</div>
-                    <div class="price publicEllipsis">{$vo.htd_coin}</div>
-                    <div class="total-price publicEllipsis">{:date("Y-m-d",$vo.create_time)}</div>
+                    <div class="number">{$vo.main_coin}</div>
+                    <div class="price">{$vo.htd_coin}</div>
+                    <div class="total-price">{:date("Y-m-d",$vo.create_time)}</div>
                 </li>
                 {/foreach}
             </ul>

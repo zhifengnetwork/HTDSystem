@@ -83,7 +83,8 @@
 							<span class="from-tit">验证码:</span>
 							<div class="from-icon from-verify">
 								<img src="__PUBLIC__images/login/yanz.png" alt="">
-								<input type="text" placeholder="请输入验证码" value name="verify" class="pptt verify">
+								<input type="text" placeholder="请输入验证码" value="" name="verify" class="pptt verify">
+								<input type="hidden" name="sms_type" value="1" id="sms_type_id">
 							</div>
 							<button class="send-code" type="button">获取验证码</button>
 						</div>
@@ -103,10 +104,11 @@
 					</div>
 				</div>
 </body>
+<script src="__PUBLIC__js/public/jquery-1.8.3.js"></script>
 <script src="__PUBLIC__js/base.js"></script>
 <script src="__PUBLIC__js/register.js"></script>
-<script src="__PUBLIC__js/public/jquery-1.8.3.js"></script>
 <script src="__PUBLIC__js/public/publicAlert.js"></script>
+<script src="__PUBLIC__/plugins/layer/layer-min.js"></script>
 <script>
 	$(function(){
 
@@ -164,7 +166,7 @@
         }
     
         //用户名手机
-        if(userPhone.val() == ""){    
+        if(userPhone.val() == ""){
                 suredAlert(body,"手机号码不能为空~");
                 userPhone.focus()
                 return
@@ -185,11 +187,13 @@
             suredAlert(body,"验证码不能为空~");
             verify.focus()
             return
-        }else if (!condition.securitycode){  //验证码
-            suredAlert(body,"请输入正确的验证码~");
-            verify.focus()
-            return
-        }
+		}
+		
+		// else if (!condition.securitycode){  //验证码
+        //     suredAlert(body,"请输入正确的验证码~");
+        //     verify.focus()
+        //     return
+        // }
         
         //勾选协议
         if (!condition.iconstate){      //勾选协议
@@ -206,6 +210,7 @@
 						userEmail:userEmail.val(),
 						rec:rec.val(),
 						verify:verify.val(),
+						sms_type:1
 					},
 					dataType:'json',
 					success:function(msg){
@@ -218,12 +223,6 @@
 						}
 					}
 				});
-
-        
-
-       
-        
-    
        
 			})
 		})

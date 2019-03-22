@@ -98,7 +98,7 @@ $(function(){
    function daojishi(seconds,obj){
        if (seconds > 1){
                seconds--;
-               $(obj).html(seconds+"秒后重新获取 ").attr("disabled", true);
+               $(obj).html(seconds+"重新获取 ").attr("disabled", true);
                setTimeout(function(){
                    daojishi(seconds,obj);
                },1000);

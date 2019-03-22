@@ -1,0 +1,8 @@
+.wtf_top {padding-top: 0.88rem;}
+
+.wtf_wrap {max-width: 6.9rem;margin: 0 auto;}
+.wtf_item {display: inline-block;width: 100%;}
+.wtf_item1 {border-bottom: 1px solid #fff;line-height: 0.9rem;height: 0.9rem;width: 100%;}
+.wtf_item1 p:nth-child(1){font-size: 0.22rem;color: #FFFFFF;float: left;}
+.wtf_item1 p:nth-child(2) {font-size: 0.2rem;color: #FFFFFF;float: right;}
+
