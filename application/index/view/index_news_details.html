@@ -19,23 +19,23 @@
 		<div class="details_all">
 			<div class="lj_wrap">
 				<div class="details_item1 clearfix">
-					<p>关于服务器扩容优化的通知</p>
-					<p>2019-01-31</p>
+					<p>{$res['title']}</p>
+					<p>{$res['updatetime']|date="Y-m-d",###}</p>
 				</div>
 				<div class="details_item2">
 					<div class="d_item2_title">
-						<p>尊敬的WoToken用户:</p>
+						<p>尊敬的{if $arr eq true}{$arr['username']}{else /}{/if}用户:</p>
 					</div>
 					<div class="d_item2_con">
-						<p>自WoToken2018年9月上线后，得到全球区块链与数字货币用户的认可。WoToken开放糖果奖励后全球注册用户增加,为了给用户提供更加优质的服务与体验,我们将在新加坡时间2019.1.31  14:00——2019.2.1  14:00对服务器进行一次扩容优化。升级期间将暂停访问,升级期间不影响收益。</p>
+						<p>{$res['content']}</p>
 					</div>
 					<div class="d_item2_bom">
-						<p>感谢WoToken用户的大力支持。</p>
+						<p>感谢{if $arr eq true}{$arr['username']}用户{else /}您{/if}的大力支持。</p>
 					</div>
 				</div>
 				<div class="details_item3">
-					<p>WoToken</p>
-					<p>2019.1.31</p>
+					<p>{if $arr eq true}{$arr['username']}{else /}尊敬的用户{/if}</p>
+					<p>{$res['updatetime']|date="Y-m-d",###}</p>
 				</div>
 				
 				

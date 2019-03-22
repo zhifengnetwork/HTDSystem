@@ -27,12 +27,25 @@ class Index extends HomeBase
     
     public function my_message()
     {
-    	return view();
+        $res = Db::name('article')->order('settop DESC','choice DESC')->select();
+        $this->assign('res',$res);
+
+        return view();
+
+
     }
     
-    public function news_details()
+    public function news_details($id)
     {
-    	return view();
+        $res = Db::name('article')->where('id',$id)->find();
+        $this->assign('res',$res);
+        $arr = '';
+        if (session('home.id')) {
+           $arr =  Session::get('home');
+
+        }
+        $this->assign('arr',$arr);
+        return view();
     }
 
     public function index()
@@ -46,6 +59,8 @@ class Index extends HomeBase
         }
         $this->assign('id',$id);
         $money = 0;
+        $res = Db::name('article')->order('settop DESC','choice DESC','updatetime DESC')->find();
+        $this->assign('res',$res);
         $this->assign('money',$money);
         return view();
     }
