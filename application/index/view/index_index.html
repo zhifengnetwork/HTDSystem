@@ -136,13 +136,12 @@
             //公告弹框
             setTimeout(function(){
                 $(".mode").show();
-                stop();
+                stop(".mode");
             },1000)           
         
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function(){
                 $(".mode").hide();
-                move();
             })
             
         })

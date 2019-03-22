@@ -28,12 +28,13 @@ $(function(){
         if(code1.val()==""){
             code1.parent().parent().prev().addClass("mistake").html(`验证码不能为空`)
             return condition.securitycode=false
-        }else if(code1.val()!=code){
-            code1.parent().parent().prev().addClass("mistake").html(`请输入正确的验证码`)
-            return condition.securitycode=false
         }else{
+        // else if(code1.val()!=code){
+        //     code1.parent().parent().prev().addClass("mistake").html(`请输入正确的验证码`)
+        //     return condition.securitycode=false
+        // }
             code1.parent().parent().prev().removeClass("mistake").html("")
-      return condition.securitycode=true
+            return condition.securitycode=true
         }
     })
     // 密码框1
@@ -131,42 +132,42 @@ $(function(){
   if(input.length==$(".from-icon>input").length){
         $(".btn").removeClass("dis").addClass("active").attr("disabled",false)
     }else{
-        $(".btn").addClass("dis").removeClass("active").attr("disabled",true)  
+        $(".btn").addClass("dis").removeClass("active").attr("disabled",true)
     }
 })
     //找回密码
-  $(".btn").click(function(){
-    let userPhone = $(".phone") //手机
-    let pwd1 = $(".pwd1")       //密码1
-    let pwd2 = $(".pwd2")       //密码2
-    let acquire = $(".acquire") //验证码
-    let body = $("body")     
-    if(condition.phonestate&&condition.pwdstate&&condition.securitycode&&condition.inconsistent){
-        suredAlert(body,"修改成功~");
-            return
-    }else{
-        
-       if(!condition.phonestate){  //手机号码
-        suredAlert(body,"请输入正确的手机号~");
-        userPhone.focus()
-        return
-      } 
-      if(!condition.securitycode){  //验证码
-        suredAlert(body,"请输入正确的验证码~");
-        acquire.focus()
-        return  
-      }
-      if(!condition.pwdstate){     //密码
-        suredAlert(body,"请输入正确的密码~");
-        pwd1.focus()
-        return
-      }
-      if(pwd1.val() != pwd2.val()){ //二次密码
-        suredAlert(body,"输入的密码不一致~");
-        pwd2.focus()
-        return  
-      }
-    }
-  })
+  // $(".btn").click(function(){
+  //   let userPhone = $(".phone") //手机
+  //   let pwd1 = $(".pwd1")       //密码1
+  //   let pwd2 = $(".pwd2")       //密码2
+  //   let acquire = $(".acquire") //验证码
+  //   let body = $("body")
+  //   if(condition.phonestate&&condition.pwdstate&&condition.securitycode&&condition.inconsistent){
+  //       suredAlert(body,"修改成功~");
+  //           return
+  //   }else{
+  //
+  //      if(!condition.phonestate){  //手机号码
+  //       suredAlert(body,"请输入正确的手机号~");
+  //       userPhone.focus()
+  //       return
+  //     }
+  //     if(!condition.securitycode){  //验证码
+  //       suredAlert(body,"请输入正确的验证码~");
+  //       acquire.focus()
+  //       return
+  //     }
+  //     if(!condition.pwdstate){     //密码
+  //       suredAlert(body,"请输入正确的密码~");
+  //       pwd1.focus()
+  //       return
+  //     }
+  //     if(pwd1.val() != pwd2.val()){ //二次密码
+  //       suredAlert(body,"输入的密码不一致~");
+  //       pwd2.focus()
+  //       return
+  //     }
+  //   }
+  // })
   
  })
