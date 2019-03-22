@@ -263,8 +263,8 @@ class Index extends HomeBase
                         'su_charge' => $charge,
                         'alias_name'=> $alias_name
                     ];
-                    dump($suc_data);
-                     exit;
+                    // dump($suc_data);
+                    //  exit;
                     $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>$suc_data]);    
                 } catch (\Exception $e) {
                     // 回滚事务
