@@ -19,6 +19,12 @@ class Index extends HomeBase
     public function _initialize()
     {
         parent::_initialize();
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
         }
@@ -38,16 +44,18 @@ class Index extends HomeBase
 
     public function index()
     {
-
-        $user = session('home');
-        if($user){
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
+        if($home){
             $id = 1;
         }else{
             $id = 2;
         }
         $this->assign('id',$id);
-        $money = 0;
-        $this->assign('money',$money);
         return view();
     }
 	
@@ -107,7 +115,7 @@ class Index extends HomeBase
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
               $rmb    = $data['val']*$result;
-            //   //美元汇率   
+              //美元汇率   
               $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
               $exchange_usd = arr2name($exchange_usd);
               $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
@@ -127,6 +135,11 @@ class Index extends HomeBase
             // dump($data);
             // exit;
             $validate   = new Indexv();
+
+            // $validate->rule('zip', '/^\d{6}$/');
+            // $validate->rule([
+            //     'number'   => '^[0-9]{1,11}([.][0-9]{1,8})?$',
+            // ]);
             $base       = new Base();
             // if(!$data['verify']){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
@@ -141,12 +154,11 @@ class Index extends HomeBase
             // $res = checkPhoneCode($checkData);
             // if($res['code']==0){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            // }
-
-            // if(!$validate->check($data)){
-            //     $msg = $validate->getError();
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            // }
+            // }        
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
             
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -499,5 +511,13 @@ class Index extends HomeBase
 
             return view();
         }
+    }
+
+    // 股权页面
+    public function stock(){
+        $user = session('home');
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
+        return view();
     }
 }

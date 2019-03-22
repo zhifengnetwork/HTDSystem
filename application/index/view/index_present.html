@@ -6,11 +6,12 @@
 		<title>提币</title>
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
-		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
+		
 	
 	
 	</head>
@@ -157,6 +158,42 @@
 						</div>
 					</div>
 				<!-- 提取弹框-e -->
+				<!-- 确认弹框-s -->
+					<div class="true_popUp_wrap">
+						<div class="true_popUp">
+							<!-- 弹框标题 -->
+							<div class="popUp_titel">
+								交易成功
+							</div>
+							<!-- 弹框内容 -->
+							<div class="popUp_content">
+								<!-- 内容标题 -->
+								<h1>交易明细</h1>
+								<!-- 内容主体 -->
+								<p>
+									<span>用户名</span>
+									<span>ICEY-I-SEE</span>
+								</p>
+								<p>
+									<span>总额度</span>
+									<span>999999999999999</span>
+								</p>
+								<p>
+									<span>手续费</span>
+									<span>23333333</span>
+								</p>
+								<p>
+									<span>日期</span>
+									<span>03-22-2019&nbsp;12:09:09</span>
+								</p>
+							</div>
+							<!-- 弹框按钮 -->
+							<div class="popUp_btn">
+								确认
+							</div>
+						</div>
+					</div>
+				<!-- 确认弹框-e -->
 				<!-- 复投弹框-s -->
 				<div class="voting">
 					<div class="voting_content">
@@ -184,13 +221,10 @@
 							<div class="voting_box clearfix">
 							
 								<div class="lj_p_address">
-									<h2>验证码:</h2>
-									<input class="lj_input3" type="text" name="verify"  />
-									<!-- <div>{:captcha_img()}</div> -->
-							</div>
-							<div class="voting_verify">
-									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>
-								<!-- <button class="btn">验证码</button> -->
+									<h2 class="phone_yzm">手机验证码:</h2>
+									<input class="lj_input4" type="text" name="note"  />
+									<button class="btn">获取验证码</button>
+								</div>
 							</div>
 							<!--000-->
 							
