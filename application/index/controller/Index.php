@@ -130,7 +130,7 @@ class Index extends HomeBase
            }          
     }    
 
-    // 货币汇率
+    // 人民币转美金
     public function exchange(){
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
@@ -151,7 +151,6 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
- 
             $validate   = new Indexv();
             $base       = new Base();
             // 手机验证
@@ -168,7 +167,8 @@ class Index extends HomeBase
             $res = checkPhoneCode($checkData);
             if($res['code']==0){
                 $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            }        
+            }
+            //检验数据 
             if(!$validate->check($data)){
                 $msg = $validate->getError();
                 $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
@@ -182,11 +182,8 @@ class Index extends HomeBase
             $withdraw_min = $exchange_usd['withdraw_min']['value'];
            
             switch ($data['type'])
-            {
-              case 0:
-                $base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
-                
-              break;  
+            {                
+             
               case 1:
                 $data['cu_num'] = $data['cu_num'] ;
                 $cu_type = 'cu_num';
@@ -198,7 +195,9 @@ class Index extends HomeBase
               case 3:
                 $data['cu_num'] = $data['rate_wallet'] ;
                 $cu_type = 'rate_wallet';
-              break;                                          
+              break;
+              default:
+              $base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
             }
             // dump($cu_type);
             // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);

@@ -93,7 +93,7 @@
 										<span class="popover_click">请选择 </span>
 										<img src="__PUBLIC__/images/xia.png" class="down">
 										<ul class="ul_box popover_ul">
-											<li data-index="0">请选择</li>
+											<!-- <li data-index="0">请选择</li> -->
 											<li data-index="1">本金</li>
 											<li data-index="2">收益</li>
 											<li data-index="3">分红</li>
@@ -113,7 +113,7 @@
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
 										<input type="hidden" name="sms_type" id="sms_type" value="">
 										<input type="hidden" name="verify" id="verify" value="">						
-									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="除本金以外大于等于{$withdraw_min}美金可提取" /><br />
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" /><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
 								<!--000-->
@@ -330,11 +330,19 @@
 				
                //提取下拉框-类型 
 				$(".popover_ul>li").click(function(){
+				    
 					var $li = $(this).html();
 					var index =$(this).attr("data-index")
 					$(".popover_box>.popover_ul").slideToggle()
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id",index)
+
+                    if(index==1){
+                        //   var a = $('#popover_num').val();
+						  $('#popover_num').attr('placeholder','本金提币不限额')	  
+					}else{
+						  $('#popover_num').attr('placeholder','大于等于{$withdraw_min}美金可提取')	  
+					}					
 				})
 				 //复投下拉框-类型 
 				$(".voting_ul>li").click(function(){
@@ -394,11 +402,11 @@
 					e.stopPropagation();
 				});
 				//弹框确认
-				$('.true').click(function() {
-					$('.popover').hide();
-					$('.voting').hide();
+				// $('.true').click(function() {
+				// 	$('.popover').hide();
+				// 	$('.voting').hide();
 					
-				});
+				// });
 				//弹框取消
 				$('.false').click(function() {
 					// $('.popover').hide();
@@ -411,15 +419,15 @@
 					window.location.reload(); 
 				})
 				//点击背景隐藏and提取按钮清空提取金额的值
-				$('.popover,.popover_affirm').click(function() {
-					$(".popover").hide();
-					$('#popover_num').val("");
-					$(".lj_input2").val("");
-					$(".lj_input3").val("");
-					$('#popover_convert').val("");
-					$(".preViewImg").attr("src","/public//plugins/layui/images/loading-2.gif").hide();
-					$(".tipsText").show();
-				})
+				// $('.popover,.popover_affirm').click(function() {
+					
+					// $('#popover_num').val("");
+					// $(".lj_input2").val("");
+					// $(".lj_input3").val("");
+					// $('#popover_convert').val("");
+					// $(".preViewImg").attr("src","/public/plugins/layui/images/loading-2.gif").hide();
+					// $(".tipsText").show();
+				// })
 				//点击复投按钮清空提取金额的值
 				$('.voting,.voting_affirm').click(function() {
 					$(".voting").hide();
@@ -448,9 +456,6 @@
 				type: "POST",
 				url: url,
 				dataType: "json",
-				error: function () {
-                		alert('操作失败');
-            	},
 				success: function (data) {
 					if (data.status == 1) {
 							$('#popover_convert').val(data.result);
@@ -460,7 +465,6 @@
 				}
 			});			
 		}	
-
 
 		layui.use(['layer','jquery','form'],function(){
 			var layer = layui.layer
@@ -483,18 +487,13 @@
 										$(".time").html(data.result['su_time']);
 										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
 										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
+										$(".popover").hide();
 										$('.true_popUp_wrap').show();
-										
-										// console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
-									// window.location.reload(); 
-								// });
 							}
 							else {
-									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
-									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
-									// window.location.reload(); 
+									layer.msg(data.msg, {icon: 2, time: 2000}, function(){	
 									});
-										// window.location.reload(); 
+									
 							}
 						});
 
@@ -502,14 +501,8 @@
 			});
 
 			jq('.retrue').click(function(){	 
-				     
-					//  var val = $(".popover_click").attr("data-id") 
 					 var val1 = $(".voting_click").attr("data-id") 
-					//  console.log(val)
-					//  console.log(val1)
-					 // console.log($('#handleposition').serialize())
-					//  var url = "{:url('/index/wallet/confirmInvest')}";
-						var url = "{:url('/index/wallet/confirmInvest')}";
+					 var url = "{:url('/index/wallet/confirmInvest')}";
 					 var datas =  $('#handleposition1').serialize()+'&wallet_flag='+val1+'&pay_way='+2;
 
 					 $.ajax({
@@ -517,9 +510,6 @@
 						url: url,
 						data:datas,
 						dataType: "json",
-						// error: function () {
-						// 		alert('操作失败');
-						// },
 						success: function (data) {
 							if (data.code == 200) {
 									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
@@ -533,24 +523,7 @@
 									});
 							 }
 						}
-					});
-
-
-					//  jq.getJSON(url,datas,function(data){						
-					// 		 if (data.status == 200) {
-					// 				 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
-					// 				 window.location.reload(); 
-					// 			 });
-														 
-					// 		 }
-					// 		 else{	 
-					// 				layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
-					// 				 	window.location.reload(); 
-					// 				});
-					// 		 }
-					// 	 });
- 
- 
+					}); 
 			 });
 
 
@@ -566,11 +539,6 @@
 					type: "POST",
 					url: url,
 					dataType: "json",
-					// error: function () {
-					// 	layer.msg('请填写提币数量', {icon: 2, time: 2000}, function(){					
-					// 			window.location.reload(); 
-					// 	});
-					// },
 					success: function (data) {
 						if (data.status == 1) {
 								$('#popover_rmb').val(data.result['rmb']);
@@ -665,7 +633,7 @@
 			}
 			
 			/* 确认 */
-			$('.popover_affirm .true').on('click', function() {
+			// $('.popover_affirm .true').on('click', function() {
 				/*存储，base64*/
 				// var arrImgUrl = '';
 				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
@@ -687,8 +655,9 @@
 				// }
 				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
 				// console.log(arrImgUrl);
-				$('.popover').hide();
-			})
+
+			// 	$('.popover').hide();
+			// })
 			/*000*/
 
 		</script>

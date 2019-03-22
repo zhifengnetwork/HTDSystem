@@ -74,18 +74,59 @@ class Login extends Controller
     public function directdrive(){
             
         $home = session('home');
-
-        
+        $configs = Db::name('income_config')->field('name,value')->select();
+        $configs = arr2name($configs);
+        $usd = $configs['exchange_usd']['value'];
     
         $res = DB::name('user')->where(['pid'=>$home['id']])->select();
+        $users = getDownUserUids2($home['id']);
+        $money = 0;
+        foreach ($users as $key=>$val)
+        {
+            $wallet = $this->wallet($val);
+            $money += $wallet;
+        }
+        // dump($money);
         if($res){
             // dump($res);die;
             $this->assign('aa', $res);
+        }
+        if(!empty($money)){
+            $this->assign('money', $money/$usd);
         }
         $this->assign('aa', $res);
         return view();
     }
 
+    private function wallet($uid){
+        $arr = db('user_wallet')->where(['uid'=>$uid])->select();
+        $cur = db('currency')->select();
+        $money = 0;
+        
+        // dump($thd);
+        foreach($arr as $key=>$val)
+        {
+            foreach($cur as $k => $v){
+                
+                if($val['cu_id']==$v['id']){
+                    $ftp = $val['cu_num']*$v['price'];
+                    $money +=$ftp;
+                }
+            }
+        }
+        if(!empty($money))
+        {
+            return $money;
+        }
+    }
+
+    private function currency($id)
+    {
+        $cur = db('currency')->where(['id'=>$id])->select();
+        if($cur){
+            return $cur['price'];
+        }
+    }
     public function register()
     {
         $promotion = input('promotion/d');
