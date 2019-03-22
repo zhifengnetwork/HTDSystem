@@ -5,6 +5,7 @@ use app\common\controller\AdminBase;
 use app\common\model\Article as ArticleModel;
 use app\common\model\Articlecate as ArticlecateModel;
 use app\common\model\Upload as UploadModel;
+use think\Db;
 
 class Articles extends AdminBase
 {
@@ -22,46 +23,10 @@ class Articles extends AdminBase
 
     public function index()
     {
-        $page =  isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $perpage =  isset($_REQUEST['perpage']) ? $_REQUEST['perpage'] : 10;
-        $keyword=isset($_REQUEST['keyword']) ? trim($_REQUEST['keyword']) : '';
-        $tid=isset($_REQUEST['tid']) ? trim($_REQUEST['tid']) : 0;
-        $open=isset($_REQUEST['open']) ? trim($_REQUEST['open']) : '';
-        $settop=isset($_REQUEST['settop']) ? trim($_REQUEST['settop']) : '';
-        $choice=isset($_REQUEST['choice']) ? trim($_REQUEST['choice']) : '';
-        $startdate=isset($_REQUEST['startdate']) ? trim($_REQUEST['startdate']) : '';
-        $enddate=isset($_REQUEST['enddate']) ? trim($_REQUEST['enddate']) : '';
-        $map = [];
 
-        if ($keyword) {      
-            $map['title|f.keywords'] = ['like', "%{$keyword}%"];
-        }
-        if ($tid!='') {     
-            $map['f.tid'] = $tid;
-        }
-        
-        if ($open!='') {        
-            $map['open'] = $open;
-        }  
-        if ($settop!='') {        
-            $map['settop'] = $settop;
-        }
-        if ($choice!='') {        
-            $map['choice'] = $choice;
-        } 
-        if ($keyword) {      
-            $map['title|f.keywords'] = ['like', "%{$keyword}%"];
-        }
-        if ($startdate) {      
-            $map['time'] = ['egt', strtotime($startdate)];
-        }
-        if ($enddate) {      
-            $map['time'] = ['elt', strtotime($enddate.' 23:59:59')];
-        }     
-      
-        $article_list = $this->article_model->alias('f')->join('articlecate c', 'c.id=f.tid')->join('user u', 'u.id=f.uid','left')->field('f.*,u.username,c.name,c.template')->order('f.id desc')->where($map)->paginate($perpage);
-        $this->assign(array('choice' => $choice,'settop' => $settop,'open' => $open,'tid' => $tid,'keyword' => $keyword,'startdate' => $startdate,'enddate' => $enddate,'perpage' => $perpage)); 
+        $article_list = Db::name('article')->paginate(10);
         return $this->fetch('index', ['article_list' => $article_list]);
+
     }
     public function add()
     {
@@ -75,12 +40,12 @@ class Articles extends AdminBase
         
             $data['time'] = $data['updatetime']=time();
             //开启图片本地化
-            if(isset($data['piclocal'])){
-                $uplon=new UploadModel();
-                $data['content']=$uplon->getCurContent($data['content']);
-            }else{
-                $data['content']= remove_xss($data['content']);
-            }
+//            if(isset($data['piclocal'])){
+//                $uplon=new UploadModel();
+//                $data['content']=$uplon->getCurContent($data['content']);
+//            }else{
+//                $data['content']= remove_xss($data['content']);
+//            }
 
             if ($this->article_model->allowField(true)->save($data)) {
                 if (!empty($data['linkinfo'])) {
