@@ -22,6 +22,8 @@ class Login extends Controller
 			}
     
     }
+
+
     public function captcha()
     {
         $m = new Captcha(Config::get('captcha'));
@@ -72,18 +74,59 @@ class Login extends Controller
     public function directdrive(){
             
         $home = session('home');
-
-        
+        $configs = Db::name('income_config')->field('name,value')->select();
+        $configs = arr2name($configs);
+        $usd = $configs['exchange_usd']['value'];
     
         $res = DB::name('user')->where(['pid'=>$home['id']])->select();
+        $users = getDownUserUids2($home['id']);
+        $money = 0;
+        foreach ($users as $key=>$val)
+        {
+            $wallet = $this->wallet($val);
+            $money += $wallet;
+        }
+        // dump($money);
         if($res){
             // dump($res);die;
             $this->assign('aa', $res);
+        }
+        if(!empty($money)){
+            $this->assign('money', $money/$usd);
         }
         $this->assign('aa', $res);
         return view();
     }
 
+    private function wallet($uid){
+        $arr = db('user_wallet')->where(['uid'=>$uid])->select();
+        $cur = db('currency')->select();
+        $money = 0;
+        
+        // dump($thd);
+        foreach($arr as $key=>$val)
+        {
+            foreach($cur as $k => $v){
+                
+                if($val['cu_id']==$v['id']){
+                    $ftp = $val['cu_num']*$v['price'];
+                    $money +=$ftp;
+                }
+            }
+        }
+        if(!empty($money))
+        {
+            return $money;
+        }
+    }
+
+    private function currency($id)
+    {
+        $cur = db('currency')->where(['id'=>$id])->select();
+        if($cur){
+            return $cur['price'];
+        }
+    }
     public function register()
     {
         $promotion = input('promotion/d');
@@ -165,12 +208,29 @@ class Login extends Controller
     public function retrie()
     {
         $arr = $this->request->post();
-        $res = Db::name('user')->where('username',$arr['username'])->find();
-        if (!$res){
-            return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','flag'=>1));
+        $ress = Db::name('user')->where('username',$arr['username'])->find();
+        if (!$ress){
+            return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','code'=>1));
         }
-        if ($arr['mobile'] != $res['mobile']) {
-            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','flag'=>2));
+        if ($arr['mobile'] != $ress['mobile']) {
+            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','code'=>2));
+        }
+        $checkData['sms_type'] = 3;
+        $checkData['code'] = $arr['verify'];
+        $checkData['phone'] = $arr['mobile'];
+        $res = checkPhoneCode($checkData);
+        if($res['code']==0){
+            return json_encode(array('msg' => $res['msg'],'code'=>0));
+        }
+        $arr['password'] = md5($arr['password'] . $ress['salt']);
+        $info = Db::name('user')->where('id',$ress['id'])->update(['password'=>$arr['password']]);
+
+        if ($info){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index/";
+            return json_encode(array('msg'=>'修改成功','code'=>4,'url'=>$url));
+        } else {
+            return json_encode(array('msg'=>'修改失败','code'=>3));
+
         }
     }
 

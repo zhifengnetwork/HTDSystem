@@ -3,7 +3,7 @@
 <div class="admin-main layui-form">
     <div class="layui-field-box">
         <div class="layui-box-searchber" style="overflow: visible">
-            <a class="layui-btn layui-btn-sm" href="{:url('admin/articles/add')}">新增文章</a>
+            <a class="layui-btn layui-btn-sm" href="{:url('admin/articles/add')}">新增公告</a>
             <button class="layui-btn layui-btn-danger layui-btn-sm" data-url="{:url('articles/alldelete')}" lay-submit lay-filter="alldelete">删除选中</button>
 
 
@@ -11,51 +11,37 @@
 
                 <div class="layui-form">
                     <div class="layui-inline" style="width:100px">
-                        <select name="tid" lay-filter="selecttid">
-                                <option value="">栏目分类</option>
-                           
-                                {volist name="category_level_list" id="vo"}
-                                <option {if condition="$tid eq $vo['id']"}selected="selected"{/if} value="{$vo.id}">{neq name="vo.level" value="1"}|{php}for($i=1;$i<$vo['level'];$i++){echo ' --';}{/php}{/neq}{$vo.name}</option>
-                                {/volist}
-                              </select>
-                    </div>
-                    <div class="layui-inline" style="width:100px">
                         <select name="open" lay-filter="selectopen">
                                 <option  value="">状态</option>
-                                <option {if condition="$open eq '0'"}selected="selected"{/if} value="0">待审</option>
-                                <option {if condition="$open eq 1"}selected="selected"{/if} value="1">正常</option>
-                                <option {if condition="$open eq 2"}selected="selected"{/if} value="2">不通过</option>
-                                <option {if condition="$open eq -1"}selected="selected"{/if} value="-1">关闭</option>
+
                               </select>
                     </div>
                     <div class="layui-inline" style="width:100px">
-                        <input type="text" placeholder="开始日期" value="{$startdate}" name="startdate" class="layui-input" id="startdate">
+                        <input type="text" placeholder="开始日期" value="" name="startdate" class="layui-input" id="startdate">
                     </div>
                     <div class="layui-inline" style="width:100px">
-                        <input type="text" placeholder="结束日期" value="{$enddate}" name="enddate" class="layui-input" id="enddate">
+                        <input type="text" placeholder="结束日期" value="" name="enddate" class="layui-input" id="enddate">
                     </div>
                     <div class="layui-inline" style="width:100px">
                         <select name="settop" lay-filter="selectopen">
                                 <option  value="">是否置顶</option>
-                                <option {if condition="$settop eq 1"}selected="selected"{/if} value="1">置顶</option>
-                                <option {if condition="$settop eq '0'"}selected="selected"{/if} value="0">普通</option>
+
                               </select>
                     </div>
                     <div class="layui-inline" style="width:100px">
                         <select name="choice" lay-filter="selectopen">
                                 <option  value="">是否精选</option>
-                                <option {if condition="$choice eq 1"}selected="selected"{/if} value="1">精选</option>
-                                <option {if condition="$choice eq '0'"}selected="selected"{/if} value="0">一般</option>
+
                               </select>
                     </div>
 
 
                     <div class="layui-inline" style="width:100px">
-                        <input type="text" name="keyword" value="{$keyword}" placeholder="关键词" class="layui-input">
+                        <input type="text" name="keyword" value="" placeholder="关键词" class="layui-input">
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">每页条数</label>
-                        <div class="layui-inline" style="width:50px"><input type="number" name="perpage" value="{$perpage}" title placeholder="每页条数" class="layui-input">
+                        <div class="layui-inline" style="width:50px"><input type="number" name="perpage" value="" title placeholder="每页条数" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -75,11 +61,9 @@
                     <th width="40px" align="center"><input type="checkbox" name="checkAll" lay-filter="checkAll"></th>
                     <th width="40px" style="text-align:center">ID</th>
                     <th>文章标题</th>
-                    <th width="60px" style="text-align:center">作者</th>
                     <th width="70px" style="text-align:center">状态</th>
                     <th width="60px" style="text-align:center">是否顶置</th>
                     <th width="60px" style="text-align:center">是否精选</th>
-                    <th width="100px" style="text-align:center">所属栏目</th>
                     <th width="100px" style="text-align:center">更新时间</th>
                     <th width="210px" style="text-align:center">操作</th>
                 </tr>
@@ -89,10 +73,9 @@
                 <tr>
                     <td align="center"><input type="checkbox" name="ids[{$vo.id}]" lay-filter="checkOne" value="{$vo.id}"></td>
                     <td align="center">{$vo.id}</td>
-                    <td style="padding-left: 20px;"><a target="_blank" href="{:routerurl('index/index/'.($vo.template),array('id'=>$vo.id))}">{$vo.title|mb_substr=0,20,'utf-8'}</a></td>
-                    <td align="center">{$vo.username}</td>
+                    <td align="center">{$vo.title}</td>
                     <td align="center">
-                        {if $vo.open eq 0}<span style="padding:5px;color:#FFF;background:green">待审</span>{elseif $vo.open eq 1}正常 {elseif $vo.open eq 2}<span style="padding:5px;color:#FFF;background:red">不通过</span>{else /}<span style="padding:5px;color:#FFF;background:grey">隐藏</span>                        {/if}
+                        {if $vo['open'] eq 0}<span style="padding:5px;color:#FFF;background:green">待审</span>{elseif $vo['open'] eq 1}正常 {elseif $vo['open'] eq 2}<span style="padding:5px;color:#FFF;background:red">不通过</span>{else /}<span style="padding:5px;color:#FFF;background:grey">隐藏</span>                        {/if}
                     </td>
                     <td align="center">
                         <input type="checkbox" lay-skin="switch" lay-text="置顶|置顶" lay-filter="switchsettop" value="{$vo['id']}" {php}echo $vo[ 'settop']==1 ? 'checked' : '';{/php}>
@@ -102,16 +85,17 @@
 
 
                     </td>
-                    <td align="center"><a href="{:url('admin/articles/index')}?tid={$vo.tid}">{$vo.name}</a></td>
                     <td align="center">{$vo.time|friendlyDate}</td>
                     <td align="center">
-                        <button class="layui-btn layui-btn-danger layui-btn-sm {if $vo.open neq 1}layui-btn-disabled{/if} reward" data-uid="{$vo.uid}" data-id="{$vo.id}" data-url="{:url('articles/edit',array('id'=>$vo['uid']))}" {if $vo.open neq 1}disabled="disabled" {/if} title="奖励作者积分">奖励</button>
                         <a class="layui-btn layui-btn-normal layui-btn-sm" href="{:url('articles/edit',array('id'=>$vo['id']))}">编审</a>
                         <a class="elementdel layui-btn layui-btn-danger layui-btn-sm" href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/articles/delete',array('id'=>$vo['id']))}" title="删除">删除</a>
                     </td>
                 </tr>
                 {/volist}
             </tbody>
+            <div>
+                {$article_list->render()}
+            </div>
         </table>
     </div>
 
@@ -120,7 +104,7 @@
 {/block} {block name="page"}
 <div class="btable-paged">
     <div class="layui-main">
-        {$article_list->render()}
+
     </div>
 </div>
 {/block} {block name="js"}

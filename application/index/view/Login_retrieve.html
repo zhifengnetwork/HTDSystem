@@ -33,7 +33,7 @@
                         <span class="from-tit">手机号:</span>
                         <div class="from-icon">
                                 <img src="__PUBLIC__/images/login/shouji.png" alt="">
-                        <input type="tel" placeholder="请输入手机号" name="moblie"class="pptt phone moblie" value>
+                        <input type="tel" placeholder="请输入手机号" name="mobile"class="pptt phone mobile" value>
                         </div>
                     </div>
                     <div class="info mistake"></div>
@@ -75,12 +75,12 @@
 <script>
     $(".acquire").click(function () {
         // 获取验证码
-        var moblie = $.trim($(".moblie").val());
+        var mobile = $.trim($(".mobile").val());
         $.ajax({
             url: '/index/login/getPhoneVerify',
             type: 'post',
             dataType: 'json',
-            data: {phone:moblie,sms_type:3},
+            data: {phone:mobile,sms_type:3},
             success:function(msg){
 // console.log(msg);
                 if(msg.code!=0){
@@ -96,7 +96,12 @@
         var username = $.trim($(".username").val());
         var password = $.trim($(".password").val());
         var pwd = $.trim($(".pwd2").val());
+        var verify = $.trim($(".verify").val());
         var mobile = $.trim($(".mobile").val());
+        if(verify == ""){
+            suredAlert($('body'),'验证码不能为空!!!');
+            return
+        }
         if(username == ""){
             suredAlert($('body'),'用户名不能为空!!!');
             return
@@ -113,7 +118,7 @@
             suredAlert($('body'),'密码不能不一致!!!');
             return
         }
-        var data= {username:username,password:password,mobile:mobile};
+        var data= {username:username,password:password,mobile:mobile,verify:verify};
         $.ajax({
             type:"POST",
             url:"{:url('index/login/retrie')}",
@@ -121,8 +126,13 @@
             dataType:'json',
             success:function(msg) {
                 var msg  = JSON.parse(msg);
+                if (msg.code == '4') {
+                    suredAlert($('body'), msg.msg,msg.url);
+                } else {
+                    suredAlert($('body'), msg.msg);
 
-                suredAlert($('body'),msg.msg);
+                }
+
             }
 
         });
