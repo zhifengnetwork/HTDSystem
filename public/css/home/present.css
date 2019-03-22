@@ -303,8 +303,9 @@
 	bottom: 0;
 	left: 0;
 	margin: auto;
-	height: calc(100vh - 500px);
+	height: calc(100vh - 400px);
 	padding-right: 0.3rem; 
+	overflow-y: scroll;
 }
 .voting_box span{font-size: 0.3rem;}
 .voting_box{width: 100%; float: right;}
