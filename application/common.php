@@ -2041,10 +2041,9 @@ function getUpMemberIds($uid){
 function getDownUserUids2($uid){
     global $g_down_Uids,$i;
 	if($uid){
-        $i = 1;
         $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(0,1000)->select();
 		foreach($member_arr as $mb){
-			if($mb['id'] && $mb['id'] != $uid && $i<10){
+			if($mb['id'] && $mb['id'] != $uid){
                 $g_down_Uids[] = $mb['id'];
                 // $g_down_Uids[] = $i; // 层级
                 getDownUserUids2($mb['id']);
