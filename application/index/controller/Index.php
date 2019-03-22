@@ -6,6 +6,7 @@ use app\index\controller\Base;
 use think\Cache;
 use think\Controller;
 use think\Db;
+use think\Config;
 use think\Request;
 use think\Session;
 use \think\Loader;
@@ -18,6 +19,12 @@ class Index extends HomeBase
     public function _initialize()
     {
         parent::_initialize();
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
         }
@@ -50,18 +57,25 @@ class Index extends HomeBase
 
     public function index()
     {
-
-        $user = session('home');
-        if($user){
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+            exit;
+        }
+        if($home){
             $id = 1;
         }else{
             $id = 2;
         }
         $this->assign('id',$id);
+<<<<<<< HEAD
         $money = 0;
         $res = Db::name('article')->order('settop DESC','choice DESC','updatetime DESC')->find();
         $this->assign('res',$res);
         $this->assign('money',$money);
+=======
+>>>>>>> 2a0d72bb06df59b93f289282071b832f280083e3
         return view();
     }
 	
@@ -121,7 +135,7 @@ class Index extends HomeBase
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
               $rmb    = $data['val']*$result;
-            //   //美元汇率   
+              //美元汇率   
               $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
               $exchange_usd = arr2name($exchange_usd);
               $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
@@ -137,30 +151,28 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
-            dump($data);exit;
-            // dump($data);
-            // exit;
+ 
             $validate   = new Indexv();
             $base       = new Base();
-            // if(!$data['verify']){
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
-            // }
+            // 手机验证
+            if(!$data['verify']){
+                $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
+            }
 
-            // $checkData['sms_type'] = $data['sms_type'];
-            // $checkData['code'] = $data['verify'];
+            $checkData['sms_type'] = $data['sms_type'];
+            $checkData['code'] = $data['verify'];
 
-            // $checkData['phone'] =  session('home.mobile');
-            // //  session('home.mobile');
+            $checkData['phone'] =  session('home.mobile');
+            //  session('home.mobile');
               
-            // $res = checkPhoneCode($checkData);
-            // if($res['code']==0){
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            // }
-
-            // if(!$validate->check($data)){
-            //     $msg = $validate->getError();
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            // }
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
+            }        
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
             
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -206,7 +218,6 @@ class Index extends HomeBase
            
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
-              
                 $charge = numberByRetain($data['number']/100*5, 8);
             
                 try{
@@ -221,24 +232,28 @@ class Index extends HomeBase
                         // 'qrcode_addr' => $data['number'],    
                     ];      
                     
-                    // $subtract = $data['number']+$charge;
+        
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
-                    // update([$cu_type => 0]);
+                    $checkStock = checkStock($data['uid'],$data['cu_id'],$data['number']);
+                    // 减掉相应数量
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
+                    
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
-                    // $suc_money = session('home');                                    
+                                                      
                     // 提交事务
-                    Db::commit();
-                    // dump(session('home.username'));
-                    // $u_name = session('home.username');
+                    
+                    $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log'); 
                     $suc_data = [
-                        'suc_name'  => session('home.username'),
-                        'su_num'=> $data['number'],
-                        'su_time'   => time(),
-                        'su_charge' => $charge 
+                        'suc_name'     => session('home.username'),
+                        'su_num'       => $data['number'],
+                        'su_time'      => date('Y-m-d,H:i:s',time()),
+                        'su_charge'    => $charge,
+                        'su_log'       => $log       
                     ];
-                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);    
+                    Db::commit(); 
+                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
+                       
                 } catch (\Exception $e) {
                     // 回滚事务
                     Db::rollback();
@@ -263,7 +278,18 @@ class Index extends HomeBase
                     Db::table('htd_user_extract')->insert($where1);
                     // 提交事务
                     Db::commit(); 
-                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                    // 成功提交后返回数据
+                    $alias_name = Db::name('htd_currency')->where('id',$data['cu_id'])->value('alias_name');
+                    $suc_data = [
+                        'suc_name'  => session('home.username'),
+                        'su_num'=> $data['number'],
+                        'su_time'   => date('Y-m-d,H:i:s',time()),
+                        'su_charge' => $charge,
+                        'alias_name'=> $alias_name
+                    ];
+                    // dump($suc_data);
+                    //  exit;
+                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>$suc_data]);    
                 } catch (\Exception $e) {
                     // 回滚事务
                     Db::rollback();
@@ -512,5 +538,13 @@ class Index extends HomeBase
 
             return view();
         }
+    }
+
+    // 股权页面
+    public function stock(){
+        $user = session('home');
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
+        return view();
     }
 }

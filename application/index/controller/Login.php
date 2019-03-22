@@ -22,8 +22,11 @@ class Login extends Controller
 			}
     
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 2a0d72bb06df59b93f289282071b832f280083e3
     public function captcha()
     {
         $m = new Captcha(Config::get('captcha'));

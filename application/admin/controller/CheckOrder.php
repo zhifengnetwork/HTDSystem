@@ -59,6 +59,12 @@ class CheckOrder extends AdminBase
 				if($execute_order_check['is_check']==0){
 					$res4 = Db::name('execute_order')->where(['order_no'=> $order['order_no']])->update(['is_check'=>1]);
 				}
+
+				// 把当前订单的总金额*3累加到股权钱包中
+				$stock_rights_money = $order['total_money']*3;  // 1:3
+				$res5 = Db::name('user')->where(['id'=>$order['uid']])->setInc('stock_rights', $stock_rights_money);
+
+
 				// 提交事务
 				Db::commit();   
 				return json(array('code' => 200, 'msg' => '订单审核成功！'));
@@ -69,6 +75,6 @@ class CheckOrder extends AdminBase
 				Db::rollback();
 				return json(array('code' => 0, 'msg' => '操作异常，请联系管理员'));
 			}
-    }
+	}
    
 }

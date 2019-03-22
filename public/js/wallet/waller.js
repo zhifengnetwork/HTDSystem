@@ -1,6 +1,18 @@
 /**投资按钮-状态 */
 // var stateJ = true;
 $(document).ready(function(){
+	/**获取焦点
+	 * 手机端=>input=>点击隐藏=>底部导航栏
+	 * **/
+	$('#throw_inp').focus(function() {
+		/*底部导航栏*/
+		$('.bottomNavWrap').hide();
+	})
+	/*失去焦点*/
+	$('#throw_inp').blur(function() {
+		/*底部导航栏*/
+		$('.bottomNavWrap').show();
+	})
 	//点击总投资-弹出框
 	$(".asset").on("click",function(){
 		$(".pop").show();

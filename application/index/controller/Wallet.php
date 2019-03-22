@@ -60,7 +60,7 @@ class Wallet extends HomeBase
         }
         $uid = session('home.id');
         $param = input('post.');
-        dump($param);
+        // dump($param);
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
 
@@ -73,6 +73,9 @@ class Wallet extends HomeBase
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
 
+        if($param['cu_num']<0){
+            return json(array('code' => 0, 'msg' => '数量不可小于0'));
+        }
         // 判断币种是否开启
         $currency_one = Db::name("currency")->where(['id'=>$cu_id])->find();
         // 判断币种是否存在
@@ -109,41 +112,45 @@ class Wallet extends HomeBase
 
         Db::startTrans();
         try{
-            
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
+        //    echo Db::name('execute_order')->getLastSql();
             if($is_cu_order['cu_id'] && $pay_way==2){
-
+               
                 if (!captcha_check($param['verify'])) {
                     return json(array('code' => 0, 'msg' => '验证码错误'));
-                    // return json(array('code' => 0, 'msg' => '收益不足'));
                 }
-
-
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
 
                 $wallet_flag = intval($param['wallet_flag']);
+              
                 // 判断钱包是否够复投对应币种数量
-                if($wallet_flag=120){
+                if($wallet_flag==120){
+                    $wallet_name = '收益';
                     if($user_wallet['bonus_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '收益不足'));
                     }
                     // 扣减对应数量
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('bonus_wallet', $cu_num);
                 }
-                if($wallet_flag=121){
+                if($wallet_flag==121){
+                    $wallet_name = '分红';
                     if($user_wallet['rate_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '分红收益不足'));
                     }
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('rate_wallet', $cu_num);
                 }
-                // 复投累加对应币种数量execute_order
+                // 复投累加对应币种数量execute_order和user_wallet对应币种本金钱包
                 $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('num', $cu_num);
-                // 插入日志
-                $this->insertLog($user_one['id'],$cu_id,'复投'.$cu_num,101);
+                $inc_res2 = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('cu_num', $cu_num);
 
+                // 插入日志
+                $this->insertLog($user_one['id'],$cu_id,$wallet_name.'复投'.$cu_num,2); // 复投
+
+                // 提交事务
+                Db::commit(); 
                 return json(array('code' => 200, 'msg' => '复投成功'));
             }else{
 

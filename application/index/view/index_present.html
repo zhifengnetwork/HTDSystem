@@ -46,7 +46,7 @@
 							</div>
 							<!-- 下拉菜单 -->
 							<div class="pull_down">
-								<img src="__PUBLIC__/images/down.png">
+								<img src="__PUBLIC__/images/xia.png">
 							</div>
 						</div>
 
@@ -83,14 +83,15 @@
 				</div>
 					{/foreach}
 					<!-- 列表项 -e -->
-				   
+				
 				<!-- 提取弹框-s -->
 				<div class="popover">
 						<div class="popover_content">
 							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 								<div class="popover_box clearfix">
 										<span>请选择提币类型:</span>
-										<span class="popover_click">请选择 </span>▼
+										<span class="popover_click">请选择 </span>
+										<img src="__PUBLIC__/images/xia.png" class="down">
 										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
@@ -99,6 +100,8 @@
 										</ul>
 								</div>
 
+							<div class="popover-boxx">	
+							
 								<div class="popover_box clearfix">
 										<input type="hidden" name="uid" id="uid" value="{$uid}">
 										<input type="hidden" name="cu_id" id="cu_id" value="">
@@ -110,7 +113,7 @@
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
 										<input type="hidden" name="sms_type" id="sms_type" value="">
 										<input type="hidden" name="verify" id="verify" value="">						
-									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="大于等于{$withdraw_min}美金可提取" /><br />
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="除本金以外大于等于{$withdraw_min}美金可提取" /><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
 								<!--000-->
@@ -153,26 +156,65 @@
 									<span class="true">提取</span>
 									<span class="false">取消</span>
 								</div>
+							</div>
 							</form>
 						</div>
 					</div>
 				<!-- 提取弹框-e -->
+				<!-- 确认弹框-s -->
+				<div class="true_popUp_wrap">
+					<div class="true_popUp">
+						<!-- 弹框标题 -->
+						<div class="popUp_titel">
+							提币成功
+						</div>
+						<!-- 弹框内容 -->
+						<div class="popUp_content">
+							<!-- 内容标题 -->
+							<h1>交易明细</h1>
+							<!-- 内容主体 -->
+							<p>
+								<span>用户名</span>
+								<span class="user"></span>
+							</p>
+							<p>
+								<span>提币额度</span>
+								<span class="total">
+									
+								</span>
+							</p>
+							<p>
+								<span>手续费</span>
+								<span class="charge"></span>
+							</p>
+							<p>
+								<span>日期</span>
+								<span class="time"></span>
+							</p>
+						</div>
+						<!-- 弹框按钮 -->
+						<div class="popUp_btn">
+							确认
+						</div>
+					</div>
+				</div>
+			<!-- 确认弹框-e -->
 				<!-- 复投弹框-s -->
 				<div class="voting">
 					<div class="voting_content">
 						<form class="form-horizontal" id="handleposition1" method="post" onsubmit="return false;">
 							<div class="voting_box clearfix">
 									<span>请选择投入类型:</span>
-									<span class="voting_click">请选择  </span>▼
-									
+									<span class="voting_click">请选择  </span>
+									<img src="__PUBLIC__/images/xia.png" class="down">
 									<ul class="ul_box voting_ul">
 										<li data-val="120">收益</li>
 										<li data-val="121">分红</li>
 									
 									</ul>
 							</div>
-					
-							<div class="voting_box clearfix">
+					        <div class="popover-boxx">
+							<div class="voting_box vo_mg clearfix">
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
@@ -184,20 +226,25 @@
 							<div class="voting_box clearfix">
 							
 								<div class="lj_p_address">
-									<h2>验证码:</h2>
-									<input class="lj_input3" type="text" name="verify"  />
-									<!-- <div>{:captcha_img()}</div> -->
-									<div><img id="captcha" src="{:url('login/captcha')}" onclick="this.src='{:url('login/captcha')}?'+Math.random();" width="150" style="float:left; cursor:pointer;" alt="captcha" /></div>
-									<!-- <button class="btn">验证码</button> -->
+									<h2 class="h2_input4">验证码:</h2>
+									<input class="lj_input4" type="text" name="verify"  />
+									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" />
+								</div>
+
+									
+									 
+							</div>
+							<div class="voting_verify">
+									<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
+								<!-- <button class="btn">验证码</button> -->
+								<div class="voting_affirm">
+									<span class="retrue">复投</span>
+									<span class="false">取消</span>
 								</div>
 							</div>
+							
 							<!--000-->
-							
-							
-							<div class="voting_affirm">
-								<span class="retrue">复投</span>
-								<span class="false">取消</span>
-							</div>
+	
 						</form>
 					</div>
 				</div>
@@ -211,30 +258,30 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
-			// function phonecode(phoneS){
-			// 	        // var phone= {$phone}
-			// 			// 获取验证码
-			// 			// console.log(phoneS)
-			// 			// return false;
-			// 			var a = '13612560591';
-			// 			$.ajax({
-			// 				url: '/index/index/getPhoneVerify',
-			// 				type: 'post',
-			// 				dataType: 'json',
-			// 				data: {phone:phoneS, sms_type:2},
-			// 				success:function(msg){
-			// 				// console.log(msg);
-            //                 // $('#sms_type').val(1);
-			// 				// $('#verify').val(msg.code);
-			// 				if(msg.code!=0){
-			// 				layer.msg('已发送');
-			// 				}else{
-			// 				layer.msg(msg.msg);
-			// 				return false;
-			// 				}
-			// 			}
-			// 			});
-			// }
+			function phonecode(phoneS){
+				        // var phone= {$phone}
+						// 获取验证码
+						// console.log(phoneS)
+						// return false;
+						var a = '13612560591';
+						$.ajax({
+							url: '/index/index/getPhoneVerify',
+							type: 'post',
+							dataType: 'json',
+							data: {phone:phoneS, sms_type:2},
+							success:function(msg){
+							// console.log(msg);
+                            // $('#sms_type').val(1);
+							// $('#verify').val(msg.code);
+							if(msg.code!=0){
+							layer.msg('已发送');
+							}else{
+							layer.msg(msg.msg);
+							return false;
+							}
+						}
+						});
+			}
 
 
 			//复投按钮
@@ -268,12 +315,17 @@
 			
 			$(function(){
                //提取按钮
-				$(".popover_click").click(function(){
+				$(".popover_click,.down").click(function(){
 					$(".popover_ul").slideToggle("slow");
 				});
 				//复投按钮
-				$(".voting_click").click(function(){
+				$(".voting_click,.down").click(function(){
 					$(".voting_ul").slideToggle("slow");
+				});
+
+                //收回类型下拉
+				$(".popover-boxx").click(function(){
+					$(".ul_box").slideUp();
 				});
 				
                //提取下拉框-类型 
@@ -292,6 +344,22 @@
 					$(".voting_click").html($li)
 					$(".voting_click").attr("data-id",index)
 			})
+			 //获取验证码
+			 $(".btn").click(function(){
+				daojishi(60,$(this))
+				// $(".ul_box").slideUp()
+			})
+			function daojishi(seconds,obj){
+				if (seconds > 1){
+						seconds--;
+						$(obj).html(seconds+"重新获取 ").attr("disabled", true);
+						setTimeout(function(){
+							daojishi(seconds,obj);
+						},1000);
+					}else{
+						$(obj).html("获取验证码").attr("disabled", false);//启用按
+					}
+			}
 			})
             // 提取按钮
 			function send(uid,cu_id){
@@ -329,6 +397,7 @@
 				$('.true').click(function() {
 					$('.popover').hide();
 					$('.voting').hide();
+					
 				});
 				//弹框取消
 				$('.false').click(function() {
@@ -336,6 +405,11 @@
 					// $('.voting').hide();
 					window.location.reload(); 
 				});
+				//确认弹框按钮
+				$('.popUp_btn').click(function(){
+					$('.true_popUp_wrap').hide();
+					window.location.reload(); 
+				})
 				//点击背景隐藏and提取按钮清空提取金额的值
 				$('.popover,.popover_affirm').click(function() {
 					$(".popover").hide();
@@ -401,11 +475,19 @@
 					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
-									layer.msg(data.msg, {icon: 1, time: 2000}, function(){
+									// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
 										console.log(data.result)	
+										$(".user").html(data.result['suc_name']);
+										$(".total").html(data.result['su_num']);
+										$(".charge").html(data.result['su_charge']);
+										$(".time").html(data.result['su_time']);
+										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
+										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
+										$('.true_popUp_wrap').show();
+										
 										// console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
 									// window.location.reload(); 
-								});
+								// });
 							}
 							else {
 									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});

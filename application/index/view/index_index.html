@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title class="pageTopTitle" page-id="0">首页</title>
     <script src="__PUBLIC__/js/public/rem.js"></script>
-    
+
     <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
     <link rel="stylesheet" href="__PUBLIC__/css/public/swiper.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css"/>
-    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=666">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css?v=111">
+    <link rel="stylesheet" href="__PUBLIC__/css/home/index.css?v=111">
 </head>
+
 <body>
     <div class="wrapper">
         <!-- 轮播图 -->
         <div class="swiper-container banner-wrap-zp">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="__PUBLIC__/images/home/banner01.png"  />
+                    <img src="__PUBLIC__/images/home/banner01.png" />
                 </div>
                 <div class="swiper-slide">
-                    <img src="__PUBLIC__/images/home/banner02.png"  />
+                    <img src="__PUBLIC__/images/home/banner02.png" />
                 </div>
                 <div class="swiper-slide">
-                    <img src="__PUBLIC__/images/home/banner03.png"  />
+                    <img src="__PUBLIC__/images/home/banner03.png" />
                 </div>
             </div>
             <div class="swiper-pagination"></div>
@@ -69,7 +71,7 @@
                     </a>
                 </li>
                 <li class="itemColor-6">
-                   <a href="{:url('Index/login/directDrive')}">
+                    <a href="{:url('Index/login/directDrive')}">
                         <img src="__PUBLIC__/images/home/Assets-icon@2x.png" alt="">
                         <span>我的业绩</span>
                     </a>
@@ -81,20 +83,16 @@
                     </a>
                 </li>
                 <li class="itemColor-8">
-                    <a href="javascript:void(0);">
+                    <a href="{:url('Index/stock')}">
                         <img src="__PUBLIC__/images/home/stock-icon.png" alt="">
-                        {if condition="$money == 0"}
-                        <span>当前股权: {$money}</span>
-                        {else}
-                        <span>z暂无股权</span>
-                        {/if}
+                        <span>当前股权</span>
                     </a>
                 </li>
             </ul>
         </div>
 
         <!-- 底部导航 -->
-        <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+        <div class="bottomNavWrap container" id="bottomNavWrap" data-id=""></div>
 
         <!-- 蒙层 -->
         <div class="mode">
@@ -105,49 +103,93 @@
                     <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
                 </div>
                 <div class="dialog-content">
+<<<<<<< HEAD
                     <p>{$res['title']}</p>
 
+=======
+                    <p>EOS充值提现已全面恢复EOS充值提现已全面恢复EOS充值提现已全面恢复</p>
+>>>>>>> 2a0d72bb06df59b93f289282071b832f280083e3
                 </div>
                 <div class="dialog-btn">
-                    <a href="javascript:void(0)">确定</a>
+                    <a href="#">查看详情</a>
                 </div>
-            </div>         
+            </div>
         </div>
-        
+
+
     </div>
-    
+
     <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
     <!--底部nav=>Tab功能-->
-	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
+    <script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
     <script src="__PUBLIC__/js/public/swiper.js"></script>
-    <script src="__PUBLIC__/js/public/base.js"></script>
-    
+    <script src="__PUBLIC__/js/public/base.js?v=666"></script>
+
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             var swiper = new Swiper('.banner-wrap-zp', {
-                loop:true,
+                loop: true,
                 pagination: '.swiper-pagination',
                 paginationClickable: true,
                 spaceBetween: 30,
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
-            });
-
-            //公告弹框
-            setTimeout(function(){
+            }); 
+            var now = new Date().getTime() //当前的时间
+            var alread  //现在的时间  3600000
+         function ttmm(aa,bb){
+                if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
+                    alread=parseInt(sessionStorage.getItem('begin'))
+                    console.log(now)
+                    console.log(alread)
+                    console.log(now-alread)
+                }
+                if(now-alread>5000){
+                     console.log(now-alread>5000)
+                    $(".mode").show();
+                    $(".dialog-notice").show();
+                    stop(".mode");
+                    sessionStorage.clear()
+                }
+                 //sessionStorage.clear()
+            } 
+            setTimeout(ttmm(now,alread), 1000)
+            //公告弹框 
+            setTimeout(function (){
                 $(".mode").show();
-                stop();
-            },1000)           
-        
-            //公告弹窗关闭
-            $(".dialog-notice .close,.dialog-btn a").click(function(){
-                $(".mode").hide();
-                move();
+                $(".dialog-notice").show();
+                stop(".mode");
+                document.body.style.overflow = 'hidden';
+            }, 1000)
+
+
+             var time = new Date().getTime()
+             
+            //阻止冒泡，点击弹框禁止页面滚动
+            $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
+                event.stopPropagation();  
+                document.body.style.overflow = 'hidden';//禁止页面滚动
             })
+
+            //公告弹窗关闭
+            $(".dialog-notice .close,.dialog-btn a").click(function () {
+                $(".mode").hide();
+                $(".dialog-notice").hide();
+                sessionStorage.setItem('begin',time)
+                console.log(time)
+                console.log( sessionStorage.getItem('begin'))
+                document.body.style.overflow = ''; //出现滚动条
+            })
+        
+            
+            
+             
+           
             
         })
 
     </script>
 </body>
+
 </html>

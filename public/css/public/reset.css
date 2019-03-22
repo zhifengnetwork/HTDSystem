@@ -2,18 +2,17 @@
 *{
 	margin: 0;
 	padding: 0;
-	touch-action: pan-y;
+	/* touch-action: pan-y; */
 }
 /*字体库*/
-@font-face{
+/* @font-face{
 	font-family: 'PingFangMedium';
 	src: url("/public/font/PingFangMedium.ttf")
-}
+} */
 body {
 	width: 100%;
     min-height: 100vh;
 	font-size: 0.24rem;
-	font-family:"PingFangMedium";
 	background: -moz-linear-gradient(top, #142785 0%, #101b59 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #142785), color-stop(100%, #101b59));
 	background: -webkit-linear-gradient(top, #142785 0%, #101b59 100%);
@@ -45,8 +44,10 @@ li{
 
 input[type=button], input[type=submit], input[type=file], button { 
 	cursor: pointer; 
+	border: none;
+	outline: none;
 	-webkit-appearance: none; 
-	-moz-appearance:textfield;
+	-moz-appearance: textfield;
 }
 
 
