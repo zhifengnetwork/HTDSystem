@@ -99,7 +99,7 @@
 										</ul>
 								</div>
 
-									
+							<div class="popover-boxx">	
 							
 								<div class="popover_box clearfix">
 										<input type="hidden" name="uid" id="uid" value="{$uid}">
@@ -155,6 +155,7 @@
 									<span class="true">提取</span>
 									<span class="false">取消</span>
 								</div>
+							</div>
 							</form>
 						</div>
 					</div>
@@ -209,7 +210,7 @@
 									
 									</ul>
 							</div>
-					
+					 <div class="popover-boxx">
 							<div class="voting_box clearfix">
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
@@ -244,6 +245,7 @@
 								<span class="retrue">复投</span>
 								<span class="false">取消</span>
 							</div> -->
+						</div>
 						</form>
 					</div>
 				</div>
@@ -321,6 +323,11 @@
 				$(".voting_click").click(function(){
 					$(".voting_ul").slideToggle("slow");
 				});
+
+                //收回类型下拉
+				$(".popover-boxx").click(function(){
+					$(".ul_box").slideUp();
+				});
 				
                //提取下拉框-类型 
 				$(".popover_ul>li").click(function(){
@@ -338,7 +345,22 @@
 					$(".voting_click").html($li)
 					$(".voting_click").attr("data-id",index)
 			})
-		
+			 //获取验证码
+			 $(".btn").click(function(){
+				daojishi(60,$(this))
+				// $(".ul_box").slideUp()
+			})
+			function daojishi(seconds,obj){
+				if (seconds > 1){
+						seconds--;
+						$(obj).html(seconds+"秒重新获取 ").attr("disabled", true);
+						setTimeout(function(){
+							daojishi(seconds,obj);
+						},1000);
+					}else{
+						$(obj).html("获取验证码").attr("disabled", false);//启用按
+					}
+			}
 			})
             // 提取按钮
 			function send(uid,cu_id){
