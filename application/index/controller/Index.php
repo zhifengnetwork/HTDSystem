@@ -6,6 +6,7 @@ use app\index\controller\Base;
 use think\Cache;
 use think\Controller;
 use think\Db;
+use think\Config;
 use think\Request;
 use think\Session;
 use \think\Loader;
@@ -18,6 +19,11 @@ class Index extends HomeBase
     public function _initialize()
     {
         parent::_initialize();
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+        }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
         }
@@ -45,8 +51,8 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
-        $money = 0;
-        $this->assign('money',$money);
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
         return view();
     }
 	
@@ -106,7 +112,7 @@ class Index extends HomeBase
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
               $rmb    = $data['val']*$result;
-            //   //美元汇率   
+              //美元汇率   
               $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
               $exchange_usd = arr2name($exchange_usd);
               $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
@@ -122,10 +128,15 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
-            dump($data);exit;
+            // dump($data);exit;
             // dump($data);
             // exit;
             $validate   = new Indexv();
+
+            // $validate->rule('zip', '/^\d{6}$/');
+            // $validate->rule([
+            //     'number'   => '^[0-9]{1,11}([.][0-9]{1,8})?$',
+            // ]);
             $base       = new Base();
             // if(!$data['verify']){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
@@ -140,12 +151,11 @@ class Index extends HomeBase
             // $res = checkPhoneCode($checkData);
             // if($res['code']==0){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            // }
-
-            // if(!$validate->check($data)){
-            //     $msg = $validate->getError();
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            // }
+            // }        
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
             
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -209,6 +219,7 @@ class Index extends HomeBase
                     // $subtract = $data['number']+$charge;
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
                     // update([$cu_type => 0]);
+                    // 减掉相应数量
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);

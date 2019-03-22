@@ -83,18 +83,14 @@
                 <li class="itemColor-8">
                     <a href="javascript:void(0);">
                         <img src="__PUBLIC__/images/home/stock-icon.png" alt="">
-                        {if condition="$money == 0"}
-                        <span>当前股权: {$money}</span>
-                        {else}
-                        <span>z暂无股权</span>
-                        {/if}
+                        <span>当前股权</span>
                     </a>
                 </li>
             </ul>
         </div>
 
         <!-- 底部导航 -->
-        <div class="bottomNavWrap container" id="bottomNavWrap" data-id="{$id}"></div>
+        <div class="bottomNavWrap container" id="bottomNavWrap" data-id=""></div>
 
         <!-- 蒙层 -->
         <div class="mode">
@@ -119,7 +115,7 @@
     <!--底部nav=>Tab功能-->
 	<script src="__PUBLIC__/js/public/bottomNavJs.js"></script>
     <script src="__PUBLIC__/js/public/swiper.js"></script>
-    <script src="__PUBLIC__/js/public/base.js"></script>
+    <script src="__PUBLIC__/js/public/base.js?v=666"></script>
     
     <script>
         $(document).ready(function(){
@@ -136,13 +132,12 @@
             //公告弹框
             setTimeout(function(){
                 $(".mode").show();
-                stop();
+                stop(".mode");
             },1000)           
         
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function(){
                 $(".mode").hide();
-                move();
             })
             
         })

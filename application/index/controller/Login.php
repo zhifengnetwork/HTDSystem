@@ -156,10 +156,22 @@ class Login extends Controller
             echo $data;
         }
     }
-
+    //忘记密码
     public function retrieve()
     {
         return $this->fetch();
+    }
+    //处理忘记密码
+    public function retrie()
+    {
+        $arr = $this->request->post();
+        $res = Db::name('user')->where('username',$arr['username'])->find();
+        if (!$res){
+            return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','flag'=>1));
+        }
+        if ($arr['mobile'] != $res['mobile']) {
+            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','flag'=>2));
+        }
     }
 
     /**

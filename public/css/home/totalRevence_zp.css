@@ -1,5 +1,5 @@
 .totalRevenue-wrap .thead-zp{
-    /* padding-top: 0.88rem; */
+    padding-top: 0.88rem;
     box-sizing: border-box;
 }
 .totalRevenue-wrap .thead-zp ul{
@@ -48,7 +48,7 @@
 /* 社区业绩 */
 .community{
     width: 100%;
-    height: 3rem;
+    height: 3.5rem;
     margin-bottom:.4rem; 
     padding: .88rem .4rem .4rem; 
     box-sizing: border-box;
@@ -69,11 +69,11 @@
 }
 .community_num{
     text-align: center;
-    font-size: .3rem;
-    line-height: 1.1rem;
+    font-size: .4rem;
+    line-height: 1.5rem;
     letter-spacing: .02rem;
 }
 .community_num strong{
-    font-size: .36rem;
+    font-size: .6rem;
     vertical-align: middle;
 }

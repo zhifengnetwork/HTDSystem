@@ -5,10 +5,10 @@
 
 .details_item1 p{display: inline-block;line-height: 0.9rem;}
 .details_item1 p:nth-child(1){font-size: 0.3rem;color: #fff;float: left;}
-.details_item1 p:nth-child(2){font-size: 0.2rem;color: #AAAAAA;float: right;}
+.details_item1 p:nth-child(2){font-size: 0.25rem;color: #AAAAAA;float: right;}
 
 .details_item2{margin-top: 0.2rem;}
-.details_item2 p{font-size: 0.22rem;color: #fff;}
+.details_item2 p{font-size: 0.26rem;color: #fff;}
 .d_item2_title{line-height: 0.9rem;}
 .d_item2_con{text-align: justify;}
 .d_item2_bom{line-height: 0.9rem;}
