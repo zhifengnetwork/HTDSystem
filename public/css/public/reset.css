@@ -5,10 +5,10 @@
 	/* touch-action: pan-y; */
 }
 /*字体库*/
-@font-face{
-	font-family: 'PingFangMedium';
-	src: url("/public/font/PingFangMedium.ttf")
-}
+/*@font-face{
+	//font-family: 'PingFangMedium';
+	//src: url("/public/font/PingFangMedium.ttf")
+}*/
 body {
 	width: 100%;
     min-height: 100vh;
