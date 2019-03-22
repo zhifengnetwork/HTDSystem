@@ -22,25 +22,6 @@ class Login extends Controller
 			}
     
     }
-    /**
-     * 获取手机验证码
-     * @param $sms_type int
-     * @param $phone string
-     */
-    public function getPhoneVerify(){
-
-        // 传入类型：1注册 2提币；手机号
-        $param = input('post.');
-        $sms_type = intval($param['sms_type']);
-        if(!$sms_type || !$param['phone']){
-            return json(array('code' => 0, 'msg' => '缺少参数'));
-        }
-        $data = ['sms_type'=>$sms_type, 'phone'=>$param['phone']];
-        $res = getPhoneCode($data);
-        var_dump($res);exit;
-        return json($res);
-        // p($res);
-    }
     public function captcha()
     {
         $m = new Captcha(Config::get('captcha'));
