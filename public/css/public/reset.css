@@ -2,6 +2,7 @@
 *{
 	margin: 0;
 	padding: 0;
+	/* touch-action: pan-y; */
 }
 /*字体库*/
 @font-face{

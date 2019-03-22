@@ -60,6 +60,7 @@ class Wallet extends HomeBase
         }
         $uid = session('home.id');
         $param = input('post.');
+        // dump($param);
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
 
@@ -108,24 +109,29 @@ class Wallet extends HomeBase
 
         Db::startTrans();
         try{
-            
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
+        //    echo Db::name('execute_order')->getLastSql();
             if($is_cu_order['cu_id'] && $pay_way==2){
+               
+                if (!captcha_check($param['verify'])) {
+                    return json(array('code' => 0, 'msg' => '验证码错误'));
+                }
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
 
                 $wallet_flag = intval($param['wallet_flag']);
+              
                 // 判断钱包是否够复投对应币种数量
-                if($wallet_flag=120){
+                if($wallet_flag==120){
                     if($user_wallet['bonus_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '收益不足'));
                     }
                     // 扣减对应数量
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('bonus_wallet', $cu_num);
                 }
-                if($wallet_flag=121){
+                if($wallet_flag==121){
                     if($user_wallet['rate_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '分红收益不足'));
                     }

@@ -124,7 +124,6 @@
     <script>
         $(document).ready(function(){
 
-        
             var swiper = new Swiper('.banner-wrap-zp', {
                 loop:true,
                 pagination: '.swiper-pagination',
@@ -134,14 +133,17 @@
                 autoplayDisableOnInteraction: false
             });
 
-            $(".mode").show();
-            stop();
+            //公告弹框
+            setTimeout(function(){
+                $(".mode").show();
+                stop(".mode");
+            },1000)           
         
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function(){
                 $(".mode").hide();
-                move();
             })
+            
         })
 
     </script>

@@ -47,7 +47,11 @@
 							</div>
 							<!-- 下拉菜单 -->
 							<div class="pull_down">
+<<<<<<< HEAD
 								<img src="__PUBLIC__/images/pull-down9.png">
+=======
+								<img src="__PUBLIC__/images/down.png">
+>>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58
 							</div>
 						</div>
 
@@ -84,7 +88,7 @@
 				</div>
 					{/foreach}
 					<!-- 列表项 -e -->
-				
+				   
 				<!-- 提取弹框-s -->
 				<div class="popover">
 						<div class="popover_content">
@@ -221,10 +225,20 @@
 							<div class="voting_box clearfix">
 							
 								<div class="lj_p_address">
+<<<<<<< HEAD
 									<h2 class="phone_yzm">手机验证码:</h2>
 									<input class="lj_input4" type="text" name="note"  />
 									<button class="btn">获取验证码</button>
 								</div>
+=======
+									<h2>验证码:</h2>
+									<input class="lj_input3" type="text" name="verify"  />
+									<!-- <div>{:captcha_img()}</div> -->
+							</div>
+							<div class="voting_verify">
+									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>
+								<!-- <button class="btn">验证码</button> -->
+>>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58
 							</div>
 							<!--000-->
 							
@@ -256,7 +270,7 @@
 			// 				url: '/index/index/getPhoneVerify',
 			// 				type: 'post',
 			// 				dataType: 'json',
-			// 				data: {phone:a, sms_type:2},
+			// 				data: {phone:phoneS, sms_type:2},
 			// 				success:function(msg){
 			// 				// console.log(msg);
             //                 // $('#sms_type').val(1);
@@ -436,8 +450,10 @@
 					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
 					jq.getJSON(url,datas,function(data){						
 							if (data.status == 1) {
-									layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
-									window.location.reload(); 
+									layer.msg(data.msg, {icon: 1, time: 2000}, function(){
+										console.log(data.result)	
+										// console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
+									// window.location.reload(); 
 								});
 							}
 							else {

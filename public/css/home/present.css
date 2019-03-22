@@ -309,8 +309,13 @@
 	bottom: 0;
 	left: 0;
 	margin: auto;
+<<<<<<< HEAD
 	/*height: calc(100vh - 400px);*/
+=======
+	height: calc(100vh - 400px);
+>>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58
 	padding-right: 0.3rem; 
+	overflow-y: scroll;
 }
 .voting_box span{font-size: 0.3rem;}
 .voting_box{width: 100%; float: right;}
@@ -399,6 +404,7 @@
 	padding:.4rem .4rem 0 .4rem;
 	font-size:0.24rem;
 }
+<<<<<<< HEAD
 /* 确认弹框-s V1.0 */
 /*  遮罩层 */
 .true_popUp_wrap{
@@ -440,3 +446,17 @@
 /* 主体标题 */
 .popUp_content 
 /* 确认弹框-e V1.0 */
+=======
+
+/* 验证码 */
+.voting_verify{
+	height: 100%;
+	width: 100%;
+	cursor:pointer;
+}
+.voting_verify #captcha{
+margin-left: 1rem;
+height: 100%;
+width: 3rem;
+}
+>>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58

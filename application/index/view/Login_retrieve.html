@@ -14,18 +14,26 @@
 <body>
     <div class="retrievebox">
         <div class="header-zp">
-            <span class="return" onclick="javascript:history.back(-1)">
+            <span class="return">
                 <img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
             <h3>手机短信找回密码</h3>
         </div>
         <div class="retrieve-new-page">
-                <form action="" class="sms-retrieve-from">
+                <form class="sms-retrieve-from">
+                    <div class="info mistake"></div>
+                    <div class="from-group">
+                        <span class="from-tit">用户名:</span>
+                        <div class="from-icon">
+                            <img src="__PUBLIC__/images/login/shouji.png" alt="">
+                            <input type="tel" placeholder="请输入用户名" name="username"class="pptt username" value>
+                        </div>
+                    </div>
                     <div class="info mistake"></div>
                     <div class="from-group">
                         <span class="from-tit">手机号:</span>
                         <div class="from-icon">
                                 <img src="__PUBLIC__/images/login/shouji.png" alt="">
-                        <input type="tel" placeholder="请输入手机号" name="phone"class="pptt phone" value>
+                        <input type="tel" placeholder="请输入手机号" name="moblie"class="pptt phone moblie" value>
                         </div>
                     </div>
                     <div class="info mistake"></div>
@@ -42,7 +50,7 @@
                             <span class=" from-tit from-cc">设置密码:</span>
                             <div class="from-icon ">
                                     <img src="__PUBLIC__/images/login/suo.png" alt="">
-                            <input type="password" placeholder="请重置新密码"name="pwd"class="pptt  pwd1"  value>
+                            <input type="password" placeholder="请重置新密码"name="password"class="pptt  pwd1 password"  value>
                             </div>
                       </div>
                       <div class="info mistake"></div>
@@ -50,10 +58,10 @@
                             <span class="from-tit from-cc">确认密码:</span>
                             <div class="from-icon">
                                     <img src="__PUBLIC__/images/login/suo.png" alt="">
-                            <input type="password" placeholder="请再输入一次密码" name="pwd1"class="pptt pwd2" value >
+                            <input type="password" placeholder="请再输入一次密码" name="pwd"class="pptt pwd2 " value >
                             </div>
                       </div>
-                      <button class="btn dis" type="button" disabled>重置登录密码</button>
+                      <button class="btn dis" type="button" id="btn" disabled>重置登录密码</button>
                 </form>
            </div>
     </div>
@@ -62,4 +70,61 @@
 <script src="__PUBLIC__/js/public/publicAlert.js"></script>
  <script src="__PUBLIC__/js/login/retrieve.js"></script>
 
+
 </html>
+<script>
+    $(".acquire").click(function () {
+        // 获取验证码
+        var moblie = $.trim($(".moblie").val());
+        $.ajax({
+            url: '/index/login/getPhoneVerify',
+            type: 'post',
+            dataType: 'json',
+            data: {phone:moblie,sms_type:3},
+            success:function(msg){
+// console.log(msg);
+                if(msg.code!=0){
+                    layer.msg('已发送');
+                }else{
+                    layer.msg(msg.msg);
+                    return false;
+                }
+            }
+        });
+    });
+    $("#btn").click(function () {
+        var username = $.trim($(".username").val());
+        var password = $.trim($(".password").val());
+        var pwd = $.trim($(".pwd2").val());
+        var mobile = $.trim($(".mobile").val());
+        if(username == ""){
+            suredAlert($('body'),'用户名不能为空!!!');
+            return
+        }
+        if(mobile == ""){
+            suredAlert($('body'),'手机号不能为空!!!');
+            return
+        }
+        if(password == ""){
+            suredAlert($('body'),'密码不能为空!!!');
+            return
+        }
+        if(password !== pwd){
+            suredAlert($('body'),'密码不能不一致!!!');
+            return
+        }
+        var data= {username:username,password:password,mobile:mobile};
+        $.ajax({
+            type:"POST",
+            url:"{:url('index/login/retrie')}",
+            data:data,
+            dataType:'json',
+            success:function(msg) {
+                var msg  = JSON.parse(msg);
+
+                suredAlert($('body'),msg.msg);
+            }
+
+        });
+    })
+</script>
