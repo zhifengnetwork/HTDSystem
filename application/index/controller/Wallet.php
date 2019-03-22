@@ -73,6 +73,9 @@ class Wallet extends HomeBase
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
         }
 
+        if($param['cu_num']<0){
+            return json(array('code' => 0, 'msg' => '数量不可小于0'));
+        }
         // 判断币种是否开启
         $currency_one = Db::name("currency")->where(['id'=>$cu_id])->find();
         // 判断币种是否存在
@@ -137,11 +140,15 @@ class Wallet extends HomeBase
                     }
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('rate_wallet', $cu_num);
                 }
-                // 复投累加对应币种数量execute_order
+                // 复投累加对应币种数量execute_order和user_wallet对应币种本金钱包
                 $inc_res = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('num', $cu_num);
+                $inc_res2 = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('cu_num', $cu_num);
+
                 // 插入日志
                 $this->insertLog($user_one['id'],$cu_id,'复投'.$cu_num,101);
 
+                // 提交事务
+                Db::commit(); 
                 return json(array('code' => 200, 'msg' => '复投成功'));
             }else{
 
