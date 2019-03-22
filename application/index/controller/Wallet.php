@@ -128,6 +128,7 @@ class Wallet extends HomeBase
               
                 // 判断钱包是否够复投对应币种数量
                 if($wallet_flag==120){
+                    $wallet_name = '收益';
                     if($user_wallet['bonus_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '收益不足'));
                     }
@@ -135,6 +136,7 @@ class Wallet extends HomeBase
                     Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setDec('bonus_wallet', $cu_num);
                 }
                 if($wallet_flag==121){
+                    $wallet_name = '分红';
                     if($user_wallet['rate_wallet']<$cu_num){
                         return json(array('code' => 0, 'msg' => '分红收益不足'));
                     }
@@ -145,7 +147,7 @@ class Wallet extends HomeBase
                 $inc_res2 = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->setInc('cu_num', $cu_num);
 
                 // 插入日志
-                $this->insertLog($user_one['id'],$cu_id,'复投'.$cu_num,101);
+                $this->insertLog($user_one['id'],$cu_id,$wallet_name.'复投'.$cu_num,2); // 复投
 
                 // 提交事务
                 Db::commit(); 
