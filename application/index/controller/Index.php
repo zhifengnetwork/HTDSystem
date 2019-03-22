@@ -107,7 +107,7 @@ class Index extends HomeBase
               $data   = input();
               $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
               $rmb    = $data['val']*$result;
-            //   //美元汇率   
+              //美元汇率   
               $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
               $exchange_usd = arr2name($exchange_usd);
               $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
@@ -127,6 +127,11 @@ class Index extends HomeBase
             // dump($data);
             // exit;
             $validate   = new Indexv();
+
+            // $validate->rule('zip', '/^\d{6}$/');
+            // $validate->rule([
+            //     'number'   => '^[0-9]{1,11}([.][0-9]{1,8})?$',
+            // ]);
             $base       = new Base();
             // if(!$data['verify']){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
@@ -141,8 +146,7 @@ class Index extends HomeBase
             // $res = checkPhoneCode($checkData);
             // if($res['code']==0){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            // }
-            
+            // }        
             if(!$validate->check($data)){
                 $msg = $validate->getError();
                 $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);

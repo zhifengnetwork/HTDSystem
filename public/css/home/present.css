@@ -382,3 +382,15 @@
 	padding:.4rem .4rem 0 .4rem;
 	font-size:0.24rem;
 }
+
+/* 验证码 */
+.voting_verify{
+	height: 100%;
+	width: 100%;
+	cursor:pointer;
+}
+.voting_verify #captcha{
+margin-left: 1rem;
+height: 100%;
+width: 3rem;
+}
