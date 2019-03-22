@@ -128,16 +128,9 @@ class Index extends HomeBase
     // 提币
     public function pick(){
             $data       = input();
-            // dump($data);exit;
-            // dump($data);
-            // exit;
             $validate   = new Indexv();
-
-            // $validate->rule('zip', '/^\d{6}$/');
-            // $validate->rule([
-            //     'number'   => '^[0-9]{1,11}([.][0-9]{1,8})?$',
-            // ]);
             $base       = new Base();
+            // 手机验证
             // if(!$data['verify']){
             //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
             // }
@@ -216,18 +209,17 @@ class Index extends HomeBase
                         // 'qrcode_addr' => $data['number'],    
                     ];      
                     
-                    // $subtract = $data['number']+$charge;
+        
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
-                    // update([$cu_type => 0]);
+              
                     // 减掉相应数量
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
-                    // $suc_money = session('home');                                    
+                                                      
                     // 提交事务
                     Db::commit();
-                    // dump(session('home.username'));
-                    // $u_name = session('home.username');
+
                     $suc_data = [
                         'suc_name'  => session('home.username'),
                         'su_num'=> $data['number'],
@@ -259,7 +251,18 @@ class Index extends HomeBase
                     Db::table('htd_user_extract')->insert($where1);
                     // 提交事务
                     Db::commit(); 
-                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>'']);    
+                    // 成功提交后返回数据
+                    $alias_name = Db::name('htd_currency')->where('id',$data['cu_id'])->value('alias_name');
+                    $suc_data = [
+                        'suc_name'  => session('home.username'),
+                        'su_num'=> $data['number'],
+                        'su_time'   => time(),
+                        'su_charge' => $charge,
+                        'alias_name'=> $alias_name
+                    ];
+                    
+                     
+                    $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>$suc_data]);    
                 } catch (\Exception $e) {
                     // 回滚事务
                     Db::rollback();
