@@ -69,13 +69,13 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
-<<<<<<< HEAD
+
         $money = 0;
         $res = Db::name('article')->order('settop DESC','choice DESC','updatetime DESC')->find();
         $this->assign('res',$res);
         $this->assign('money',$money);
-=======
->>>>>>> 2a0d72bb06df59b93f289282071b832f280083e3
+
+        
         return view();
     }
 	
