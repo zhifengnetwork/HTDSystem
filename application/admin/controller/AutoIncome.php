@@ -105,8 +105,12 @@ class AutoIncome
 						$in_income_res2 = true;
 						$in_log_res2 = true;
 					}
+
+					// 直推上级必须满足以下条件
+					$up_order_money = isEnjoyUser($upUid['pid']); // 获取当前上级是否入单同等币种指定金额
 					// +++++ 把收益累加到当前用户的直推用户+++++ //
-					if($upUid['pid']){
+					if($upUid['pid'] && $up_order_money){
+
 
 						// 根据后台设置的直推收益配置
 						$push_rate = $configs['push_rate']['value']?$configs['push_rate']['value']:100;
