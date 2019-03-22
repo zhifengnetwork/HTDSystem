@@ -22,16 +22,12 @@
 			<div class="wtf_wrap">
 				<div class="wtf_item">
 					<!--循环-->
-					{foreach name="res" as item="vo"}　
+					{foreach name="res" item="vo"}
 					<div class="wtf_item1" onclick="window.location.href = '{:url('index/news_details',[\'id\'=>$vo[\'id\']])}'">
 						<p>{$vo['title']}</p>
 						<p>{$vo['updatetime']|date="Y-m-d",###}</p>
-					<div class="wtf_item1" onclick="window.location.href = '{:url('index/news_details')}'">
 					</div>
 					{/foreach}
-					<!--删-->
-
-					<!--删-->
 				</div>
 			</div>
 		</div>
