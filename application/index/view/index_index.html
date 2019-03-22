@@ -130,6 +130,40 @@
                 spaceBetween: 30,
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
+<<<<<<< HEAD
+            }); 
+           
+            var alread  //现在的时间  3600000
+            setInterval(function(){
+                console.log(11)
+                if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
+                    alread=parseInt(sessionStorage.getItem('begin'))
+                    var bb = new Date().getTime()   //时间
+                    console.log(alread)
+                }
+                 if(bb-alread>=20000){
+                     console.log(bb-alread>=20000)
+                    $(".mode").show();
+                    $(".dialog-notice").show();
+                    document.body.style.overflow = 'hidden';
+                    window.sessionStorage.clear()
+                    
+                    console.log(sessionStorage.getItem('begin'))
+                    alread = 0
+                    console.log(alread)
+                }
+            },1000)
+            // //公告弹框 
+            // setTimeout(function (){
+            //     $(".mode").show();
+            //     $(".dialog-notice").show();
+            //     stop(".mode");
+            //     document.body.style.overflow = 'hidden';
+            // }, 1000)
+
+
+             
+=======
             });
             /*0000*/
 			/*获取当前时间=>转换为时间戳*/
@@ -170,6 +204,7 @@
 				}
 			}
 			
+>>>>>>> 77d81726387d8ba512d198a012b6fec6640c85a4
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  
@@ -180,9 +215,8 @@
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
-                sessionStorage.setItem('begin',time)
-                console.log(time)
-                console.log( sessionStorage.getItem('begin'))
+                sessionStorage.setItem('begin',new Date().getTime())
+                // console.log( sessionStorage.getItem('begin'))
                 document.body.style.overflow = ''; //出现滚动条
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
