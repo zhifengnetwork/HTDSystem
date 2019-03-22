@@ -309,11 +309,7 @@
 	bottom: 0;
 	left: 0;
 	margin: auto;
-<<<<<<< HEAD
-	/*height: calc(100vh - 400px);*/
-=======
 	height: calc(100vh - 400px);
->>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58
 	padding-right: 0.3rem; 
 	overflow-y: scroll;
 }
@@ -404,10 +400,10 @@
 	padding:.4rem .4rem 0 .4rem;
 	font-size:0.24rem;
 }
-<<<<<<< HEAD
 /* 确认弹框-s V1.0 */
 /*  遮罩层 */
 .true_popUp_wrap{
+	display: none;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -418,7 +414,6 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	background: rgba(0,0,0,.5);
-	display: none;
 }
 /* 弹框主体 */
 .true_popUp{
@@ -426,14 +421,16 @@
 	width:100%;
 	height: auto;
 	color:#f5f5f5;
-	background: #5a62af;
+	background: #142785;
 	padding: .2rem .2rem;
+	border-radius: .06rem;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
 /* 弹框标题 */
 .popUp_titel{
+	font-size: .5rem;
 	width: 100%;
 	margin-bottom:.2rem;
 	text-align: center;	
@@ -443,10 +440,38 @@
 .popUp_content{
 	overflow: hidden;
 }
-/* 主体标题 */
-.popUp_content 
+/* 内容标题 */
+.popUp_content h1{
+	width: 100%;
+	text-align: center;
+	font-size:.26rem;
+	line-height: .6rem;
+}
+/* 内容主体 */
+.popUp_content p{
+	line-height: .5rem;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: space-between;
+	-ms-flex-pack: space-between;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+/*弹框按钮*/
+.popUp_btn{
+	margin:.2rem auto;
+	width: 3rem;
+	height: .8rem;
+	line-height: .8rem;
+	text-align: center;
+	background:#224ddd;
+	border-radius: .06rem;
+}
 /* 确认弹框-e V1.0 */
-=======
 
 /* 验证码 */
 .voting_verify{
@@ -459,4 +484,3 @@ margin-left: 1rem;
 height: 100%;
 width: 3rem;
 }
->>>>>>> 0bc19c044974eb0150671c7190a40c2993e96a58
