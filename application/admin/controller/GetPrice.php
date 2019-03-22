@@ -21,13 +21,17 @@ class GetPrice
 			'HT'  => 'https://api.huobi.pro/market/trade?symbol=htusdt'
 		);
 		$currency_arr = [];
+		// 获取配置表
+		$configs = Db::name('income_config')->field('name,value')->select();
+		// 把配置项name转换成$configs['price_min1']['value']
+		$configs = arr2name($configs);
 		foreach($url_arr as $k=>$v){
 			$res = '';
 			$res = getUrl($v);
 			$currency['status'] = $res['status'];
 			$currency['ch'] =  $res['ch'];
 			$currency['cu_name'] =  $k;
-			$currency['price'] =  $res['tick']['data'][0]['price'];
+			$currency['price'] =  $res['tick']['data'][0]['price']*$configs['exchange_usd']['value'];
 			// update币种表对应币种价格
 			if($currency['status']=='ok' && $currency['price']>0){
 				$updates['price'] = $currency['price'];
