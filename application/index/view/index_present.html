@@ -46,7 +46,7 @@
 							</div>
 							<!-- 下拉菜单 -->
 							<div class="pull_down">
-								<img src="__PUBLIC__/images/pull-down.png">
+								<img src="__PUBLIC__/images/xia.png">
 							</div>
 						</div>
 
@@ -90,7 +90,8 @@
 							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
 								<div class="popover_box clearfix">
 										<span>请选择提币类型:</span>
-										<span class="popover_click">请选择 </span>▼
+										<span class="popover_click">请选择 </span>
+										<img src="__PUBLIC__/images/xia.png" class="down">
 										<ul class="ul_box popover_ul">
 											<li data-index="0">请选择</li>
 											<li data-index="1">本金</li>
@@ -202,21 +203,16 @@
 						<form class="form-horizontal" id="handleposition1" method="post" onsubmit="return false;">
 							<div class="voting_box clearfix">
 									<span>请选择投入类型:</span>
-									<span class="voting_click">请选择  </span>▼
-									
+									<span class="voting_click">请选择  </span>
+									<img src="__PUBLIC__/images/xia.png" class="down">
 									<ul class="ul_box voting_ul">
 										<li data-val="120">收益</li>
 										<li data-val="121">分红</li>
 									
 									</ul>
 							</div>
-<<<<<<< HEAD
-					 <div class="popover-boxx">
-							<div class="voting_box clearfix">
-=======
-					
+					        <div class="popover-boxx">
 							<div class="voting_box vo_mg clearfix">
->>>>>>> 1da658be89b2dfa00532a8a7da577431b5d64c5e
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
@@ -253,6 +249,7 @@
 								<span class="false">取消</span>
 							</div> -->
 						</div>
+					</div>
 						</form>
 					</div>
 				</div>
@@ -323,11 +320,11 @@
 			
 			$(function(){
                //提取按钮
-				$(".popover_click").click(function(){
+				$(".popover_click,.down").click(function(){
 					$(".popover_ul").slideToggle("slow");
 				});
 				//复投按钮
-				$(".voting_click").click(function(){
+				$(".voting_click,.down").click(function(){
 					$(".voting_ul").slideToggle("slow");
 				});
 
