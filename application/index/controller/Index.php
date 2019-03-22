@@ -19,6 +19,11 @@ class Index extends HomeBase
     public function _initialize()
     {
         parent::_initialize();
+        $home = session('home');
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            header("refresh:1;url=$url");
+        }
         if (CBOPEN == 2) {
             $this->redirect(url('bbs/index/index'));
         }
@@ -46,8 +51,8 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
-        $money = 0;
-        $this->assign('money',$money);
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
         return view();
     }
 	
