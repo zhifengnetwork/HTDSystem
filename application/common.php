@@ -2347,6 +2347,28 @@ function curl_post($url,$data='',$timeout=30){
     return $result;
 }
 
+// getApiUrl
+function getUrl($url){
+
+    date_default_timezone_set('PRC');
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL, $url);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch,CURLOPT_HEADER,0);
+    curl_setopt($ch, CURLOPT_TIMEOUT,60);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json",]);
+    $output = '';
+    $output = curl_exec($ch);
+    $info = curl_getinfo($ch);
+    $arrCurlResult['output'] = $output;//返回结果
+    $arrCurlResult['response_code'] = $info;//返回http状态
+    curl_close($ch);
+    unset($ch);
+    return json_decode($output,true);
+}
+
 
 // 用户提取对应币种本金时,获取htd_execute_order里面对应币种的create_time,
 // 如果当前时间小于第一次投资记录时间+6个月，则当前提币数量*单价的人民币总额去减掉股权。
