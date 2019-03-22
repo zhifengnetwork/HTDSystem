@@ -60,10 +60,8 @@ class Wallet extends HomeBase
         }
         $uid = session('home.id');
         $param = input('post.');
-        // dump($param);
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
-
         // 判断当前用户是否存在
         $user_one = Db::name('user')->where(['id'=>$uid])->find();
         if(!$user_one){
@@ -71,6 +69,9 @@ class Wallet extends HomeBase
         }
         if(!$cu_id){
             return json(array('code' => 0, 'msg' => '币种id不可为空'));
+        }
+        if(!$param['cu_num']){
+            return json(array('code' => 0, 'msg' => '币种数量不可为空'));
         }
 
         if($param['cu_num']<0){
@@ -86,9 +87,6 @@ class Wallet extends HomeBase
             return json(array('code' => 0, 'msg' => '当前币种暂不开放'));
         }
     
-        if(!$param['cu_num']){
-            return json(array('code' => 0, 'msg' => '币种数量不可为空'));
-        }
         if($pay_way==1){
             if(!$param['imgUrl']){
                 return json(array('code' => 0, 'msg' => '请上传发票'));
@@ -101,7 +99,7 @@ class Wallet extends HomeBase
         $total_money = $param['cu_num']*$currency_one['price']; //
         if($pay_way==1){
              // 获取数据库单价
-            $cu_num =  $param['money']/$currency_one['price'];
+            $cu_num =  $param['cu_num']; /// $param['money']/$currency_one['price'];
         }else{
             $cu_num = $param['cu_num'];
         }
@@ -113,7 +111,7 @@ class Wallet extends HomeBase
         Db::startTrans();
         try{
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
-            $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$cu_id])->find();
+            $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
         //    echo Db::name('execute_order')->getLastSql();
             if($is_cu_order['cu_id'] && $pay_way==2){
                
@@ -153,13 +151,13 @@ class Wallet extends HomeBase
                 Db::commit(); 
                 return json(array('code' => 200, 'msg' => '复投成功'));
             }else{
-
+                $res11 = true;
                 if(!$wallet_is){
                     $data_in = array(
                         'uid' => $user_one['id'],
                         'cu_id' => $currency_one['id']
                     );
-                    Db::name('user_wallet')->insert($data_in);
+                    $res11 = Db::name('user_wallet')->insert($data_in);
                 }
 
                 $res3 = true;
@@ -171,12 +169,12 @@ class Wallet extends HomeBase
                     'cu_id' => $cu_id,
                     'num'   => $cu_num,
                     'price' => $currency_one['price'],
-                    'total_money' => $param['money'],
+                    'total_money' => $total_money,
                     'pay_way' => $pay_way,
                     'voucher' => $param['imgUrl'],
                     'create_time' => time()
                 );
-                $res = Db::name('buy_order')->insert($data);
+                $res_buy = Db::name('buy_order')->insert($data);
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
                     $res3 = Db::name('execute_order')->insert($data);
@@ -207,6 +205,13 @@ class Wallet extends HomeBase
         $where['status'] = 1;
         $where['alias_name'] = ['neq','HTD'];
         $htd_currency = Db::name("currency")->where($where)->select();
+        // 获取配置表
+		$configs = Db::name('income_config')->field('name,value')->select();
+		// 把配置项name转换成$configs['price_min1']['value']
+		$configs = arr2name($configs);
+        foreach($htd_currency as $k=>$v){
+            $htd_currency[$k]['price'] = numberByRetain($v['price']/$configs['exchange_usd']['value'], 4);
+        }
         if($htd_currency){
             return $htd_currency;
         }
