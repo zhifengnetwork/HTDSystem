@@ -51,8 +51,6 @@ class Index extends HomeBase
             $id = 2;
         }
         $this->assign('id',$id);
-        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
-        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
         return view();
     }
 	
@@ -504,5 +502,13 @@ class Index extends HomeBase
 
             return view();
         }
+    }
+
+    // 股权页面
+    public function stock(){
+        $user = session('home');
+        $stock_rights_money = Db::name('user')->field('id,stock_rights')->where(['id'=>$user['id']])->find();
+        $this->assign('stock_rights',$stock_rights_money['stock_rights']);
+        return view();
     }
 }
