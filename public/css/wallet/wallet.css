@@ -561,8 +561,7 @@ input::-webkit-inner-spin-button {
 	height: .3rem;
 	background: #4080ff;
 	border-radius: 50%;
-	vertical-align: text-bottom;
-	padding-left: 1px;
+	vertical-align: middle;
 }
 .payment .payment_ul{
 	margin: 0 0 3%;
