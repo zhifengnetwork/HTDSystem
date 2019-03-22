@@ -2036,14 +2036,33 @@ function getUpMemberIds($uid){
 	return $g_up_mids;
 }
 
-// 获取整条线的用户id
+
+// 获取当前用户的所有下线(不包括自己)
+function getDownUserUids2($uid){
+    global $g_down_Uids,$i;
+	if($uid){
+        $i = 1;
+        $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(0,1000)->select();
+		foreach($member_arr as $mb){
+			if($mb['id'] && $mb['id'] != $uid && $i<10){
+                $g_down_Uids[] = $mb['id'];
+                // $g_down_Uids[] = $i; // 层级
+                getDownUserUids2($mb['id']);
+            }
+            $i++;
+		}
+	}
+	return $g_down_Uids;
+}
+
+// 获取整条线的用户id(所有下线)
 function getLineMemberIds($uid){
 	$line_uids=array();
 	if(!$uid){
 		return $line_uids;
 	}
 	$up_uids=getUpMemberIds($uid);
-	$down_uids=getDownUserUids($uid);
+	$down_uids=getDownUserUids2($uid);
 	if($up_uids&&$down_uids){
 		$line_uids=array_merge($up_uids,array($uid),$down_uids);
 	}else{
