@@ -14,14 +14,9 @@ function jumpFun(_url){
 	window.location.href = _url;
 }
 
-//实现滚动条无法滚动
-var mo = function(e) {
-	e.preventDefault();
-};
-
-//禁止滑动
+//阻止默认事件，禁止滑动
 function stop(name) {
-	var $name =$(name)
+	var $name = $(name)
 	$name.bind("touchmove","touchstart",function(e){
 			e.preventDefault();
 	})
