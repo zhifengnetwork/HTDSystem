@@ -8,11 +8,12 @@ use think\Db;
 use think\Session;
 class Login extends Controller
 {//登录成功通过session值判断，如果已经登录自动跳转主页
-      public function index(){
+      public function index()
+      {
           $home = session('home');
             // dump($home['id']);die;
             if(!empty($home['id'])){
-                
+
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
 			    header("refresh:1;url=$url");
 			}else{
@@ -21,13 +22,32 @@ class Login extends Controller
 			}
     
     }
+    public function captcha()
+    {
+        $m = new Captcha(Config::get('captcha'));
+
+        $img = $m->entry();
+        return $img;
+    }
    //登录
     public function login()
     {
+        $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
+        $site_config = unserialize($site_config['value']);
+        $yzmarr = explode(',', $site_config['site_yzm']);
+        if (in_array(4, $yzmarr)) {
+            $yzm = 1;
+        } else {
+            $yzm = 0;
+        }
         $arr = $this->request->post();
+        $data = $this->request->only( 'verify');
+        if ($yzm == 1) {
+            if (!captcha_check($data['verify'])) {
+                return json(array('flag' => 1, 'msg' => '验证码错误'));
+            }
+        }
         $res = DB::name('user')->where(['username'=>$arr['username']])->find();
-
-        // dump($arr);die;
         if($res){
             $password = md5($arr['password'].$res['salt']);
             // dump($res['password']);
@@ -78,7 +98,7 @@ class Login extends Controller
     public function regis()
     {
         $arr = $this->request->post();
-
+        // p($arr);die;
         if($arr){
            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
@@ -86,6 +106,19 @@ class Login extends Controller
             $arr['password'] = md5($arr['password'] . $arr['salt']);
             $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
+            if(!$arr['verify']){
+                $data=array('msg'=>"验证码不可为空",'flag'=>5);
+            }
+            if(!$arr['userPhone']){
+                $data=array('msg'=>"手机号不可为空",'flag'=>5);
+            }
+            $checkData['sms_type'] = $arr['sms_type'];
+            $checkData['code'] = $arr['verify'];
+            $checkData['phone'] = $arr['userPhone'];
+            // $res = checkPhoneCode($checkData);
+            // if($res['code']==0){
+            //     return array('code' => 0, 'msg' => $res['msg']);
+            // }
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
             }else if($reaa){
@@ -114,7 +147,6 @@ class Login extends Controller
                     }else{
                             $data=array('msg'=>"注册失败",'flag'=>5);
                     }
-
                    
                 }else{
                     $data=array('msg'=>"推广码不存在,不能进行注册!!!",'flag'=>6);
@@ -128,6 +160,25 @@ class Login extends Controller
     public function retrieve()
     {
         return $this->fetch();
+    }
+
+    /**
+     * 获取手机验证码
+     * @param $sms_type int
+     * @param $phone string
+    */
+    public function getPhoneVerify(){
+
+        // 传入类型：1注册 2提币；手机号
+        $param = input('post.');
+        $sms_type = intval($param['sms_type']);
+        if(!$sms_type || !$param['phone']){
+            return json(array('code' => 0, 'msg' => '缺少参数'));
+        }
+        $data = ['sms_type'=>$sms_type, 'phone'=>$param['phone']];
+        $res = getPhoneCode($data);
+        return json($res);
+        // p($res);
     }
 
 }

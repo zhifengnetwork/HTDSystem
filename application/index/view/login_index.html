@@ -38,7 +38,18 @@
 										<img src="__PUBLIC__images/login/suo.png" alt="">
 								<input type="password" name="pwd" placeholder="请输入密码" class="pptt pwd" value >
 							</div>
-							</div>
+						  </div>
+						  <div class="info mistake"></div>
+						  <div class="from-group">
+							  <span class="from-tit">验证码:</span>
+							  <div class="from-icon from-verify">
+									<img src="__PUBLIC__images/login/yanz.png" alt="">
+									<!-- style="width:100px;float:left;margin-right: 10px;border: 1px solid #ffffff;border-radius: .1rem;" -->
+							  <input  type="text" name="verify" placeholder="验证码" required lay-verify="required" autocomplete="off" class="layui-input verify" maxlength="4">
+						  </div>
+						  <!-- width="150" style="float:left; cursor:pointer;" -->
+						  <img id="captcha" src="{:url('login/captcha')}" onclick="this.src='{:url('login/captcha')}?'+Math.random();"  alt="captcha" />
+						  </div>
 					  </form>
 						<button class="btn active" id="btn">登录</button>
 				  <div class="login-new">
@@ -63,6 +74,7 @@ $(function(){
 		var username = $.trim($(".username").val());
 
 		var password = $.trim($(".pwd").val());
+		var verify = $.trim($(".verify").val());
 		console.log(password,6666);
 		if(username == ""){
 			suredAlert($('body'),'用户名不能为空!!!');
@@ -83,7 +95,7 @@ $(function(){
 	}
 	//ajax去服务器端校验
 
-		var data= {username:username,password:password};
+		var data= {username:username,password:password,verify:verify};
 		console.log(data);
 
 		$.ajax({
@@ -97,8 +109,13 @@ $(function(){
 			dataType:'json',
 
 			success:function(msg){
-				suredAlert($('body'),msg.msg,msg.url);
-
+				if (msg.flag == '0'){
+					suredAlert($('body'),msg.msg,msg.url);
+				} else {
+					$('#captcha').attr('src',"{:url('login/captcha')}?"+Math.random());
+					suredAlert($('body'),msg.msg);
+                   
+				}
 			}
 
 		});

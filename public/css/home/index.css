@@ -23,6 +23,26 @@
     height: 0.08rem;
 }
 
+/* 公告 */
+.notice-zp{
+    width: 100%;
+    height: 0.7rem;
+    line-height: 0.7rem;    
+    background: url(../../images/home/notice-icon.png) no-repeat 0.25rem center;
+    background-color: #232637;
+    background-size: 0.32rem;
+   
+}
+.notice-zp a{
+    width: 100%;
+    height: 100%;
+    color: #cfd2e3;
+    font-size: 0.24rem;
+    display: block;
+    padding-left: 0.7rem;
+    box-sizing: border-box;
+}
+
 /* 导航 */
 .nav-wrap-zp{
     margin: 0.4rem 0;
@@ -125,4 +145,71 @@
 	background: -webkit-linear-gradient(top, #65e037 0%, #49ade7 100%);
 	background: -o-linear-gradient(top, #65e037 0%, #49ade7 100%);
 	background: -ms-linear-gradient(top, #65e037 0%, #49ade7 100%);
+}
+
+/* 蒙层 */
+.mode{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    display: none;
+}
+/* 公告弹框 */
+.dialog-notice{
+    width: 70%;
+    background: #fff;
+    border-radius: 0.08rem;
+    padding: 0.2rem 0.3rem;
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index:100;
+}
+.dialog-notice .dialog-header{
+    position: relative;
+    text-align: center;
+    font-size: 0.3rem;
+}
+.dialog-notice .dialog-header .close{
+    width: 0.32rem;
+    height: 0.32rem;
+    position: absolute;
+    right: -0.15rem;
+    top: -0.05rem;
+}
+.dialog-notice .dialog-header .close img{
+   width: 100%;
+    display: block;
+}
+.dialog-notice .dialog-content{
+    max-height: 2rem;
+    padding: 0.1rem 0;
+    box-sizing: border-box;
+    font-size: 0.3rem;
+    margin: 0.1rem auto 0.4rem;
+    overflow-y: auto;
+}
+.dialog-notice .dialog-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dialog-notice .dialog-btn a{
+    width:50%;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    color: #fff;
+    display: block;
+    background-color: #197fca;
+    text-align: center;
+    font-size: 0.28rem;
+    border-radius: 0.1rem;
+    
 }
