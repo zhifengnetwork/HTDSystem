@@ -104,15 +104,16 @@ $(function(){
         }else if(!reg.test(phone.val())){
             phone.parent().prev().addClass("mistake").html(`请输入正确的手机号码~`)
             return false
-        }else
+        }else{
             daojishi(60,$(this))
             $(".phone").attr("disabled","disabled") 
             return   
+        }
     })
     function daojishi(seconds,obj){
         if (seconds > 1){
                 seconds--;
-                $(obj).html(seconds+"秒后重新获取 ").attr("disabled", true);
+                $(obj).html(seconds+"重新获取 ").attr("disabled", true);
                 setTimeout(function(){
                     daojishi(seconds,obj);
                 },1000);
@@ -122,18 +123,18 @@ $(function(){
             }
     }
     // 随机验证码
-    var code ; 
-    function createCode(){ 
-       code = "";  
-       var codeLength = 4;
-       var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',  
-       'S','T','U','V','W','X','Y','Z');  
-       for(var i = 0; i < codeLength; i++) {  
-        var index = Math.floor(Math.random()*36);
-        code += random[index];
-      }  
-    return code;
-    } 
+    // var code ; 
+    // function createCode(){ 
+    //    code = "";  
+    //    var codeLength = 4;
+    //    var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',  
+    //    'S','T','U','V','W','X','Y','Z');  
+    //    for(var i = 0; i < codeLength; i++) {  
+    //     var index = Math.floor(Math.random()*36);
+    //     code += random[index];
+    //   }  
+    // return code;
+    // } 
   
   //注册
   $(".btn").click(function(){
