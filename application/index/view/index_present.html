@@ -99,6 +99,8 @@
 										</ul>
 								</div>
 
+									
+							
 								<div class="popover_box clearfix">
 										<input type="hidden" name="uid" id="uid" value="{$uid}">
 										<input type="hidden" name="cu_id" id="cu_id" value="">
@@ -157,6 +159,42 @@
 						</div>
 					</div>
 				<!-- 提取弹框-e -->
+				<!-- 确认弹框-s -->
+				<div class="true_popUp_wrap">
+					<div class="true_popUp">
+						<!-- 弹框标题 -->
+						<div class="popUp_titel">
+							交易成功
+						</div>
+						<!-- 弹框内容 -->
+						<div class="popUp_content">
+							<!-- 内容标题 -->
+							<h1>交易明细</h1>
+							<!-- 内容主体 -->
+							<p>
+								<span>用户名</span>
+								<span>ICEY-I-SEE</span>
+							</p>
+							<p>
+								<span>总额度</span>
+								<span>999999999999999</span>
+							</p>
+							<p>
+								<span>手续费</span>
+								<span>23333333</span>
+							</p>
+							<p>
+								<span>日期</span>
+								<span>03-22-2019&nbsp;12:09:09</span>
+							</p>
+						</div>
+						<!-- 弹框按钮 -->
+						<div class="popUp_btn">
+							确认
+						</div>
+					</div>
+				</div>
+			<!-- 确认弹框-e -->
 				<!-- 复投弹框-s -->
 				<div class="voting">
 					<div class="voting_content">
@@ -338,6 +376,7 @@
 				$('.true').click(function() {
 					$('.popover').hide();
 					$('.voting').hide();
+					$('.true_popUp_wrap').show();
 				});
 				//弹框取消
 				$('.false').click(function() {
@@ -345,6 +384,10 @@
 					// $('.voting').hide();
 					window.location.reload(); 
 				});
+				//确认弹框按钮
+				$('.popUp_btn').click(function(){
+					$('.true_popUp_wrap').hide();
+				})
 				//点击背景隐藏and提取按钮清空提取金额的值
 				$('.popover,.popover_affirm').click(function() {
 					$(".popover").hide();
