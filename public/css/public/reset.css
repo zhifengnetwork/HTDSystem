@@ -45,8 +45,10 @@ li{
 
 input[type=button], input[type=submit], input[type=file], button { 
 	cursor: pointer; 
+	border: none;
+	outline: none;
 	-webkit-appearance: none; 
-	-moz-appearance:textfield;
+	-moz-appearance: textfield;
 }
 
 
