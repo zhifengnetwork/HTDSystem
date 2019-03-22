@@ -113,20 +113,20 @@ class Index extends HomeBase
             // exit;
             $validate   = new Indexv();
             $base       = new Base();
-            // if(!$data['verify']){
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
-            // }
+            if(!$data['verify']){
+                $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
+            }
 
-            // $checkData['sms_type'] = $data['sms_type'];
-            // $checkData['code'] = $data['verify'];
+            $checkData['sms_type'] = $data['sms_type'];
+            $checkData['code'] = $data['verify'];
 
-            // $checkData['phone'] =  '13612560591';
-            // //  session('home.mobile');
+            $checkData['phone'] =  session('home.mobile');
+            //  session('home.mobile');
               
-            // $res = checkPhoneCode($checkData);
-            // if($res['code']==0){
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            // }
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
+            }
 
             if(!$validate->check($data)){
                 $msg = $validate->getError();

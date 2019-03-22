@@ -209,30 +209,30 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
-			// function phonecode(phoneS){
-			// 	        // var phone= {$phone}
-			// 			// 获取验证码
-			// 			// console.log(phoneS)
-			// 			// return false;
-			// 			var a = '13612560591';
-			// 			$.ajax({
-			// 				url: '/index/index/getPhoneVerify',
-			// 				type: 'post',
-			// 				dataType: 'json',
-			// 				data: {phone:a, sms_type:2},
-			// 				success:function(msg){
-			// 				// console.log(msg);
-            //                 // $('#sms_type').val(1);
-			// 				// $('#verify').val(msg.code);
-			// 				if(msg.code!=0){
-			// 				layer.msg('已发送');
-			// 				}else{
-			// 				layer.msg(msg.msg);
-			// 				return false;
-			// 				}
-			// 			}
-			// 			});
-			// }
+			function phonecode(phoneS){
+				        // var phone= {$phone}
+						// 获取验证码
+						// console.log(phoneS)
+						// return false;
+						var a = '13612560591';
+						$.ajax({
+							url: '/index/index/getPhoneVerify',
+							type: 'post',
+							dataType: 'json',
+							data: {phone:phoneS, sms_type:2},
+							success:function(msg){
+							// console.log(msg);
+                            // $('#sms_type').val(1);
+							// $('#verify').val(msg.code);
+							if(msg.code!=0){
+							layer.msg('已发送');
+							}else{
+							layer.msg(msg.msg);
+							return false;
+							}
+						}
+						});
+			}
 
 
 			//复投按钮
