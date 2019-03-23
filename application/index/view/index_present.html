@@ -216,8 +216,8 @@
 							</div>
 					        <div class="popover-boxx">
 							<div class="voting_box vo_mg clearfix">
-									<input type="hidden" name="uid" id="uid" value="{$uid}">
-									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
+									<input type="text" name="uid" id="uid" value="{$uid}">
+									<input type="text" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
 
 								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number"/><br />
@@ -247,7 +247,7 @@
 							<!--000-->
 	
 						</form>
-						<input type="hidden" name="cu_id" value="" id="getAll_id"/>
+						<!-- <input type="hidden" name="cu_id" value="" id="getAll_id"/> -->
 					</div>
 				</div>
 			<!-- 复投弹框-e -->
@@ -560,7 +560,7 @@
 					 var val1 = $(".voting_click").attr("data-id") 
 					 var url = "{:url('/index/wallet/confirmInvest')}";
 					 var datas =  $('#handleposition1').serialize()+'&wallet_flag='+val1+'&pay_way='+2;
-
+                    //  console.log(datas); 
 					 $.ajax({
 						type: "POST",
 						url: url,
@@ -569,7 +569,7 @@
 						success: function (data) {
 							if (data.code == 200) {
 									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
-									 window.location.reload(); 
+									//  window.location.reload(); 
 								 });
 														 
 							 }
