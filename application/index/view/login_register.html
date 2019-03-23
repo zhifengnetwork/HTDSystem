@@ -184,10 +184,15 @@
         }
        
         //推荐人
-        if (!condition.referrer){    //推荐人
+        // if (!condition.referrer){    //推荐人
+        //     suredAlert(body,"请填写推荐人~");
+        //     return
+		// }
+		
+		if (!rec.val()){    //推荐人
             suredAlert(body,"请填写推荐人~");
             return
-        }
+		}
     
 		//验证码
         if(!verify.val()){
