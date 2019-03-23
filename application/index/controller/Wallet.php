@@ -35,10 +35,14 @@ class Wallet extends HomeBase
         $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
+        //会员币种信息
         $userWallet = $this->getUserWallet($user_id);
+        $wallet_btc = $this->wallet_btc($user_id);
+        // dump($wallet_btc);die;
         // 获取最低投资金额
         // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
         // $min_money = arr2name($min_money);
+        $this->assign('wallet_btc',$wallet_btc);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
@@ -47,6 +51,31 @@ class Wallet extends HomeBase
         $this->assign('user',$users);
         $this->assign('id',$id);
         return $this->fetch();
+    }
+
+    public function wallet_btc($user_id)
+    {
+         // 获取配置表
+		$configs = Db::name('income_config')->field('name,value')->select();
+		// 把配置项name转换成$configs['price_min1']['value']
+        $configs = arr2name($configs);
+        $btc = db('currency')->where(['id'=>1])->value('price');
+        $userWallet = $this->getUserWallet($user_id);
+        if(empty($userWallet)){
+            return $data=0;
+        }
+        $money_all = 0;
+        foreach($userWallet as $key=>$val){
+            $money_all1 = ($val['cu_num']+$val['bonus_wallet']+$val['rate_wallet'])*$val['price'];
+            $money_all +=$money_all1;
+        }
+        if(empty($money_all)){
+            return $data=0;
+        }
+        $money = $money_all/$configs['exchange_usd']['value']/$btc;
+        $data = numberByRetain($money,8);
+        // dump($money);die;
+        return $data;
     }
 
     /**
@@ -291,7 +320,7 @@ class Wallet extends HomeBase
         if($uid){
             $userWallet = Db::name('user_wallet')
             ->alias('a')
-            ->field('a.*, b.alias_name')
+            ->field('a.*, b.alias_name,b.price')
             ->join('htd_currency b', 'a.cu_id=b.id')
             ->where(['a.uid'=>$uid])->select();
         }
