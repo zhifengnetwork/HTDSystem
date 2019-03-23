@@ -210,7 +210,7 @@ class Wallet extends HomeBase
 		// 把配置项name转换成$configs['price_min1']['value']
 		$configs = arr2name($configs);
         foreach($htd_currency as $k=>$v){
-            if($v!='USDT'){
+            if($v['alias_name']!='USDT'){
                 $htd_currency[$k]['price'] = numberByRetain($v['price']/$configs['exchange_usd']['value'], 4);
             }
         }
