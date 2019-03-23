@@ -267,11 +267,11 @@ class Index extends HomeBase
                 $note_log = $flag.'-提币-'.$data['number'];
                
                 $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
-                if($res_log){
-                    dump('aaa');
-                }else{
-                    dump('bbb');
-                }
+                // if($res_log){
+                //     dump('aaa');
+                // }else{
+                //     dump('bbb');
+                // }
                 // echo $note_log;die;
                 // 提交事务
                 Db::commit();
@@ -317,15 +317,7 @@ class Index extends HomeBase
                 return json(array('status' => 1, 'msg' => '操作成功', 'result' => $suc_data));
                 
             } 
-
-        } catch (\Exception $e) {
-            // P($e);die;
-            // 回滚事务
-            Db::rollback();
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'网络异常，稍后再试', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '网络异常，稍后再试', 'result' => ''));
-
-        }                                         
+                                     
     }
 
 
