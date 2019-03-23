@@ -156,20 +156,20 @@ class Index extends HomeBase
             }
 
             // 手机验证
-            if(!$data['verify']){
-                $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
-            }
+            // if(!$data['verify']){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
+            // }
 
-            $checkData['sms_type'] = $data['sms_type'];
-            $checkData['code'] = $data['verify'];
+            // $checkData['sms_type'] = $data['sms_type'];
+            // $checkData['code'] = $data['verify'];
 
-            $checkData['phone'] = session('home.mobile');
-            //  session('home.mobile');
+            // $checkData['phone'] = session('home.mobile');
+            // //  session('home.mobile');
               
-            $res = checkPhoneCode($checkData);
-            if($res['code']==0){
-                $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
-            }
+            // $res = checkPhoneCode($checkData);
+            // if($res['code']==0){
+            //     $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
+            // }
 
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -215,12 +215,13 @@ class Index extends HomeBase
                 try{
                     // $can = $data['cu_num']-$charge;
                     $where1 = [
-                        'uid'      => $data['uid'],
-                        'cu_id'    => $data['cu_id'],
-                        'cu_num'   => $data['number'],
+                        'uid'       => $data['uid'],
+                        'cu_id'     => $data['cu_id'],
+                        'cu_num'    => $data['number'],
+                        'create_time'=> time(),
                         // 'cu_num'   => $data['number'],
-                        'tb_charge'=> $charge,
-                        'note'     => $data['note'],
+                        'tb_charge' => $charge,
+                        'note'      => $data['note'],
                         // 'qrcode_addr' => $data['number'],    
                     ];      
                     
@@ -231,9 +232,7 @@ class Index extends HomeBase
                      
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
-                                                      
-                    // 提交事务
-                    
+
                     $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log'); 
                     $suc_data = [
                         'suc_name'     => session('home.username'),
@@ -242,6 +241,7 @@ class Index extends HomeBase
                         'su_charge'    => $charge,
                         'su_log'       => $log       
                     ];
+                    // 提交事务
                     Db::commit(); 
                     $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
                        
@@ -260,6 +260,7 @@ class Index extends HomeBase
                     'cu_num'   => $data['number'],
                     'tb_charge'=> $charge,
                     'note'     => $data['note'],
+                    'create_time'=> time(),
                     'qrcode_addr' => $data['qrcode_addr'],    
                 ];                                 
 
