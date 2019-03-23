@@ -175,10 +175,10 @@
 							</p>
 							<p>
 								<span>提币额度</span>
-								<span class="total">
-									  
-								</span>
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;margin-left: 4.76rem;" src="" alt="币种图标"></span>
+								<span class="total"></span>
 							</p>
+							
 							<p>
 								<span>手续费</span>
 								<span class="charge"></span>
@@ -480,8 +480,10 @@
 										$(".total").html(data.result['su_num']);
 										$(".charge").html(data.result['su_charge']);
 										$(".time").html(data.result['su_time']);
-										// $('.total').html((data.result['alias_name']));
-										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
+										// $(".img").html(data.result['su_log']);
+										var su_img = "/"+data.result['su_log'];
+										console.log(su_img);
+										$(".su_img").attr("src",su_img);
 										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
 										$(".popover").hide();
 										$('.true_popUp_wrap').show();

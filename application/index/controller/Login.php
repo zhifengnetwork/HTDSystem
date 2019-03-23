@@ -230,7 +230,8 @@ class Login extends Controller
         $checkData['phone'] = $arr['mobile'];
         $res = checkPhoneCode($checkData);
         if($res['code']==0){
-            return json_encode(array('msg' => $res['msg'],'code'=>0));
+            return json($res);
+            
         }
         $arr['password'] = md5($arr['password'] . $ress['salt']);
         $info = Db::name('user')->where('id',$ress['id'])->update(['password'=>$arr['password']]);
