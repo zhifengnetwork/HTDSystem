@@ -188,10 +188,10 @@
 								<span class="total" style="margin-left: 3.76rem;"></span>
 								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
 
-=======
+
 								<span class="total" style="margin-left: 3.76rem;"></span>
 								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
->>>>>>> ae30994f8d29572ed26e211bbe315f4974d52fd5
+
 							</p>
 							
 							<p>
@@ -686,24 +686,11 @@
 			
 //			input标签获取焦点
             $('#wallet_addr').focus(function(e){
-            var u = navigator.userAgent;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-            if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height())
-            $('.form-horizontal').scrollTop(600)
-            }
+            document.querySelector('#inputId').scrollIntoView();
             console.log("ccc")
             
         })
-        // 失去焦点时重新回到原来的状态
-        $('#wallet_addr').blur(function(e){
-            var u = navigator.userAgent;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-            if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height())
-            $('.form-horizontal').scrollTop(0)
-            }
-        })
+      
 
 			
 
