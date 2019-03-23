@@ -247,6 +247,7 @@
 							<th>日期</th>
 							<th>币种</th>
 							<th>数量</th>
+							<th>类型</th>
 							<th>状态</th>
 						</tr>
 						{foreach name="user_order" item="vo"}
@@ -254,6 +255,7 @@
 							<td>{$vo.create_time|date="Ymd",###}</td>
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
+							<td>{$vo.type}</td>
 							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
 						</tr>
 						{/foreach}
