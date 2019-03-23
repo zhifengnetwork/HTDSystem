@@ -20,4 +20,23 @@ class Walletaddr extends HomeBase
         return $this->fetch('wallet/addr');
     }
 
+    // public function gets(){
+
+    //     // $arr = ['0'=>123,'1'=>456];
+    //     $number = 12312.000;
+    //     $ary = explode('.', (string)$number);
+    //     $a = count($ary);
+    //     if($a==2){
+    //         p($ary);
+
+    //     }else{
+    //         return $number;
+    //     }
+    //     // if(!$ary[1]==1){
+    //     //     return $number;
+    //     // }
+    //     // $as = array_key_exists($arr['1'],$arr);
+    //     p($ary);
+    // }
+
 }

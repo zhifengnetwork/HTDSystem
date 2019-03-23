@@ -35,10 +35,14 @@ class Wallet extends HomeBase
         $user_order = $this->user_order($user_id);
         $user_wallet = $this->user_wallet($user_id);
         $htd_currency = $this->htd_currency();
+        //会员币种信息
         $userWallet = $this->getUserWallet($user_id);
+        $wallet_btc = $this->wallet_btc($user_id);
+        // dump($wallet_btc);die;
         // 获取最低投资金额
         // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
         // $min_money = arr2name($min_money);
+        $this->assign('wallet_btc',$wallet_btc);
         $this->assign('user_order',$user_order);
         $this->assign('user_wallet',$user_wallet);
         $this->assign('htd_currency',$htd_currency);
@@ -47,6 +51,32 @@ class Wallet extends HomeBase
         $this->assign('user',$users);
         $this->assign('id',$id);
         return $this->fetch();
+    }
+
+    public function wallet_btc($user_id)
+    {
+         // 获取配置表
+		$configs = Db::name('income_config')->field('name,value')->select();
+		// 把配置项name转换成$configs['price_min1']['value']
+        $configs = arr2name($configs);
+        $btc = db('currency')->where(['id'=>1])->value('price');
+        $userWallet = $this->getUserWallet($user_id);
+        if(empty($userWallet)){
+            return $data=0;
+        }
+        $money_all = 0;
+        foreach($userWallet as $key=>$val){
+            $money_all1 = ($val['cu_num']+$val['bonus_wallet']+$val['rate_wallet'])*$val['price'];
+            $money_all +=$money_all1;
+        }
+        if(empty($money_all)){
+            return $data=0;
+        }
+        // $configs['exchange_usd']['value']
+        $money = $money_all/$btc;
+        $data = numberByRetain($money,8);
+        // dump($money);die;
+        return $data;
     }
 
     /**
@@ -162,6 +192,7 @@ class Wallet extends HomeBase
 
                 $res3 = true;
                 $resUp = true;
+                $res123 = true;
                 // 订单信息入库
                 $data = array(
                     'order_no' => byOrderNo(),
@@ -178,6 +209,11 @@ class Wallet extends HomeBase
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
                     $res3 = Db::name('execute_order')->insert($data);
+                }
+
+                // 如果之前已提取过本金终止合同的重新,入单重新开启
+                if($is_cu_order && $is_cu_order['is_stop']==1){
+                    $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['is_stop'=>0]);  
                 }
 
                 // 入单激活会员
@@ -285,7 +321,7 @@ class Wallet extends HomeBase
         if($uid){
             $userWallet = Db::name('user_wallet')
             ->alias('a')
-            ->field('a.*, b.alias_name')
+            ->field('a.*, b.alias_name,b.price')
             ->join('htd_currency b', 'a.cu_id=b.id')
             ->where(['a.uid'=>$uid])->select();
         }

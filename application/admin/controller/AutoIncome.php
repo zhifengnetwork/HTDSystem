@@ -23,6 +23,7 @@ class AutoIncome
 		// $orderWhere['create_time'] = array('<', $toDayTime);
 		$orderWhere['is_check'] = 1; // 已审核
 		$orderWhere['is_stop'] = 0;  // 订单没有终止的
+		$orderWhere['num'] = array('>', 0);
 		$orderAll = Db::name('execute_order')->where($orderWhere)->select();
 		if($orderAll){
 			// 获取htd价格

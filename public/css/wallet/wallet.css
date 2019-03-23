@@ -81,7 +81,9 @@ th,td{
 	font-size: .55rem;
 	font-weight: 900;
 	text-align: center;
-	line-height: 1.25rem;
+	height: 1.5rem;
+	margin: auto;
+	/* line-height: 1.25rem; */
 }
 .amount {
 	margin-top: 8%;
