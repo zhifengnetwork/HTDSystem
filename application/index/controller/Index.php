@@ -177,20 +177,14 @@ class Index extends HomeBase
         }
 
         // 手机验证
-        // if(!$data['verify']){
-        //     // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
-        //     return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
-        // }
+        if(!$data['verify']){
+            // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
+            return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
+        }
 
-        // $checkData['sms_type'] = $data['sms_type'];
-        // $checkData['code'] = $data['verify'];
-        // $checkData['phone'] = session('home.mobile');
-            
-        // $res = checkPhoneCode($checkData);
-        // if($res['code']==0){
-        //     // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
-        //     return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
-        // }
+        $checkData['sms_type'] = $data['sms_type'];
+        $checkData['code'] = $data['verify'];
+        $checkData['phone'] = session('home.mobile');
 
         //美元汇率   
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -228,6 +222,13 @@ class Index extends HomeBase
 
         Db::startTrans();
         try{
+
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
+                return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
+            }
+            
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
 
