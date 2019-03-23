@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
 		
+		
 		<style>
 			* {
 				/*防止-滑动报错*/
@@ -137,6 +138,7 @@
 			
 			<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;"></div>
 			
+			 <textarea name="" id="codeNum" cols="30" rows="10" style="width: 0;height: 0;">{$data.url}</textarea>
 			<!--<div style="color: white; "><span style="user-select='none'">分享链接:</span><a style="color:floralwhite" href="#">{$data.url}</a></div>-->
 			<!--背景样式-->
 
@@ -146,7 +148,7 @@
 
 
 
-         <div id="copy" data-clipboard-target="#text" style="width: 1.5rem;height: .7rem; background: white;border-radius: .06rem;line-height: .7rem;text-align: center;font-family: '微软雅黑';position: absolute;bottom: 2rem;left:0;right: 0;margin: auto;">复制链接</div>
+         <div id="copy" class="copy" data-clipboard-target="#codeNum" style="width: 1.5rem;height: .7rem; background: white;border-radius: .06rem;line-height: .7rem;text-align: center;font-family: '微软雅黑';position: absolute;bottom: 2rem;left:0;right: 0;margin: auto;">复制链接</div>
 			
 		</div>
 		<!--底部弹窗（蒙版）body-->
@@ -170,6 +172,7 @@
 		<script src="__PUBLIC__/qrcode/qrcode.js"></script>
 		<script src="../../../public/js/pickup/clipboard.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		
 		
 		<!--蒙版出现=> 底部（box）不能滑动-->
 		<script>
@@ -241,8 +244,9 @@
 			    });
 			}
 			
+		
 			//点击按钮，复制二维码链接
-			$("#copy").click(function(){
+			$(".copy").click(function(){
 				
 						 let e = document.getElementById("text").value;
 			            //实例化clipboard
@@ -255,7 +259,7 @@
 			            clipboard.on("error", function(e){
 			                console.log(e);
 			            });
-				alert("复制成功")			
+			     alert("复制成功")	;
 				
 			})
 			
