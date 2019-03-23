@@ -159,7 +159,7 @@ class Index extends HomeBase
                 $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
             }
 
-            //手机验证
+            // 手机验证
             if(!$data['verify']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
             }
@@ -238,15 +238,13 @@ class Index extends HomeBase
                                                       
                     // 提交事务
                     
-                    // $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log');
-                    $alias = Db::table('htd_currency')->where('id',$data['cu_id'])->value('alias_name');
+                    $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log'); 
                     $suc_data = [
                         'suc_name'     => session('home.username'),
                         'su_num'       => $data['number'],
                         'su_time'      => date('Y-m-d,H:i:s',time()),
                         'su_charge'    => $charge,
-                        'su_log'       => $log
-                        // 'alias_name'    => $alias          
+                        'su_log'       => $log       
                     ];
                     Db::commit(); 
                     $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
