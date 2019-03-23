@@ -251,7 +251,10 @@ class Index extends HomeBase
                 // 减掉执行收益表对应币种记录的相应数量
                 $res2 = Db::name('execute_order')->where($where)->setDec('num',$data['number']);
                 // 终止当前币种记录
-                $res123 = Db::name()->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0]);               
+                $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0, 'is_stop'=>1]);  
+
+                // 
+
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);
 
