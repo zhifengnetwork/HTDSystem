@@ -94,9 +94,12 @@ class Login extends Controller
             // dump($res);die;
             $this->assign('aa', $res);
         }
-        if(!empty($money)){
-            $this->assign('money', $money/$usd);
+        if(!$money){
+            $total_money = $money/$usd;
+        }else{
+            $total_money = 0;
         }
+        $this->assign('money', $total_money);
         $this->assign('aa', $res);
         return view();
     }
