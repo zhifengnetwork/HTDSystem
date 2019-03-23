@@ -8,10 +8,15 @@
 		<script src="__PUBLIC__/js/public/rem.js"></script>
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css?v=2" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
 		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
-	
+	    <style>
+	    	
+	    	
+	    	
+	    	
+	    </style>
 	
 	</head>
 
@@ -175,8 +180,18 @@
 							</p>
 							<p>
 								<span>提币额度</span>
+<<<<<<< HEAD
+
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;margin-left: 4.76rem;" src="" alt="币种图标"></span>
+								<span class="total"></span>
+
 								<span class="total" style="margin-left: 3.76rem;"></span>
 								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
+
+
+								<span class="total" style="margin-left: 3.76rem;"></span>
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
+
 							</p>
 							
 							<p>
@@ -254,34 +269,31 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
-			function phonecode(phoneS){
-				        // var phone= {$phone}
-						// 获取验证码
-						// console.log(phoneS)
-						// return false;
-						var a = '13612560591';
-						$.ajax({
-							url: '/index/index/getPhoneVerify',
-							type: 'post',
-							dataType: 'json',
-							data: {phone:phoneS, sms_type:2},
-							success:function(msg){
-							// console.log(msg);
-                            // $('#sms_type').val(1);
-							// $('#verify').val(msg.code);
-							if(msg.code!=0){
-							layer.msg('已发送');
-							}else{
-							layer.msg(msg.msg);
-							return false;
-							}
-						}
-						});
-						
-					
-						
-						
-			}
+			// function phonecode(phoneS){
+			// 	        // var phone= {$phone}
+			// 			// 获取验证码
+			// 			// console.log(phoneS)
+			// 			// return false;
+			// 			var a = '13612560591';
+			// 			$.ajax({
+			// 				url: '/index/index/getPhoneVerify',
+			// 				type: 'post',
+			// 				dataType: 'json',
+			// 				data: {phone:phoneS, sms_type:2},
+			// 				success:function(msg){
+			// 				// console.log(msg);
+            //                 // $('#sms_type').val(1);
+			// 				// $('#verify').val(msg.code);
+			// 				if(msg.code!=0){
+			// 				layer.msg('已发送');
+			// 				}else{
+			// 				layer.msg(msg.msg);
+			// 				return false;
+			// 				}
+			// 			}
+			// 			});
+		
+			// }
 
 
 			//复投按钮
@@ -668,24 +680,14 @@
 			
 			
 			
+			
 //			input标签获取焦点
-        $('.text').focus(function(e){
-            var u = navigator.userAgent;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-            if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height()+200)
-            $('.form-horizontal').scrollTop(200)
-            }
+            $('#wallet_addr').focus(function(e){
+            document.querySelector('#inputId').scrollIntoView();
+            console.log("ccc")
+            
         })
-        // 失去焦点时重新回到原来的状态
-        $('.text').blur(function(e){
-            var u = navigator.userAgent;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-            if(isAndroid){
-            $('body').height( $('body').height()-200)
-            $('body').scrollTop(0)
-            }
-        })
+      
 
 			
 
