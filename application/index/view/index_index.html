@@ -130,7 +130,6 @@
                 spaceBetween: 30,
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
-<<<<<<< HEAD
             }); 
            
             var alread  //现在的时间  3600000
@@ -163,48 +162,6 @@
 
 
              
-=======
-            });
-            /*0000*/
-			/*获取当前时间=>转换为时间戳*/
-			function time() { 
-				var today = new Date(); 
-				var hou; 
-				if (today.getHours() < 12 && today.getHours() >= 0) { 
-					hou = today.getHours(); 
-				} else if (today.getHours() <= 24 && today.getHours() > 12) { 
-					hou = today.getHours() - 12; 
-				} 
-				/*填上 01:01:01*/
-				/*时*/
-				var timeText = hou > 9 ? hou : '0' + hou;
-				/*分*/
-				var branchText = today.getMinutes() > 9 ? today.getMinutes() : '0' + today.getMinutes();
-				/*秒*/
-				var secondText = today.getSeconds() > 9 ? today.getSeconds() : '0' + today.getSeconds();
-				/*获取当前时间*/
-				var currentTime = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + " " + timeText + ":" + branchText + ":" + secondText;
-				
-				/**/
-				var timeStamp = new Date(currentTime);
-				console.log(timeStamp.getTime()/1000);
-				return timeStamp.getTime()/1000;
-			}
-			time();
-			/*判断是否登陆*/
-			if($('#bottomNavWrap').attr('data-id') == '1'){
-				/**
-				 * 一个小时时间戳间距=> 359;
-				 * 两个小时时间戳间距=> 719;
-				 * **/
-				/*当前时间=>关闭的时间是否是2个时间的间隔*/
-				if((time()-719) >= window.localStorage.getItem("stamp")){
-					$(".mode").show();
-					$(".dialog-notice").show();
-				}
-			}
-			
->>>>>>> 77d81726387d8ba512d198a012b6fec6640c85a4
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  

@@ -99,19 +99,23 @@
         function statusemail(){
             var reg= /^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/; /*用户邮箱*/
             var email = $(this)
-            if(email.val()==""){
-                email.parent().parent().prev().addClass("mistake").html(`邮箱不能为空`)
-                return condition.emailstate=false
-            }else if(!reg.test(email.val())){
-                email.parent().parent().prev().addClass("mistake").html(`请输入正确的邮箱`)
-                return condition.emailstate=false
-            }else{
-                email.parent().parent().prev().removeClass("mistake").html("")
-                return condition.emailstate=true
+            // if(email.val()==""){
+            //     email.parent().parent().prev().addClass("mistake").html(`邮箱不能为空`)
+            //     return condition.emailstate=false
+            // }else 
+            if(email.val()){
+                if(!reg.test(email.val())){
+                    email.parent().parent().prev().addClass("mistake").html(`请输入正确的邮箱`)
+                    return condition.emailstate=false
+                }else{
+                    email.parent().parent().prev().removeClass("mistake").html("")
+                    return condition.emailstate=true
+                }
             }
+            
          }
     
-        //用户是否同意政策
+        //用户是否同意政策 
         function statusicon(){
             $(this).toggleClass("active")
             if($(this).hasClass("active")){
@@ -144,7 +148,7 @@
         //推荐人
         function statusreferrer(){
             var $referrer = $(this)
-            if($referrer.val()==""){
+            if(!$referrer.val()){
                 $referrer.parent().parent().prev().addClass("mistake").html(`推荐码不能为空`)
                 return condition.referrer=false
             }else{
@@ -170,30 +174,27 @@
             var sms_type = $('#sms_type_id').val();
             // layer.msg(111); return false;
             // 获取验证码
+            var flag = true;
             $.ajax({
                 url: '/index/login/getPhoneVerify',
                 type: 'post',
                 dataType: 'json',
                 data: {phone:phoneS, sms_type:sms_type},
                 success:function(msg){
-                    // console.log(msg);
-                    if(msg.code!=0){
-                        layer.msg('已发送');
-                    }else{
+                    if(msg.code==0){
                         layer.msg(msg.msg);
+                        flag = false;
                         return false;
                     }
                 }
             });
-
-            
-            // createCode()
+            if(flag){
+                layer.msg('已发送');
+            }
             $(".verify").focus();
             daojishi(60,$(this))
             $(".phone").attr("disabled","disabled") 
             return condition.phonestate=true
-            
-               
         })
         function daojishi(seconds,obj){
             if (seconds > 1){
@@ -224,139 +225,3 @@
             // }
         })
     
-        // 随机验证码
-        // var code ; 
-        // function createCode(){ 
-        //    code = "";  
-        //    var codeLength = 4;
-        //    var random = new Array
-        // (0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R', 'S','T','U','V','W','X','Y','Z');  
-        //    for(var i = 0; i < codeLength; i++) {  
-        //     var index = Math.floor(Math.random()*36);
-        //     code += random[index];
-        //   }  
-        //    code = code.replace(/[^a-z\d]/ig,"")
-        // return code;
-        // } 
-     
-      //注册
-    //   $(".btn").click(function(){
-    //     let userName = $(".username")  //用户名
-    //     let userPhone = $(".phone")    //手机
-    //     let password = $(".password")  //密码
-    //     let affirmpwd = $(".affirmpwd")   //确认密码
-    //     let userEmail = $(".email")    //邮箱
-    //     let rec = $(".recommend")      //推荐人
-    //     let verify = $(".verify")      //验证码
-    //     let body = $("body")
-        
-        
-    //     if(condition.username&&condition.phonestate&&condition.pwdstate&&condition.inconsistent&&condition.emailstate&&condition.iconstate&&condition.securitycode&&condition.referrer){
-    //         // console.log(userName);
-    //         // $.ajax({
-	// 		// 	type:"POST",
-	// 		// 	url:"{:url('index/login/regis')}",
-	// 		// 	data:{
-    //         //         username:username,
-    //         //         phone:phone,
-    //         //         password:password,
-    //         //         email:email,
-    //         //         recommend:recommend,
-    //         //         verify:verify
-    //         //     },
-	// 		// 	dataType:'json',
-	// 		// 	success:function(msg){
-	// 		// 		if(msg.url){
-	// 		// 			console.log(msg.url);
-	// 		// 			suredAlert($('body'),msg.msg,msg.url);
-	// 		// 			window.location.replace(msg.url);
-	// 		// 		}else{
-	// 		// 			alert(msg.msg);
-	// 		// 		}
-	// 		// 	}
-    //         // });
-    //         return 
-    //     }else{
-    //     //注册用户名
-    //         if (userName.val() == ""){       //用户名为空
-    //             suredAlert(body,"用户名不能为空~");
-    //             userName.focus()
-    //             return 
-    //     }else if (!condition.username){  //用户名格式不正确
-    //             suredAlert(body,"请输入正确的用户名~");
-    //             userName.focus()
-    //             return 
-    //     }
-    //     //注册用户名密码
-    //     if (password.val() == ""){       //密码为空
-    //             suredAlert(body,"密码不能为空~");
-    //             password.focus()
-    //             return
-    //     }else if (!condition.pwdstate){  //用户名密码
-    //             suredAlert(body,"请输入正确的密码~");
-    //             password.focus()
-    //             return 
-    //     } 
-    
-    //     //确认密码
-    //     if(password.val() != affirmpwd.val()){  //密码不一致
-    //         console.log(password.val(),affirmpwd.val())
-    //             suredAlert(body,"输入密码不一致 请重新输入~");
-    //             affirmpwd.focus()
-    //             return
-    //     }
-        
-    //     //用户邮箱
-    //     if(userEmail.val() == ""){        //邮箱为空
-    //             suredAlert(body,"邮箱不能为空~");
-    //             userEmail.focus()
-    //             return
-    //     }else if (!condition.emailstate){ //用户邮箱为false
-    //             suredAlert(body,"请输入正确的邮箱~");
-    //             userEmail.focus()
-    //             return 
-    //     }
-    
-    //     //用户名手机
-    //     if(userPhone.val() == ""){    
-    //             suredAlert(body,"手机号码不能为空~");
-    //             userPhone.focus()
-    //             return
-    //     }else if (!condition.phonestate){ //用户手机号
-    //             suredAlert(body,"请输入正确的手机号~");
-    //             userPhone.focus()
-    //             return 
-    //     }
-       
-    //     //推荐人
-    //     if (!condition.referrer){    //推荐人
-    //         suredAlert(body,"请填写推荐人~");
-    //         return
-    //     }
-    
-    //     //验证码
-    //     if(verify.val() == ""){
-    //         suredAlert(body,"验证码不能为空~");
-    //         verify.focus()
-    //         return
-    //     }else if (!condition.securitycode){  //验证码
-    //         suredAlert(body,"请输入正确的验证码~");
-    //         verify.focus()
-    //         return
-    //     }
-        
-    //     //勾选协议
-    //     if (!condition.iconstate){      //勾选协议
-    //         suredAlert(body,"请勾选用户协议~");
-    //         return
-    //     }
-
-
-    //     }
-       
-        
-    
-       
-    //   })
-
-    //   })

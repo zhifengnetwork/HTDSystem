@@ -156,7 +156,12 @@ class System extends AdminBase
 
                 if ($bool3) {
                     $config->where('name',$globalsKey[$i])->update(['value'=>$global_par[$globalsKey[$i]]]);
-                } else {
+                    // 美元汇率更新到币种表usdt
+                    if($globalsKey[$i] == 'exchange_usd'){
+                        $update['price'] = $global_par[$globalsKey[$i]];
+                        Db::name('currency')->where(['alias_name' => 'USDT'])->update($update);
+                    }
+                }else{
                     $config->insert(['name'=>$globalsKey[$i],'value'=>$global_par[$globalsKey[$i]],'type'=>104]);
                 }
             }

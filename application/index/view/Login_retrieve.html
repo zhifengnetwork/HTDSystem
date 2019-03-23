@@ -82,7 +82,6 @@
             dataType: 'json',
             data: {phone:mobile,sms_type:3},
             success:function(msg){
-// console.log(msg);
                 if(msg.code!=0){
                     layer.msg('已发送');
                 }else{
