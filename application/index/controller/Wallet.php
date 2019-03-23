@@ -235,22 +235,38 @@ class Wallet extends HomeBase
     }
 
     /**
-     *  获取用户的投资历史订单
+     *  获取用户的投资历史订单及提币记录
      */
     private function user_order($user_id)
     {
-        $user_order = db('buy_order')->field('id,uid,cu_id,num,price,total_money,create_time,is_check')->where(['uid'=>$user_id])->select();
+        $user_order = db('buy_order')->field('id,uid,cu_id,num,create_time,is_check')->where(['uid'=>$user_id])->order('create_time desc')->select();
+        $currency_arr = $this->htd_currency();
         if($user_order){
-            $currency_arr = $this->htd_currency();
             foreach($user_order as $k1=>$v2){
                 foreach($currency_arr as $k=>$v){
                     if($v2['cu_id'] == $v['id']){
                         $user_order[$k1]['cu_name'] = $v['alias_name'];
+                        $user_order[$k1]['type'] = '投资';
                     }
                 }
             }
-            return $user_order;
+           
         }
+        
+        $currency_list = Db::name('user_extract')->field('id,uid,cu_id,cu_num num,create_time,status is_check')->where(['uid'=>$user_id])->order('create_time desc')->select();
+        if($currency_list){
+            foreach($currency_list as $key=>$valus){
+                foreach($currency_arr as $k=>$v){
+                    if($valus['cu_id'] == $v['id']){
+                        $currency_list[$key]['cu_name'] = $v['alias_name'];
+                        $currency_list[$key]['type'] = '提币';
+                    }
+                }
+            }
+        }
+        $user_order = array_merge($user_order,$currency_list);
+        // p($currency_list);die;
+        return $user_order;
     }
     /**
     *获取用户信息
