@@ -99,9 +99,9 @@
 										<img src="__PUBLIC__/images/xia.png" class="down">
 										<ul class="ul_box popover_ul">
 											<!-- <li data-index="0">请选择</li> -->
-											<li data-index="1">本金</li>
-											<li data-index="2">收益</li>
-											<li data-index="3">分红</li>
+											<li data-index="1" onclick="getAll(1)">本金</li>
+											<li data-index="2" onclick="getRm()">收益</li>
+											<li data-index="3" onclick="getRm()">分红</li>
 										</ul>
 								</div>
 
@@ -118,7 +118,7 @@
 										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
 										<input type="hidden" name="sms_type" id="sms_type" value="">
 										<input type="hidden" name="verify" id="verify" value="">						
-									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" /><br />
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" value=""/><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
 								</div>
 								<!--000-->
@@ -247,6 +247,7 @@
 							<!--000-->
 	
 						</form>
+						<input type="hidden" name="cu_id" value="" id="getAll_id"/>
 					</div>
 				</div>
 			<!-- 复投弹框-e -->
@@ -260,25 +261,25 @@
 
 		<script>
 			function phonecode(phoneS){
-						var phone= {$phone};
-						var flag = true;
-						// 获取验证码
-						$.ajax({
-							url: '/index/index/getPhoneVerify',
-							type: 'post',
-							dataType: 'json',
-							data: {phone:phone, sms_type:2},
-							success:function(msg){
-								if(msg.code==0){
-									var flag = false;
-									layer.msg(msg.msg);
-									return false;
-								}
-							}
-						});
-						if(flag){
-							layer.msg('已发送');
+				var phone= {$phone};
+				var flag = true;
+				// 获取验证码
+				$.ajax({
+					url: '/index/index/getPhoneVerify',
+					type: 'post',
+					dataType: 'json',
+					data: {phone:phone, sms_type:2},
+					success:function(msg){
+						if(msg.code==0){
+							var flag = false;
+							layer.msg(msg.msg);
+							return false;
 						}
+					}
+				});
+				if(flag){
+					layer.msg('已发送');
+				}
 			}
 
 			//复投按钮
@@ -300,7 +301,7 @@
 								$('.bonus_wallet1').val(data['result']['bonus_wallet']);
 								// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
 								$('.rate_wallet1').val(data['result']['rate_wallet']);
-								console.log(data['result']['rate_wallet']);
+								//console.log(data['result']['rate_wallet']);
 								// $('#wallet_addr').val(data['result']['wallet_addr']);								
 								$('.voting').show()
 						} else {
@@ -335,11 +336,15 @@
 					$(".popover_click").attr("data-id",index)
 
                     if(index==1){
-                        //   var a = $('#popover_num').val();
-						  $('#popover_num').attr('placeholder','本金提币不限额')	  
+						  $("#popover_num").attr("disabled","disabled");
+						  // $('#popover_num').attr('placeholder','本金提币终止合同')	  
+					}else if(index==2){
+						$('#popover_num').val('');
+						$("#popover_num").removeAttr("disabled");
+						$('#popover_num').attr('placeholder','大于等于{$withdraw_min}美金可提取')	  
 					}else{
-						  $('#popover_num').attr('placeholder','大于等于{$withdraw_min}美金可提取')	  
-					}					
+
+					}			
 				})
 				 //复投下拉框-类型 
 				$(".voting_ul>li").click(function(){
@@ -381,6 +386,8 @@
 							$('#cu_num').val(data['result']['cu_num']);
 							$('#bonus_wallet').val(data['result']['bonus_wallet']);
 							// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
+							$('#getAll_id').val(data['result']['cu_id']); // 币种id 
+
 							$('#rate_wallet').val(data['result']['rate_wallet']);
 							$('#wallet_addr').val(data['result']['wallet_addr']);								
 							$('.popover').show();
@@ -460,6 +467,30 @@
 				}
 			});			
 		};
+
+		// // 取消input不可编辑
+		// function getRm(){
+		// 	$("#popover_num").removeAttr("disabled");
+		// }
+
+		// 获取当前币种全部本金
+		function getAll(msg){
+			var cu_id = $('#getAll_id').val();
+			var uid = $('#uid').val();
+			$.ajax({
+				url: '/index/index/getAllnum',
+				type: 'post',
+				dataType: 'json',
+				data: {cu_id:cu_id,uid:uid},
+				success:function(msg){
+					console.log(msg);
+					$('#popover_num').val(msg.cu_num);
+					layer.alert('您确认终止合同吗?', {closeBtn : 1});
+				}
+			});
+			
+			return false;
+		}
 
 		var btn_true = true;
 		// 提币

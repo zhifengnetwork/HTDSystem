@@ -150,7 +150,7 @@ class Index extends HomeBase
         $validate   = new Indexv();
         // $base       = new Base();
         switch ($data['type'])
-        {                 
+        {
             case 1: // 本金
             $data['cu_num'] = $data['cu_num'] ;
             $cu_type = 'cu_num';
@@ -248,9 +248,10 @@ class Index extends HomeBase
                 // 扣减股权
                 $checkStock = checkStock($data['uid'],$data['cu_id'],$data['number']);
 
-                // 减掉相应数量
+                // 减掉执行收益表对应币种记录的相应数量
                 $res2 = Db::name('execute_order')->where($where)->setDec('num',$data['number']);
-                    
+                // 终止当前币种记录
+                $res123 = Db::name()->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0]);               
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);
 
@@ -583,5 +584,21 @@ class Index extends HomeBase
 		);
 		$res12 = Db::name('user_log')->insert($data);
 		return $res12;
-	}
+    }
+    
+    // 获取对应币种的所有本金
+    public function getAllnum(){
+
+        if(!is_post()){
+            return json(array('code' => 0, 'msg' => '提交方式错误'));
+        }
+        $cu_id = input('post.cu_id/d');
+        $uid = input('post.uid/d');
+        // 获取当前用户对应币种的全部本金
+        $all_num = Db::name('user_wallet')->field('id,uid,cu_id,cu_num')->where(['cu_id'=>$cu_id, 'uid'=>$uid])->find();
+        if(!$all_num){
+            return json(array('code' => 0, 'msg' => '本金为0'));
+        }
+        return $all_num;
+    }
 }
