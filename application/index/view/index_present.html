@@ -579,13 +579,13 @@
 						console.log(data)
 						if (data.code == 200) {
 							layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
-								//  window.location.reload(); 
+								 window.location.reload(); 
 							});
 
 						}
 						else {
 							layer.msg(data.msg, { icon: 2, time: 2000 }, function () {
-								// window.location.reload(); 
+								window.location.reload(); 
 							});
 							$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
 						}
