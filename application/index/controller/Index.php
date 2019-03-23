@@ -228,6 +228,13 @@ class Index extends HomeBase
                 return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
             }
 
+            //获取当前币种钱包的记录
+            $currency_one = Db::name('user_wallet')->where($where)->find();
+            if(!$currency_one){
+                return json(array('status' => 0, 'msg' => '币种钱包不存在'));
+            }
+            $data['number'] = $currency_one['cu_num'];
+
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
 
@@ -253,7 +260,8 @@ class Index extends HomeBase
                 // 终止当前币种记录
                 $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0, 'is_stop'=>1]);  
 
-                // 
+                // 插入日志
+                $this->insertLog($data['uid'],$data['cu_id'],'终止合同',888); // 终止合同
 
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);

@@ -212,7 +212,7 @@ class Wallet extends HomeBase
                 }
 
                 // 如果之前已提取过本金终止合同的重新,入单重新开启
-                if($is_cu_order['is_stop']==1){
+                if($is_cu_order && $is_cu_order['is_stop']==1){
                     $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['is_stop'=>0]);  
                 }
 
