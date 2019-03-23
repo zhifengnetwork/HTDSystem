@@ -223,7 +223,7 @@ class Login extends Controller
             return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','code'=>1));
         }
         if ($arr['mobile'] != $ress['mobile']) {
-            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','code'=>2));
+            return json_encode(array('msg'=>'用户名绑定的手机号不一致','code'=>2));
         }
         $checkData['sms_type'] = 3;
         $checkData['code'] = $arr['verify'];
