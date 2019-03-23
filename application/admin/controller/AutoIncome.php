@@ -246,8 +246,8 @@ class AutoIncome
 				}
 				$i++;
 			}
-			echo '<br/>';
-			echo '循环处理完成'.$i.'次';
+			// echo '<br/>';
+			echo "循环处理完成".$i."次\n";
 			
 		}else{
 			echo '没有要处理的订单';
