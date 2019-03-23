@@ -158,10 +158,10 @@ class Login extends Controller
             $checkData['sms_type'] = $arr['sms_type'];
             $checkData['code'] = $arr['verify'];
             $checkData['phone'] = $arr['userPhone'];
-            // $res = checkPhoneCode($checkData);
-            // if($res['code']==0){
-            //     return array('code' => 0, 'msg' => $res['msg']);
-            // }
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                return array('code' => 0, 'msg' => $res['msg']);
+            }
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
             }else if($reaa){
