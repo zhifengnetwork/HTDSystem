@@ -264,11 +264,8 @@ class Index extends HomeBase
                 ];
 
                 // 插入日志 901提币
-                // $note_log = $flag.'-提币-'.$data['number'];
-               
-                // $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
-                
-                // echo $note_log;die;
+                $note_log = $flag.'-提币-'.$data['number'];
+                $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
                 // 提交事务
                 Db::commit();
                 //$base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
@@ -302,16 +299,14 @@ class Index extends HomeBase
                     'alias_name'=> $alias_name
                 ];
                 
-
-                // 插入日志 901提币
+                // 插入日志 902提币
                 $note = $data['cu_id'].$flag.'提币'.$data['number'];
-                // $res_log = $this->insertToLog($data['uid'], $order_no='', $type=$type, $old_account='', $now_account='', $note);
+                $res_log2 = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
 
                 // 提交事务
                 Db::commit();
                 //$base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
                 return json(array('status' => 1, 'msg' => '操作成功', 'result' => $suc_data));
-                
             } 
 
         } catch (\Exception $e) {
