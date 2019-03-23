@@ -515,12 +515,8 @@
 										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
 										$(".popover").hide();
 										$('.true_popUp_wrap').show();
-							}
-							else {
-									layer.msg(data.msg, {icon: 2, time: 2000}, function(){	
-									
-									});
-									
+							}else {
+									layer.msg(data.msg);	
 							}
 						});
 
