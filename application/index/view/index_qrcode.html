@@ -5,6 +5,7 @@
 		<title>HTD</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<script src="__PUBLIC__/js/public/rem.js"></script>
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css">
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
@@ -129,20 +130,23 @@
            </div>
 	        
 	        
-			<input id="text" type="text" value="{$data.url}" style="width:80%;" hidden /><br />
+			<input id="text" type="text" value="{$data.url}" style="width:80%;" hidden  /><br />
 			
             <p style="padding-top: 2.7rem; width: 100%; text-align: center;font-size: .3rem;color: white;font-family:'微软雅黑';">我的推广二维码</p>
 			
 			
 			<div id="qrcode" style="width:150px; height:150px;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;"></div>
 			
-			<div>分享链接: <a style="color:floralwhite" href="#">{$data.url}</a> </div>
+			<!--<div style="color: white; "><span style="user-select='none'">分享链接:</span><a style="color:floralwhite" href="#">{$data.url}</a></div>-->
 			<!--背景样式-->
 
 			<img  id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;" src="__PUBLIC__/images/qrcode/white.png" onerror="this.src='__PUBLIC__/images/qrcode/3.jpg'" />
 
 			<img id="pic" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;z-index: -1;"/>
 
+
+
+         <div id="copy" data-clipboard-target="#text" style="width: 1.5rem;height: .7rem; background: white;border-radius: .06rem;line-height: .7rem;text-align: center;font-family: '微软雅黑';position: absolute;bottom: 2rem;left:0;right: 0;margin: auto;">复制链接</div>
 			
 		</div>
 		<!--底部弹窗（蒙版）body-->
@@ -164,7 +168,9 @@
 		<!-- <script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script> -->
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/qrcode/qrcode.js"></script>
+		<script src="../../../public/js/pickup/clipboard.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		
 		<!--蒙版出现=> 底部（box）不能滑动-->
 		<script>
 //			$(document).ready(function() {
@@ -234,6 +240,24 @@
 			    
 			    });
 			}
+			
+			//点击按钮，复制二维码链接
+			$("#copy").click(function(){
+				
+						 let e = document.getElementById("text").value;
+			            //实例化clipboard
+			            var clipboard = new ClipboardJS('#copy');
+			           
+			            clipboard.on("success", function(e){
+			                console.log(e);
+			            });
+			
+			            clipboard.on("error", function(e){
+			                console.log(e);
+			            });
+				alert("复制成功")			
+				
+			})
 			
 			
 			
