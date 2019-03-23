@@ -196,7 +196,6 @@ class Index extends HomeBase
         // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
         if($usd<$withdraw_min&&$data['type']!=1){
             // $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);
-
             return json(array('status' => 0, 'msg' => '货币大于等于'.$withdraw_min.'美元才能体现', 'result' => ''));
 
         }else if($data['cu_num']<$data['number']){
@@ -228,7 +227,7 @@ class Index extends HomeBase
                 // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
                 return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
             }
-            
+
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
 
