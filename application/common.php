@@ -2207,11 +2207,22 @@ function numberByRetain($number, $position){
 
 //获取验证码短信
 function getPhoneCode($data){
-
+    
 	if(!$data['sms_type']||!$data['phone']){
         return array('code' => 0, 'msg' => '缺少验证参数');
-	}
-	
+    }
+    // 判断手机号是否合法
+    $check_phone = check_mobile_number($data['phone']);
+    // 判断手机号是否存在数据库
+    if($check_phone){
+        $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
+        if(!$is_phone_db){
+            return array('code' => 0, 'msg' => '非法手机号！');
+        }
+    }else{
+        return array('code' => 0, 'msg' => '手机号格式不正确');
+    }
+    
     $limit_time = 60;// 60秒以内不能重复获取
     $where['phone'] = $data['phone'];
     $where['sms_type'] = $data['sms_type'];
@@ -2402,4 +2413,23 @@ function checkStock($uid,$cu_id,$cu_num){
     }
     return $res;
 }
+
+//检测手机
+function isPhone($tel,$type='sj'){
+	$regxArr = array(
+		'sj'  =>  '/^(\+?86-?)?(18|15|13|17|14)[0-9]{9}$/',
+		'tel' =>  '/^(010|02\d{1}|0[3-9]\d{2})-\d{7,9}(-\d+)?$/',
+		'400' =>  '/^400(-\d{3,4}){2}$/',
+	);
+	if($type && isset($regxArr[$type])){
+		return preg_match($regxArr[$type], $tel) ? true:false;
+	}
+	foreach($regxArr as $regx){
+		if(preg_match($regx, $tel )){
+			return true;
+		}
+	}
+	return false;
+}
+
 

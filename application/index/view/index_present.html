@@ -8,10 +8,15 @@
 		<script src="__PUBLIC__/js/public/rem.js"></script>
 		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css?v=2" />
 		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
 		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
-	
+	    <style>
+	    	
+	    	
+	    	
+	    	
+	    </style>
 	
 	</head>
 
@@ -175,8 +180,18 @@
 							</p>
 							<p>
 								<span>提币额度</span>
-								<span class="total" style="margin-left: 4.76rem;"></span>
+<<<<<<< HEAD
+
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;margin-left: 4.76rem;" src="" alt="币种图标"></span>
+								<span class="total"></span>
+
+								<span class="total" style="margin-left: 3.76rem;"></span>
 								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
+
+=======
+								<span class="total" style="margin-left: 3.76rem;"></span>
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币种图标"></span>
+>>>>>>> ae30994f8d29572ed26e211bbe315f4974d52fd5
 							</p>
 							
 							<p>
@@ -665,22 +680,25 @@
 			
 			
 			
+			
 //			input标签获取焦点
-        $('.text').focus(function(e){
+            $('#wallet_addr').focus(function(e){
             var u = navigator.userAgent;
             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
             if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height()+200)
-            $('.form-horizontal').scrollTop(200)
+            $('.form-horizontal').height( $('.form-horizontal').height())
+            $('.form-horizontal').scrollTop(600)
             }
+            console.log("ccc")
+            
         })
         // 失去焦点时重新回到原来的状态
-        $('.text').blur(function(e){
+        $('#wallet_addr').blur(function(e){
             var u = navigator.userAgent;
             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
             if(isAndroid){
-            $('body').height( $('body').height()-200)
-            $('body').scrollTop(0)
+            $('.form-horizontal').height( $('.form-horizontal').height())
+            $('.form-horizontal').scrollTop(0)
             }
         })
 

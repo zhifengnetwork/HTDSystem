@@ -30,6 +30,9 @@
 	height: auto;
 	
 }
+.form-horizontal{		
+	    		overflow: auto; 		
+	    	}
 
 .fixed_nav_wrap {
 	width: 100%;
