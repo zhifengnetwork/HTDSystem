@@ -177,20 +177,20 @@ class Index extends HomeBase
         }
 
         // 手机验证
-        if(!$data['verify']){
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
-        }
+        // if(!$data['verify']){
+        //     // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
+        //     return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
+        // }
 
-        $checkData['sms_type'] = $data['sms_type'];
-        $checkData['code'] = $data['verify'];
-        $checkData['phone'] = session('home.mobile');
+        // $checkData['sms_type'] = $data['sms_type'];
+        // $checkData['code'] = $data['verify'];
+        // $checkData['phone'] = session('home.mobile');
             
-        $res = checkPhoneCode($checkData);
-        if($res['code']==0){
-            // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
-            return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
-        }
+        // $res = checkPhoneCode($checkData);
+        // if($res['code']==0){
+        //     // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
+        //     return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
+        // }
 
         //美元汇率   
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
@@ -202,7 +202,8 @@ class Index extends HomeBase
         // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
         if($usd<$withdraw_min&&$data['type']!=1){
             // $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '货币大于等于50美元才能体现', 'result' => ''));
+
+            return json(array('status' => 0, 'msg' => '货币大于等于'.$withdraw_min.'美元才能体现', 'result' => ''));
 
         }else if($data['cu_num']<$data['number']){
             return json(array('status' => 0, 'msg' => '不可大于可提数', 'result' => ''));
