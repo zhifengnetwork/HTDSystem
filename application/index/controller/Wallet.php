@@ -162,6 +162,7 @@ class Wallet extends HomeBase
 
                 $res3 = true;
                 $resUp = true;
+                $res123 = true;
                 // 订单信息入库
                 $data = array(
                     'order_no' => byOrderNo(),
@@ -178,6 +179,11 @@ class Wallet extends HomeBase
                 // 判断执行收益订单表是否存在，不存在插入一次
                 if(!$is_cu_order){
                     $res3 = Db::name('execute_order')->insert($data);
+                }
+
+                // 如果之前已提取过本金终止合同的重新,入单重新开启
+                if($is_cu_order['is_stop']==1){
+                    $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['is_stop'=>0]);  
                 }
 
                 // 入单激活会员
