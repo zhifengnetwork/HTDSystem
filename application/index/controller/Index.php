@@ -177,14 +177,14 @@ class Index extends HomeBase
         }
 
         // 手机验证
-        if(!$data['verify']){
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
-        }
+        // if(!$data['verify']){
+        //     // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
+        //     return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
+        // }
 
-        $checkData['sms_type'] = $data['sms_type'];
-        $checkData['code'] = $data['verify'];
-        $checkData['phone'] = session('home.mobile');
+        // $checkData['sms_type'] = $data['sms_type'];
+        // $checkData['code'] = $data['verify'];
+        // $checkData['phone'] = session('home.mobile');
             
         // $res = checkPhoneCode($checkData);
         // if($res['code']==0){
@@ -264,10 +264,14 @@ class Index extends HomeBase
                 ];
 
                 // 插入日志 901提币
-                // $note_log = $flag.'-提币-'.$data['number'];
+                $note_log = $flag.'-提币-'.$data['number'];
                
-                // $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
-                
+                $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
+                if($res_log){
+                    dump('aaa');
+                }else{
+                    dump('bbb');
+                }
                 // echo $note_log;die;
                 // 提交事务
                 Db::commit();
