@@ -53,7 +53,7 @@
 							<span class="from-tit">邮箱:</span>
 							<div class="from-icon">
 								<img src="__PUBLIC__images/login/youxiang.png" alt="">
-								<input type="text" placeholder="请输入用户邮箱" name="usermail" value class="pptt email">
+								<input type="text" placeholder="选填" name="usermail" value class="pptt email">
 							</div>
 						</div>
 						<div class="info mistake"></div>
@@ -155,15 +155,22 @@
         }
         
         //用户邮箱
-        if(userEmail.val() == ""){        //邮箱为空
-                suredAlert(body,"邮箱不能为空~");
-                userEmail.focus()
-                return
-        }else if (!condition.emailstate){ //用户邮箱为false
+        // if(userEmail.val() == ""){        //邮箱为空
+        //         suredAlert(body,"邮箱不能为空~");
+        //         userEmail.focus()
+        //         return
+        // }else if (!condition.emailstate){ //用户邮箱为false
+        //         suredAlert(body,"请输入正确的邮箱~");
+        //         userEmail.focus()
+        //         return 
+		// }
+		if(userEmail.val()){
+			if (!condition.emailstate){ //用户邮箱为false
                 suredAlert(body,"请输入正确的邮箱~");
                 userEmail.focus()
                 return 
-        }
+			}
+		}
     
         //用户名手机
         if(userPhone.val() == ""){

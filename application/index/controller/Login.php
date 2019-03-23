@@ -149,11 +149,16 @@ class Login extends Controller
         $arr = $this->request->post();
         // p($arr);die;
         if($arr){
-           $usermail= $arr['userEmail']."";
+            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
             $arr['salt'] = generate_password(18);
             $arr['password'] = md5($arr['password'] . $arr['salt']);
-            $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+            if($usermail){
+                $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+                $data['usermail'] = $arr['userEmail'];
+            }else{
+                $reab = false;
+            }
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
             if(!$arr['verify']){
                 $data=array('msg'=>"验证码不可为空",'flag'=>5);
@@ -174,13 +179,12 @@ class Login extends Controller
                 $data=array('msg'=>'用户名已经存在','flag'=>3);
             }else if($reab){
                 $data=array('msg'=>'邮箱已经存在','flag'=>4);
-            }else if(!$reaa&&!$reab){
+            }else if(!$reaa){
                 $read=DB::name('user')->where(['promotion'=>$arr['rec']])->find();
                 if($read){
                     $data = array(
                         "username"=>$arr['userName'],
                         "password"=>$arr['password'],
-                        "usermail"=>$arr['userEmail'],
                         "mobile"=>$arr['userPhone'],
                         "regtime"=>time(),
                         "pid"=>$read['id'],
@@ -247,7 +251,7 @@ class Login extends Controller
     */
     public function getPhoneVerify(){
 
-        // 传入类型：1注册 2提币；手机号
+        // 传入类型：1注册 2提币；3找回密码 
         $param = input('post.');
         $sms_type = intval($param['sms_type']);
         if(!$sms_type || !$param['phone']){

@@ -99,16 +99,20 @@
         function statusemail(){
             var reg= /^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/; /*用户邮箱*/
             var email = $(this)
-            if(email.val()==""){
-                email.parent().parent().prev().addClass("mistake").html(`邮箱不能为空`)
-                return condition.emailstate=false
-            }else if(!reg.test(email.val())){
-                email.parent().parent().prev().addClass("mistake").html(`请输入正确的邮箱`)
-                return condition.emailstate=false
-            }else{
-                email.parent().parent().prev().removeClass("mistake").html("")
-                return condition.emailstate=true
+            // if(email.val()==""){
+            //     email.parent().parent().prev().addClass("mistake").html(`邮箱不能为空`)
+            //     return condition.emailstate=false
+            // }else 
+            if(email.val()){
+                if(!reg.test(email.val())){
+                    email.parent().parent().prev().addClass("mistake").html(`请输入正确的邮箱`)
+                    return condition.emailstate=false
+                }else{
+                    email.parent().parent().prev().removeClass("mistake").html("")
+                    return condition.emailstate=true
+                }
             }
+            
          }
     
         //用户是否同意政策
@@ -176,22 +180,21 @@
                 dataType: 'json',
                 data: {phone:phoneS, sms_type:sms_type},
                 success:function(msg){
-                    // console.log(msg);
-                    if(msg.code!=0){
-                        layer.msg('已发送');
-                    }else{
+                    if(msg.code==0){
                         layer.msg(msg.msg);
                         return false;
                     }
+                    layer.msg('已发送');
+
+                    $(".verify").focus();
+                    daojishi(60,$(this))
+                    $(".phone").attr("disabled","disabled") 
+                    return condition.phonestate=true
                 }
             });
 
             
-            // createCode()
-            $(".verify").focus();
-            daojishi(60,$(this))
-            $(".phone").attr("disabled","disabled") 
-            return condition.phonestate=true
+            
             
                
         })
