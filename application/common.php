@@ -2164,6 +2164,9 @@ function createWallet($uid){
 // 根据传入数字保留小数位数
 function numberByRetain($number, $position){
     // @number 需要处理的数字, @position 需要保留的位数
+    if(is_int($number)){
+        return $number;
+    }
     $ary = explode('.', (string)$number);
     if (strlen($ary[1]) > $position) {
         $decimal = substr($ary[1], 0, $position);
