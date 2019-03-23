@@ -159,7 +159,7 @@ class Index extends HomeBase
                 $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
             }
 
-            手机验证
+            //手机验证
             if(!$data['verify']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
             }
