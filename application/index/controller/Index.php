@@ -87,13 +87,11 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
         }      
         $userid = session('home.id');
-        // $phone=session('home.mobile');
         $list = Db::table('htd_user_wallet')
                 ->alias('a')
                 ->join('htd_currency c', 'c.id=a.cu_id')
                 ->where('uid',$userid)
                 ->select();
-                // dump($list);
 
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','withdraw_min')->select();
         $exchange_usd = arr2name($exchange_usd);
@@ -103,8 +101,6 @@ class Index extends HomeBase
         $this->assign('list',$list);
         $this->assign('phone',session('home.mobile'));
         $this->assign('uid',$userid);
-        // $captcha = new Captcha();
-        // $captcha->entry();
         return $this->fetch();        
     } 
 
@@ -159,7 +155,7 @@ class Index extends HomeBase
                 $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
             }
 
-            手机验证
+            // 手机验证
             if(!$data['verify']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
             }
