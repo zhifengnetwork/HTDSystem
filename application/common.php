@@ -2168,13 +2168,19 @@ function numberByRetain($number, $position){
         return $number;
     }
     $ary = explode('.', (string)$number);
-    if (strlen($ary[1]) > $position) {
-        $decimal = substr($ary[1], 0, $position);
-        $result = $ary[0] . '.' . $decimal;
-        return (float)$result;
-    } else {
+    $nums = count($ary);
+    if($nums==2){
+        if (strlen($ary[1]) > $position) {
+            $decimal = substr($ary[1], 0, $position);
+            $result = $ary[0] . '.' . $decimal;
+            return (float)$result;
+        } else {
+            return $number;
+        }
+    }else{
         return $number;
     }
+    
  }
 
 
