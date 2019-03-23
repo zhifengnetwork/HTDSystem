@@ -688,7 +688,7 @@
             var u = navigator.userAgent;
             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
             if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height()+400)
+            $('.form-horizontal').height( $('.form-horizontal').height())
             $('.form-horizontal').scrollTop(400)
             }
             console.log("ccc")
@@ -699,7 +699,7 @@
             var u = navigator.userAgent;
             var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
             if(isAndroid){
-            $('.form-horizontal').height( $('.form-horizontal').height()-400)
+            $('.form-horizontal').height( $('.form-horizontal').height())
             $('.form-horizontal').scrollTop(0)
             }
         })
