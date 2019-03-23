@@ -72,7 +72,8 @@ class Wallet extends HomeBase
         if(empty($money_all)){
             return $data=0;
         }
-        $money = $money_all/$configs['exchange_usd']['value']/$btc;
+        // $configs['exchange_usd']['value']
+        $money = $money_all/$btc;
         $data = numberByRetain($money,8);
         // dump($money);die;
         return $data;
