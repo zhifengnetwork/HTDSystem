@@ -1984,12 +1984,13 @@ function arr2name($data,$key=''){
 }
 
 // 插入日志表user_log
-function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account='', $note=''){
+function insertToLog($uid, $cu_id='', $order_no='', $type='', $old_account='', $now_account='', $note=''){
     if (empty($uid)) {
         return false;
     }
     $insertData = array(
         'uid' => $uid,
+        'cu_id' => $cu_id,
         'order_no' => $order_no,
         'type' => $type,
         'old_account' => $old_account,
@@ -1998,7 +1999,7 @@ function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account
         'create_time' => time(),
         'status' => 0
     );
-    $res = Db::name('user_log')->save($insertData);
+    $res = Db::name('user_log')->insert($insertData);
     return $res;
 }
 
