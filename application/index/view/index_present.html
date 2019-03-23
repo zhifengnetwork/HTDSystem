@@ -289,7 +289,7 @@
 					url: url,
 					dataType: "json",
 					error: function () {
-							alert('操作失败');
+						layer.msg(data.msg);
 					},
 					success: function (data) {
 						if (data.status == 1) {
@@ -304,7 +304,7 @@
 								// $('#wallet_addr').val(data['result']['wallet_addr']);								
 								$('.voting').show()
 						} else {
-								alert(data.msg); 
+							layer.msg(data.msg);
 						}
 					}
 				});	 				
