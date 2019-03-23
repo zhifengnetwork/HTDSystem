@@ -189,8 +189,8 @@
             return
         }
     
-        //验证码
-        if(verify.val() == ""){
+		//验证码
+        if(!verify.val()){
             suredAlert(body,"验证码不能为空~");
             verify.focus()
             return
