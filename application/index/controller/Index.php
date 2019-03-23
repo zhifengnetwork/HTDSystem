@@ -187,16 +187,20 @@ class Index extends HomeBase
         $checkData['phone'] = session('home.mobile');
 
         //美元汇率   
-        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
         $exchange_usd = arr2name($exchange_usd);
         $usd = $data['popover_convert'];
-        // 提币最低金额
+        // 收益提币最低金额
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
         
+        // 分红提币最低金额
+        if($usd < $exchange_usd['global_min']['value'] && $data['type']==3){
+            return json(array('status' => 0, 'msg' => '大于等于'.$exchange_usd['global_min']['value'].'美元才可提取', 'result' => ''));
+        }
         // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
-        if($usd<$withdraw_min&&$data['type']!=1){
+        if($usd < $withdraw_min&&$data['type']==2){
             // $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '货币大于等于'.$withdraw_min.'美元才能体现', 'result' => ''));
+            return json(array('status' => 0, 'msg' => '大于等于'.$withdraw_min.'美元才可提取', 'result' => ''));
 
         }else if($data['cu_num']<$data['number']){
             return json(array('status' => 0, 'msg' => '不可大于可提数', 'result' => ''));
