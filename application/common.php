@@ -2169,14 +2169,6 @@ function numberByRetain($number, $position){
     }
     // dump($number);
     $ary = explode('.', (string)$number);
-<<<<<<< HEAD
-    // dump($ary);
-    if (strlen($ary[1]) > $position) {
-        $decimal = substr($ary[1], 0, $position);
-        $result = $ary[0] . '.' . $decimal;
-        return (float)$result;
-    } else {
-=======
     $nums = count($ary);
     if($nums==2){
         if (strlen($ary[1]) > $position) {
@@ -2187,7 +2179,6 @@ function numberByRetain($number, $position){
             return $number;
         }
     }else{
->>>>>>> 7833a7467cf9da5a6b48e9cff1eeb45dd94fee69
         return $number;
     }
     
