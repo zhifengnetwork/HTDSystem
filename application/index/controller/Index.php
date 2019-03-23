@@ -253,7 +253,8 @@ class Index extends HomeBase
                 // 终止当前币种记录
                 $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0, 'is_stop'=>1]);  
 
-                // 
+                // 插入日志
+                $this->insertLog($data['uid'],$data['cu_id'],'终止合同',888); // 终止合同
 
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);
