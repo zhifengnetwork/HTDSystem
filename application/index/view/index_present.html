@@ -277,6 +277,10 @@
 							}
 						}
 						});
+						
+					
+						
+						
 			}
 
 
@@ -350,7 +354,7 @@
 			})
 			 //获取验证码
 			 $(".btn").click(function(){
-				daojishi(60,$(this))
+				daojishi(60,$(this));				
 				// $(".ul_box").slideUp()
 			})
 			function daojishi(seconds,obj){
@@ -359,6 +363,7 @@
 						$(obj).html(seconds+"重新获取 ").attr("disabled", true);
 						setTimeout(function(){
 							daojishi(seconds,obj);
+							
 						},1000);
 					}else{
 						$(obj).html("获取验证码").attr("disabled", false);//启用按
@@ -659,6 +664,30 @@
 			// 	$('.popover').hide();
 			// })
 			/*000*/
+			
+			
+			
+			
+//			input标签获取焦点
+            $('.text').focus(function(e){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            if(isAndroid){
+            $('.form-horizontal').height( $('.form-horizontal').height()+200)
+            $('.form-horizontal').scrollTop(200)
+            }
+        })
+        // 失去焦点时重新回到原来的状态
+        $('.text').blur(function(e){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            if(isAndroid){
+            $('body').height( $('body').height()-200)
+            $('body').scrollTop(0)
+            }
+        })
+
+			
 
 		</script>
 	</body>
