@@ -212,6 +212,8 @@ class Wallet extends HomeBase
         foreach($htd_currency as $k=>$v){
             if($v['alias_name']!='USDT'){
                 $htd_currency[$k]['price'] = numberByRetain($v['price']/$configs['exchange_usd']['value'], 4);
+            }else{
+                $htd_currency[$k]['price'] = $v['price']/$configs['exchange_usd']['value'];
             }
         }
         if($htd_currency){

@@ -127,7 +127,6 @@
 										<!--上传图片 tyle='file'-->
 										<a class="uploadFile2" href=" ">选择图片</a>
 										<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
-					
 									</div>
 								</div>
 
@@ -143,9 +142,6 @@
 										<input class="lj_input3" type="text" name="note"  />
 										<button class="btn" onclick="phonecode('{$phone}')">获取验证码</button>
 									</div>
-									
-											
-									
 								</div>
 								<!--000-->
 								<div class="payment_cont_wz">
@@ -179,10 +175,10 @@
 							</p>
 							<p>
 								<span>提币额度</span>
-								<span class="total">
-									
-								</span>
+								<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;margin-left: 4.76rem;" src="" alt="币种图标"></span>
+								<span class="total"></span>
 							</p>
+							
 							<p>
 								<span>手续费</span>
 								<span class="charge"></span>
@@ -425,7 +421,7 @@
 				})
 				//点击背景隐藏and提取按钮清空提取金额的值
 				// $('.popover,.popover_affirm').click(function() {
-					
+					// $(".popover").hide();
 					// $('#popover_num').val("");
 					// $(".lj_input2").val("");
 					// $(".lj_input3").val("");
@@ -434,11 +430,11 @@
 					// $(".tipsText").show();
 				// })
 				//点击复投按钮清空提取金额的值
-				$('.voting,.voting_affirm').click(function() {
-					$(".voting").hide();
-					$('#voting_num').val("");
-					$(".lj_input3").val("");
-				})
+				// $('.voting,.voting_affirm').click(function() {
+				// 	$(".voting").hide();
+				// 	$('#voting_num').val("");
+				// 	$(".lj_input3").val("");
+				// })
 				//点击下拉列表
 				$(".list_tacitly").click(function(){
 			  		$(this).next().slideToggle(500)
@@ -479,7 +475,6 @@
 				    var verify = $('.lj_input3').val(); 
 				    var val = $(".popover_click").attr("data-id") 
 					var val1 = $(".voting_click").attr("data-id") 
-					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
 					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
 					jq.getJSON(url,datas,function(data){						
@@ -490,13 +485,17 @@
 										$(".total").html(data.result['su_num']);
 										$(".charge").html(data.result['su_charge']);
 										$(".time").html(data.result['su_time']);
-										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
+										// $(".img").html(data.result['su_log']);
+										var su_img = "/"+data.result['su_log'];
+										console.log(su_img);
+										$(".su_img").attr("src",su_img);
 										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
 										$(".popover").hide();
 										$('.true_popUp_wrap').show();
 							}
 							else {
 									layer.msg(data.msg, {icon: 2, time: 2000}, function(){	
+									
 									});
 									
 							}
@@ -524,8 +523,9 @@
 							 }
 							 else{	 
 									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
-									 	window.location.reload(); 
+									 	// window.location.reload(); 
 									});
+									$('#captcha').attr('src',"{:url('login/captcha')}?"+Math.random());
 							 }
 						}
 					}); 

@@ -149,11 +149,16 @@ class Login extends Controller
         $arr = $this->request->post();
         // p($arr);die;
         if($arr){
-           $usermail= $arr['userEmail']."";
+            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
             $arr['salt'] = generate_password(18);
             $arr['password'] = md5($arr['password'] . $arr['salt']);
-            $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+            if($usermail){
+                $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+                $data['usermail'] = $arr['userEmail'];
+            }else{
+                $reab = false;
+            }
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
             if(!$arr['verify']){
                 $data=array('msg'=>"验证码不可为空",'flag'=>5);
@@ -174,13 +179,12 @@ class Login extends Controller
                 $data=array('msg'=>'用户名已经存在','flag'=>3);
             }else if($reab){
                 $data=array('msg'=>'邮箱已经存在','flag'=>4);
-            }else if(!$reaa&&!$reab){
+            }else if(!$reaa){
                 $read=DB::name('user')->where(['promotion'=>$arr['rec']])->find();
                 if($read){
                     $data = array(
                         "username"=>$arr['userName'],
                         "password"=>$arr['password'],
-                        "usermail"=>$arr['userEmail'],
                         "mobile"=>$arr['userPhone'],
                         "regtime"=>time(),
                         "pid"=>$read['id'],
@@ -219,14 +223,15 @@ class Login extends Controller
             return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','code'=>1));
         }
         if ($arr['mobile'] != $ress['mobile']) {
-            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','code'=>2));
+            return json_encode(array('msg'=>'用户名绑定的手机号不一致','code'=>2));
         }
         $checkData['sms_type'] = 3;
         $checkData['code'] = $arr['verify'];
         $checkData['phone'] = $arr['mobile'];
         $res = checkPhoneCode($checkData);
         if($res['code']==0){
-            return json_encode(array('msg' => $res['msg'],'code'=>0));
+            return json($res);
+            
         }
         $arr['password'] = md5($arr['password'] . $ress['salt']);
         $info = Db::name('user')->where('id',$ress['id'])->update(['password'=>$arr['password']]);
@@ -247,7 +252,7 @@ class Login extends Controller
     */
     public function getPhoneVerify(){
 
-        // 传入类型：1注册 2提币；手机号
+        // 传入类型：1注册 2提币；3找回密码 
         $param = input('post.');
         $sms_type = intval($param['sms_type']);
         if(!$sms_type || !$param['phone']){

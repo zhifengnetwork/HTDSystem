@@ -153,7 +153,13 @@ class Index extends HomeBase
             $data       = input();
             $validate   = new Indexv();
             $base       = new Base();
-            // 手机验证
+            //检验数据 
+            if(!$validate->check($data)){
+                $msg = $validate->getError();
+                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
+            }
+
+            手机验证
             if(!$data['verify']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']); 
             }
@@ -161,19 +167,14 @@ class Index extends HomeBase
             $checkData['sms_type'] = $data['sms_type'];
             $checkData['code'] = $data['verify'];
 
-            $checkData['phone'] =  session('home.mobile');
+            $checkData['phone'] = session('home.mobile');
             //  session('home.mobile');
               
             $res = checkPhoneCode($checkData);
             if($res['code']==0){
                 $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]); 
             }
-            //检验数据 
-            if(!$validate->check($data)){
-                $msg = $validate->getError();
-                $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            }
-            
+
             //美元汇率   
             $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
             $exchange_usd = arr2name($exchange_usd);
@@ -182,8 +183,7 @@ class Index extends HomeBase
             $withdraw_min = $exchange_usd['withdraw_min']['value'];
            
             switch ($data['type'])
-            {                
-             
+            {                 
               case 1:
                 $data['cu_num'] = $data['cu_num'] ;
                 $cu_type = 'cu_num';
@@ -199,16 +199,13 @@ class Index extends HomeBase
               default:
               $base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
             }
-            // dump($cu_type);
             // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
             if($usd<$withdraw_min&&$data['type']!=1){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);        
             }else if($data['cu_num']<$data['number']){
                 $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
             }
-            // else if(empty($data['qrcode_addr'])){
-            //     $base->ajaxReturn(['status' => 0, 'msg' =>'请选择图片', 'result' =>'']);
-            // }
+
             Db::startTrans();
             // 用于更新数据
             $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
@@ -231,24 +228,25 @@ class Index extends HomeBase
                         // 'qrcode_addr' => $data['number'],    
                     ];      
                     
-        
                     Db::table('htd_user_wallet')->where($where)->setDec($cu_type,$data['number']);
                     $checkStock = checkStock($data['uid'],$data['cu_id'],$data['number']);
                     // 减掉相应数量
                     Db::name('execute_order')->where($where)->setDec('num',$data['number']);
-                    
+                     
                     // 用于插入数据
                     Db::table('htd_user_extract')->insert($where1);
                                                       
                     // 提交事务
                     
-                    $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log'); 
+                    // $log = Db::table('htd_currency')->where('id',$data['cu_id'])->value('log');
+                    $alias = Db::table('htd_currency')->where('id',$data['cu_id'])->value('alias_name');
                     $suc_data = [
                         'suc_name'     => session('home.username'),
                         'su_num'       => $data['number'],
                         'su_time'      => date('Y-m-d,H:i:s',time()),
                         'su_charge'    => $charge,
-                        'su_log'       => $log       
+                        'su_log'       => $log
+                        // 'alias_name'    => $alias          
                     ];
                     Db::commit(); 
                     $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
@@ -286,8 +284,6 @@ class Index extends HomeBase
                         'su_charge' => $charge,
                         'alias_name'=> $alias_name
                     ];
-                    // dump($suc_data);
-                    //  exit;
                     $base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' =>$suc_data]);    
                 } catch (\Exception $e) {
                     // 回滚事务
