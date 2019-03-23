@@ -2167,7 +2167,9 @@ function numberByRetain($number, $position){
     if(is_int($number)){
         return $number;
     }
+    // dump($number);
     $ary = explode('.', (string)$number);
+    // dump($ary);
     if (strlen($ary[1]) > $position) {
         $decimal = substr($ary[1], 0, $position);
         $result = $ary[0] . '.' . $decimal;
