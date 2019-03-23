@@ -77,15 +77,18 @@ class Login extends Controller
         $configs = Db::name('income_config')->field('name,value')->select();
         $configs = arr2name($configs);
         $usd = $configs['exchange_usd']['value'];
-    
+        $res = '';    
         $res = DB::name('user')->where(['pid'=>$home['id']])->select();
         $users = getDownUserUids2($home['id']);
         $money = 0;
-        foreach ($users as $key=>$val)
-        {
-            $wallet = $this->wallet($val);
-            $money += $wallet;
+        if($users){
+            foreach ($users as $key=>$val)
+            {
+                $wallet = $this->wallet($val);
+                $money += $wallet;
+            }
         }
+        
         // dump($money);
         if($res){
             // dump($res);die;
