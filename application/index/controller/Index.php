@@ -228,6 +228,13 @@ class Index extends HomeBase
                 return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
             }
 
+            //获取当前币种钱包的记录
+            $currency_one = Db::name('user_wallet')->where($where)->find();
+            if(!$currency_one){
+                return json(array('status' => 0, 'msg' => '币种钱包不存在'));
+            }
+            $data['number'] = $currency_one['cu_num'];
+
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
 
