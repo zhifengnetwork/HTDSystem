@@ -126,6 +126,10 @@
 	width: 2.8rem;
 	overflow: hidden;
 }
+.currency_name_text img{
+	width: .6rem;
+	height: .8rem;
+}
 .currency_num{
 	color: #f5f5f5;
 }
@@ -207,13 +211,12 @@
 	z-index: 1;
 	/* padding: 0.1rem 0 1.2rem 0; */
 	padding-top: 0.1rem; 
-
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	width: 85%;
-	height: calc(100vh - 150px);
-	min-height:5rem;
+	/*height: calc(100vh - 150px);*/
+	height: 8rem;
 	color: #f5f5f5;
 	line-height: .75rem;
 	text-align: center;
@@ -235,7 +238,7 @@
 	font-size: 0.28rem;
 	padding-left: 0.05rem;
 	background: transparent;
-	border-bottom: 1px solid #f5f5f5;
+	border-bottom: 0.01rem solid #f5f5f5;
 	color: #f5f5f5;
 }
 /* .lj_p_address{float: right;} */
@@ -270,7 +273,8 @@
 	float: left; */
 	width: 48%;
 	text-align: center;
-/* 	border: 1px solid #66cc; */
+/* 	border: 
+ solid #66cc; */
 	border-radius: 0.09rem;
 	margin-left: 0.2rem;
 	background: #224ddd;
@@ -322,7 +326,7 @@
 	font-size: 0.28rem;
 	padding-left: 0.05rem;
 	background: transparent;
-	border-bottom: 1px solid #f5f5f5;
+	border-bottom: 0.01rem solid #f5f5f5;
 	color: #f5f5f5;
 }
 
@@ -373,7 +377,7 @@
 .lj_p_address{position: relative;}
 .voting_box span,.popover_box span{display: inline-block}
 .voting_box ul,.popover_box ul {z-index: 1000; display: none;   width: 30%;position: absolute;left: 54%;background: #c4c4c4;border-radius: 0.09rem; }
-.voting_box ul li,.popover_box ul li{font-size: 0.3rem;color: #000;border-bottom: 1px solid #ffffff; }
+.voting_box ul li,.popover_box ul li{font-size: 0.3rem;color: #000;border-bottom: 0.01rem solid #ffffff; }
 .voting_box ul li:hover,.popover_box ul li:hover{background: #5a62af;color: #fff}
 .voting_box ul li:last-child,.popover_box ul li:last-child{border-bottom: none}
 
