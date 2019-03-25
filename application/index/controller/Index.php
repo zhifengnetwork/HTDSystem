@@ -451,13 +451,13 @@ class Index extends HomeBase
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
         
-        $income = db('user_wallet')->where("uid = '".$home['id']."'")->select();
+        $income = Db::name('user_wallet')->where(['uid'=>$home['id']])->select();
         $moeny =0;
         $cu =[];
         foreach($income as $k => $v){
-            $cu[$k]['cu_id']= $v['cu_id'];
 
-            $moeny +=$v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
+            $cu[$k]['cu_id']= $v['cu_id'];
+            $moeny = $v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
             $cu[$k]['bonus_wallet'] = $moeny;
         };
         if($cu){
