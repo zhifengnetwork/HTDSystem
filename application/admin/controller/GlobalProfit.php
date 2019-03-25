@@ -20,6 +20,26 @@ class GlobalProfit
 			$configs = Db::name('income_config')->field('name,value')->where('name', 'in', ['profit_day', 'profit_rate'])->select();
 			// 把配置项name转换成$configs['profit_day']['value']
 			$configs = arr2name($configs);
+
+			// 获取上一次分红时间和后台设置的天数进行比对
+			$global_one = Db::name('global_profit')->order('out_time desc')->find();
+			if(!$global_one){
+				return 'No Exit';
+				exit;
+			}
+			if(!$configs['profit_rate']['value']){
+				return 'No Exit';
+				exit;
+			}
+			$day_num = $configs['profit_rate']['value']?$configs['profit_rate']['value']:1;
+			// 计算是否到分红时间
+			echo $out_times = $global_one['out_time']+($configs['profit_rate']['value']*3600*24);die;
+			// 比对上一次分红时间
+			if(time() < $out_times){
+				return 'No Time';
+				exit;
+			}
+
 			$rate = $configs['profit_rate']['value']>0?$configs['profit_rate']['value']:10;
 			// 获取所有用户的user_wallet
 			$where['bonus_wallet'] = array('>',0);
@@ -47,7 +67,7 @@ class GlobalProfit
 								'get_uid' => $v['uid'],
 								'cu_id' => $v['cu_id'],
 								'type'	=> 104,
-								'total_coin' => $total_num,
+								'total_coin' => $v['bonus_wallet'], // 分红总币数
 								'main_coin' => $total_num,
 								'percent' => $rate,
 								'create_time' => time(),
@@ -68,6 +88,14 @@ class GlobalProfit
 								'create_time' => time()
 							);
 							$res_log = Db::name('user_log')->insert($in_log);
+
+							// 插入一条记录到htd_global_profit
+							$in_global = array(
+								'out_time' => time(),
+								'note'	=> '全球分红'
+							);
+							$res_global = Db::name('global_profit')->insert($in_global);
+
 							// 提交事务
 							Db::commit();   
 							echo '成功处理全球分红\n';
