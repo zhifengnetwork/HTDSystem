@@ -34,7 +34,7 @@
 						<!-- 商品名称 -->
 						<div class="currency_name" data-cu_id="{$v.cu_id}">
 							<div class="currency_name_text">
-								<img class="iconImgW" src="/{$v.log}"/> {$v.name}
+								<img class="iconImgW" src="/{$v.log}"/> {$v.alias_name}
 							</div>
 						</div>
 						<!-- 商品数量 -->
@@ -51,15 +51,15 @@
 					<div class="pull_down_content">
 						<div class="down_list">
 							<p>本金</p>
-							<p>{$v.cu_num} ({$v.alias_name})</p>
+							<p>{$v.cu_num}</p>
 						</div>
 						<div class="down_list">
 							<p>收益</p>
-							<p>{$v.bonus_wallet} ({$v.alias_name})</p>
+							<p>{$v.bonus_wallet}</p>
 						</div>
 						<div class="down_list">
 							<p>分红</p>
-							<p>{$v.rate_wallet} ({$v.alias_name})</p>
+							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
 						<div class="currency_box" data-phone="{$phone}">
@@ -371,7 +371,8 @@
 						$(obj).html("获取验证码").attr("disabled", false); //启用按
 					}
 				}
-			})
+			});
+
 			// 提取按钮
 			function send(uid, cu_id) {
 				$.ajax({
@@ -384,11 +385,9 @@
 					},
 					success: function(data) {
 						if(data.status == 1) {
-							// $('#popover_convert').val(data.result);
 							$('#cu_id').val(data['result']['cu_id']);
 							$('#cu_num').val(data['result']['cu_num']);
 							$('#bonus_wallet').val(data['result']['bonus_wallet']);
-							// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
 							$('#getAll_id').val(data['result']['cu_id']); // 币种id 
 
 							$('#rate_wallet').val(data['result']['rate_wallet']);
@@ -420,12 +419,7 @@
 				$('.popover_content,.voting_content').click(function(e) {
 					e.stopPropagation();
 				});
-				//弹框确认
-				// $('.true').click(function() {
-				// 	$('.popover').hide();
-				// 	$('.voting').hide();
-
-				// });
+				
 				//弹框取消
 				$('.false').click(function() {
 					// $('.popover').hide();
@@ -450,22 +444,7 @@
 					$('.true_popUp_wrap').hide();
 					window.location.reload();
 				})
-				//点击背景隐藏and提取按钮清空提取金额的值
-				// $('.popover,.popover_affirm').click(function() {
-				// $(".popover").hide();
-				// $('#popover_num').val("");
-				// $(".lj_input2").val("");
-				// $(".lj_input3").val("");
-				// $('#popover_convert').val("");
-				// $(".preViewImg").attr("src","/public/plugins/layui/images/loading-2.gif").hide();
-				// $(".tipsText").show();
-				// })
-				//点击复投按钮清空提取金额的值
-				// $('.voting,.voting_affirm').click(function() {
-				// 	$(".voting").hide();
-				// 	$('#voting_num').val("");
-				// 	$(".lj_input3").val("");
-				// })
+				
 				//点击下拉列表
 				$(".list_tacitly").click(function() {
 					$(this).next().slideToggle(500)
@@ -498,11 +477,6 @@
 				});
 			};
 
-			// // 取消input不可编辑
-			// function getRm(){
-			// 	$("#popover_num").removeAttr("disabled");
-			// }
-
 			// 获取当前币种全部本金
 			function getAll(msg) {
 				var cu_id = $('#getAll_id').val();
@@ -523,19 +497,16 @@
 						});
 					}
 				});
-
 				return false;
-			}
+			};
 
 			var btn_true = true;
-			// 提币
+			// 用户点确认击提取按钮
 			layui.use(['layer', 'jquery', 'form'], function() {
-				var layer = layui.layer,
-					form = layui.form,
-					jq = layui.jquery;
 
+				var layer = layui.layer,form = layui.form,jq = layui.jquery;
 				jq('.true').click(function() {
-
+					layer.msg(111);return ;
 					if(btn_true) {
 
 						var verify = $('.lj_input3').val();
@@ -562,7 +533,8 @@
 							layer.msg('请输入验证码');
 							return false;
 						}
-						var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
+						// var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
+						var datas = "{}"
 						jq.getJSON(url, datas, function(data) {
 							if(data.status == 1) {
 								btn_true = false;
@@ -574,7 +546,6 @@
 								$(".time").html(data.result['su_time']);
 								// $(".img").html(data.result['su_log']);
 								var su_img = "/" + data.result['su_log'];
-								console.log(su_img);
 								$(".su_img").attr("src", su_img);
 								// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
 								$(".popover").hide();
@@ -660,6 +631,9 @@
 					});
 				})
 			});
+
+
+
 
 			/*000*/
 			/*上传图片*/
@@ -747,35 +721,6 @@
 				$(".popover_content").scrollTop($(".popover_content").height());
 
 			});
-//			//键盘弹起时为键盘高度，未弹起时为0
-//			alert(window.keyboard.height);
-//			/*存储键盘的height*/
-//			var keyboardH = null;
-//			// 通过键盘弹起事件获取
-//			window.on('keyboardup', function (e) {
-//			    console.log(e.height);
-//			    keyboardH = e.height;
-//			    /*新的弹框height*/
-//			    var newHOne = $(".popover_content").height() + keyboardH;
-//			    /*增加弹框的高度*/
-//			    $(".popover_content").css({'height': newHOne +'px'});
-//			    /*滚动到底部*/
-////			   $(".popover_content").scrollBy(0,$(".popover_content").height())
-//			    $(".popover_content").scrollTop($(".popover_content").height());
-//			})
-//			// 键盘收起事件
-//			window.on('keyboarddown', function (e) {
-//				console.log(e.height) // 0
-//				var newHTwo = $(".popover_content").height() - keyboardH;
-//			    /*恢复弹框的高度*/
-//			    $(".popover_content").css({'height': newHOne +'px'});
-//			})
-//			/*监听-提币弹框的滚动条！*/
-//			$(".popover_content").scroll(function(event) {
-//				console.log("监听-提币弹框的滚动条！");
-//			});
 		</script>
-
 	</body>
-
 </html>
