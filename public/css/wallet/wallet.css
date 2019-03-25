@@ -27,6 +27,7 @@
 	height: 100%;
 	display: flex;
 	color:#fff;	
+	padding-bottom: 3%;
 }
 .zjy_box_conten .zjy_box_conten_item{
 	flex: 1;
@@ -563,6 +564,7 @@ input::-webkit-inner-spin-button {
 	background: #4080ff;
 	border-radius: 50%;
 	vertical-align: middle;
+	margin-top: 1px;
 }
 .payment .payment_ul{
 	margin: 0 0 3%;
