@@ -140,9 +140,10 @@ class Wallet extends HomeBase
 
         Db::startTrans();
         try{
+
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
-        //    echo Db::name('execute_order')->getLastSql();
+            // echo Db::name('execute_order')->getLastSql();
             if($is_cu_order['cu_id'] && $pay_way==2){
                
                 if (!captcha_check($param['verify'])) {
@@ -151,7 +152,6 @@ class Wallet extends HomeBase
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
-
                 $wallet_flag = intval($param['wallet_flag']);
               
                 // 判断钱包是否够复投对应币种数量

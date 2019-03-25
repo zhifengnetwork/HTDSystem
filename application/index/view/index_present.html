@@ -64,7 +64,7 @@
 						<!-- 提取按钮 -->
 						<div class="currency_box" data-phone="{$phone}">
 							<a class="currency_btn" onclick="send('{$v.cu_id}')">提取</a>
-							<a class="currency_btn" onclick="voting({$v.uid},{$v.cu_id})">复投</a>
+							<a class="currency_btn" onclick="voting('{$v.cu_id}')">复投</a>
 						</div>
 					</div>
 				</div>
@@ -89,11 +89,11 @@
 							<div class="popover-boxx">
 
 								<div class="popover_box clearfix">
-									<input type="hidden" name="uid" id="uid" value="{$uid}">
-									<input type="hidden" name="cu_id" id="cu_id" value="">
+									<!-- <input type="hidden" name="uid" id="uid" value="{$uid}">
+									<input type="hidden" name="cu_id" id="cu_id" value=""> -->
 									<!-- 本金 -->
-									<input type="hidden" name="cu_num" id="cu_num" value="">
-									<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
+									<!-- <input type="hidden" name="cu_num" id="cu_num" value="">
+									<input type="hidden" name="bonus_wallet" id="bonus_wallet" value=""> -->
 									<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 									<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
 									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" value="" /><br />
@@ -203,19 +203,15 @@
 									<input type="hidden" name="uid" id="uid" value="{$uid}">
 									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 									<!-- 本金 -->
-
-									<span>复投数量:</span> <input class="cu_num" id="cu_num" name="cu_num" type="number" /><br />
+									<span>复投数量:</span> <input class="cu_num" id="re_cu_num" name="cu_num" type="number" /><br />
 								</div>
 								<!--000-->
-
 								<div class="voting_box clearfix">
-
 									<div class="lj_p_address">
 										<h2 class="h2_input4">验证码:</h2>
 										<input class="lj_input4" type="text" name="verify" />
 										<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();" alt="captcha" />
 									</div>
-
 								</div>
 								<div class="voting_verify">
 									<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
@@ -265,51 +261,6 @@
 				if(flag) {
 					layer.msg('已发送');
 				}
-			}
-
-			//复投按钮
-			function voting(uid, cu_id) {
-
-				var url = '/index/Index/ajaxsend/uid/' + uid + '/cu_id/' + cu_id;
-				$.ajax({
-					type: "POST",
-					url: url,
-					dataType: "json",
-					error: function() {
-						layer.msg(data.msg);
-					},
-					success: function(data) {
-						if(data.status == 1) {
-							// $('#popover_convert').val(data.result);
-							// alert(data['result']['cu_id'])
-							$('.cu_id').val(data['result']['cu_id']);
-							// $('.cu_num').val(data['result']['cu_num']);
-							$('.bonus_wallet1').val(data['result']['bonus_wallet']);
-							// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
-							$('.rate_wallet1').val(data['result']['rate_wallet']);
-							//console.log(data['result']['rate_wallet']);
-							// $('#wallet_addr').val(data['result']['wallet_addr']);								
-							$('.voting').show()
-							/*获取当前滚动条的位置*/
-							thisScrollNum = $(document).scrollTop();
-							console.log('获取当前滚动条的位置', thisScrollNum);
-							/**禁止底部滑动
-							 * 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
-							 **/
-							$('body').css({
-								'position': 'fixed',
-								'top': -thisScrollNum,
-								'left': 0,
-								'height': '100%'
-							});
-							$('html').css({
-								'height': '100%'
-							});
-						} else {
-							layer.msg(data.msg);
-						}
-					}
-				});
 			}
 
 			$(function() {
@@ -392,44 +343,6 @@
 				$('html').css({
 					'height': '100%'
 				});
-
- 				/* $.ajax({
-					url: '/index/index/ajaxsend',
-					type: 'post',
-					dataType: 'json',
-					data: {
-						uid: uid,
-						cu_id: cu_id
-					},
-					success: function(data) {
-						if(data.status == 1) {
-							$('#cu_id').val(data['result']['cu_id']);
-							$('#cu_num').val(data['result']['cu_num']);
-							$('#bonus_wallet').val(data['result']['bonus_wallet']);
-							$('#getAll_id').val(data['result']['cu_id']); // 币种id 
-
-							$('#rate_wallet').val(data['result']['rate_wallet']);
-							$('#wallet_addr').val(data['result']['wallet_addr']);
-							$('.popover').show();
-							// 获取当前滚动条的位置
-							thisScrollNum = $(document).scrollTop();
-							// 禁止底部滑动
-							// 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
-							
-							$('body').css({
-								'position': 'fixed',
-								'top': -thisScrollNum,
-								'left': 0,
-								'height': '100%'
-							});
-							$('html').css({
-								'height': '100%'
-							});
-						} else {
-							layer.msg(data.msg);
-						}
-					}
-				});  */
 			}
 			$(document).ready(function() {
 				//阻止事件冒泡
@@ -518,206 +431,139 @@
 			};
 
 			var btn_true = true;
-			// 用户点确认击提取按钮
-			// layui.use(['layer', 'jquery', 'form'], function() {
-
-			// 	var layer = layui.layer,form = layui.form,jq = layui.jquery;
-			// 	jq('.true').click(function() {
-			// 		if(btn_true) {
-
-			// 			var verify = $('.lj_input3').val();
-			// 			var val = $(".popover_click").attr("data-id")
-			// 			var val1 = $(".voting_click").attr("data-id")
-			// 			var url = "{:url('Index/pick')}";
-
-			// 			var num = $('#popover_num').val();
-			// 			var addr = $("#wallet_addr").val();
-			// 			var check_code = $(".lj_input3").val();
-			// 			if(!val) {
-			// 				layer.msg('请选择提币类型');
-			// 				return false;
-			// 			}
-			// 			if(!num) {
-			// 				layer.msg('请输入数量');
-			// 				return false;
-			// 			}
-			// 			if(!addr) {
-			// 				layer.msg('请填写地址');
-			// 				return false;
-			// 			}
-			// 			if(!check_code) {
-			// 				layer.msg('请输入验证码');
-			// 				return false;
-			// 			}
-			// 			var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
-			// 			jq.getJSON(url, datas, function(data) {
-			// 				if(data.status == 1) {
-			// 					btn_true = false;
-			// 					// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
-			// 					console.log(data.result)
-			// 					$(".user").html(data.result['suc_name']);
-			// 					$(".total").html(data.result['su_num']);
-			// 					$(".charge").html(data.result['su_charge']);
-			// 					$(".time").html(data.result['su_time']);
-			// 					// $(".img").html(data.result['su_log']);
-			// 					var su_img = "/" + data.result['su_log'];
-			// 					$(".su_img").attr("src", su_img);
-			// 					// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
-			// 					$(".popover").hide();
-			// 					$('.true_popUp_wrap').show();
-			// 				} else {
-			// 					btn_true = true;
-			// 					layer.msg(data.msg);
-			// 				}
-			// 			});
-			// 		} else {
-			// 			layer.msg('操作异常,稍后再试');
-			// 		}
-
-			// 	});
-
-			// 	// 复投
-			// 	jq('.retrue').click(function() {
-			// 		var val1 = $(".voting_click").attr("data-id")
-			// 		var cu_num = $(".cu_num").val()
-			// 		if(val1 == undefined) {
-			// 			layer.msg('请选择投入类型');
-			// 			return false;
-			// 		}
-			// 		if(!cu_num) {
-			// 			layer.msg('请输入复投数量');
-			// 			return false;
-			// 		}
-			// 		var url = "{:url('/index/wallet/confirmInvest')}";
-			// 		var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
-			// 		//  console.log(datas); 
-
-			// 		$.ajax({
-			// 			type: "POST",
-			// 			url: url,
-			// 			data: datas,
-			// 			dataType: "json",
-			// 			success: function(data) {
-			// 				// console.log(data)
-			// 				if(data.code == 200) {
-			// 					layer.msg(data.msg, {
-			// 						time: 2000
-			// 					}, function() {
-			// 						window.location.reload();
-			// 					});
-			// 				} else {
-			// 					layer.msg(data.msg, {
-			// 						time: 2000
-			// 					}, function() {
-			// 						// window.location.reload(); 
-			// 					});
-			// 					$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
-			// 				}
-			// 			}
-
-			// 		});
-			// 	});
-
-			// 	// jq('.false').click(function(){	  
-			// 	// 	window.location.reload();
-			// 	// });		
-			// 	$(document).on("keyup", '#popover_num', function() {
-			// 		var val = $(this).val();
-			// 		var cu_id = $('#cu_id').val();
-			// 		var a = "{:url('Index/exchange')}"
-			// 		var url = '/index/Index/exchange/val/' + val + '/cu_id/' + cu_id;
-			// 		$.ajax({
-			// 			type: "POST",
-			// 			url: url,
-			// 			dataType: "json",
-			// 			success: function(data) {
-			// 				if(data.status == 1) {
-			// 					$('#popover_rmb').val(data.result['rmb']);
-			// 					$('#popover_convert').val(data.result['usd']);
-			// 				} else {
-			// 					layer.msg("操作失败", {
-			// 						icon: 2,
-			// 						time: 2000
-			// 					}, function() {
-			// 						window.location.reload();
-			// 					});
-			// 				}
-			// 			}
-			// 		});
-			// 	})
-			// });
-
-
-
-
 			// 用户点击确认提取new
 			$('.true').click(function() {
-					// layer.msg(111);return ;
-					if(btn_true) {
+				// layer.msg(111);return ;
+				if(btn_true) {
 
-						var val = $(".popover_click").attr("data-id") // 提取类型
-						var cu_id = $('.cu_id_class').val(); 		  // 币种id
-						// var val1 = $(".voting_click").attr("data-id") // 复投选择类型
-						var cu_num = $('#popover_num').val(); 	// 数量
-						var qrcode_addr = $('#qrcode_addr').val(); // 二维码url
-						var note = $('#remarksT').val(); 	// 备注
-						var wallet_addr = $("#wallet_addr").val(); // 钱包地址
-						var verify = $('.lj_input3').val(); // 验证码
-						if(!val) {
-							layer.msg('请选择提币类型');
-							return false;
-						}
-						if(!cu_num) {
-							layer.msg('请输入数量');
-							return false;
-						}
-						if(!wallet_addr) {
-							layer.msg('请填写地址');
-							return false;
-						}
-						if(!cu_id){
-							layer.msg('参数获取失败:cu_id');
-							return false;
-						}
-						if(!verify) {
-							layer.msg('请输入验证码');
-							return false;
-						}
-						if(val && cu_id && cu_num && wallet_addr && cu_id && verify){
-							$.ajax({
-								url: '/index/index/pick',
-								type: "POST",
-								dataType: "json",
-								data: {cu_id:cu_id, cu_num:cu_num, type:val, qrcode_addr:qrcode_addr, note:note, wallet_addr:wallet_addr, verify:verify},
-								success: function(data) {
-									if(data.status == 1) {
-										btn_true = false;
-										console.log(data.result)
-										$(".user").html(data.result['suc_name']);
-										$(".total").html(data.result['su_num']);
-										$(".charge").html(data.result['su_charge']);
-										$(".time").html(data.result['su_time']);
-										// $(".img").html(data.result['su_log']);
-										var su_img = "/" + data.result['su_log'];
-										$(".su_img").attr("src", su_img);
-										$(".popover").hide();
-										$('.true_popUp_wrap').show();
-									} else {
-										btn_true = true;
-										layer.msg(data.msg);
-									}
-								}
-							});
-						}else{
-							layer.msg('参数错误,请刷新页面');
-							return false;
-						}
-					}else{
-						layer.msg('操作异常,稍后再试');
+					var val = $(".popover_click").attr("data-id") // 提取类型
+					var cu_id = $('.cu_id_class').val(); 		  // 币种id
+					// var val1 = $(".voting_click").attr("data-id") // 复投选择类型
+					var cu_num = $('#popover_num').val(); 	// 数量
+					var qrcode_addr = $('#qrcode_addr').val(); // 二维码url
+					var note = $('#remarksT').val(); 	// 备注
+					var wallet_addr = $("#wallet_addr").val(); // 钱包地址
+					var verify = $('.lj_input3').val(); // 验证码
+					if(!val) {
+						layer.msg('请选择提币类型');
 						return false;
 					}
+					if(!cu_num) {
+						layer.msg('请输入数量');
+						return false;
+					}
+					if(!wallet_addr) {
+						layer.msg('请填写地址');
+						return false;
+					}
+					if(!cu_id){
+						layer.msg('参数获取失败:cu_id');
+						return false;
+					}
+					if(!verify) {
+						layer.msg('请输入验证码');
+						return false;
+					}
+					if(val && cu_id && cu_num && wallet_addr && cu_id && verify){
+						$.ajax({
+							url: '/index/index/pick',
+							type: "POST",
+							dataType: "json",
+							data: {cu_id:cu_id, cu_num:cu_num, type:val, qrcode_addr:qrcode_addr, note:note, wallet_addr:wallet_addr, verify:verify},
+							success: function(data) {
+								if(data.status == 1) {
+									btn_true = false;
+									console.log(data.result)
+									$(".user").html(data.result['suc_name']);
+									$(".total").html(data.result['su_num']);
+									$(".charge").html(data.result['su_charge']);
+									$(".time").html(data.result['su_time']);
+									// $(".img").html(data.result['su_log']);
+									var su_img = "/" + data.result['su_log'];
+									$(".su_img").attr("src", su_img);
+									$(".popover").hide();
+									$('.true_popUp_wrap').show();
+								} else {
+									btn_true = true;
+									layer.msg(data.msg);
+								}
+							}
+						});
+					}else{
+						layer.msg('参数错误,请刷新页面');
+						return false;
+					}
+				}else{
+					layer.msg('操作异常,稍后再试');
+					return false;
+				}
 
+			});
+
+
+			//复投按钮
+			function voting(cu_id) {
+
+				$('.cu_id_class').val(cu_id);  // 复投
+				$('.voting').show()
+				/*获取当前滚动条的位置*/
+				thisScrollNum = $(document).scrollTop();
+				// console.log('获取当前滚动条的位置', thisScrollNum);
+				/**禁止底部滑动
+				 * 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
+				 **/
+				$('body').css({
+					'position': 'fixed',
+					'top': -thisScrollNum,
+					'left': 0,
+					'height': '100%'
 				});
+				$('html').css({
+					'height': '100%'
+				});
+			}
+
+			// 用户点击确认复投
+			$('.retrue').click(function() {
+				var wallet_flag = $(".voting_click").attr("data-id"); // 复投钱包类型
+				var cu_num = $('#re_cu_num').val(); 	// 数量
+				var cu_id = $('.cu_id_class').val();    // 币种id
+				var verify = $('.lj_input4').val();
+				if(!wallet_flag) {
+					layer.msg('请选择复投类型');
+					return false;
+				}
+				if(!cu_num) {
+					layer.msg('请输入复投数量');
+					return false;
+				}
+				if(!cu_id) {
+					layer.msg('币种参数出错');
+					return false;
+				}
+				if(!verify) {
+					layer.msg('请输入验证码');
+					return false;
+				}
+				$.ajax({
+					type: "POST",
+					url: "{:url('/index/wallet/confirmInvest')}",
+					data: {wallet_flag:wallet_flag, cu_id:cu_id, cu_num:cu_num, verify:verify, pay_way:2},
+					dataType: "json",
+					success: function(data) {
+						if(data.code == 200) {
+							layer.msg(data.msg, {
+								time: 2000
+							}, function() {
+								window.location.reload();
+							});
+						} else {
+							layer.msg(data.msg, {time: 2000});
+							$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
+						}
+					}
+				});
+			});
 
 			/*000*/
 			/*上传图片*/

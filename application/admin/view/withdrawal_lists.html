@@ -26,7 +26,7 @@
                 <td>{$vo.cu_id|cu_name}</td>
                 <td>{$vo.cu_num}</td>
                 <td>{$vo.tb_charge|default='0'}</td>
-                <td>{$vo.cu_num-$vo.tb_charge}</td>
+                <td>{$vo.out_num}</td>
                 <td>
                 	{switch name='$vo.status'}
 					    {case value='0'}审核中{/case}
@@ -38,7 +38,7 @@
                 <td>{$vo.wallet_addr}</td>
                 <td>{$vo.qrcode_addr}</td>                
                 <td>{$vo.create_time|date="Y-m-d H:i:s", ###}</td>                
-                <td>{if condition="$vo.check_time eq ''"}--{/else}{$vo.check_time|date="Y-m-d H:i:s", ###}{/if}</td>                
+                <td>{$vo.check_time|date="Y-m-d H:i:s", ###}</td>                
                 <td>
                 	<a href="{:url('admin/Withdrawal/detail',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-sm">查看</a>
                     {if condition='$vo.status == 0'}

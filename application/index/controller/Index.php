@@ -267,24 +267,25 @@ class Index extends HomeBase
         try{
 
             // 检查手机验证码
-            // $res_code = checkPhoneCode($checkData);
-            // if($res_code['code']==0){
-            //     return json(array('status' => 0, 'msg' => $res_code['msg']));
-            // }
+            $res_code = checkPhoneCode($checkData);
+            if($res_code['code']==0){
+                return json(array('status' => 0, 'msg' => $res_code['msg']));
+            }
             // 如果为本金，手续费为5%，其他则为1%
             if($data['type'] == 1){
-
-                $data['number'] = $currency_one['cu_num']; // 当前币种本金
+                
+                $data['number'] = $user_wallet['cu_num']; // 当前币种本金
                 // 本金手续费
                 $charge = numberByRetain($data['number']/100*5, 8);
                 
                 $where1 = [
                     'uid'       => $data['uid'],
                     'cu_id'     => $data['cu_id'],
+                    'type'      => $data['type'],
                     'cu_num'    => $data['number'],
                     'out_num'    => $data['number']-$charge, // 平台最终转出数量
                     'create_time' => time(),
-                    'wallet_addr'   => $wallet_addr,
+                    'wallet_addr'   => $data['wallet_addr'],
                     'tb_charge' => $charge,
                     'note'      => $data['note'], // 用户备注
                 ];
@@ -327,10 +328,12 @@ class Index extends HomeBase
                 $where1 = [
                     'uid'      => $data['uid'],
                     'cu_id'    => $data['cu_id'],
+                    'type'    => $data['type'],
                     'cu_num'   => $data['cu_num'], // 提币数量
                     'tb_charge'=> $charge,
                     'out_num'  => $data['cu_num']-$charge,  // 平台最终转出数量
                     'note'     => $data['note'],
+                    'wallet_addr'  => $data['wallet_addr'],
                     'create_time'=> time()
                 ];
 
