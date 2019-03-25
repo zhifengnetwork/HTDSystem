@@ -131,9 +131,8 @@
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
             }); 
-            //禁止body滚动
-            $('body').on('touchmove',function(event){event.preventDefault();});
  
+<<<<<<< HEAD
             //一个小时弹框
             var alread  //现在的时间  3600000
             function notice(){
@@ -178,18 +177,66 @@
                 document.body.style.overflow = 'hidden';//禁止页面滚动
             })
 
+=======
+			/*获取当前时间=>转换为时间戳*/
+			function time() { 
+				var today = new Date(); 
+				var hou; 
+				if (today.getHours() < 12 && today.getHours() >= 0) { 
+					hou = today.getHours(); 
+				} else if (today.getHours() <= 24 && today.getHours() > 12) { 
+					hou = today.getHours() - 12; 
+				} 
+				/*填上 01:01:01*/
+				/*时*/
+				var timeText = hou > 9 ? hou : '0' + hou;
+				/*分*/
+				var branchText = today.getMinutes() > 9 ? today.getMinutes() : '0' + today.getMinutes();
+				/*秒*/
+				var secondText = today.getSeconds() > 9 ? today.getSeconds() : '0' + today.getSeconds();
+				/*获取当前时间*/
+				var currentTime = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + " " + timeText + ":" + branchText + ":" + secondText;
+				console.log(currentTime);
+				/**/
+				var timeStamp = new Date(currentTime);
+				
+				return timeStamp.getTime()/1000;
+			}
+			//阻止默认事件，禁止滑动
+			function stop(name) {
+				var $name = $(name);
+					$name.bind("touchmove","touchstart",function(e){
+					e.preventDefault();
+				})
+			}
+			/*判断是否登陆*/
+			if($('#bottomNavWrap').attr('data-id') == '1'){
+				/**
+				 * 一个小时时间戳间距=> 359;
+				 * 两个小时时间戳间距=> 719;
+				 * **/
+				/*当前时间=>关闭的时间是否是2个时间的间隔*/
+				if((time()-719) >= window.localStorage.getItem("stamp")){
+					$(".mode").show();
+					$(".dialog-notice").show();
+					stop(".mode");
+				}
+			}
+			
+>>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
-                sessionStorage.setItem('begin',new Date().getTime())
-                setInterval(() => {
-                    notice()
-                }, 1000);
-                document.body.style.overflow = ''; //出现滚动条
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
+<<<<<<< HEAD
             })  
+=======
+            })
+        
+            
+>>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
         })
 
     </script>
