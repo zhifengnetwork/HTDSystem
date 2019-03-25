@@ -2113,16 +2113,16 @@ function getActivateUser($uid){
     return $activateData;
 }
 
-//获取当前收益的用户是否享受动态收益: 需要投资同等币种金额500美元以上
-function isEnjoyUser($uid='', $cu_id=''){
-    if (empty($uid) || empty($cu_id)) {
+//获取当前收益的用户是否享受动态收益: 需要投资金额500美元以上
+function isEnjoyUser($uid){
+    if (empty($uid)) {
         return false;
     }
     $where['uid'] = $uid;
     // $where['cu_id'] = $cu_id;
     $where['is_check'] = 1; // 后台审核有效订单
     $orderMoney = '';
-    $orderMoney = Db::name('buy_order')->where($where)->sum('total_money');
+    $orderMoney = Db::name('execute_order')->where($where)->sum('total_money');
     // 是否存在投资金额
     if(!$orderMoney){
         return false;

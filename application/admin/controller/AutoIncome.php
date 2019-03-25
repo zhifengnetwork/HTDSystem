@@ -120,8 +120,7 @@ class AutoIncome
 					$up_order_money = isEnjoyUser($upUid['pid']); // 获取当前上级是否入单指定金额
 					// +++++ 把收益累加到当前用户的直推用户+++++ //
 					if($upUid['pid'] && $up_order_money){
-
-
+						
 						// 根据后台设置的直推收益配置
 						$push_rate = $configs['push_rate']['value']?$configs['push_rate']['value']:100;
 						if($push_rate==100){
@@ -137,7 +136,6 @@ class AutoIncome
 						
 						$whereUp['uid'] = $upUid['pid'];
 						$whereUp['cu_id'] = $value['cu_id']; // 对应币种
-						// $this->byUserWallet($whereUp['uid'],$whereUp['cu_id']); // 生成对应钱包记录
 						$main_coin_res = Db::name('user_wallet')->where($whereUp)->setInc('bonus_wallet', $main_coin_push);
 						// echo Db::name('user_wallet')->getLastSql();die;
 
@@ -154,7 +152,6 @@ class AutoIncome
 					}
 					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1.'/'.$main_coin_res.'/'.$platform_coin_res.'/'.$in_income_res2.'/'.$in_log_res2.'/'.$order_up_res;die;
 					// +++++++++++++++++++++++++++++++++直推收益++++++++++++++++++++++++++++++++++++++++++++++ end
-
 
 					// +++++++++++++++++++++++++++++++++动态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++++ 获取动态收益的上级用户uid，根据对应参数计算动态收益+++++++ //
@@ -223,7 +220,6 @@ class AutoIncome
 
 								$whereDy['uid'] = $upId;
 								$whereDy['cu_id'] = $value['cu_id']; // 对应币种
-								// $this->byUserWallet($whereDy['uid'],$whereDy['cu_id']); // 生成对应钱包记录
 								// 插入到主流币
 								$dy_main_coin_res = Db::name('user_wallet')->where($whereDy)->setInc('bonus_wallet', $dy_main_coin);
 								// 插入到平台币 cu_id=11
