@@ -1,0 +1,120 @@
+{extend name="base" /} {block name="body"}
+<div class="admin-main layui-form">
+    <div class="layui-field-box">
+        <hr>
+        <table class="layui-table admin-table">
+            <thead>
+            <tr>
+                <th style="width: 30px;">ID</th>
+                <th>账号</th>
+                <th>身份证正面照</th>
+                <th>身份证反面照</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name="list" item="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.mobile}--{$vo.username}</td>
+                <td><img src="__ADMIN__/images/3.png" style="width:100px; height: 100px;"></td>
+                <td><img src="{$vo.idcard_url}" style="width:100px; height: 100px;"></td>
+                <td>
+                    <!--<button href="" onclick="exchange({$vo.id})">审核</button>-->
+                    <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/Member/check',['id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-sm ajax-delete">审核</a>
+                    <!--<a href="javascript:;" data-url="{:url('admin/Member/check',['id'=>$vo['id']])}" class="checkIdphoto layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>-->
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        <!--分页-->
+
+    </div>
+</div>
+{/block} {block name="page"}
+<div class="btable-paged">
+    <div class="layui-main">
+        {$list->render()}
+    </div>
+</div>
+{/block}
+{block name="js"}
+<!--<script type="text/javascript">-->
+    <!--function exchange(obj){-->
+        <!--var url = '/admin/Member/check/id/'+obj;-->
+        <!--$.ajax({-->
+            <!--type: "POST",-->
+            <!--url: url,-->
+            <!--dataType: "json",-->
+            <!--error: function () {-->
+                <!--alert('操作失败');-->
+            <!--},-->
+            <!--success: function (data) {-->
+                <!--if (data.code == 200) {-->
+                    <!--alert(data.msg);-->
+
+                <!--}else{-->
+                    <!--alert(data.msg);-->
+                <!--}-->
+            <!--}-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+<script type="text/javascript">
+    layui.use(['layer','jquery','form'],function(){
+        var layer = layui.layer
+            , form = layui.form
+            ,jq = layui.jquery;
+
+        //点击事件
+        jq('.elementcheck').click(function(index){
+            var id= jq(this).data('id');
+            var url= jq(this).data('url');
+
+            var page= jq('.pagination li.active span').html();
+            var length= jq('.admin-table #content tr').length;
+
+            layer.open({
+                type:1,
+                content:'<div style="padding:15px 0px 10px 20px;font-size:14px">通过审核?</div>',
+                time:5000,
+                closeBtn:1,
+                btn:['通过','取消'],
+
+                //通过
+                yes:function(index,layero){
+                    jq.getJSON(url,{'id':id,'status':1},function(data){
+                        layer.close(index);
+
+                        if(data.code == 200){
+                            layer.msg(data.msg, {icon: 1, time: 3000}, function(){
+
+                                if(length-1>0){
+                                    location.reload();
+                                }else{
+                                    if(page>1){
+                                        page=page-1;
+                                    }
+
+                                    location.href = window.location.href+'?page='+page;// '{:url("admin_user/index")}'+page;
+                                }
+                            });
+                        }else{
+                            layer.msg(data.msg, {icon: 2, anim: 6, time: 3000});
+                        }
+                    });
+                },
+                //取消
+                btn2:function(index,layero){
+                    layer.close(index);
+                },
+                cancel:function(){
+                    layer.close();
+                }
+            })
+        });
+    });
+</script>
+{/block}
+
