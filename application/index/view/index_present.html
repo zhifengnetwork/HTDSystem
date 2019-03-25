@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
 	</head>
 
-	<body>
+	<body style="height: auto;">
 		<!-- 最大的外套 -->
 		<div class="currency_wrap">
 			<!-- 头部-s -->
@@ -250,6 +250,26 @@
 		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
+			/**
+			 * 禁止浏览器下拉回弹
+			 */
+			function stopDrop() {
+			    var lastY;//最后一次y坐标点
+			    $(document.body).on('touchstart', function(event) {
+			        lastY = event.originalEvent.changedTouches[0].clientY;//点击屏幕时记录最后一次Y度坐标。
+			    });
+			    $(document.body).on('touchmove', function(event) {
+			        var y = event.originalEvent.changedTouches[0].clientY;
+			        var st = $(this).scrollTop(); //滚动条高度  
+			        if (y >= lastY && st <= 10) {//如果滚动条高度小于0，可以理解为到顶了，且是下拉情况下，阻止touchmove事件。
+			            lastY = y;
+			            event.preventDefault();
+			        }
+			        lastY = y;
+			 
+			    });
+			}
+			/*获取验证码*/
 			function phonecode(phoneS) {
 				var flag = true;
 				// 获取验证码
@@ -303,15 +323,15 @@
 							/**禁止底部滑动
 							 * 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
 							 **/
-							$('body').css({
+							$('.currency_wrap').css({
 								'position': 'fixed',
 								'top': -thisScrollNum,
 								'left': 0,
-								'height': '100%'
+								/*'height': '100%'*/
 							});
-							$('html').css({
+							/*$('html').css({
 								'height': '100%'
-							});
+							});*/
 						} else {
 							layer.msg(data.msg);
 						}
@@ -409,15 +429,16 @@
 							/**禁止底部滑动
 							 * 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
 							 **/
-							$('body').css({
+							$('.currency_wrap').css({
 								'position': 'fixed',
 								'top': -thisScrollNum,
 								'left': 0,
-								'height': '100%'
+								/*'height': '100%'*/
 							});
-							$('html').css({
+							
+							/*$('html').css({
 								'height': '100%'
-							});
+							});*/
 						} else {
 							layer.msg(data.msg);
 						}
@@ -442,15 +463,15 @@
 					// $('.voting').hide();
 					window.location.reload();
 					/*恢复底部滑动*/
-					$('body').css({
+					$('.currency_wrap').css({
 						'position': '',
 						'top': '',
 						'left': '',
-						'height': '',
+						/*'height': '',*/
 					});
-					$('html').css({
+					/*$('html').css({
 						'height': ''
-					});
+					});*/
 					console.log(66666, thisScrollNum);
 					/*恢复当前用户滚动的位置！*/
 					$(document).scrollTop(thisScrollNum);
@@ -600,7 +621,7 @@
 
 				});
 
-				// 复投
+				// 复投 按钮
 				jq('.retrue').click(function() {
 					var val1 = $(".voting_click").attr("data-id")
 					var cu_num = $(".cu_num").val()
@@ -751,15 +772,17 @@
 				}
 			}
 
-			//input标签获取焦点(地址，备注，验证码)
-			$('#wallet_addr, #remarksT, #codeT').focus(function() {
-				console.log('弹框高度:', $(".popover_content").height());
-				$(".popover_content").scrollTop($(".popover_content").height());
-
-			});
+//			//input标签获取焦点(地址，备注，验证码)
+//			$('#wallet_addr, #remarksT, #codeT').focus(function() {
+//				console.log('弹框高度:', $(".popover_content").height());
+//				$(".popover_content").scrollTop($(".popover_content").height());
+//
+//			});
 			/*监听-提币弹框的滚动条！*/
 			$(".popover_content").scroll(function(event) {
 				console.log("监听-提币弹框的滚动条！");
+				/*禁止下拉*/
+				stopDrop();
 			});
 		</script>
 
