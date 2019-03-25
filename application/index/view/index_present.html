@@ -216,7 +216,7 @@
 								<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
 								<!-- 本金 -->
 
-								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number" /><br />
+								<span>复投数量:</span> <input class="cu_num" id="cu_num" name="cu_num" type="number" /><br />
 							</div>
 							<!--000-->
 
@@ -244,8 +244,9 @@
 							<!--000-->
 
 					</form>
-					<input type="hidden" name="cu_id" value="" id="getAll_id"/>
+					
 				</div>
+				<input type="hidden" name="cu_id" value="" id="getAll_id"/>
 			</div>
 			<!-- 复投弹框-e -->
 		</div>
@@ -258,14 +259,14 @@
 
 	<script>
 		function phonecode(phoneS) {
-			var phone = { $phone };
 			var flag = true;
+		
 			// 获取验证码
 			$.ajax({
 				url: '/index/index/getPhoneVerify',
 				type: 'post',
 				dataType: 'json',
-				data: { phone: phone, sms_type: 2 },
+				data: { phone: phoneS, sms_type: 2 },
 				success: function (msg) {
 					if (msg.code == 0) {
 						var flag = false;
@@ -556,6 +557,8 @@
 			// 复投
 			jq('.retrue').click(function () {
 				var val1 = $(".voting_click").attr("data-id")
+				var cu_num = $(".cu_num").val()
+				console.log(cu_num);
 				var url = "{:url('/index/wallet/confirmInvest')}";
 				var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
 				//  console.log(datas); 
@@ -564,19 +567,17 @@
 					layer.msg('请选择投入类型');
 					return false;
 				}
-				console.log(val1)
-				console.log(url)
-				console.log(datas)
-
-
-
+				if (cu_num==undefined) {
+						layer.msg('请输入复投数量');
+						return false;
+					}
 				$.ajax({
 					type: "POST",
 					url: url,
 					data: datas,
 					dataType: "json",
 					success: function (data) {
-						console.log(data)
+						// console.log(data)
 						if (data.code == 200) {
 							layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
 								 window.location.reload(); 
@@ -585,7 +586,7 @@
 						}
 						else {
 							layer.msg(data.msg, { icon: 2, time: 2000 }, function () {
-								window.location.reload(); 
+								// window.location.reload(); 
 							});
 							$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
 						}
