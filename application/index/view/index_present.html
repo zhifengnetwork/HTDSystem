@@ -32,44 +32,34 @@
 					<!-- 默认显示-s -->
 					<div class="list_tacitly">
 						<!-- 商品名称 -->
-						<div class="currency_name">
+						<div class="currency_name" data-cu_id="{$v.cu_id}">
 							<div class="currency_name_text">
-								{$v.name}
+								<img src="/{$v.log}"> {$v.name}
 							</div>
 						</div>
 						<!-- 商品数量 -->
 						<div class="currency_num">
-							{$v.cu_num+$v.static_wallet+$v.dynamic_wallet+$v.rate_wallet}
+							{$v.cu_num+$v.bonus_wallet+$v.rate_wallet}
 						</div>
 						<!-- 下拉菜单 -->
 						<div class="pull_down">
 							<img src="__PUBLIC__/images/xia.png">
 						</div>
 					</div>
-
-					<!-- <div class="load" style="display:none">
-								<div class="currency_name_text">
-									暂时没有数据
-								</div>
-						</div>						 -->
 					<!-- 默认显示-e -->
 					<!-- 下拉菜单内容 -->
 					<div class="pull_down_content">
 						<div class="down_list">
 							<p>本金</p>
-							<p>{$v.cu_num}({$v.alias_name})</p>
+							<p>{$v.cu_num} ({$v.alias_name})</p>
 						</div>
 						<div class="down_list">
 							<p>收益</p>
-							<p>{$v.bonus_wallet}({$v.alias_name})</p>
+							<p>{$v.bonus_wallet} ({$v.alias_name})</p>
 						</div>
-						<!-- <div class="down_list">
-							<p>动态收益</p>
-							<p>{$v.dynamic_wallet}</p>
-						</div> -->
 						<div class="down_list">
 							<p>分红</p>
-							<p>{$v.rate_wallet}({$v.alias_name})</p>
+							<p>{$v.rate_wallet} ({$v.alias_name})</p>
 						</div>
 						<!-- 提取按钮 -->
 						<div class="currency_box" data-phone="{$phone}">
