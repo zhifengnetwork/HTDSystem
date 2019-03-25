@@ -468,6 +468,15 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 110px;">分红至少满</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="global_par[global_min]"  autocomplete="off" class="layui-input" value="{$global_par.global_min|default=0}">
+                    </div>
+                    <div class="layui-form-mid">美元才可提币。</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
                     <label class="layui-form-label" style="width: 150px;">当前美元(USD)汇率</label>
                     <div class="layui-input-inline" style="width: 100px;">
                         <input type="text" name="global_par[exchange_usd]"  autocomplete="off" class="layui-input" value="{$global_par.exchange_usd|default=0}">

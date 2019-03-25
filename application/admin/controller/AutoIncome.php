@@ -23,6 +23,7 @@ class AutoIncome
 		// $orderWhere['create_time'] = array('<', $toDayTime);
 		$orderWhere['is_check'] = 1; // 已审核
 		$orderWhere['is_stop'] = 0;  // 订单没有终止的
+		$orderWhere['num'] = array('>', 0);
 		$orderAll = Db::name('execute_order')->where($orderWhere)->select();
 		if($orderAll){
 			// 获取htd价格
@@ -245,8 +246,8 @@ class AutoIncome
 				}
 				$i++;
 			}
-			echo '<br/>';
-			echo '循环处理完成'.$i.'次';
+			// echo '<br/>';
+			echo "循环处理完成".$i."次\n";
 			
 		}else{
 			echo '没有要处理的订单';

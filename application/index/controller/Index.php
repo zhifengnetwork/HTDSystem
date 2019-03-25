@@ -75,7 +75,7 @@ class Index extends HomeBase
         $this->assign('res',$res);
         $this->assign('money',$money);
 
-        
+
         return view();
     }
 	
@@ -93,11 +93,12 @@ class Index extends HomeBase
                 ->where('uid',$userid)
                 ->select();
 
-        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','withdraw_min')->select();
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
         $exchange_usd = arr2name($exchange_usd);
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
-
+        $global_min = $exchange_usd['global_min']['value'];
         $this->assign('withdraw_min',$withdraw_min);
+        $this->assign('global_min',$global_min);
         $this->assign('list',$list);
         $this->assign('phone',session('home.mobile'));
         $this->assign('uid',$userid);
@@ -150,7 +151,7 @@ class Index extends HomeBase
         $validate   = new Indexv();
         // $base       = new Base();
         switch ($data['type'])
-        {                 
+        {
             case 1: // 本金
             $data['cu_num'] = $data['cu_num'] ;
             $cu_type = 'cu_num';
@@ -185,18 +186,23 @@ class Index extends HomeBase
         $checkData['sms_type'] = $data['sms_type'];
         $checkData['code'] = $data['verify'];
         $checkData['phone'] = session('home.mobile');
+        
 
         //美元汇率   
-        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min'])->select();
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
         $exchange_usd = arr2name($exchange_usd);
         $usd = $data['popover_convert'];
-        // 提币最低金额
+        // 收益提币最低金额
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
         
+        // 分红提币最低金额
+        if($usd < $exchange_usd['global_min']['value'] && $data['type']==3){
+            return json(array('status' => 0, 'msg' => '大于等于'.$exchange_usd['global_min']['value'].'美元才可提取', 'result' => ''));
+        }
         // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
-        if($usd<$withdraw_min&&$data['type']!=1){
+        if($usd < $withdraw_min&&$data['type']==2){
             // $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '货币大于等于'.$withdraw_min.'美元才能体现', 'result' => ''));
+            return json(array('status' => 0, 'msg' => '大于等于'.$withdraw_min.'美元才可提取', 'result' => ''));
 
         }else if($data['cu_num']<$data['number']){
             return json(array('status' => 0, 'msg' => '不可大于可提数', 'result' => ''));
@@ -228,6 +234,13 @@ class Index extends HomeBase
                 return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
             }
 
+            //获取当前币种钱包的记录
+            $currency_one = Db::name('user_wallet')->where($where)->find();
+            if(!$currency_one){
+                return json(array('status' => 0, 'msg' => '币种钱包不存在'));
+            }
+            $data['number'] = $currency_one['cu_num'];
+
             // 如果为本金，手续费为5%，其他则为1%
             if($cu_type === 'cu_num'){
 
@@ -248,9 +261,14 @@ class Index extends HomeBase
                 // 扣减股权
                 $checkStock = checkStock($data['uid'],$data['cu_id'],$data['number']);
 
-                // 减掉相应数量
+                // 减掉执行收益表对应币种记录的相应数量
                 $res2 = Db::name('execute_order')->where($where)->setDec('num',$data['number']);
-                    
+                // 终止当前币种记录
+                $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['num'=>0, 'is_stop'=>1]);  
+
+                // 插入日志
+                $this->insertLog($data['uid'],$data['cu_id'],'终止合同',888); // 终止合同
+
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);
 
@@ -583,5 +601,21 @@ class Index extends HomeBase
 		);
 		$res12 = Db::name('user_log')->insert($data);
 		return $res12;
-	}
+    }
+    
+    // 获取对应币种的所有本金
+    public function getAllnum(){
+
+        if(!is_post()){
+            return json(array('code' => 0, 'msg' => '提交方式错误'));
+        }
+        $cu_id = input('post.cu_id/d');
+        $uid = input('post.uid/d');
+        // 获取当前用户对应币种的全部本金
+        $all_num = Db::name('user_wallet')->field('id,uid,cu_id,cu_num')->where(['cu_id'=>$cu_id, 'uid'=>$uid])->find();
+        if(!$all_num){
+            return json(array('code' => 0, 'msg' => '本金为0'));
+        }
+        return $all_num;
+    }
 }
