@@ -80,6 +80,7 @@
 				</div>
 			</div>
 			{/foreach}
+			
 			<!-- 列表项 -e -->
 
 			<!-- 提取弹框-s -->
@@ -302,6 +303,17 @@
 						//console.log(data['result']['rate_wallet']);
 						// $('#wallet_addr').val(data['result']['wallet_addr']);								
 						$('.voting').show()
+						/*获取当前滚动条的位置*/
+						var thisScrollNum = $(document).scrollTop();
+						console.log('获取当前滚动条的位置',thisScrollNum);
+						/**禁止底部滑动
+						* 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
+						**/
+						$('.currency').css({
+							'position':'fixed',
+							'top': -thisScrollNum,
+							'left': 0,
+						});
 					} else {
 						layer.msg(data.msg);
 					}
@@ -389,6 +401,17 @@
 						$('#rate_wallet').val(data['result']['rate_wallet']);
 						$('#wallet_addr').val(data['result']['wallet_addr']);
 						$('.popover').show();
+						/*获取当前滚动条的位置*/
+						var thisScrollNum = $(document).scrollTop();
+						console.log('获取当前滚动条的位置',thisScrollNum);
+						/**禁止底部滑动
+						* 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
+						**/
+						$('.currency').css({
+							'position':'fixed',
+							'top': -thisScrollNum,
+							'left': 0,
+						});
 					} else {
 						layer.msg(data.msg);
 					}
@@ -412,6 +435,14 @@
 				// $('.popover').hide();
 				// $('.voting').hide();
 				window.location.reload();
+				$('.currency').css({
+						'position':'',
+						'top': '',
+						'left': '',
+					});
+					console.log(66666,thisScrollNum);
+					/*恢复当前用户滚动的位置！*/
+					$(document).scrollTop(thisScrollNum);
 			});
 			//确认弹框按钮
 			$('.popUp_btn').click(function () {
