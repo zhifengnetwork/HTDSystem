@@ -236,9 +236,10 @@ var dataImg = null;
 
 /*上传图片*/
 function UpLoad(e) {
-	//显示提示信息
-	$(".upload-tips").css("display","block");
-
+	//显示提示信息（上传中..）
+	$(".uploadWrap .passData").css("display","block");
+	$(".uploadWrap .resultData").css("display","none");
+	
 	var that = $(e);
 	if(e.files[0]) {
 		var f = e.files[0];
@@ -275,11 +276,17 @@ function UpLoad(e) {
 							success:function(msg){
 								if(msg.code==200){
 									$('#imgUrl_id').val(msg.imgUrl);
-									$('.text').html('成功');
+									/*隐藏'上传中...'*/
+									$(".uploadWrap .passData").css("display","none");
+									$(".uploadWrap .resultData").css("display","block");
+									$('.uploadWrap .resultData .text').html('成功'); 
 									// console.log(msg);
 									layer.msg(msg.msg)
 								}else{
-									$('.text').html('失败');
+									/*隐藏'上传中...'*/
+									$(".upload-tips .passData").css("display","none");
+									$(".uploadWrap .resultData").css("display","block");
+									$('.uploadWrap .resultData .text').html('失败');
 									layer.msg(msg.msg)
 									return false;
 								}
@@ -297,11 +304,17 @@ function UpLoad(e) {
 							success:function(msg){
 								if(msg.code==200){
 									$('#imgUrl_id').val(msg.imgUrl);
-									$('.text').html('成功');
+									/*隐藏'上传中...'*/
+									$(".uploadWrap .passData").css("display","none");
+									$(".uploadWrap .resultData").css("display","block");
+									$('.resultData .text').html('成功');
 									// console.log(msg);
 									layer.msg(msg.msg)
 								}else{
-									$('.text').html('失败');
+									/*隐藏'上传中...'*/
+									$(".uploadWrap .passData").css("display","none");
+									$(".uploadWrap .resultData").css("display","block");
+									$('.resultData .text').html('失败');
 									layer.msg(msg.msg)
 									return false;
 								}

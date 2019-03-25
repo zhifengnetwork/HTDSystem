@@ -26,7 +26,7 @@
 						<div class="asset" style="position: relative;">
 							<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
 								<p style="margin-bottom: 6px;">总资产</p>
-								<p style="font-size: .15rem;letter-spacing: 0px;">≈ {$wallet_btc} BTC</p>
+								<p style="font-size: .3rem;letter-spacing: 0px;">≈ {$wallet_btc} BTC</p>
 							</div>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 						<p style="margin-left: 0.1rem;width: 25%;" id="cu_name_input" data-name="">选择币种</p>
 						<p style="width: 53%;text-align: right;"></p>
 						<p class="p1" style="color: #7596d8;">USD</p>
-						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
+						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/zjy_xiala.png" /></p>
 					</div>
 					<div class="amount">
 						<span>投资数量：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入数量" />
@@ -84,9 +84,14 @@
 												<input class="uploadFile" onchange="UpLoad(this)" type="file"  name="file"  value="0" accept="image/*" />
 											</p>
 											<input type="hidden" name="imgUrl" value="" id="imgUrl_id"/>
-											<span class="upload-tips uploading">
+											<!--上传中 => box-->
+											<span class="upload-tips uploading passData">
 												<span class="text">上传中</span>
-												<!-- <span class="dotting"></span> -->
+												 <span class="dotting"></span> 
+											</span>
+											<!--状态=> box-->
+											<span class="upload-tips resultData">
+												<span class="text"></span>
 											</span>
 
 											<!--上传成功后更好类名succeed -->
