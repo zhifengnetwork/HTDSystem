@@ -63,7 +63,6 @@
                     <th>文章标题</th>
                     <th width="70px" style="text-align:center">状态</th>
                     <th width="60px" style="text-align:center">是否顶置</th>
-                    <th width="60px" style="text-align:center">是否精选</th>
                     <th width="100px" style="text-align:center">更新时间</th>
                     <th width="210px" style="text-align:center">操作</th>
                 </tr>
@@ -79,11 +78,6 @@
                     </td>
                     <td align="center">
                         <input type="checkbox" lay-skin="switch" lay-text="置顶|置顶" lay-filter="switchsettop" value="{$vo['id']}" {php}echo $vo[ 'settop']==1 ? 'checked' : '';{/php}>
-                    </td>
-                    <td align="center">
-                        <input type="checkbox" lay-skin="switch" lay-text="精选|精选" lay-filter="switchchoice" value="{$vo['id']}" {php}echo $vo[ 'choice']==1 ? 'checked' : '';{/php}>
-
-
                     </td>
                     <td align="center">{$vo.time|friendlyDate}</td>
                     <td align="center">
