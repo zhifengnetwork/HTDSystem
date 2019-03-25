@@ -34,6 +34,11 @@ class AutoIncome
 			$configs = arr2name($configs);
 			$i = 0;
 			foreach($orderAll as $key=>$value){
+				$rate =0;
+				$giveIncome =0;
+				$main_coin =0;
+				$platform_coin=0;
+				
 				// 1、计算用户的静态收益收益率 6等级
 				// 根据后台静态收益配置项判断收益
 				if($value['total_money'] >= $configs['price_min1']['value'] && $value['total_money'] <= $configs['price_max1']['value']){
@@ -71,6 +76,7 @@ class AutoIncome
 				$rate = numberByRetain($rate/30, 8); // 除于30天取8位
 				// +++++++ 计算当前用户静态收益：币种收益=收益率*币种数量 +++++++ //
 				$giveIncome = $value['num']*$rate; 
+
 				// 根据后台设置的比例把总收益拆分为主流币+平台代币
 				$main_coin = $giveIncome*($main_coin_ratio/100);
 				// 平台币*当前对应币种的价格
@@ -84,7 +90,7 @@ class AutoIncome
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++ 把收益累加到当前用户对应币种钱包+++++ //
 					$main_res = Db::name('user_wallet')->where(['uid'=>$value['uid'], 'cu_id'=>$value['cu_id']])->setInc('bonus_wallet', $main_coin);
-					// echo Db::name('user_wallet')->getLastSql();die;
+
 					// 累加到平台币 cu_id=11
 					$platform_res = Db::name('user_wallet')->where(['uid'=>$value['uid'], 'cu_id'=>11])->setInc('bonus_wallet', $platform_coin);
 					// 把收益记录插入收益表
@@ -149,6 +155,7 @@ class AutoIncome
 					// +++++++++++++++++++++++++++++++++动态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++++ 获取动态收益的上级用户uid，根据对应参数计算动态收益+++++++ //
 					// 1、获取当前用户所有的上级id
+					$upAll_arr = '';
 					$upAll_arr = getUpMemberIds($value['uid']);
 					// $dy_income_data = []; // 获得动态收益的上级id集
 					// 2、循环上级id获取有效直推人数和当前币种的入单金额是否达到条件
@@ -161,6 +168,7 @@ class AutoIncome
 					if($upAll_arr){
 
 						foreach($upAll_arr as $k=>$upId){
+							$push_arr = '';
 							$push_arr = getActivateUser($upId);   // 获取当前用户所有已激活的直推会员(入单)
 							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单同等币种指定金额
 							if(!$push_arr || !$is_order_money){
@@ -238,7 +246,7 @@ class AutoIncome
 
 					// 提交事务
 					Db::commit();   
-					echo '成功处理订单收益';
+					echo '成功处理订单收益\n';
 				}catch(\Exception $e){
 					// 回滚事务
 					Db::rollback();
@@ -246,8 +254,8 @@ class AutoIncome
 				}
 				$i++;
 			}
-			// echo '<br/>';
-			echo "循环处理完成".$i."次\n";
+			echo $i." ok orders\n";
+			// echo "循环处理完成".$i."次\n";
 			
 		}else{
 			echo '没有要处理的订单';
