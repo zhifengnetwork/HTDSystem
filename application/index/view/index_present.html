@@ -658,7 +658,7 @@
 				}
 			}
 			
-<<<<<<< HEAD
+
 
 			/* 确认 */
 			// $('.popover_affirm .true').on('click', function() {
@@ -694,36 +694,33 @@
 			
 //input标签获取焦点
             $('#wallet_addr').click(function(){
-            	
-            	
-            	
-//             document.getElementById("#wallet_addr").scrollIntoView(true);
-               
-             
-               console.log("ddd")
-            	
+         
+              console.log("ddd");
+             console.log($(this).offset().top)
+              console.log($(".popover_content").height());
+              $(".popover_content").scrollTop($(this).offset().top);
+              
+            
             	
             });
+               $(".popover_content").scroll(function(event){
+               	
+                         console.log("ffff")
+               
+                 });
       
 
-			   //input标签获取焦点
-            $('#wallet_addr').focus(function(e){
-                eee
-               });
+               
+               
 
 		</script>
 
            
 
-=======
-//			input标签获取焦点
-            $('#wallet_addr').focus(function(e){
-            document.querySelector('#inputId').scrollIntoView();
-            console.log("ccc")
-            
-        });
-	</script>
->>>>>>> 9fac6350919fada0fc4b6bf06467540595a988df
+
+
+	
+
 	</body>
 
 </html>
