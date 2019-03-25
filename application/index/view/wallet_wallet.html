@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title class="pageTopTitle" page-id="1">钱包</title>
+	<title class="pageTopTitle" page-id="1">HTD</title>
 	<script src="__PUBLIC__/js/public/rem.js"></script>
 	<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
 	<link rel="stylesheet" href="__PUBLIC__/css/public/bottomNav.css" />
@@ -22,12 +22,16 @@
 			<div class="zjy_box_conten">
 				<div class="zjy_box_conten_item avtive">
 					<!--总投资按钮-->
-					<div class="bag-wrap">
-						<div class="asset">总资产<span style="font-size: .3rem;"></span></div>
+					<div class="bag-wrap" >
+						<div class="asset" style="position: relative;">
+							<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+								<p style="margin-bottom: 6px;">总资产</p>
+								<p style="font-size: .15rem;letter-spacing: 0px;">≈ {$wallet_btc} BTC</p>
+							</div>
+						</div>
 					</div>
-					<div class="amount">
-						<span>投资额度：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入人民币" />
-					</div>
+						
+					
 
 					<div class="wtf_xiala">
 						<p>
@@ -35,10 +39,13 @@
 						</p>
 						<p style="margin-left: 0.1rem;width: 25%;" id="cu_name_input" data-name="">选择币种</p>
 						<p style="width: 53%;text-align: right;"></p>
-						<p class="p1" style="color: #7596d8;">CNY</p>
+						<p class="p1" style="color: #7596d8;">USD</p>
 						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/wtf_xiala.jpg" /></p>
 					</div>
-					<div class="wtf_item2">
+					<div class="amount">
+						<span>投资数量：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入数量" />
+					</div>
+					<!-- <div class="wtf_item2">
 						<div class="wtf_item2_div">
 							<p>当前投资额度</p>
 							<div class="wtf_item2_c">
@@ -60,7 +67,7 @@
 								<p></p>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					
 					<!--选择付款方式-->
@@ -246,6 +253,7 @@
 							<th>日期</th>
 							<th>币种</th>
 							<th>数量</th>
+							<th>类型</th>
 							<th>状态</th>
 						</tr>
 						{foreach name="user_order" item="vo"}
@@ -253,6 +261,7 @@
 							<td>{$vo.create_time|date="Ymd",###}</td>
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
+							<td>{$vo.type}</td>
 							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
 						</tr>
 						{/foreach}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTD</title>
+    <script src="__PUBLIC__/js/public/rem.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/base.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/login/retrieve.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css">
+</head>
+<body>
+    <div class="retrievebox">
+        <div class="header-zp">
+            <span class="return">
+                <img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+            <h3>手机短信找回密码</h3>
+        </div>
+        <div class="retrieve-new-page">
+                <form class="sms-retrieve-from">
+                    <div class="info mistake"></div>
+                    <div class="from-group">
+                        <span class="from-tit">用户名:</span>
+                        <div class="from-icon">
+                            <img src="__PUBLIC__/images/login/shouji.png" alt="">
+                            <input type="text" placeholder="请输入用户名" name="username"class="pptt username" value>
+                        </div>
+                    </div>
+                    <div class="info mistake"></div>
+                    <div class="from-group">
+                        <span class="from-tit">手机号:</span>
+                        <div class="from-icon">
+                                <img src="__PUBLIC__/images/login/shouji.png" alt="">
+                        <input type="tel" placeholder="请输入绑定手机号" name="mobile" class="pptt phone mobile" value="">
+                        </div>
+                    </div>
+                    <div class="info mistake"></div>
+                    <div class="from-group">
+                            <span class="from-tit">验证码:</span>
+                            <div class="from-icon  from-verify">
+                                    <img src="__PUBLIC__/images/login/yanz.png" alt="">
+                            <input type="text" placeholder="请输入验证码" name="verify"class="pptt verify" value maxlength="6">
+                            </div>
+                        <button type="button" class="acquire" >获取验证码</button>
+                      </div>
+                      <div class="info mistake"></div>
+                      <div class="from-group">
+                            <span class=" from-tit from-cc">设置密码:</span>
+                            <div class="from-icon ">
+                                    <img src="__PUBLIC__/images/login/suo.png" alt="">
+                            <input type="password" placeholder="请重置新密码"name="password"class="pptt  pwd1 password"  value>
+                            </div>
+                      </div>
+                      <div class="info mistake"></div>
+                      <div class="from-group">
+                            <span class="from-tit from-cc">确认密码:</span>
+                            <div class="from-icon">
+                                    <img src="__PUBLIC__/images/login/suo.png" alt="">
+                            <input type="password" placeholder="请再输入一次密码" name="pwd"class="pptt pwd2 " value >
+                            </div>
+                      </div>
+                      <button class="btn dis" type="button" id="btn" disabled>重置登录密码</button>
+                </form>
+           </div>
+    </div>
+</body>
+<script src="__PUBLIC__/js/public/jquery-1.8.3.js"></script>
+<script src="__PUBLIC__/js/public/publicAlert.js"></script>
+ <script src="__PUBLIC__/js/login/retrieve.js"></script>
+ <script src="__PUBLIC__/plugins/layer/layer-min.js"></script>
+
+
+</html>
+<script>
+    $(".acquire").click(function () {
+        // 获取验证码
+        var mobile = $.trim($(".mobile").val());
+        var flag = true;
+        $.ajax({
+            url: '/index/login/getPhoneVerify',
+            type: 'post',
+            dataType: 'json',
+            data: {phone:mobile,sms_type:3},
+            success:function(msg){
+                if(msg.code==0){
+                    layer.msg(msg.msg);
+                    return false;
+                }
+            }
+        });
+        if(flag){
+            layer.msg('已发送');
+        }
+
+    });
+    $("#btn").click(function () {
+        var username = $.trim($(".username").val());
+        var password = $.trim($(".password").val());
+        var pwd = $.trim($(".pwd2").val());
+        var verify = $.trim($(".verify").val());
+        var mobile = $.trim($(".mobile").val());
+        if(verify == ""){
+            suredAlert($('body'),'验证码不能为空!!!');
+            return
+        }
+        if(username == ""){
+            suredAlert($('body'),'用户名不能为空!!!');
+            return
+        }
+        if(mobile == ""){
+            suredAlert($('body'),'手机号不能为空!!!');
+            return
+        }
+        if(password == ""){
+            suredAlert($('body'),'密码不能为空!!!');
+            return
+        }
+        if(password !== pwd){
+            suredAlert($('body'),'密码不能不一致!!!');
+            return
+        }
+        var data= {username:username,password:password,mobile:mobile,verify:verify};
+        $.ajax({
+            type:"POST",
+            url:"{:url('index/login/retrie')}",
+            data:data,
+            dataType:'json',
+            success:function(msg) {
+                var msg  = JSON.parse(msg);
+                if (msg.code == '4') {
+                    suredAlert($('body'), msg.msg,msg.url);
+                } else {
+                    suredAlert($('body'), msg.msg);
+
+                }
+
+            }
+
+        });
+    })
+</script>

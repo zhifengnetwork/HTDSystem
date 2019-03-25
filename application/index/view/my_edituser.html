@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	    <title>设置</title>
+	    <title>HTD</title>
 	    <script type="text/javascript" src="__PUBLIC__/js/public/rem.js" ></script>
 	    <link rel="stylesheet" href="__PUBLIC__/css/my/editPass.css" />
 	    <link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
@@ -45,7 +45,7 @@
 				<div class="lj_sz_btn">
 					<a id="lj_sz_btn_a" href="JavaScript:void(0);" onclick="save()">保存</a>
 					<!-- <a class="lj_sz_btn_a" href="#">保存</a> -->
-					<a href="{:url('index')}">退出登录</a>
+					<a href="{:url('index')}" onclick="quit()" >退出登录</a>
 				</div>
 			</form>
 			</div>
@@ -96,6 +96,9 @@
 					alert("邮箱不能为空");
 				}
 			};
+			function quit(){
+				window.localStorage.removeItem('stamp');  //删除
+			}
 		</script>
 	</body>
 </html>

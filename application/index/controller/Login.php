@@ -74,18 +74,65 @@ class Login extends Controller
     public function directdrive(){
             
         $home = session('home');
-
-        
-    
+        $configs = Db::name('income_config')->field('name,value')->select();
+        $configs = arr2name($configs);
+        $usd = $configs['exchange_usd']['value'];
+        $res = '';    
         $res = DB::name('user')->where(['pid'=>$home['id']])->select();
+        $users = getDownUserUids2($home['id']);
+        $money = 0;
+        if($users){
+            foreach ($users as $key=>$val)
+            {
+                $wallet = $this->wallet($val);
+                $money += $wallet;
+            }
+        }
+        
+        // dump($money);
         if($res){
             // dump($res);die;
             $this->assign('aa', $res);
         }
+        if(!$money){
+            $total_money = $money/$usd;
+        }else{
+            $total_money = 0;
+        }
+        $this->assign('money', $total_money);
         $this->assign('aa', $res);
         return view();
     }
 
+    private function wallet($uid){
+        $arr = db('user_wallet')->where(['uid'=>$uid])->select();
+        $cur = db('currency')->select();
+        $money = 0;
+        
+        // dump($thd);
+        foreach($arr as $key=>$val)
+        {
+            foreach($cur as $k => $v){
+                
+                if($val['cu_id']==$v['id']){
+                    $ftp = $val['cu_num']*$v['price'];
+                    $money +=$ftp;
+                }
+            }
+        }
+        if(!empty($money))
+        {
+            return $money;
+        }
+    }
+
+    private function currency($id)
+    {
+        $cur = db('currency')->where(['id'=>$id])->select();
+        if($cur){
+            return $cur['price'];
+        }
+    }
     public function register()
     {
         $promotion = input('promotion/d');
@@ -102,11 +149,16 @@ class Login extends Controller
         $arr = $this->request->post();
         // p($arr);die;
         if($arr){
-           $usermail= $arr['userEmail']."";
+            $usermail= $arr['userEmail']."";
             $reaa = DB::name('user')->where(['username'=>$arr['userName']])->find();
             $arr['salt'] = generate_password(18);
             $arr['password'] = md5($arr['password'] . $arr['salt']);
-            $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+            if($usermail){
+                $reab = DB::name('user')->where(['usermail'=>$usermail])->find();
+                $data['usermail'] = $arr['userEmail'];
+            }else{
+                $reab = false;
+            }
             $resv=DB::name('user')->where(['username'=>$arr['userName'],'password'=>$arr['password'],'usermail'=>$usermail,'mobile'=>$arr['userPhone']])->find();
             if(!$arr['verify']){
                 $data=array('msg'=>"验证码不可为空",'flag'=>5);
@@ -117,23 +169,22 @@ class Login extends Controller
             $checkData['sms_type'] = $arr['sms_type'];
             $checkData['code'] = $arr['verify'];
             $checkData['phone'] = $arr['userPhone'];
-            // $res = checkPhoneCode($checkData);
-            // if($res['code']==0){
-            //     return array('code' => 0, 'msg' => $res['msg']);
-            // }
+            $res = checkPhoneCode($checkData);
+            if($res['code']==0){
+                return array('code' => 0, 'msg' => $res['msg']);
+            }
             if($resv){
                 $data=array('msg'=>'账号已存在，请转往登录界面','flag'=>1);
             }else if($reaa){
                 $data=array('msg'=>'用户名已经存在','flag'=>3);
             }else if($reab){
                 $data=array('msg'=>'邮箱已经存在','flag'=>4);
-            }else if(!$reaa&&!$reab){
+            }else if(!$reaa){
                 $read=DB::name('user')->where(['promotion'=>$arr['rec']])->find();
                 if($read){
                     $data = array(
                         "username"=>$arr['userName'],
                         "password"=>$arr['password'],
-                        "usermail"=>$arr['userEmail'],
                         "mobile"=>$arr['userPhone'],
                         "regtime"=>time(),
                         "pid"=>$read['id'],
@@ -172,14 +223,15 @@ class Login extends Controller
             return json_encode(array('msg'=>'没有此用户名，请确定后重新输入','code'=>1));
         }
         if ($arr['mobile'] != $ress['mobile']) {
-            return json_encode(array('msg'=>'用户名的手机号和验证的手机不一致,请确认后重新输入','code'=>2));
+            return json_encode(array('msg'=>'用户名绑定的手机号不一致','code'=>2));
         }
         $checkData['sms_type'] = 3;
         $checkData['code'] = $arr['verify'];
         $checkData['phone'] = $arr['mobile'];
         $res = checkPhoneCode($checkData);
         if($res['code']==0){
-            return json_encode(array('msg' => $res['msg'],'code'=>0));
+            return json($res);
+            
         }
         $arr['password'] = md5($arr['password'] . $ress['salt']);
         $info = Db::name('user')->where('id',$ress['id'])->update(['password'=>$arr['password']]);
@@ -200,7 +252,7 @@ class Login extends Controller
     */
     public function getPhoneVerify(){
 
-        // 传入类型：1注册 2提币；手机号
+        // 传入类型：1注册 2提币；3找回密码 
         $param = input('post.');
         $sms_type = intval($param['sms_type']);
         if(!$sms_type || !$param['phone']){

@@ -1984,12 +1984,13 @@ function arr2name($data,$key=''){
 }
 
 // 插入日志表user_log
-function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account='', $note=''){
+function insertToLog($uid, $cu_id='', $order_no='', $type='', $old_account='', $now_account='', $note=''){
     if (empty($uid)) {
         return false;
     }
     $insertData = array(
         'uid' => $uid,
+        'cu_id' => $cu_id,
         'order_no' => $order_no,
         'type' => $type,
         'old_account' => $old_account,
@@ -1998,7 +1999,7 @@ function insertToLog($uid, $order_no='', $type='', $old_account='', $now_account
         'create_time' => time(),
         'status' => 0
     );
-    $res = Db::name('user_log')->save($insertData);
+    $res = Db::name('user_log')->insert($insertData);
     return $res;
 }
 
@@ -2041,10 +2042,9 @@ function getUpMemberIds($uid){
 function getDownUserUids2($uid){
     global $g_down_Uids,$i;
 	if($uid){
-        $i = 1;
         $member_arr = Db::name('user')->field('id,pid')->where(['pid'=>$uid])->limit(0,1000)->select();
 		foreach($member_arr as $mb){
-			if($mb['id'] && $mb['id'] != $uid && $i<10){
+			if($mb['id'] && $mb['id'] != $uid){
                 $g_down_Uids[] = $mb['id'];
                 // $g_down_Uids[] = $i; // 层级
                 getDownUserUids2($mb['id']);
@@ -2164,14 +2164,24 @@ function createWallet($uid){
 // 根据传入数字保留小数位数
 function numberByRetain($number, $position){
     // @number 需要处理的数字, @position 需要保留的位数
-    $ary = explode('.', (string)$number);
-    if (strlen($ary[1]) > $position) {
-        $decimal = substr($ary[1], 0, $position);
-        $result = $ary[0] . '.' . $decimal;
-        return (float)$result;
-    } else {
+    if(is_int($number)){
         return $number;
     }
+    // dump($number);
+    $ary = explode('.', (string)$number);
+    $nums = count($ary);
+    if($nums==2){
+        if (strlen($ary[1]) > $position) {
+            $decimal = substr($ary[1], 0, $position);
+            $result = $ary[0] . '.' . $decimal;
+            return (float)$result;
+        } else {
+            return $number;
+        }
+    }else{
+        return $number;
+    }
+    
  }
 
 
@@ -2208,21 +2218,32 @@ function numberByRetain($number, $position){
 
 //获取验证码短信
 function getPhoneCode($data){
-
+    
 	if(!$data['sms_type']||!$data['phone']){
         return array('code' => 0, 'msg' => '缺少验证参数');
-	}
-	
+    }
+    // 判断手机号是否合法
+    $check_phone = check_mobile_number($data['phone']);
+    // 判断手机号是否存在数据库
+    if($check_phone){
+        $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
+        if(!$is_phone_db){
+            return array('code' => 0, 'msg' => '非法手机号！');
+        }
+    }else{
+        return array('code' => 0, 'msg' => '手机号格式不正确');
+    }
+    
     $limit_time = 60;// 60秒以内不能重复获取
     $where['phone'] = $data['phone'];
     $where['sms_type'] = $data['sms_type'];
-    $where['create_time'] = array('<', time()+$limit_time);
-    $list = Db::name('verify_code')->where($where)->select();
+    $nowTime = time();
+    $list = Db::query("select * from htd_verify_code where phone={$data['phone']} and sms_type={$data['sms_type']} and '{$nowTime}'-create_time<{$limit_time} limit 0,5");
     $cnt=count($list);
     // 1分钟
-	if($cnt>1){
+    if($cnt>1){
         return array('code' => 0, 'msg' => '获取验证码过于频繁，请稍后再试');
-	}
+    }
 	$code = rand(123456,999999);
     $tpl = '【HTD】您的手机验证码：'.$code.' 若非您本人操作，请忽略本短信。';
 	// $content=str_replace('{$code}',$code,$tpl);
@@ -2231,8 +2252,9 @@ function getPhoneCode($data){
 	if($result!='1'){
     // $res_num = strpos($result,'ok');
 	// if($res_num != 8){
-        return array('code' => 0, 'msg' => '短信发送失败-'.$result);
-	}
+        return array('code' => 0, 'msg' => '短信发送失败-');
+    }
+    
 	// 插入verify_code记录
 	$db_data=array(
 		'code'=>$code,
@@ -2256,9 +2278,9 @@ function sendSms($phone,$content){
 
     $smsCode = rand(123456,999999);
     $post_data = array();
-    $post_data['userid'] = 999;
-    $post_data['account'] = '1069088000';
-    $post_data['password'] = '1069088000';
+    $post_data['userid'] = 2787;
+    $post_data['account'] = 'qx3854';
+    $post_data['password'] = 'Aa12321';
     $post_data['content'] = $content; // 短信的内容，内容需要UTF-8编码
     $post_data['mobile'] = $phone; // 发信发送的目的号码.多个号码之间用半角逗号隔开 
     $post_data['sendtime'] = ''; // 为空表示立即发送，定时发送格式2010-10-24 09:08:10
@@ -2348,6 +2370,28 @@ function curl_post($url,$data='',$timeout=30){
     return $result;
 }
 
+// getApiUrl
+function getUrl($url){
+
+    date_default_timezone_set('PRC');
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL, $url);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch,CURLOPT_HEADER,0);
+    curl_setopt($ch, CURLOPT_TIMEOUT,60);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json",]);
+    $output = '';
+    $output = curl_exec($ch);
+    $info = curl_getinfo($ch);
+    $arrCurlResult['output'] = $output;//返回结果
+    $arrCurlResult['response_code'] = $info;//返回http状态
+    curl_close($ch);
+    unset($ch);
+    return json_decode($output,true);
+}
+
 
 // 用户提取对应币种本金时,获取htd_execute_order里面对应币种的create_time,
 // 如果当前时间小于第一次投资记录时间+6个月，则当前提币数量*单价的人民币总额去减掉股权。
@@ -2380,4 +2424,23 @@ function checkStock($uid,$cu_id,$cu_num){
     }
     return $res;
 }
+
+//检测手机
+function isPhone($tel,$type='sj'){
+	$regxArr = array(
+		'sj'  =>  '/^(\+?86-?)?(18|15|13|17|14)[0-9]{9}$/',
+		'tel' =>  '/^(010|02\d{1}|0[3-9]\d{2})-\d{7,9}(-\d+)?$/',
+		'400' =>  '/^400(-\d{3,4}){2}$/',
+	);
+	if($type && isset($regxArr[$type])){
+		return preg_match($regxArr[$type], $tel) ? true:false;
+	}
+	foreach($regxArr as $regx){
+		if(preg_match($regx, $tel )){
+			return true;
+		}
+	}
+	return false;
+}
+
 

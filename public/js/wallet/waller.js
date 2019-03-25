@@ -30,10 +30,10 @@ $(document).ready(function(){
 		
 		// 获取投资金额
 		var money = $('.inp').val();
-		if(!money){
-			layer.msg('请先输入投资额');
-			return false;
-		}
+		// if(!money){
+		// 	layer.msg('请先输入投资额');
+		// 	return false;
+		// }
 		
 		$(".showZ").show();
 		/*蒙版*/
@@ -74,30 +74,32 @@ $(document).ready(function(){
 	$('.sum').on('click',function(){
 		var obj=$(this);
 		// 获取投资金额
-		var money = $('.inp').val();
+		var cu_num = $('.inp').val();
 		// 获取最小投资金额
 		// var min_money = $('.min_money').html();
-		if(!money){
-			layer.msg('请先输入投资额');
-			return false;
-		}
-		if(money<1){
-			layer.msg('投资额额度不可为0');
-			return false;
-		}
+		
 		var cu_id = $('#cu_name_input').attr('data-name');
-		var cu_price = $('.cu_price').html();
-		var cu_num = $('.p3').html();
+		// var cu_price = $('.cu_price').html();
+		// var cu_num = $('.p3').html();
 		if(!cu_id){
 			layer.msg('请选择币种');
 			return false;
 		}
-		if(!cu_price){
-			layer.msg('币种单价获取出错！');
+		// if(!cu_price){
+		// 	layer.msg('币种单价获取出错！');
+		// 	return false;
+		// }
+		if(!cu_num){
+			layer.msg('请输入币种数量');
 			return false;
 		}
-		if(!cu_num){
-			layer.msg('币种数量获取出错');
+
+		// if(!cu_num){
+		// 	layer.msg('请先输入币种数量');
+		// 	return false;
+		// }
+		if(cu_num<1){
+			layer.msg('投资币种数量不可为0');
 			return false;
 		}
 
@@ -110,9 +112,9 @@ $(document).ready(function(){
 				layer.msg('请上传发票');
 				return false;
 			}
-			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way,imgUrl:imgUrl};
+			var dataJson = {cu_id:cu_id,cu_num:cu_num,pay_way:pay_way,imgUrl:imgUrl};
 		}else{
-			var dataJson = {money:money,cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
+			var dataJson = {cu_id:cu_id,cu_price:cu_price,cu_num:cu_num,pay_way:pay_way};
 		}
 		//防止快速双击 
 		var has_click=obj.attr('has-click');
@@ -169,14 +171,14 @@ function obtainFun(id,name,price,walletAddr,wallet_qrcode){
 	var money = $('.inp').val();
 	// 获取最小投资金额
 	// var min_money = $('.min_money').html();
-	if(!money){
-		layer.msg('请先输入投资额');
-		return false;
-	}
-	if(money<1){
-		layer.msg('投资额额度不可为0');
-		return false;
-	}
+	// if(!money){
+	// 	layer.msg('请先输入投资额');
+	// 	return false;
+	// }
+	// if(money<1){
+	// 	layer.msg('投资额额度不可为0');
+	// 	return false;
+	// }
 	var domain = document.domain;
 	var path_url = '/'+wallet_qrcode;
 	// 对应币种二维码放置
