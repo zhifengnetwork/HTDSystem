@@ -1,712 +1,704 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8">
-	<title>HTD</title>
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<script src="__PUBLIC__/js/public/rem.js"></script>
-	<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
-	<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
-	<link rel="stylesheet" href="__PUBLIC__/css/home/present.css?v=2" />
-	<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
-	<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
-</head>
+	<head>
+		<meta charset="utf-8">
+		<title>提币</title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<script src="__PUBLIC__/js/public/rem.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public/reset.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/base.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/home/present.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/public/alertWrap.css" />
+		<link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
+	
+	
+	</head>
 
-<body>
-	<!-- 最大的外套 -->
-	<div class="currency_wrap">
-		<!-- 头部-s -->
-		<div class="header-zp">
-			<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
-			<h3>提币</h3>
-		</div>
-		<!-- 头部-e -->
+	<body>
+		<!-- 最大的外套 -->
+		<div class="currency_wrap">
+			<!-- 头部-s -->
+			<div class="header-zp">
+				<span class="return" onclick="returnFun()"><img src="__PUBLIC__/images/public/return-zp@2x.png" /></span>
+				<h3>提币</h3>
+			</div>
+			<!-- 头部-e -->
 
-
-		<!-- 固定导航-e -->
-		<!-- 内容主体 -->
-		<div class="currency">
-			<!-- 列表项 -s-->
-			{foreach name="list" item="v"}
-			<div class="currency_list">
-				<!-- 默认显示-s -->
-				<div class="list_tacitly">
-					<!-- 商品名称 -->
-					<div class="currency_name">
-						<div class="currency_name_text">
-							{$v.name}
+			
+			<!-- 固定导航-e -->
+			<!-- 内容主体 -->
+			<div class="currency">
+				<!-- 列表项 -s-->
+				{foreach name="list" item="v"}
+				<div class="currency_list">
+					<!-- 默认显示-s -->
+					<div class="list_tacitly">
+						<!-- 商品名称 -->
+						<div class="currency_name">
+							<div class="currency_name_text">
+								{$v.name}
+							</div>
+							</div>
+							<!-- 商品数量 -->
+							<div class="currency_num">
+									{$v.cu_num+$v.static_wallet+$v.dynamic_wallet+$v.rate_wallet}
+							</div>
+							<!-- 下拉菜单 -->
+							<div class="pull_down">
+								<img src="__PUBLIC__/images/xia.png">
+							</div>
 						</div>
-					</div>
-					<!-- 商品数量 -->
-					<div class="currency_num">
-						{$v.cu_num+$v.static_wallet+$v.dynamic_wallet+$v.rate_wallet}
-					</div>
-					<!-- 下拉菜单 -->
-					<div class="pull_down">
-						<img src="__PUBLIC__/images/xia.png">
-					</div>
-				</div>
 
-				<!-- <div class="load" style="display:none">
+						<!-- <div class="load" style="display:none">
 								<div class="currency_name_text">
 									暂时没有数据
 								</div>
 						</div>						 -->
-				<!-- 默认显示-e -->
-				<!-- 下拉菜单内容 -->
-				<div class="pull_down_content">
-					<div class="down_list">
-						<p>本金</p>
-						<p>{$v.cu_num}({$v.alias_name})</p>
-					</div>
-					<div class="down_list">
-						<p>收益</p>
-						<p>{$v.bonus_wallet}({$v.alias_name})</p>
-					</div>
-					<!-- <div class="down_list">
+					<!-- 默认显示-e -->
+					<!-- 下拉菜单内容 -->
+					<div class="pull_down_content">
+						<div class="down_list">
+							<p>本金</p>
+							<p>{$v.cu_num}({$v.alias_name})</p>
+						</div>
+						<div class="down_list">
+							<p>收益</p>
+							<p>{$v.bonus_wallet}({$v.alias_name})</p>
+						</div>
+						<!-- <div class="down_list">
 							<p>动态收益</p>
 							<p>{$v.dynamic_wallet}</p>
 						</div> -->
-					<div class="down_list">
-						<p>分红</p>
-						<p>{$v.rate_wallet}({$v.alias_name})</p>
-					</div>
-					<!-- 提取按钮 -->
+						<div class="down_list">
+							<p>分红</p>
+							<p>{$v.rate_wallet}({$v.alias_name})</p>
+						</div>
+						<!-- 提取按钮 -->
 					<div class="currency_box" data-phone="{$phone}">
 						<a class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">提取</a>
 						<a class="currency_btn" onclick="voting({$v.uid},{$v.cu_id})">复投</a>
+					 </div> 
 					</div>
 				</div>
-			</div>
-			{/foreach}
-			<!-- 列表项 -e -->
+					{/foreach}
+					<!-- 列表项 -e -->
+				
+				<!-- 提取弹框-s -->
+				<div class="popover">
+						<div class="popover_content">
+							<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
+								<div class="popover_box clearfix">
+										<span>请选择提币类型:</span>
+										<span class="popover_click">请选择 </span>
+										<img src="__PUBLIC__/images/xia.png" class="down">
+										<ul class="ul_box popover_ul">
+											<!-- <li data-index="0">请选择</li> -->
+											<li data-index="1">本金</li>
+											<li data-index="2">收益</li>
+											<li data-index="3">分红</li>
+										</ul>
+								</div>
 
-			<!-- 提取弹框-s -->
-			<div class="popover">
-				<div class="popover_content">
-					<form class="form-horizontal" id="handleposition" method="post" onsubmit="return false;">
-						<div class="popover_box clearfix">
-							<span>请选择提币类型:</span>
-							<span class="popover_click">请选择 </span>
-							<img src="__PUBLIC__/images/xia.png" class="down">
-							<ul class="ul_box popover_ul">
-								<!-- <li data-index="0">请选择</li> -->
-								<li data-index="1" onclick="getAll(1)">本金</li>
-								<li data-index="2">收益</li>
-								<li data-index="3">分红</li>
-							</ul>
+							<div class="popover-boxx">	
+							
+								<div class="popover_box clearfix">
+										<input type="hidden" name="uid" id="uid" value="{$uid}">
+										<input type="hidden" name="cu_id" id="cu_id" value="">
+										<!-- 本金 -->
+										<input type="hidden" name="cu_num" id="cu_num" value="">
+										<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
+										<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
+										<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
+										<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
+										<input type="hidden" name="sms_type" id="sms_type" value="">
+										<input type="hidden" name="verify" id="verify" value="">						
+									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" /><br />
+									<input id="popover_convert" name="popover_convert" type="hidden" readonly  />
+								</div>
+								<!--000-->
+								<div class="popover_box clearfix">
+									<!-- '创建一个image对象'，给canvas绘制使用 -->
+									<canvas id="canvas" style="display: none;"></canvas>
+									<div class="imageEchoBox">
+										<span class="tipsText" style="font-size: 0.2rem !important;">请点击“选择图片”上传二维码。</span>
+										<!--回显的图片-->
+										<img class="preViewImg" style="display: none;" src="" onerror="javascript:this.src='__PUBLIC__/plugins/layui/images/loading-2.gif'"/>
+										<!--上传图片 tyle='file'-->
+										<a class="uploadFile2" href=" ">选择图片</a>
+										<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id="" value="1" accept="image/*"  />
+					
+									</div>
+								</div>
+
+								<div class="popover_box clearfix">
+									<div class="lj_p_address">
+										<h2> 地址:</h2><input type="text" name="wallet_addr" id="wallet_addr" value=""  />
+									</div>
+									<div class="lj_p_address">
+										<h2>备注:</h2><input class="lj_input2" type="text" name="note"  />
+									</div>
+									<div class="lj_p_address">
+										<h2>验证码:</h2>
+										<input class="lj_input3" type="text" name="note"  />
+										<button class="btn" onclick="phonecode('{$phone}')">获取验证码</button>
+									</div>
+									
+											
+									
+								</div>
+								<!--000-->
+								<div class="payment_cont_wz">
+									<p>*请仔细检查提币钱包地址，如填写钱包地址错误导致提现未到账，公司将不承担此次损失</p>
+								</div>
+								
+								<div class="popover_affirm">
+									<span class="true">提取</span>
+									<span class="false">取消</span>
+								</div>
+							</div>
+							</form>
 						</div>
-
-						<div class="popover-boxx">
-
-							<div class="popover_box clearfix">
-								<input type="hidden" name="uid" id="uid" value="{$uid}">
-								<input type="hidden" name="cu_id" id="cu_id" value="">
-								<!-- 本金 -->
-								<input type="hidden" name="cu_num" id="cu_num" value="">
-								<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
-								<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
-								<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
-								<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
-								<input type="hidden" name="sms_type" id="sms_type" value="">
-								<input type="hidden" name="verify" id="verify" value="">
-								<span>提取数量:</span> <input id="popover_num" name="number" type="number"
-									placeholder="请选择提币类型" value="" /><br />
-								<input id="popover_convert" name="popover_convert" type="hidden" readonly />
-							</div>
-							<!--000-->
-							<div class="popover_box clearfix">
-								<!-- '创建一个image对象'，给canvas绘制使用 -->
-								<canvas id="canvas" style="display: none;"></canvas>
-								<div class="imageEchoBox">
-									<span class="tipsText" style="font-size: 0.2rem !important;">请点击“选择图片”上传二维码。</span>
-									<!--回显的图片-->
-									<img class="preViewImg" style="display: none;" src=""
-										onerror="javascript:this.src='__PUBLIC__/plugins/layui/images/loading-2.gif'" />
-									<!--上传图片 tyle='file'-->
-									<a class="uploadFile2" href=" ">选择图片</a>
-									<input class="uploadFile" type="file" onchange="UpLoad(this,1)" name="file" id=""
-										value="1" accept="image/*" />
-								</div>
-							</div>
-
-							<div class="popover_box clearfix">
-								<div class="lj_p_address">
-									<h2> 地址:</h2><input type="text" name="wallet_addr" id="wallet_addr" value="" />
-								</div>
-								<div class="lj_p_address">
-									<h2>备注:</h2><input class="lj_input2" type="text" name="note" />
-								</div>
-								<div class="lj_p_address">
-									<h2>验证码:</h2>
-									<input class="lj_input3" type="text" name="verify" />
-									<button class="btn" onclick="phonecode('{$phone}')">获取验证码</button>
-								</div>
-							</div>
-							<!--000-->
-							<div class="payment_cont_wz">
-								<p>*请仔细检查提币钱包地址，如填写钱包地址错误导致提现未到账，公司将不承担此次损失</p>
-							</div>
-
-							<div class="popover_affirm">
-								<span class="true">提取</span>
-								<span class="false">取消</span>
-							</div>
+					</div>
+				<!-- 提取弹框-e -->
+				<!-- 确认弹框-s -->
+				<div class="true_popUp_wrap">
+					<div class="true_popUp">
+						<!-- 弹框标题 -->
+						<div class="popUp_titel">
+							提币成功
 						</div>
-					</form>
-				</div>
-			</div>
-			<!-- 提取弹框-e -->
-			<!-- 确认弹框-s -->
-			<div class="true_popUp_wrap">
-				<div class="true_popUp">
-					<!-- 弹框标题 -->
-					<div class="popUp_titel">
-						提币成功
-					</div>
-					<!-- 弹框内容 -->
-					<div class="popUp_content">
-						<!-- 内容标题 -->
-						<h1>交易明细</h1>
-						<!-- 内容主体 -->
-						<p>
-							<span>用户名</span>
-							<span class="user"></span>
-						</p>
-						<p>
-							<span>提币额度</span>
-							<span class="total" style="margin-left: 3.76rem;"></span>
-							<span><img class="su_img" style="widows: 0.5rem;height:0.5rem;" src="" alt="币"></span>
-						</p>
-
-						<p>
-							<span>手续费</span>
-							<span class="charge"></span>
-						</p>
-						<p>
-							<span>日期</span>
-							<span class="time"></span>
-						</p>
-					</div>
-					<!-- 弹框按钮 -->
-					<div class="popUp_btn">
-						确认
+						<!-- 弹框内容 -->
+						<div class="popUp_content">
+							<!-- 内容标题 -->
+							<h1>交易明细</h1>
+							<!-- 内容主体 -->
+							<p>
+								<span>用户名</span>
+								<span class="user"></span>
+							</p>
+							<p>
+								<span>提币额度</span>
+								<span class="total">
+									
+								</span>
+							</p>
+							<p>
+								<span>手续费</span>
+								<span class="charge"></span>
+							</p>
+							<p>
+								<span>日期</span>
+								<span class="time"></span>
+							</p>
+						</div>
+						<!-- 弹框按钮 -->
+						<div class="popUp_btn">
+							确认
+						</div>
 					</div>
 				</div>
-			</div>
 			<!-- 确认弹框-e -->
-			<!-- 复投弹框-s -->
-			<div class="voting">
-				<div class="voting_content">
-					<form class="form-horizontal" id="handleposition1" method="post" onsubmit="return false;">
-						<div class="voting_box clearfix">
-							<span>请选择投入类型:</span>
-							<span class="voting_click">请选择 </span>
-							<img src="__PUBLIC__/images/xia.png" class="down">
-							<ul class="ul_box voting_ul">
-								<li data-val="120">收益</li>
-								<li data-val="121">分红</li>
-
-							</ul>
-						</div>
-						<div class="popover-boxx">
+				<!-- 复投弹框-s -->
+				<div class="voting">
+					<div class="voting_content">
+						<form class="form-horizontal" id="handleposition1" method="post" onsubmit="return false;">
+							<div class="voting_box clearfix">
+									<span>请选择投入类型:</span>
+									<span class="voting_click">请选择  </span>
+									<img src="__PUBLIC__/images/xia.png" class="down">
+									<ul class="ul_box voting_ul">
+										<li data-val="120">收益</li>
+										<li data-val="121">分红</li>
+									
+									</ul>
+							</div>
+					        <div class="popover-boxx">
 							<div class="voting_box vo_mg clearfix">
-								<input type="hidden" name="uid" id="uid" value="{$uid}">
-								<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
-								<!-- 本金 -->
+									<input type="hidden" name="uid" id="uid" value="{$uid}">
+									<input type="hidden" name="cu_id" id="cu_id" class="cu_id" value="">
+									<!-- 本金 -->
 
-								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number" /><br />
+								<span>复投数量:</span> <input id="cu_num" name="cu_num" type="number"/><br />
 							</div>
 							<!--000-->
-
+							
 							<div class="voting_box clearfix">
-
+							
 								<div class="lj_p_address">
 									<h2 class="h2_input4">验证码:</h2>
-									<input class="lj_input4" type="text" name="verify" />
-									<img id="captcha" src="{:url('index/captcha')}"
-										onclick="this.src='{:url('index/captcha')}?'+Math.random();" alt="captcha" />
+									<input class="lj_input4" type="text" name="verify"  />
+									<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" />
 								</div>
 
-
-
+									
+									 
 							</div>
 							<div class="voting_verify">
-								<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
+									<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
 								<!-- <button class="btn">验证码</button> -->
 								<div class="voting_affirm">
 									<span class="retrue">复投</span>
 									<span class="false">取消</span>
 								</div>
 							</div>
-
+							
 							<!--000-->
-
-					</form>
-					<input type="hidden" name="cu_id" value="" id="getAll_id"/>
+	
+						</form>
+					</div>
 				</div>
-			</div>
 			<!-- 复投弹框-e -->
+			</div>
+
 		</div>
+		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__PUBLIC__/js/public/base.js"></script>
+		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
+		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
-	</div>
-	<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
-	<script src="__PUBLIC__/js/public/base.js"></script>
-	<script src="__PUBLIC__/js/public/publicAlert.js"></script>
-	<script src="__PUBLIC__/plugins/layui/layui.js"></script>
+		<script>
+			// function phonecode(phoneS){
+			// 	        // var phone= {$phone}
+			// 			// 获取验证码
+			// 			// console.log(phoneS)
+			// 			// return false;
+			// 			var a = '13612560591';
+			// 			$.ajax({
+			// 				url: '/index/index/getPhoneVerify',
+			// 				type: 'post',
+			// 				dataType: 'json',
+			// 				data: {phone:phoneS, sms_type:2},
+			// 				success:function(msg){
+			// 				// console.log(msg);
+            //                 // $('#sms_type').val(1);
+			// 				// $('#verify').val(msg.code);
+			// 				if(msg.code!=0){
+			// 				layer.msg('已发送');
+			// 				}else{
+			// 				layer.msg(msg.msg);
+			// 				return false;
+			// 				}
+			// 			}
+			// 			});
+			// }
 
-	<script>
-		function phonecode(phoneS) {
-			var phone = { $phone };
-			var flag = true;
-			// 获取验证码
-			$.ajax({
-				url: '/index/index/getPhoneVerify',
-				type: 'post',
-				dataType: 'json',
-				data: { phone: phone, sms_type: 2 },
-				success: function (msg) {
-					if (msg.code == 0) {
-						var flag = false;
-						layer.msg(msg.msg);
-						return false;
+
+			//复投按钮
+			function voting(uid,cu_id){
+				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
+				$.ajax({
+					type: "POST",
+					url: url,
+					dataType: "json",
+					error: function () {
+							alert('操作失败');
+					},
+					success: function (data) {
+						if (data.status == 1) {
+								// $('#popover_convert').val(data.result);
+								// alert(data['result']['cu_id'])
+								$('.cu_id').val(data['result']['cu_id']);
+								// $('.cu_num').val(data['result']['cu_num']);
+								$('.bonus_wallet1').val(data['result']['bonus_wallet']);
+								// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
+								$('.rate_wallet1').val(data['result']['rate_wallet']);
+								console.log(data['result']['rate_wallet']);
+								// $('#wallet_addr').val(data['result']['wallet_addr']);								
+								$('.voting').show()
+						} else {
+								alert(data.msg); 
+						}
 					}
-				}
-			});
-			if (flag) {
-				layer.msg('已发送');
+				});	 				
 			}
-		}
+			
+			$(function(){
+               //提取按钮
+				$(".popover_click,.down").click(function(){
+					$(".popover_ul").slideToggle("slow");
+				});
+				//复投按钮
+				$(".voting_click,.down").click(function(){
+					$(".voting_ul").slideToggle("slow");
+				});
 
-		//复投按钮
-		function voting(uid, cu_id) {
+                //收回类型下拉
+				$(".popover-boxx").click(function(){
+					$(".ul_box").slideUp();
+				});
+				
+               //提取下拉框-类型 
+				$(".popover_ul>li").click(function(){
+				    
+					var $li = $(this).html();
+					var index =$(this).attr("data-index")
+					$(".popover_box>.popover_ul").slideToggle()
+					$(".popover_click").html($li)
+					$(".popover_click").attr("data-id",index)
 
-			var url = '/index/Index/ajaxsend/uid/' + uid + '/cu_id/' + cu_id;
+                    if(index==1){
+                        //   var a = $('#popover_num').val();
+						  $('#popover_num').attr('placeholder','本金提币不限额')	  
+					}else{
+						  $('#popover_num').attr('placeholder','大于等于{$withdraw_min}美金可提取')	  
+					}					
+				})
+				 //复投下拉框-类型 
+				$(".voting_ul>li").click(function(){
+					var $li = $(this).html();
+					var index =$(this).attr("data-val")
+					$(".voting_box>.voting_ul").slideToggle()
+					$(".voting_click").html($li)
+					$(".voting_click").attr("data-id",index)
+			})
+			 //获取验证码
+			 $(".btn").click(function(){
+				daojishi(60,$(this))
+				// $(".ul_box").slideUp()
+			})
+			function daojishi(seconds,obj){
+				if (seconds > 1){
+						seconds--;
+						$(obj).html(seconds+"重新获取 ").attr("disabled", true);
+						setTimeout(function(){
+							daojishi(seconds,obj);
+						},1000);
+					}else{
+						$(obj).html("获取验证码").attr("disabled", false);//启用按
+					}
+			}
+			})
+            // 提取按钮
+			function send(uid,cu_id){
+				var url = '/index/Index/ajaxsend/uid/'+uid+'/cu_id/'+cu_id;
+				$.ajax({
+					type: "POST",
+					url: url,
+					dataType: "json",
+					error: function () {
+							alert('操作失败');
+					},
+					success: function (data) {
+						if (data.status == 1) {
+								// $('#popover_convert').val(data.result);
+								$('#cu_id').val(data['result']['cu_id']);
+								$('#cu_num').val(data['result']['cu_num']);
+								$('#bonus_wallet').val(data['result']['bonus_wallet']);
+								// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
+								$('#rate_wallet').val(data['result']['rate_wallet']);
+								$('#wallet_addr').val(data['result']['wallet_addr']);								
+								$('.popover').show();
+						} else {
+								alert(data.msg); 
+						}
+					}
+				});	                
+			}
+
+			$(document).ready(function() {
+				//阻止事件冒泡
+				$('.popover_content,.voting_content').click(function(e) {
+					e.stopPropagation();
+				});
+				//弹框确认
+				$('.true').click(function() {
+					$('.popover').hide();
+					$('.voting').hide();
+					
+				});
+				//弹框取消
+				$('.false').click(function() {
+					// $('.popover').hide();
+					// $('.voting').hide();
+					window.location.reload(); 
+				});
+				//确认弹框按钮
+				$('.popUp_btn').click(function(){
+					$('.true_popUp_wrap').hide();
+					window.location.reload(); 
+				})
+				//点击背景隐藏and提取按钮清空提取金额的值
+				$('.popover,.popover_affirm').click(function() {
+					$(".popover").hide();
+					$('#popover_num').val("");
+					$(".lj_input2").val("");
+					$(".lj_input3").val("");
+					$('#popover_convert').val("");
+					$(".preViewImg").attr("src","/public//plugins/layui/images/loading-2.gif").hide();
+					$(".tipsText").show();
+				})
+				//点击复投按钮清空提取金额的值
+				$('.voting,.voting_affirm').click(function() {
+					$(".voting").hide();
+					$('#voting_num').val("");
+					$(".lj_input3").val("");
+				})
+				//点击下拉列表
+				$(".list_tacitly").click(function(){
+			  		$(this).next().slideToggle(500)
+					$(this).parent().siblings(".currency_list").children(".pull_down_content").slideUp(500)
+					if(!$(this).find(".pull_down").hasClass("up")){
+						$(".pull_down").removeClass("up")
+						$(this).find(".pull_down").addClass("up")
+					}else{
+						$(this).find(".pull_down").removeClass("up")
+					}
+				})
+			});
+
+		function exchange(obj){
+			var val=$(obj).val();
+			var cu_id=$('#cu_id').val();
+			var a = "{:url('Index/exchange')}"
+			var url = '/index/Index/exchange/val/'+val+'/cu_id/'+cu_id;
 			$.ajax({
 				type: "POST",
 				url: url,
 				dataType: "json",
 				error: function () {
-					layer.msg(data.msg);
-				},
+                		alert('操作失败');
+            	},
 				success: function (data) {
 					if (data.status == 1) {
-						// $('#popover_convert').val(data.result);
-						// alert(data['result']['cu_id'])
-						$('.cu_id').val(data['result']['cu_id']);
-						// $('.cu_num').val(data['result']['cu_num']);
-						$('.bonus_wallet1').val(data['result']['bonus_wallet']);
-						// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
-						$('.rate_wallet1').val(data['result']['rate_wallet']);
-						//console.log(data['result']['rate_wallet']);
-						// $('#wallet_addr').val(data['result']['wallet_addr']);								
-						$('.voting').show()
+							$('#popover_convert').val(data.result);
 					} else {
-						layer.msg(data.msg);
+							alert(data.msg); 
 					}
 				}
-			});
-		}
+			});			
+		}	
 
-		$(function () {
-			//提取按钮
-			$(".popover_click,.down").click(function () {
-				$(".popover_ul").slideToggle("slow");
-			});
-			//复投按钮
-			$(".voting_click,.down").click(function () {
-				$(".voting_ul").slideToggle("slow");
-			});
-
-			//收回类型下拉
-			$(".popover-boxx").click(function () {
-				$(".ul_box").slideUp();
-			});
-
-			//提取下拉框-类型 
-			$(".popover_ul>li").click(function () {
-
-				var $li = $(this).html();
-				var index = $(this).attr("data-index")
-				$(".popover_box>.popover_ul").slideToggle()
-				$(".popover_click").html($li)
-				$(".popover_click").attr("data-id", index)
-
-				if (index == 1) {
-					$("#popover_num").attr("disabled", "disabled");
-					// $('#popover_num').attr('placeholder','本金提币终止合同')	  
-				} else if (index == 2) {
-					$('#popover_num').val('');
-					$("#popover_num").removeAttr("disabled");
-					$('#popover_num').attr('placeholder', '大于等于{$withdraw_min}美金可提取')
-				} else {
-                    $('#popover_num').attr('placeholder', '大于等于{$global_min}美金可提取')
-				}
-			})
-			//复投下拉框-类型 
-			$(".voting_ul>li").click(function () {
-				var $li = $(this).html();
-				var index = $(this).attr("data-val")
-				$(".voting_box>.voting_ul").slideToggle()
-				$(".voting_click").html($li)
-				$(".voting_click").attr("data-id", index)
-			})
-			//获取验证码
-			$(".btn").click(function () {
-				daojishi(60, $(this));
-				// $(".ul_box").slideUp()
-			})
-			function daojishi(seconds, obj) {
-				if (seconds > 1) {
-					seconds--;
-					$(obj).html(seconds + "重新获取 ").attr("disabled", true);
-					setTimeout(function () {
-						daojishi(seconds, obj);
-
-					}, 1000);
-				} else {
-					$(obj).html("获取验证码").attr("disabled", false);//启用按
-				}
-			}
-		})
-		// 提取按钮
-		function send(uid, cu_id) {
-			$.ajax({
-				url: '/index/index/ajaxsend',
-				type: 'post',
-				dataType: 'json',
-				data: { uid: uid, cu_id: cu_id },
-				success: function (data) {
-					if (data.status == 1) {
-						// $('#popover_convert').val(data.result);
-						$('#cu_id').val(data['result']['cu_id']);
-						$('#cu_num').val(data['result']['cu_num']);
-						$('#bonus_wallet').val(data['result']['bonus_wallet']);
-						// $('#dynamic_wallet').val(data['result']['dynamic_wallet']);
-						$('#getAll_id').val(data['result']['cu_id']); // 币种id 
-
-						$('#rate_wallet').val(data['result']['rate_wallet']);
-						$('#wallet_addr').val(data['result']['wallet_addr']);
-						$('.popover').show();
-					} else {
-						layer.msg(data.msg);
-					}
-				}
-			});
-		}
-
-		$(document).ready(function () {
-			//阻止事件冒泡
-			$('.popover_content,.voting_content').click(function (e) {
-				e.stopPropagation();
-			});
-			//弹框确认
-			// $('.true').click(function() {
-			// 	$('.popover').hide();
-			// 	$('.voting').hide();
-
-			// });
-			//弹框取消
-			$('.false').click(function () {
-				// $('.popover').hide();
-				// $('.voting').hide();
-				window.location.reload();
-			});
-			//确认弹框按钮
-			$('.popUp_btn').click(function () {
-				$('.true_popUp_wrap').hide();
-				window.location.reload();
-			})
-			//点击背景隐藏and提取按钮清空提取金额的值
-			// $('.popover,.popover_affirm').click(function() {
-			// $(".popover").hide();
-			// $('#popover_num').val("");
-			// $(".lj_input2").val("");
-			// $(".lj_input3").val("");
-			// $('#popover_convert').val("");
-			// $(".preViewImg").attr("src","/public/plugins/layui/images/loading-2.gif").hide();
-			// $(".tipsText").show();
-			// })
-			//点击复投按钮清空提取金额的值
-			// $('.voting,.voting_affirm').click(function() {
-			// 	$(".voting").hide();
-			// 	$('#voting_num').val("");
-			// 	$(".lj_input3").val("");
-			// })
-			//点击下拉列表
-			$(".list_tacitly").click(function () {
-				$(this).next().slideToggle(500)
-				$(this).parent().siblings(".currency_list").children(".pull_down_content").slideUp(500)
-				if (!$(this).find(".pull_down").hasClass("up")) {
-					$(".pull_down").removeClass("up")
-					$(this).find(".pull_down").addClass("up")
-				} else {
-					$(this).find(".pull_down").removeClass("up")
-				}
-			})
-		});
-
-		function exchange(obj) {
-			var val = $(obj).val();
-			var cu_id = $('#cu_id').val();
-			var a = "{:url('Index/exchange')}"
-			var url = '/index/Index/exchange/val/' + val + '/cu_id/' + cu_id;
-			$.ajax({
-				type: "POST",
-				url: url,
-				dataType: "json",
-				success: function (data) {
-					if (data.status == 1) {
-						$('#popover_convert').val(data.result);
-					} else {
-						alert(data.msg);
-					}
-				}
-			});
-		};
-
-		// // 取消input不可编辑
-		// function getRm(){
-		// 	$("#popover_num").removeAttr("disabled");
-		// }
-
-		// 获取当前币种全部本金
-		function getAll(msg) {
-			var cu_id = $('#getAll_id').val();
-			var uid = $('#uid').val();
-			$.ajax({
-				url: '/index/index/getAllnum',
-				type: 'post',
-				dataType: 'json',
-				data: { cu_id: cu_id, uid: uid },
-				success: function (msg) {
-					console.log(msg);
-					$('#popover_num').val(msg.cu_num);
-					layer.alert('您确认终止合同吗?', { closeBtn: 1 });
-				}
-			});
-
-			return false;
-		}
-
-		var btn_true = true;
-		// 提币
-		layui.use(['layer', 'jquery', 'form'], function () {
+		layui.use(['layer','jquery','form'],function(){
 			var layer = layui.layer
-				, form = layui.form
-				, jq = layui.jquery;
-
-			jq('.true').click(function () {
-
-				if (btn_true) {
-
-					var verify = $('.lj_input3').val();
-					var val = $(".popover_click").attr("data-id")
-					var val1 = $(".voting_click").attr("data-id")
+			, form = layui.form
+			,jq = layui.jquery;
+			jq('.true').click(function(){	 
+				    var verify = $('.lj_input3').val(); 
+				    var val = $(".popover_click").attr("data-id") 
+					var val1 = $(".voting_click").attr("data-id") 
+					// console.log($('#handleposition').serialize())
 					var url = "{:url('Index/pick')}";
+					var datas =  $('#handleposition').serialize()+'&type='+val+'&verify='+verify+'&sms_type='+2;
+					jq.getJSON(url,datas,function(data){						
+							if (data.status == 1) {
+									// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
+										console.log(data.result)	
+										$(".user").html(data.result['suc_name']);
+										$(".total").html(data.result['su_num']);
+										$(".charge").html(data.result['su_charge']);
+										$(".time").html(data.result['su_time']);
+										// $(".su_img").attr("src",'uploads/20190315/0df1db2c2ee20754aec90be97791bb54.jpg');
+										// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
+										$('.true_popUp_wrap').show();
+										
+										// console.log(Date('Y-m-d,H-s-i',data.result['su_time']))					
+									// window.location.reload(); 
+								// });
+							}
+							else {
+									// layer.msg(data.msg, {icon: 2, anim: 0, time: 2000});
+									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+									// window.location.reload(); 
+									});
+										// window.location.reload(); 
+							}
+						});
 
-					var num = $('#popover_num').val();
-					var addr = $("#wallet_addr").val();
-					var check_code = $(".lj_input3").val();
-					if (!val) {
-						layer.msg('请选择提币类型');
-						return false;
-					}
-					if (!num) {
-						layer.msg('请输入数量');
-						return false;
-					}
-					if (!addr) {
-						layer.msg('请填写地址');
-						return false;
-					}
-					if (!check_code) {
-						layer.msg('请输入验证码');
-						return false;
-					}
-					var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
-					jq.getJSON(url, datas, function (data) {
-						if (data.status == 1) {
-							btn_true = false;
-							// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
-							console.log(data.result)
-							$(".user").html(data.result['suc_name']);
-							$(".total").html(data.result['su_num']);
-							$(".charge").html(data.result['su_charge']);
-							$(".time").html(data.result['su_time']);
-							// $(".img").html(data.result['su_log']);
-							var su_img = "/" + data.result['su_log'];
-							console.log(su_img);
-							$(".su_img").attr("src", su_img);
-							// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
-							$(".popover").hide();
-							$('.true_popUp_wrap').show();
-						} else {
-							btn_true = true;
-							layer.msg(data.msg);
+
+			});
+
+			jq('.retrue').click(function(){	 
+				     
+					//  var val = $(".popover_click").attr("data-id") 
+					 var val1 = $(".voting_click").attr("data-id") 
+					//  console.log(val)
+					//  console.log(val1)
+					 // console.log($('#handleposition').serialize())
+					//  var url = "{:url('/index/wallet/confirmInvest')}";
+						var url = "{:url('/index/wallet/confirmInvest')}";
+					 var datas =  $('#handleposition1').serialize()+'&wallet_flag='+val1+'&pay_way='+2;
+
+					 $.ajax({
+						type: "POST",
+						url: url,
+						data:datas,
+						dataType: "json",
+						// error: function () {
+						// 		alert('操作失败');
+						// },
+						success: function (data) {
+							if (data.code == 200) {
+									 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
+									 window.location.reload(); 
+								 });
+														 
+							 }
+							 else{	 
+									layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+									 	window.location.reload(); 
+									});
+							 }
 						}
 					});
-				} else {
-					layer.msg('操作异常,稍后再试');
-				}
-
-			});
-
-			// 复投
-			jq('.retrue').click(function () {
-				var val1 = $(".voting_click").attr("data-id")
-				var url = "{:url('/index/wallet/confirmInvest')}";
-				var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
-				//  console.log(datas); 
-
-				if (val1 == undefined) {
-					layer.msg('请选择投入类型');
-					return false;
-				}
-				console.log(val1)
-				console.log(url)
-				console.log(datas)
 
 
-
-				$.ajax({
-					type: "POST",
-					url: url,
-					data: datas,
-					dataType: "json",
-					success: function (data) {
-						console.log(data)
-						if (data.code == 200) {
-							layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
-								 window.location.reload(); 
-							});
-
-						}
-						else {
-							layer.msg(data.msg, { icon: 2, time: 2000 }, function () {
-								window.location.reload(); 
-							});
-							$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
-						}
-					}
-
-				});
-			});
+					//  jq.getJSON(url,datas,function(data){						
+					// 		 if (data.status == 200) {
+					// 				 layer.msg(data.msg, {icon: 1, time: 2000}, function(){					
+					// 				 window.location.reload(); 
+					// 			 });
+														 
+					// 		 }
+					// 		 else{	 
+					// 				layer.msg(data.msg, {icon: 2, time: 2000}, function(){					
+					// 				 	window.location.reload(); 
+					// 				});
+					// 		 }
+					// 	 });
+ 
+ 
+			 });
 
 
 			// jq('.false').click(function(){	  
 			// 	window.location.reload();
 			// });		
-			$(document).on("keyup", '#popover_num', function () {
-				var val = $(this).val();
-				var cu_id = $('#cu_id').val();
+			$(document).on("keyup",'#popover_num',function(){
+				var val=$(this).val();
+				var cu_id=$('#cu_id').val();
 				var a = "{:url('Index/exchange')}"
-				var url = '/index/Index/exchange/val/' + val + '/cu_id/' + cu_id;
+				var url = '/index/Index/exchange/val/'+val+'/cu_id/'+cu_id;
 				$.ajax({
 					type: "POST",
 					url: url,
 					dataType: "json",
+					// error: function () {
+					// 	layer.msg('请填写提币数量', {icon: 2, time: 2000}, function(){					
+					// 			window.location.reload(); 
+					// 	});
+					// },
 					success: function (data) {
 						if (data.status == 1) {
-							$('#popover_rmb').val(data.result['rmb']);
-							$('#popover_convert').val(data.result['usd']);
+								$('#popover_rmb').val(data.result['rmb']);
+								$('#popover_convert').val(data.result['usd']);
 						} else {
-							layer.msg("操作失败", { icon: 2, time: 2000 }, function () {
-								window.location.reload();
-							});
+							layer.msg("操作失败", {icon: 2, time: 2000}, function(){					
+								window.location.reload(); 
+							}); 
 						}
 					}
 				});
-			})
-		});
+        	})	
+		});		
 
-		/*000*/
-		/*上传图片*/
-		function UpLoad(e) {
-			console.log(444);
-			/*保存 点击对应的this*/
-			var that = $(e);
-			if (e.files[0]) {
-				/* 出现加载图片，加载图片是回显图片的位置 */
-				that.siblings(".preViewImg").show();
-				/* 提示文字，隐藏 */
-				that.siblings(".tipsText").hide();
-				/*file上传图片*/
-				var f = e.files[0];
-				fileType = f.type;
-				if (/image\/\w+/.test(fileType)) {
-					var fileReader = new FileReader();
-					fileReader.readAsDataURL(f);
-					fileReader.onload = function (event) {
-						var result = event.target.result; //返回的dataURL 
-						// console.log(result);  
-						var image = new Image();
-						image.src = result;
-						console.log(2222)
-						//若图片大小大于1M，压缩后再上传，否则直接上传  
-						if (f.size > 1024 * 1024) {
-							image.onload = function () {
-								//创建一个image对象，给canvas绘制使用
-								var canvas = document.getElementById("canvas");
-								canvas.width = image.width;
-								canvas.height = image.height; //计算等比缩小后图片宽高   
-								var ctx = canvas.getContext('2d');
-								ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-								var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
-								/* 图片 回显*/
-								// that.siblings(".preViewImg").attr("src", newImageData);
-								console.log(newImageData);
+/*000*/
+			/*上传图片*/
+			function UpLoad(e) {
+				console.log(444);
+				/*保存 点击对应的this*/
+				var that = $(e);
+				if(e.files[0]) {
+					/* 出现加载图片，加载图片是回显图片的位置 */
+					that.siblings(".preViewImg").show();
+					/* 提示文字，隐藏 */
+					that.siblings(".tipsText").hide();
+					/*file上传图片*/
+					var f = e.files[0];
+					fileType = f.type;
+					if(/image\/\w+/.test(fileType)) {
+						var fileReader = new FileReader();
+						fileReader.readAsDataURL(f);
+						fileReader.onload = function(event) {
+							var result = event.target.result; //返回的dataURL 
+							// console.log(result);  
+							var image = new Image();
+							image.src = result;
+							console.log(2222)
+							//若图片大小大于1M，压缩后再上传，否则直接上传  
+							if(f.size > 1024 * 1024) {
+								image.onload = function() {
+									//创建一个image对象，给canvas绘制使用
+									var canvas = document.getElementById("canvas");
+									canvas.width = image.width;
+									canvas.height = image.height; //计算等比缩小后图片宽高   
+									var ctx = canvas.getContext('2d');
+									ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
+									/* 图片 回显*/
+									// that.siblings(".preViewImg").attr("src", newImageData);
+									console.log(newImageData);
 
-								$("#canvas").hide();
-							}
-						} else {
-							//创建一个image对象，给canvas绘制使用 
-							image.onload = function () {
-								/*图片 回显 */
-								$.ajax({
-									url: '/index/index/upload',
-									type: 'post',
-									dataType: 'json',
-									data: { dataImg: image.src },
-									success: function (msg) {
-										if (msg.code == 200) {
-											$('#qrcode_addr').val(msg.imgUrl);
-											$('.text').html('成功');
-											// console.log(msg);
-											layer.msg(msg.msg)
-										} else {
-											$('.text').html('失败');
-											layer.msg(msg.msg)
-											return false;
-										}
-									}
-								});
-								/*ajax=> 回显图片*/
-								that.siblings(".preViewImg").attr("src", result);
-							}
+									$("#canvas").hide();
+								}
+							} else {
+								//创建一个image对象，给canvas绘制使用 
+								image.onload = function() {
+									/*图片 回显 */
+									    $.ajax({
+							              url: '/index/index/upload',
+							              type: 'post',
+							              dataType: 'json',
+							              data: {dataImg:image.src},
+							              success:function(msg){
+							                if(msg.code==200){
+							                  $('#qrcode_addr').val(msg.imgUrl);
+							                  $('.text').html('成功');
+							                  // console.log(msg);
+							                  layer.msg(msg.msg)
+							                }else{
+							                  $('.text').html('失败');
+							                  layer.msg(msg.msg)
+							                  return false;
+							                }
+							              }
+							            });							
+							/*ajax=> 回显图片*/
+							that.siblings(".preViewImg").attr("src", result);
+								}
+							}				
+							/*ajax=> 回显图片*/
+							// that.siblings(".preViewImg").attr("src", result);
+
+							
 						}
-						/*ajax=> 回显图片*/
-						// that.siblings(".preViewImg").attr("src", result);
-
-
+					} else {
+						alert("请选择图片");
 					}
+
 				} else {
-					alert("请选择图片");
+					console.log('取消选择图片！');
 				}
-
-			} else {
-				console.log('取消选择图片！');
 			}
-		}
+			
+			/* 确认 */
+			$('.popover_affirm .true').on('click', function() {
+				/*存储，base64*/
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
 
-		//			input标签获取焦点
-		$('#wallet_addr').focus(function (e) {
-			document.querySelector('#inputId').scrollIntoView();
-			console.log("ccc")
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	$('.popover').hide();
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
+				$('.popover').hide();
+			})
+			/*000*/
 
-		});
-	</script>
-</body>
+		</script>
+	</body>
 
 </html>
