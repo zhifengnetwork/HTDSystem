@@ -558,13 +558,14 @@ input::-webkit-inner-spin-button {
 	margin-right: .2rem;
 }
 .payment_active{
-	display:inline-block;
-	width: .3rem;
-	height: .3rem;
-	background: #4080ff;
-	border-radius: 50%;
+	display: inline-block;
+	width: 0.35rem;
+	height: .35rem;
 	vertical-align: middle;
-	margin-top: 1px;
+	background: url(../../images/wallet/zjy_clie.png)no-repeat;
+	background-size: contain;
+	background-position: 1px 1px;
+
 }
 .payment .payment_ul{
 	margin: 0 0 3%;
