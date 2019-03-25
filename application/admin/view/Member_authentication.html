@@ -15,7 +15,7 @@
             <tbody>
             {foreach name="list" item="vo"}
             <tr>
-                <td>{$key+1}</td>
+                <td>{$vo.id}</td>
                 <td>{$vo.mobile}--{$vo.username}</td>
                 <td><img src="__ADMIN__/images/3.png" style="width:100px; height: 100px;"></td>
                 <td><img src="{$vo.idcard_url}" style="width:100px; height: 100px;"></td>

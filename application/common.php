@@ -2119,7 +2119,7 @@ function isEnjoyUser($uid='', $cu_id=''){
         return false;
     }
     $where['uid'] = $uid;
-    $where['cu_id'] = $cu_id;
+    // $where['cu_id'] = $cu_id;
     $where['is_check'] = 1; // 后台审核有效订单
     $orderMoney = '';
     $orderMoney = Db::name('buy_order')->where($where)->sum('total_money');
@@ -2224,15 +2224,18 @@ function getPhoneCode($data){
     }
     // 判断手机号是否合法
     $check_phone = check_mobile_number($data['phone']);
-    // 判断手机号是否存在数据库
-    if($check_phone){
-        $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
-        if(!$is_phone_db){
-            return array('code' => 0, 'msg' => '非法手机号！');
-        }
-    }else{
+    if(!$check_phone){
         return array('code' => 0, 'msg' => '手机号格式不正确');
     }
+    // 判断手机号是否存在数据库
+    // if($check_phone){
+    //     $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
+    //     if(!$is_phone_db){
+    //         return array('code' => 0, 'msg' => '非法手机号！');
+    //     }
+    // }else{
+    //     return array('code' => 0, 'msg' => '手机号格式不正确');
+    // }
     
     $limit_time = 60;// 60秒以内不能重复获取
     $where['phone'] = $data['phone'];

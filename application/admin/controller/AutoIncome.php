@@ -82,24 +82,13 @@ class AutoIncome
 				// 平台币*当前对应币种的价格
 				$platform_coin = $giveIncome*($platform_coin_ratio/100);
 				$platform_coin = $platform_coin*$value['price']/$htd_price['price'];
-
-				// 判断是否存在钱包记录
 			
 				
 				// 开启事务
 				Db::startTrans();
 				try{
 
-					// 判断当前投资币种是否存在钱包表，如果没有插入一条
-					$wallet_is = Db::name('user_wallet')->where(['uid'=>$value['uid'],'cu_id'=>$value['cu_id']])->find();
-					$res11 = true;
-					if(!$wallet_is){
-						$data_in = array(
-							'uid' => $value['uid'],
-							'cu_id' => $value['cu_id']
-						);
-						$res11 = Db::name('user_wallet')->insert($data_in);
-					}
+					
 
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++ 把收益累加到当前用户对应币种钱包+++++ //
@@ -128,7 +117,7 @@ class AutoIncome
 					}
 
 					// 直推上级必须满足以下条件
-					$up_order_money = isEnjoyUser($upUid['pid']); // 获取当前上级是否入单同等币种指定金额
+					$up_order_money = isEnjoyUser($upUid['pid']); // 获取当前上级是否入单指定金额
 					// +++++ 把收益累加到当前用户的直推用户+++++ //
 					if($upUid['pid'] && $up_order_money){
 
@@ -148,6 +137,7 @@ class AutoIncome
 						
 						$whereUp['uid'] = $upUid['pid'];
 						$whereUp['cu_id'] = $value['cu_id']; // 对应币种
+						// $this->byUserWallet($whereUp['uid'],$whereUp['cu_id']); // 生成对应钱包记录
 						$main_coin_res = Db::name('user_wallet')->where($whereUp)->setInc('bonus_wallet', $main_coin_push);
 						// echo Db::name('user_wallet')->getLastSql();die;
 
@@ -184,7 +174,7 @@ class AutoIncome
 						foreach($upAll_arr as $k=>$upId){
 							$push_arr = '';
 							$push_arr = getActivateUser($upId);   // 获取当前用户所有已激活的直推会员(入单)
-							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单同等币种指定金额
+							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单指定金额
 							if(!$push_arr || !$is_order_money){
 								continue; // 不符合获取动态收益条件跳过
 							}
@@ -229,11 +219,11 @@ class AutoIncome
 									$dy_main_coin = $dy_total_income*($main_coin_ratio/100);
 									$dy_platform_coin = $dy_total_income*($platform_coin_ratio/100);
 									$dy_platform_coin = $dy_platform_coin*$value['price']/$htd_price['price'];
-
 								}
 
 								$whereDy['uid'] = $upId;
 								$whereDy['cu_id'] = $value['cu_id']; // 对应币种
+								// $this->byUserWallet($whereDy['uid'],$whereDy['cu_id']); // 生成对应钱包记录
 								// 插入到主流币
 								$dy_main_coin_res = Db::name('user_wallet')->where($whereDy)->setInc('bonus_wallet', $dy_main_coin);
 								// 插入到平台币 cu_id=11
@@ -315,5 +305,22 @@ class AutoIncome
 		);
 		$res2 = Db::name('user_log')->insert($data);
 		return $res2;
+	}
+
+	// 生成钱包记录
+	public function byUserWallet($uid,$cu_id){
+		if(!$uid){
+			return true;
+		}
+		// 判断当前投资币种是否存在钱包表，如果没有插入一条
+		$wallet_is = Db::name('user_wallet')->where(['uid'=>$uid,'cu_id'=>$cu_id])->find();
+		if(!$wallet_is){
+			$data_in = array(
+				'uid' => $uid,
+				'cu_id' => $cu_id
+			);
+			$res11 = Db::name('user_wallet')->insert($data_in);
+		}
+		return true;
 	}
 }
