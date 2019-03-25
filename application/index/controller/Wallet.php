@@ -92,6 +92,10 @@ class Wallet extends HomeBase
         $param = input('post.');
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
+        // htd id=11不可以操作
+        if($cu_id == 11){
+            return json(array('status' => 0, 'msg' => '当前币种不可操作'));
+        }
         // 判断当前用户是否存在
         $user_one = Db::name('user')->where(['id'=>$uid])->find();
         if(!$user_one){
@@ -216,10 +220,10 @@ class Wallet extends HomeBase
                     $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['is_stop'=>0]);  
                 }
 
-                // 入单激活会员
-                if(!$user_one['activation']){
-                    $resUp = Db::name('user')->where(['id'=>$user_one['id']])->update(['activation'=>1]);
-                }
+                // // 入单激活会员
+                // if(!$user_one['activation']){
+                //     $resUp = Db::name('user')->where(['id'=>$user_one['id']])->update(['activation'=>1]);
+                // }
             }
 
             // 提交事务

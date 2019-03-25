@@ -12,8 +12,7 @@ function cu_name($cu_id){
 function user($user_id){
 	$user = Db::name('user')->where('id',$user_id)->field('id,username')->find();
 
-	$name = $user ? $user['id'].'/'.$user['username'] : "用户名不存在";
-
+	$name = $user ?$user['username'] : "用户名不存在";
 	return $name;
 }
 

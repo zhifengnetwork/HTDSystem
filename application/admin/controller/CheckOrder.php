@@ -64,10 +64,11 @@ class CheckOrder extends AdminBase
 				$stock_rights_money = $order['total_money']*3;  // 1:3
 				$res5 = Db::name('user')->where(['id'=>$order['uid']])->setInc('stock_rights', $stock_rights_money);
 				// 修改user表flag
+				// 审核入单激活
 				$user_one = Db::name('user')->where(['id'=>$order['uid']])->find();
-				if($user_one['flag']==0){
-					$where['flag'] = 1;
-					$user_res = Db::name('user')->where(['id'=>$order['uid']])->update($where['flag']);
+				if($user_one['activation']==0){
+					$where['activation'] = 1;
+					$user_res = Db::name('user')->where(['id'=>$order['uid']])->update($where);
 				}
 				// 提交事务
 				Db::commit();   

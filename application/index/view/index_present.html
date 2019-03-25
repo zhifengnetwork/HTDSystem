@@ -62,10 +62,12 @@
 							<p>{$v.rate_wallet}</p>
 						</div>
 						<!-- 提取按钮 -->
+						{if condition="$v.cu_id eq 11"} {else /}
 						<div class="currency_box" data-phone="{$phone}">
 							<a class="currency_btn" onclick="send('{$v.cu_id}')">提取</a>
 							<a class="currency_btn" onclick="voting('{$v.cu_id}')">复投</a>
 						</div>
+						{/if}
 					</div>
 				</div>
 				{/foreach}

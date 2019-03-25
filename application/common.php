@@ -2108,8 +2108,8 @@ function getActivateUser($uid){
     }
     $activateData = '';
     $where['pid'] = $uid;
-    $where['flag'] = ['>=',2]; // 大于等于2的代表下单
-    $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,flag,idcard_url')->where($where)->select();
+    $where['activation'] = 1; // 代表下单
+    $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,activation,flag,idcard_url')->where($where)->select();
     return $activateData;
 }
 

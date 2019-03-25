@@ -23,7 +23,8 @@
                 <tr>
                     <th style="width: 30px;">ID</th>
                     <th>用户名</th>
-                    <th>手机</th>
+                    <th>当前用户上级</th>
+                    <th>用户手机</th>
                     <th>状态</th>
                     <!-- <th>发文免审</th> -->
                     <th>创建时间</th>
@@ -37,6 +38,7 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>{$vo.username}</td>
+                    <td>{$vo.pid|user}</td>
                     <td>{$vo.mobile}</td>
                     <td>{php}echo $vo['status']>=1 ? '启用' : '禁用';{/php}</td>
                     <!-- <td align="center">

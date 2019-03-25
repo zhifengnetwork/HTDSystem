@@ -159,7 +159,7 @@ class AutoIncome
 					$upAll_arr = '';
 					$upAll_arr = getUpMemberIds($value['uid']);
 					// $dy_income_data = []; // 获得动态收益的上级id集
-					// 2、循环上级id获取有效直推人数和当前币种的入单金额是否达到条件
+					// 2、循环上级id获取有效直推人数和入单金额是否达到条件
 					if(!$upAll_arr){
 						$dy_main_coin_res = true;
 						$dy_platform_coin_res = true;
@@ -167,15 +167,17 @@ class AutoIncome
 						$dy_in_log_res2 = true;
 					}
 					if($upAll_arr){
-
+						
 						foreach($upAll_arr as $k=>$upId){
 							$push_arr = '';
 							$push_arr = getActivateUser($upId);   // 获取当前用户所有已激活的直推会员(入单)
 							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单指定金额
+						
 							if(!$push_arr || !$is_order_money){
 								continue; // 不符合获取动态收益条件跳过
 							}
 							$push_num = count($push_arr);
+				
 							// 判断当前上级有效直推人数是否大于等于当前层数，如果大于获得动态收益
 							// 获取后台设置的获得层数设置
 							if($push_num >= $configs['people_num1']['value'] && $k+1 >= $configs['layer1']['value']){
@@ -245,8 +247,12 @@ class AutoIncome
 					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1.'/'.$main_coin_res.'/'.$platform_coin_res.'/'.$in_income_res2.'/'.$in_log_res2.'/'.$order_up_res;die;
 
 					// 提交事务
-					Db::commit();   
+					Db::commit();  
+					echo "<br/>";
+
 					echo '成功处理订单收益\n';
+					echo "<br/>";
+
 				}catch(\Exception $e){
 					// 回滚事务
 					Db::rollback();
@@ -254,6 +260,7 @@ class AutoIncome
 				}
 				$i++;
 			}
+			echo "<br/>";
 			echo $i." ok orders\n";
 			// echo "循环处理完成".$i."次\n";
 			

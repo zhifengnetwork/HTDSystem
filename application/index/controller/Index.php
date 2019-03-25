@@ -149,6 +149,10 @@ class Index extends HomeBase
         $data['type'] = intval($data['type']); // 提币类型
         $sms_type = 2; // 提币验证码类型
         $data['uid'] = session('home.id');
+        // htd id=11不可以操作
+        if($data['cu_id']==11){
+            return json(array('status' => 0, 'msg' => '当前币种不可操作'));
+        }
         if($data['type']>3 || $data['type']<1){
             return json(array('status' => 0, 'msg' => '类型错误..'));
         }
