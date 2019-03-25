@@ -33,7 +33,7 @@ class GlobalProfit
 			}
 			$day_num = $configs['profit_rate']['value']?$configs['profit_rate']['value']:1;
 			// 计算是否到分红时间
-			echo $out_times = $global_one['out_time']+($configs['profit_rate']['value']*3600*24);die;
+			$out_times = $global_one['out_time']+($configs['profit_rate']['value']*3600*24);
 			// 比对上一次分红时间
 			if(time() < $out_times){
 				return 'No Time';
