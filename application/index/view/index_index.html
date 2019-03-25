@@ -131,27 +131,26 @@
                 autoplay: 3000,
                 autoplayDisableOnInteraction: false
             }); 
-           
+            //禁止body滚动
+            $('body').on('touchmove',function(event){event.preventDefault();});
+ 
+            //一个小时弹框
             var alread  //现在的时间  3600000
-            setInterval(function(){
-                console.log(11)
+            function notice(){
                 if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
                     alread=parseInt(sessionStorage.getItem('begin'))
                     var bb = new Date().getTime()   //时间
-                    console.log(alread)
                 }
-                 if(bb-alread>=20000){
-                     console.log(bb-alread>=20000)
+                 if(bb-alread>=3600000){
+                     console.log(bb-alread>=3600000)
                     $(".mode").show();
                     $(".dialog-notice").show();
                     document.body.style.overflow = 'hidden';
                     window.sessionStorage.clear()
-                    
-                    console.log(sessionStorage.getItem('begin'))
                     alread = 0
-                    console.log(alread)
                 }
-            },1000)
+            }
+
             // //公告弹框 
             // setTimeout(function (){
             //     $(".mode").show();
@@ -160,8 +159,6 @@
             //     document.body.style.overflow = 'hidden';
             // }, 1000)
 
-
-             
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  
@@ -173,11 +170,12 @@
                 $(".mode").hide();
                 $(".dialog-notice").hide();
                 sessionStorage.setItem('begin',new Date().getTime())
-                // console.log( sessionStorage.getItem('begin'))
+                setInterval(() => {
+                    notice()
+                }, 1000);
                 document.body.style.overflow = ''; //出现滚动条
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
-                
             })
         
             

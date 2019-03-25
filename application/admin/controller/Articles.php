@@ -161,4 +161,15 @@ class Articles extends AdminBase
             return json(array('code' => 0, 'msg' => '删除失败'));
         }
     }
+    public function status($id)
+    {
+        $res = DB::name('article')->where('id',$id)->find();
+        if($res['open'] == '1'){
+            $info = DB::name('article')->where('id',$id)->setField('open','2');
+            $this->success('隐藏成功');
+        } else if ($res['open'] == '2') {
+            DB::name('article')->where('id',$id)->setField('open','1');
+            $this->success('显示成功');
+        }
+    }
 }

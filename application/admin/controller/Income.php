@@ -191,8 +191,14 @@ class Income extends AdminBase
      */
     public function global_dividend()
     {
-
-        return $this->fetch();
+        $income_list = Db::name('income')->alias('in')
+            ->join('htd_user u','in.uid=u.id','left')
+            ->join('htd_user us','in.get_uid=us.id','left')
+            ->join('htd_currency c','in.cu_id=c.id','left')
+            ->field('u.mobile, u.username, us.username as get_username, in.*, c.name,c.alias_name,c.note')
+            ->where('in.type',104)
+            ->order('in.id desc')->paginate(10);
+        return $this->fetch('income_global_dividend',['income_list' => $income_list]);
     }
 
     // /**

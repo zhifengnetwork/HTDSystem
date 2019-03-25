@@ -34,7 +34,7 @@ class Index extends HomeBase
     
     public function my_message()
     {
-        $res = Db::name('article')->order('settop DESC','choice DESC')->select();
+        $res = Db::name('article')->where('open','1')->order('settop DESC','updatetime DESC')->select();
         $this->assign('res',$res);
 
         return view();
@@ -46,12 +46,6 @@ class Index extends HomeBase
     {
         $res = Db::name('article')->where('id',$id)->find();
         $this->assign('res',$res);
-        $arr = '';
-        if (session('home.id')) {
-           $arr =  Session::get('home');
-
-        }
-        $this->assign('arr',$arr);
         return view();
     }
 
@@ -71,7 +65,7 @@ class Index extends HomeBase
         $this->assign('id',$id);
 
         $money = 0;
-        $res = Db::name('article')->order('settop DESC','choice DESC','updatetime DESC')->find();
+        $res = Db::name('article')->where('open','1')->order('settop DESC','updatetime DESC')->find();
         $this->assign('res',$res);
         $this->assign('money',$money);
 
@@ -451,13 +445,13 @@ class Index extends HomeBase
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
         
-        $income = db('user_wallet')->where("uid = '".$home['id']."'")->select();
+        $income = Db::name('user_wallet')->where(['uid'=>$home['id']])->select();
         $moeny =0;
         $cu =[];
         foreach($income as $k => $v){
-            $cu[$k]['cu_id']= $v['cu_id'];
 
-            $moeny +=$v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
+            $cu[$k]['cu_id']= $v['cu_id'];
+            $moeny = $v['cu_num']+$v['bonus_wallet']+$v['rate_wallet'];
             $cu[$k]['bonus_wallet'] = $moeny;
         };
         if($cu){
