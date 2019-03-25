@@ -229,8 +229,6 @@
 										onclick="this.src='{:url('index/captcha')}?'+Math.random();" alt="captcha" />
 								</div>
 
-
-
 							</div>
 							<div class="voting_verify">
 								<!--<img id="captcha" src="{:url('index/captcha')}" onclick="this.src='{:url('index/captcha')}?'+Math.random();"  alt="captcha" /></div>-->
@@ -416,22 +414,7 @@
 				$('.true_popUp_wrap').hide();
 				window.location.reload();
 			})
-			//点击背景隐藏and提取按钮清空提取金额的值
-			// $('.popover,.popover_affirm').click(function() {
-			// $(".popover").hide();
-			// $('#popover_num').val("");
-			// $(".lj_input2").val("");
-			// $(".lj_input3").val("");
-			// $('#popover_convert').val("");
-			// $(".preViewImg").attr("src","/public/plugins/layui/images/loading-2.gif").hide();
-			// $(".tipsText").show();
-			// })
-			//点击复投按钮清空提取金额的值
-			// $('.voting,.voting_affirm').click(function() {
-			// 	$(".voting").hide();
-			// 	$('#voting_num').val("");
-			// 	$(".lj_input3").val("");
-			// })
+
 			//点击下拉列表
 			$(".list_tacitly").click(function () {
 				$(this).next().slideToggle(500)
@@ -479,12 +462,10 @@
 				dataType: 'json',
 				data: { cu_id: cu_id, uid: uid },
 				success: function (msg) {
-					console.log(msg);
 					$('#popover_num').val(msg.cu_num);
 					layer.alert('您确认终止合同吗?', { closeBtn: 1 });
 				}
 			});
-
 			return false;
 		}
 

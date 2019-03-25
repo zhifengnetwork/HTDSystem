@@ -271,7 +271,7 @@ class Index extends HomeBase
 
                 // 用于插入数据
                 $res3 = Db::name('user_extract')->insert($where1);
-
+                // logo
                 $log = Db::name('currency')->where('id',$data['cu_id'])->value('log'); 
 
                 $suc_data = [
