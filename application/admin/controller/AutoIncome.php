@@ -82,10 +82,24 @@ class AutoIncome
 				// 平台币*当前对应币种的价格
 				$platform_coin = $giveIncome*($platform_coin_ratio/100);
 				$platform_coin = $platform_coin*$value['price']/$htd_price['price'];
+
+				// 判断是否存在钱包记录
+			
 				
 				// 开启事务
 				Db::startTrans();
 				try{
+
+					// 判断当前投资币种是否存在钱包表，如果没有插入一条
+					$wallet_is = Db::name('user_wallet')->where(['uid'=>$value['uid'],'cu_id'=>$value['cu_id']])->find();
+					$res11 = true;
+					if(!$wallet_is){
+						$data_in = array(
+							'uid' => $value['uid'],
+							'cu_id' => $value['cu_id']
+						);
+						$res11 = Db::name('user_wallet')->insert($data_in);
+					}
 
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++ 把收益累加到当前用户对应币种钱包+++++ //

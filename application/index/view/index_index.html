@@ -136,8 +136,7 @@
  
             //一个小时弹框
             var alread  //现在的时间  3600000
-            setInterval(function(){
-                console.log(11)
+            function notice(){
                 if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
                     alread=parseInt(sessionStorage.getItem('begin'))
                     var bb = new Date().getTime()   //时间
@@ -150,7 +149,8 @@
                     window.sessionStorage.clear()
                     alread = 0
                 }
-            },1000)
+            }
+
             // //公告弹框 
             // setTimeout(function (){
             //     $(".mode").show();
@@ -159,8 +159,6 @@
             //     document.body.style.overflow = 'hidden';
             // }, 1000)
 
-
-             
             //阻止冒泡，点击弹框禁止页面滚动
             $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
                 event.stopPropagation();  
@@ -172,10 +170,12 @@
                 $(".mode").hide();
                 $(".dialog-notice").hide();
                 sessionStorage.setItem('begin',new Date().getTime())
+                setInterval(() => {
+                    notice()
+                }, 1000);
                 document.body.style.overflow = ''; //出现滚动条
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
-                
             })
         
             

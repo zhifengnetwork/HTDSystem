@@ -76,11 +76,13 @@ input[type=button], input[type=submit], input[type=file], button {
 }
 /*去除IOS下 => input, select默认样式*/
 input, select {
-	-webkit-appearance:none; 
-	-moz-appearance:textfield;
-	background: none;
 	border: none;
 	outline: none;
+	background: none;
+	border-radius: 0;
+	-moz-appearance:textfield;
+	-webkit-appearance: none; 
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /*透明度*/
