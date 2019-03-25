@@ -302,10 +302,14 @@
 								/**禁止底部滑动
 								* 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
 								**/
-								$('.currency').css({
+								$('body').css({
 									'position':'fixed',
 									'top': -thisScrollNum,
 									'left': 0,
+									'height':'100%'
+								});
+								$('html').css({
+									'height':'100%'
 								});
 							} else {
 								layer.msg(data.msg);
@@ -404,10 +408,14 @@
 								/**禁止底部滑动
 								* 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
 								**/
-								$('.currency').css({
+								$('body').css({
 									'position':'fixed',
 									'top': -thisScrollNum,
 									'left': 0,
+									'height':'100%'
+								});
+								$('html').css({
+									'height':'100%'
 								});
 							} else {
 								layer.msg(data.msg);
@@ -433,10 +441,14 @@
 						// $('.voting').hide();
 						window.location.reload();
 						/*恢复底部滑动*/
-						$('.currency').css({
+						$('body').css({
 							'position':'',
 							'top': '',
 							'left': '',
+							'height':'',
+						});
+						$('html').css({
+							'height':''
 						});
 						console.log(66666,thisScrollNum);
 						/*恢复当前用户滚动的位置！*/
