@@ -45,30 +45,6 @@
 					<div class="amount">
 						<span>投资数量：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入数量" />
 					</div>
-					<!-- <div class="wtf_item2">
-						<div class="wtf_item2_div">
-							<p>当前投资额度</p>
-							<div class="wtf_item2_c">
-								<p class="in_money">0.00</p>
-								<p>CNY</p>
-							</div>
-						</div>
-						<div class="wtf_item2_div">
-							<p>币种单价</p>
-							<div class="wtf_item2_c">
-								<p class="cu_price">0.00</p>
-								<p>CNY</p>
-							</div>
-						</div>
-						<div class="wtf_item2_div">
-							<p>币种数量</p>
-							<div class="wtf_item2_c">
-								<p class="p3" style="color: #4ecdd0;">0.00000000</p>
-								<p></p>
-							</div>
-						</div>
-					</div> -->
-
 					
 					<!--选择付款方式-->
 					<div class="payment">
@@ -170,7 +146,20 @@
 								{/foreach}
 								
 							</div>
+							<!-- 
+							<div class="currency">
+								{foreach name="user_wallet" item="user_wallet"}
+									<p class="termBox clearfix" onclick="obtainFun('id')">
+										<span>{$user_wallet.cu_id|wallet_name}：</span>
+										<span>{$user_wallet.cu_num}</span><br>
+									</p>
+								{/foreach}
+							</div -->
+							
+						</div>
 					</div>
+
+
 					<!--总投资-弹框-->
 					<div class="shadow-wrap-up">
 						<div class="assetPopup pop">
@@ -270,9 +259,6 @@
 					console.log(e);
 				});
 			});
-
-			
-
 		</script>
 
 </body>
