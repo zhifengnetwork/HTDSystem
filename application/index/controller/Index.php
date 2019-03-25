@@ -75,7 +75,7 @@ class Index extends HomeBase
         $this->assign('res',$res);
         $this->assign('money',$money);
 
-        
+
         return view();
     }
 	
