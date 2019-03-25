@@ -242,9 +242,7 @@
 							</div>
 
 							<!--000-->
-
 					</form>
-					
 				</div>
 				<input type="hidden" name="cu_id" value="" id="getAll_id"/>
 			</div>
@@ -260,7 +258,6 @@
 	<script>
 		function phonecode(phoneS) {
 			var flag = true;
-		
 			// 获取验证码
 			$.ajax({
 				url: '/index/index/getPhoneVerify',
@@ -558,19 +555,18 @@
 			jq('.retrue').click(function () {
 				var val1 = $(".voting_click").attr("data-id")
 				var cu_num = $(".cu_num").val()
-				console.log(cu_num);
-				var url = "{:url('/index/wallet/confirmInvest')}";
-				var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
-				//  console.log(datas); 
-
 				if (val1 == undefined) {
 					layer.msg('请选择投入类型');
 					return false;
 				}
-				if (cu_num==undefined) {
+				if (!cu_num) {
 						layer.msg('请输入复投数量');
 						return false;
-					}
+				}
+				var url = "{:url('/index/wallet/confirmInvest')}";
+				var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
+				//  console.log(datas); 
+
 				$.ajax({
 					type: "POST",
 					url: url,
@@ -579,13 +575,12 @@
 					success: function (data) {
 						// console.log(data)
 						if (data.code == 200) {
-							layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+							layer.msg(data.msg, {time: 2000 }, function () {
 								 window.location.reload(); 
 							});
-
 						}
 						else {
-							layer.msg(data.msg, { icon: 2, time: 2000 }, function () {
+							layer.msg(data.msg, {time: 2000 }, function () {
 								// window.location.reload(); 
 							});
 							$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
@@ -699,6 +694,73 @@
 			} else {
 				console.log('取消选择图片！');
 			}
+<<<<<<< HEAD
+			
+
+
+			/* 确认 */
+			// $('.popover_affirm .true').on('click', function() {
+				/*存储，base64*/
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
+
+				// var arrImgUrl = '';
+				// if($('.imageEchoBox .preViewImg').eq(0).attr('src').indexOf('base64') == -1 ) {
+				// 	console.log('请上传二维码！');
+				// 	/*对话框*/
+				// 	suredAlert($('body'),'请上传二维码！');
+				// 	$('.popover').hide();
+				// 	return false;
+				// }
+				// arrImgUrl = $('.preViewImg').eq(0).attr('src');
+				// console.log(arrImgUrl);
+
+			// 	$('.popover').hide();
+			// })
+			/*000*/
+			
+			
+			
+			
+			
+//input标签获取焦点
+            $('#wallet_addr').click(function(){
+         
+              console.log("ddd");
+             console.log($(this).offset().top)
+              console.log($(".popover_content").height());
+              $(".popover_content").scrollTop($(this).offset().top);
+              
+            
+            	
+            });
+               $(".popover_content").scroll(function(event){
+               	
+                         console.log("ffff")
+               
+                 });
+      
+
+               
+               
+
+		</script>
+
+           
+
+
+
+	
+
+	</body>
+=======
 		}
 
 		//			input标签获取焦点
@@ -709,5 +771,6 @@
 		});
 	</script>
 </body>
+>>>>>>> 957026e9cfc39b9179b284a8f3a6b86abd52e528
 
 </html>
