@@ -23,18 +23,11 @@
 					<p>{$res['updatetime']|date="Y-m-d",###}</p>
 				</div>
 				<div class="details_item2">
-					<div class="d_item2_title">
-						<p>尊敬的{if $arr eq true}{$arr['username']}{else /}{/if}用户:</p>
-					</div>
 					<div class="d_item2_con">
 						<p>{$res['content']}</p>
 					</div>
-					<div class="d_item2_bom">
-						<p>感谢{if $arr eq true}{$arr['username']}用户{else /}您{/if}的大力支持。</p>
-					</div>
 				</div>
 				<div class="details_item3">
-					<p>{if $arr eq true}{$arr['username']}{else /}尊敬的用户{/if}</p>
 					<p>{$res['updatetime']|date="Y-m-d",###}</p>
 				</div>
 				
