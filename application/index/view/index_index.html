@@ -132,7 +132,6 @@
                 autoplayDisableOnInteraction: false
             }); 
  
-<<<<<<< HEAD
             //一个小时弹框
             var alread  //现在的时间  3600000
             function notice(){
@@ -176,8 +175,6 @@
                 event.stopPropagation();  
                 document.body.style.overflow = 'hidden';//禁止页面滚动
             })
-
-=======
 			/*获取当前时间=>转换为时间戳*/
 			function time() { 
 				var today = new Date(); 
@@ -222,21 +219,15 @@
 					stop(".mode");
 				}
 			}
-			
->>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
-<<<<<<< HEAD
-            })  
-=======
             })
         
             
->>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
         })
 
     </script>
