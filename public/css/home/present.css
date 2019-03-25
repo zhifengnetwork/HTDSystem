@@ -309,7 +309,6 @@
 	bottom: 0;
 	left: 0;
 	margin: auto;
-	overflow-y: scroll;
 }
 .voting_box span{font-size: 0.3rem;}
 .voting_box{width: 100%; float: right;}
@@ -332,7 +331,7 @@
 	 width: 32% !important; 
 	float: left;
 	margin-left: .2rem !important;
-	margin-top: .11rem;
+	margin-top: .15rem;
 }
 
 .lj_p_address .lj_input4{
@@ -340,7 +339,7 @@
 	width: 28% !important;
 	float: left;
 	margin-left: .19rem !important;
-	margin-top: .35rem;
+	margin-top: .41rem;
 	margin-right: 0.25rem !important;
 }
 #captcha{width: 1.8rem;height: 0.7rem;margin-right: 0.5rem;}
