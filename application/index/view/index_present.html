@@ -259,14 +259,14 @@
 
 	<script>
 		function phonecode(phoneS) {
-			var phone = {$phone};
 			var flag = true;
+		
 			// 获取验证码
 			$.ajax({
 				url: '/index/index/getPhoneVerify',
 				type: 'post',
 				dataType: 'json',
-				data: { phone: phone, sms_type: 2 },
+				data: { phone: phoneS, sms_type: 2 },
 				success: function (msg) {
 					if (msg.code == 0) {
 						var flag = false;

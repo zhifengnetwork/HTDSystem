@@ -186,6 +186,7 @@ class Index extends HomeBase
         $checkData['sms_type'] = $data['sms_type'];
         $checkData['code'] = $data['verify'];
         $checkData['phone'] = session('home.mobile');
+        
 
         //美元汇率   
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
