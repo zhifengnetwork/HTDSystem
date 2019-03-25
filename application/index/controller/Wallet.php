@@ -238,7 +238,7 @@ class Wallet extends HomeBase
      */
     private function htd_currency()
     {
-        $where['status'] = 1;
+        // $where['status'] = 1;
         $where['alias_name'] = ['neq','HTD'];
         $htd_currency = Db::name("currency")->where($where)->select();
         // 获取配置表

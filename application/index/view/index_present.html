@@ -63,7 +63,7 @@
 						</div>
 						<!-- 提取按钮 -->
 						<div class="currency_box" data-phone="{$phone}">
-							<a class="currency_btn" onclick="send({$v.uid},{$v.cu_id})">提取</a>
+							<a class="currency_btn" onclick="send('{$v.cu_id}')">提取</a>
 							<a class="currency_btn" onclick="voting({$v.uid},{$v.cu_id})">复投</a>
 						</div>
 					</div>
@@ -80,10 +80,9 @@
 								<span class="popover_click">请选择 </span>
 								<img src="__PUBLIC__/images/xia.png" class="down">
 								<ul class="ul_box popover_ul">
-									<!-- <li data-index="0">请选择</li> -->
 									<li data-index="1" onclick="getAll(1)">本金</li>
-									<li data-index="2">收益</li>
-									<li data-index="3">分红</li>
+									<li data-index="2" onclick="getReta(2)">收益</li>
+									<li data-index="3" onclick="getProfit(3)">分红</li>
 								</ul>
 							</div>
 
@@ -97,9 +96,6 @@
 									<input type="hidden" name="bonus_wallet" id="bonus_wallet" value="">
 									<!-- <input type="hidden" name="dynamic_wallet" id="dynamic_wallet" value=""> -->
 									<input type="hidden" name="rate_wallet" id="rate_wallet" value="">
-									<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
-									<input type="hidden" name="sms_type" id="sms_type" value="">
-									<input type="hidden" name="verify" id="verify" value="">
 									<span>提取数量:</span> <input id="popover_num" name="number" type="number" placeholder="请选择提币类型" value="" /><br />
 									<input id="popover_convert" name="popover_convert" type="hidden" readonly />
 								</div>
@@ -119,10 +115,10 @@
 
 								<div class="popover_box clearfix">
 									<div class="lj_p_address">
-										<h2> 地址:</h2><input type="text" name="wallet_addr" id="wallet_addr" value="" />
+										<h2>钱包地址:</h2><input type="text" name="wallet_addr" id="wallet_addr" value="" />
 									</div>
 									<div class="lj_p_address">
-										<h2>备注:</h2><input class="lj_input2" id="remarksT" type="text" name="note" />
+										<h2>备注(memo):</h2><input class="lj_input2" id="remarksT" type="text" name="note" />
 									</div>
 									<div class="lj_p_address">
 										<h2>验证码:</h2>
@@ -137,6 +133,12 @@
 
 								<div class="popover_affirm">
 									<span class="true">提取</span>
+									<input type="hidden" name="cu_id" class="cu_id_class" value=""/>
+									<!-- <input type="hidden" name="cu_num" class="cu_num_class" value=""/> -->
+									<input type="hidden" name="qrcode_addr" id="qrcode_addr" value="">
+									<input type="hidden" name="sms_type" id="sms_type" value="2">
+									<input type="hidden" name="verify" id="verify" value="">
+
 									<span class="false">取消</span>
 								</div>
 							</div>
@@ -236,8 +238,8 @@
 		</div>
 		<script src="__PUBLIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__PUBLIC__/js/public/base.js"></script>
+		<script src="__PUBLIC__/plugins/layer/layer-min.js"></script>
 		<script src="__PUBLIC__/js/public/publicAlert.js"></script>
-		<script src="__PUBLIC__/plugins/layui/layui.js"></script>
 
 		<script>
 			/*获取验证码*/
@@ -373,9 +375,25 @@
 				}
 			});
 
-			// 提取按钮
-			function send(uid, cu_id) {
-				$.ajax({
+			// 点击提取按钮传入当前币种id
+			function send(cu_id) {
+
+				$('#getAll_id').val(cu_id); // 选择本金时根据币种id获取所有本金
+				$('.popover').show();
+				$('.cu_id_class').val(cu_id);
+				
+				thisScrollNum = $(document).scrollTop();
+				$('body').css({
+					'position': 'fixed',
+					'top': -thisScrollNum,
+					'left': 0,
+					'height': '100%'
+				});
+				$('html').css({
+					'height': '100%'
+				});
+
+ 				/* $.ajax({
 					url: '/index/index/ajaxsend',
 					type: 'post',
 					dataType: 'json',
@@ -393,12 +411,11 @@
 							$('#rate_wallet').val(data['result']['rate_wallet']);
 							$('#wallet_addr').val(data['result']['wallet_addr']);
 							$('.popover').show();
-							/*获取当前滚动条的位置*/
+							// 获取当前滚动条的位置
 							thisScrollNum = $(document).scrollTop();
-							console.log('获取当前滚动条的位置', thisScrollNum);
-							/**禁止底部滑动
-							 * 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
-							 **/
+							// 禁止底部滑动
+							// 设置为fixed之后会飘到顶部，所以要动态计算当前用户所在高度
+							
 							$('body').css({
 								'position': 'fixed',
 								'top': -thisScrollNum,
@@ -412,7 +429,7 @@
 							layer.msg(data.msg);
 						}
 					}
-				});
+				});  */
 			}
 
 			$(document).ready(function() {
@@ -478,7 +495,7 @@
 				});
 			};
 
-			// 获取当前币种全部本金
+			// 类型为本金时获取当前币种全部本金
 			function getAll(msg) {
 				var cu_id = $('#getAll_id').val();
 				var uid = $('#uid').val();
@@ -503,138 +520,205 @@
 
 			var btn_true = true;
 			// 用户点确认击提取按钮
-			layui.use(['layer', 'jquery', 'form'], function() {
+			// layui.use(['layer', 'jquery', 'form'], function() {
 
-				var layer = layui.layer,form = layui.form,jq = layui.jquery;
-				jq('.true').click(function() {
-					layer.msg(111);return ;
+			// 	var layer = layui.layer,form = layui.form,jq = layui.jquery;
+			// 	jq('.true').click(function() {
+			// 		if(btn_true) {
+
+			// 			var verify = $('.lj_input3').val();
+			// 			var val = $(".popover_click").attr("data-id")
+			// 			var val1 = $(".voting_click").attr("data-id")
+			// 			var url = "{:url('Index/pick')}";
+
+			// 			var num = $('#popover_num').val();
+			// 			var addr = $("#wallet_addr").val();
+			// 			var check_code = $(".lj_input3").val();
+			// 			if(!val) {
+			// 				layer.msg('请选择提币类型');
+			// 				return false;
+			// 			}
+			// 			if(!num) {
+			// 				layer.msg('请输入数量');
+			// 				return false;
+			// 			}
+			// 			if(!addr) {
+			// 				layer.msg('请填写地址');
+			// 				return false;
+			// 			}
+			// 			if(!check_code) {
+			// 				layer.msg('请输入验证码');
+			// 				return false;
+			// 			}
+			// 			var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
+			// 			jq.getJSON(url, datas, function(data) {
+			// 				if(data.status == 1) {
+			// 					btn_true = false;
+			// 					// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
+			// 					console.log(data.result)
+			// 					$(".user").html(data.result['suc_name']);
+			// 					$(".total").html(data.result['su_num']);
+			// 					$(".charge").html(data.result['su_charge']);
+			// 					$(".time").html(data.result['su_time']);
+			// 					// $(".img").html(data.result['su_log']);
+			// 					var su_img = "/" + data.result['su_log'];
+			// 					$(".su_img").attr("src", su_img);
+			// 					// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
+			// 					$(".popover").hide();
+			// 					$('.true_popUp_wrap').show();
+			// 				} else {
+			// 					btn_true = true;
+			// 					layer.msg(data.msg);
+			// 				}
+			// 			});
+			// 		} else {
+			// 			layer.msg('操作异常,稍后再试');
+			// 		}
+
+			// 	});
+
+			// 	// 复投
+			// 	jq('.retrue').click(function() {
+			// 		var val1 = $(".voting_click").attr("data-id")
+			// 		var cu_num = $(".cu_num").val()
+			// 		if(val1 == undefined) {
+			// 			layer.msg('请选择投入类型');
+			// 			return false;
+			// 		}
+			// 		if(!cu_num) {
+			// 			layer.msg('请输入复投数量');
+			// 			return false;
+			// 		}
+			// 		var url = "{:url('/index/wallet/confirmInvest')}";
+			// 		var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
+			// 		//  console.log(datas); 
+
+			// 		$.ajax({
+			// 			type: "POST",
+			// 			url: url,
+			// 			data: datas,
+			// 			dataType: "json",
+			// 			success: function(data) {
+			// 				// console.log(data)
+			// 				if(data.code == 200) {
+			// 					layer.msg(data.msg, {
+			// 						time: 2000
+			// 					}, function() {
+			// 						window.location.reload();
+			// 					});
+			// 				} else {
+			// 					layer.msg(data.msg, {
+			// 						time: 2000
+			// 					}, function() {
+			// 						// window.location.reload(); 
+			// 					});
+			// 					$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
+			// 				}
+			// 			}
+
+			// 		});
+			// 	});
+
+			// 	// jq('.false').click(function(){	  
+			// 	// 	window.location.reload();
+			// 	// });		
+			// 	$(document).on("keyup", '#popover_num', function() {
+			// 		var val = $(this).val();
+			// 		var cu_id = $('#cu_id').val();
+			// 		var a = "{:url('Index/exchange')}"
+			// 		var url = '/index/Index/exchange/val/' + val + '/cu_id/' + cu_id;
+			// 		$.ajax({
+			// 			type: "POST",
+			// 			url: url,
+			// 			dataType: "json",
+			// 			success: function(data) {
+			// 				if(data.status == 1) {
+			// 					$('#popover_rmb').val(data.result['rmb']);
+			// 					$('#popover_convert').val(data.result['usd']);
+			// 				} else {
+			// 					layer.msg("操作失败", {
+			// 						icon: 2,
+			// 						time: 2000
+			// 					}, function() {
+			// 						window.location.reload();
+			// 					});
+			// 				}
+			// 			}
+			// 		});
+			// 	})
+			// });
+
+
+
+
+			// 用户点击确认提取new
+			$('.true').click(function() {
+					// layer.msg(111);return ;
 					if(btn_true) {
 
-						var verify = $('.lj_input3').val();
-						var val = $(".popover_click").attr("data-id")
-						var val1 = $(".voting_click").attr("data-id")
-						var url = "{:url('Index/pick')}";
-
-						var num = $('#popover_num').val();
-						var addr = $("#wallet_addr").val();
-						var check_code = $(".lj_input3").val();
+						var val = $(".popover_click").attr("data-id") // 提取类型
+						var cu_id = $('.cu_id_class').val(); 		  // 币种id
+						// var val1 = $(".voting_click").attr("data-id") // 复投选择类型
+						var cu_num = $('#popover_num').val(); 	// 数量
+						var qrcode_addr = $('#qrcode_addr').val(); // 二维码url
+						var note = $('#remarksT').val(); 	// 备注
+						var wallet_addr = $("#wallet_addr").val(); // 钱包地址
+						var verify = $('.lj_input3').val(); // 验证码
 						if(!val) {
 							layer.msg('请选择提币类型');
 							return false;
 						}
-						if(!num) {
+						if(!cu_num) {
 							layer.msg('请输入数量');
 							return false;
 						}
-						if(!addr) {
+						if(!wallet_addr) {
 							layer.msg('请填写地址');
 							return false;
 						}
-						if(!check_code) {
+						if(!cu_id){
+							layer.msg('参数获取失败:cu_id');
+							return false;
+						}
+						if(!verify) {
 							layer.msg('请输入验证码');
 							return false;
 						}
-						// var datas = $('#handleposition').serialize() + '&type=' + val + '&verify=' + verify + '&sms_type=' + 2;
-						var datas = "{}"
-						jq.getJSON(url, datas, function(data) {
-							if(data.status == 1) {
-								btn_true = false;
-								// layer.msg(data.msg, {icon: 1, time: 2000}, function(){
-								console.log(data.result)
-								$(".user").html(data.result['suc_name']);
-								$(".total").html(data.result['su_num']);
-								$(".charge").html(data.result['su_charge']);
-								$(".time").html(data.result['su_time']);
-								// $(".img").html(data.result['su_log']);
-								var su_img = "/" + data.result['su_log'];
-								$(".su_img").attr("src", su_img);
-								// $(".time").html(Date('Y-m-d,H-s-i',data.result['su_time']))
-								$(".popover").hide();
-								$('.true_popUp_wrap').show();
-							} else {
-								btn_true = true;
-								layer.msg(data.msg);
-							}
-						});
-					} else {
+						if(val && cu_id && cu_num && wallet_addr && cu_id && verify){
+							$.ajax({
+								url: '/index/index/pick',
+								type: "POST",
+								dataType: "json",
+								data: {cu_id:cu_id, cu_num:cu_num, type:val, qrcode_addr:qrcode_addr, note:note, wallet_addr:wallet_addr, verify:verify},
+								success: function(data) {
+									if(data.status == 1) {
+										btn_true = false;
+										console.log(data.result)
+										$(".user").html(data.result['suc_name']);
+										$(".total").html(data.result['su_num']);
+										$(".charge").html(data.result['su_charge']);
+										$(".time").html(data.result['su_time']);
+										// $(".img").html(data.result['su_log']);
+										var su_img = "/" + data.result['su_log'];
+										$(".su_img").attr("src", su_img);
+										$(".popover").hide();
+										$('.true_popUp_wrap').show();
+									} else {
+										btn_true = true;
+										layer.msg(data.msg);
+									}
+								}
+							});
+						}else{
+							layer.msg('参数错误,请刷新页面');
+							return false;
+						}
+					}else{
 						layer.msg('操作异常,稍后再试');
+						return false;
 					}
 
 				});
-
-				// 复投
-				jq('.retrue').click(function() {
-					var val1 = $(".voting_click").attr("data-id")
-					var cu_num = $(".cu_num").val()
-					if(val1 == undefined) {
-						layer.msg('请选择投入类型');
-						return false;
-					}
-					if(!cu_num) {
-						layer.msg('请输入复投数量');
-						return false;
-					}
-					var url = "{:url('/index/wallet/confirmInvest')}";
-					var datas = $('#handleposition1').serialize() + '&wallet_flag=' + val1 + '&pay_way=' + 2;
-					//  console.log(datas); 
-
-					$.ajax({
-						type: "POST",
-						url: url,
-						data: datas,
-						dataType: "json",
-						success: function(data) {
-							// console.log(data)
-							if(data.code == 200) {
-								layer.msg(data.msg, {
-									time: 2000
-								}, function() {
-									window.location.reload();
-								});
-							} else {
-								layer.msg(data.msg, {
-									time: 2000
-								}, function() {
-									// window.location.reload(); 
-								});
-								$('#captcha').attr('src', "{:url('login/captcha')}?" + Math.random());
-							}
-						}
-
-					});
-				});
-
-				// jq('.false').click(function(){	  
-				// 	window.location.reload();
-				// });		
-				$(document).on("keyup", '#popover_num', function() {
-					var val = $(this).val();
-					var cu_id = $('#cu_id').val();
-					var a = "{:url('Index/exchange')}"
-					var url = '/index/Index/exchange/val/' + val + '/cu_id/' + cu_id;
-					$.ajax({
-						type: "POST",
-						url: url,
-						dataType: "json",
-						success: function(data) {
-							if(data.status == 1) {
-								$('#popover_rmb').val(data.result['rmb']);
-								$('#popover_convert').val(data.result['usd']);
-							} else {
-								layer.msg("操作失败", {
-									icon: 2,
-									time: 2000
-								}, function() {
-									window.location.reload();
-								});
-							}
-						}
-					});
-				})
-			});
-
-
-
 
 			/*000*/
 			/*上传图片*/
