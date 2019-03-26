@@ -70,7 +70,7 @@
 	letter-spacing: .01rem;
 	width: 100%;
 	height: auto;
-	padding: .88rem .2rem 0;
+	padding: .88rem .2rem 1rem;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -118,6 +118,7 @@
 	height: 100%;
 	vertical-align: top;
 }
+
 .currency_name {
 	width: .8rem;
 	color: white;
