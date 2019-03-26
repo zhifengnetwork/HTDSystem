@@ -31,21 +31,50 @@ class Withdrawal extends AdminBase
 	{
 		$id = input('id/d');
 		$status = input('status/d');
-		
-		$data = array();
-
-		if ($status == 1) {
-			$data['status'] = $status;
-			
-		}else if ($status == 2) {
-			$data['status'] = $status;
+		$one_data = Db::name('user_extract')->where(['id'=>$id])->find();
+		if(!$one_data){
+			return json(array('code' => 0, 'msg' => '提币订单不存在'));
 		}
+		$data = array();
+		
+		if ($status == 1) { // 通过
+			$data['status'] = $status;
+			$info = Db::name('user_extract')->where('id',$id)->update($data);
+			if($info){
+				return json(array('code' => 200, 'msg' => '更新成功'));
+			}else{
+				return json(array('code' => 0, 'msg' => '更新失败'));
+			}
+		}
+		
+		// 1本金 cu_num 2收益 bonus_wallet 3分红rate_wallet
+		if ($status == 2) { // 不通过,对应币种数量原路返回
 
-		$info = Db::name('user_extract')->where('id',$id)->update($data);
-		if($info){
-			return json(array('code' => 200, 'msg' => '更新成功'));
-		}else{
-			return json(array('code' => 0, 'msg' => '更新失败'));
+			$data['status'] = $status;
+			if($one_data['type'] == 1){
+				$cu_num = $one_data['cu_num'];
+				$fiends = 'cu_num';
+			}
+			if($one_data['type'] == 2){
+				$cu_num = $one_data['cu_num'];
+				$fiends = 'bonus_wallet';
+
+			}
+			if($one_data['type'] == 3){
+				$cu_num = $one_data['cu_num'];
+				$fiends = 'rate_wallet';
+
+			}
+			$where['uid'] = $one_data['uid'];
+			$where['cu_id'] = $one_data['cu_id'];
+			$res = Db::name('user_wallet')->where($where)->setInc($fiends, $cu_num);
+			$info = Db::name('user_extract')->where('id',$id)->update($data);
+
+			if($res && $info){
+				return json(array('code' => 200, 'msg' => '拒绝成功，数量原路返回'));
+			}else{
+				return json(array('code' => 0, 'msg' => '拒绝失败..'));
+			}
 		}
 	}
 

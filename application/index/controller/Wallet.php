@@ -92,6 +92,10 @@ class Wallet extends HomeBase
         $param = input('post.');
         $cu_id = intval($param['cu_id']);
         $pay_way = intval($param['pay_way']); // 1发票 2复投
+        // htd id=11不可以操作
+        if($cu_id == 11){
+            return json(array('status' => 0, 'msg' => '当前币种不可操作'));
+        }
         // 判断当前用户是否存在
         $user_one = Db::name('user')->where(['id'=>$uid])->find();
         if(!$user_one){
@@ -140,9 +144,10 @@ class Wallet extends HomeBase
 
         Db::startTrans();
         try{
+
             // 判断用户当前币种是否存在订单，如果存在则累加(复投 2)
             $is_cu_order = Db::name('execute_order')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
-        //    echo Db::name('execute_order')->getLastSql();
+            // echo Db::name('execute_order')->getLastSql();
             if($is_cu_order['cu_id'] && $pay_way==2){
                
                 if (!captcha_check($param['verify'])) {
@@ -151,7 +156,6 @@ class Wallet extends HomeBase
 
                 // 获取当前用户对应币种的静态(动态)收益120、分红钱包金额121
                 $user_wallet = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
-
                 $wallet_flag = intval($param['wallet_flag']);
               
                 // 判断钱包是否够复投对应币种数量
@@ -216,10 +220,10 @@ class Wallet extends HomeBase
                     $res123 = Db::name('execute_order')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id']])->update(['is_stop'=>0]);  
                 }
 
-                // 入单激活会员
-                if(!$user_one['activation']){
-                    $resUp = Db::name('user')->where(['id'=>$user_one['id']])->update(['activation'=>1]);
-                }
+                // // 入单激活会员
+                // if(!$user_one['activation']){
+                //     $resUp = Db::name('user')->where(['id'=>$user_one['id']])->update(['activation'=>1]);
+                // }
             }
 
             // 提交事务
@@ -238,7 +242,7 @@ class Wallet extends HomeBase
      */
     private function htd_currency()
     {
-        $where['status'] = 1;
+        // $where['status'] = 1;
         $where['alias_name'] = ['neq','HTD'];
         $htd_currency = Db::name("currency")->where($where)->select();
         // 获取配置表
@@ -247,7 +251,7 @@ class Wallet extends HomeBase
 		$configs = arr2name($configs);
         foreach($htd_currency as $k=>$v){
             if($v['alias_name']!='USDT'){
-                $htd_currency[$k]['price'] = numberByRetain($v['price']/$configs['exchange_usd']['value'], 4);
+                $htd_currency[$k]['price'] = numberByRetain($v['price']/$configs['exchange_usd']['value'], 8);
             }else{
                 $htd_currency[$k]['price'] = $v['price']/$configs['exchange_usd']['value'];
             }

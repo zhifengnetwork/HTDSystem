@@ -25,11 +25,11 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
             exit;
         }
-        if (CBOPEN == 2) {
-            $this->redirect(url('bbs/index/index'));
-        }
+        // if (CBOPEN == 2) {
+        //     $this->redirect(url('bbs/index/index'));
+        // }
 
-        $this->site_config = Cache::get('site_config');
+        // $this->site_config = Cache::get('site_config');
     }
     
     public function my_message()
@@ -138,121 +138,164 @@ class Index extends HomeBase
               }              
     }
 
-    // 提币
+    // 用户提币(本金、收益、分红)
     public function pick(){
 
-        $data       = input();
-        $validate   = new Indexv();
-        // $base       = new Base();
-        switch ($data['type'])
-        {
-            case 1: // 本金
+        if(!is_post()){
+            return json(array('status' => 0, 'msg' => '提交方式错误'));
+        }
+        $data = input('post.');
+        $data['cu_id'] = intval($data['cu_id']);
+        $data['type'] = intval($data['type']); // 提币类型
+        $sms_type = 2; // 提币验证码类型
+        $data['uid'] = session('home.id');
+        // htd id=11不可以操作
+        if($data['cu_id']==11){
+            return json(array('status' => 0, 'msg' => '当前币种不可操作'));
+        }
+        if($data['type']>3 || $data['type']<1){
+            return json(array('status' => 0, 'msg' => '类型错误..'));
+        }
+
+        if($data['type'] == 1){ // 本金
             $data['cu_num'] = $data['cu_num'] ;
             $cu_type = 'cu_num';
-            break;
-            case 2: // 收益
-            $data['cu_num'] = $data['bonus_wallet'] ;
-            $cu_type = 'bonus_wallet';
-            break;
-            case 3: // 分红
-            $data['cu_num'] = $data['rate_wallet'] ;
-            $cu_type = 'rate_wallet';
-            break;
-            default:
-            //$base->ajaxReturn(['status' => 0, 'msg' =>'请选择提币类型', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '请选择提币类型', 'result' => ''));
-        }
-
-        //检验数据 
-        if(!$validate->check($data)){
-            $msg = $validate->getError();
-            // $base->ajaxReturn(['status' => 0, 'msg' =>$msg, 'result' =>'']);
-            return json(array('status' => 0, 'msg' => $msg, 'result' => ''));
-
-        }
-
-        // 手机验证
-        if(!$data['verify']){
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'请输入验证码', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
-        }
-
-        $checkData['sms_type'] = $data['sms_type'];
-        $checkData['code'] = $data['verify'];
-        $checkData['phone'] = session('home.mobile');
-        
-
-        //美元汇率   
-        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
-        $exchange_usd = arr2name($exchange_usd);
-        $usd = $data['popover_convert'];
-        // 收益提币最低金额
-        $withdraw_min = $exchange_usd['withdraw_min']['value'];
-        
-        // 分红提币最低金额
-        if($usd < $exchange_usd['global_min']['value'] && $data['type']==3){
-            return json(array('status' => 0, 'msg' => '大于等于'.$exchange_usd['global_min']['value'].'美元才可提取', 'result' => ''));
-        }
-        // $res = Db::table('htd_user_wallet')->where($where)->update(['cu_num' => $data['remain_num']]);
-        if($usd < $withdraw_min&&$data['type']==2){
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'货币大于等于50美元才能体现', 'result' =>'']);
-            return json(array('status' => 0, 'msg' => '大于等于'.$withdraw_min.'美元才可提取', 'result' => ''));
-
-        }else if($data['cu_num']<$data['number']){
-            return json(array('status' => 0, 'msg' => '不可大于可提数', 'result' => ''));
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'货币剩余少于输入值', 'result' =>'']);
-        }
-
-        if($data['type']==1){
             $flag = '本金';
             $type = 901;
-        }elseif($data['type']==2){
+        }elseif($data['type'] == 2){ // 收益
+            // $data['cu_num'] = $data['bonus_wallet'] ;
+            $cu_type = 'bonus_wallet';
             $flag = '收益';
             $type = 902;
-        }else{
+        }elseif($data['type'] == 3){ // 分红
+            // $data['cu_num'] = $data['rate_wallet'] ;
+            $cu_type = 'rate_wallet';
             $flag = '分红';
             $type = 903;
+        }else{
+            return json(array('status' => 0, 'msg' => '提币类型错误,请刷新页面', 'result' => ''));
         }
+
+        if(!$data['cu_id']){
+            return json(array('status' => 0, 'msg' => '币种ID出错', 'result' => ''));
+        }
+        // 判断币种是否存在以及状态是否正常
+        $currency_one = Db::name('currency')->where(['id'=>$data['cu_id']])->find();
+        if(!$currency_one){
+            return json(array('status' => 0, 'msg' => '当前币种不存在', 'result' => ''));
+        }
+        if(!$currency_one['status']){
+            return json(array('status' => 0, 'msg' => '当前币种交易暂停', 'result' => ''));
+        }
+
+        // 判断数量
+        if(!$data['cu_num']){
+            return json(array('status' => 0, 'msg' => '数量不可小于0', 'result' => ''));
+        }
+        if(!is_numeric($data['cu_num'])){
+            return json(array('status' => 0, 'msg' => '请输入正确数量', 'result' => ''));
+        }
+
+        // 钱包地址判断
+        if(!$data['wallet_addr']){
+            return json(array('status' => 0, 'msg' => '钱包地址不可为空', 'result' => ''));
+        }
+        if(!$data['verify']){
+            return json(array('status' => 0, 'msg' => '请输入验证码', 'result' => ''));
+        }
+        // 获取当前用户的币种钱包
+        $user_wallet = Db::name('user_wallet')->where(['uid'=>$data['uid'], 'cu_id'=>$data['cu_id'] ])->find();
+        if(!$user_wallet){
+            return json(array('status' => 0, 'msg' => '当前币种钱包不存在', 'result' => ''));
+        }
+
+        // 获取美元汇率换算
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
+        $exchange_usd = arr2name($exchange_usd);
+        // 判断当前提币金额是否达到后台设置的条件
+        $usd_total = $data['cu_num']*$currency_one['price']/$exchange_usd['exchange_usd']['value'];
+        $usd = $usd_total;
+        
+        // 收益提币最低金额
+        $withdraw_min = $exchange_usd['withdraw_min']['value'];
+
+        // 判断钱包数量是否足够
+        if($data['type']==1){
+            // 判断本金
+            if($user_wallet['cu_num'] < $data['cu_num']){
+                return json(array('status' => 0, 'msg' => '不可大于可提本金', 'result' => ''));
+            }
+        }
+        if($data['type']==2){
+            // 判断收益
+            if($user_wallet['bonus_wallet'] < $data['cu_num']){
+                return json(array('status' => 0, 'msg' => '不可大于可提收益', 'result' => ''));
+            }
+            // 判断后台设置
+            $min_usd = $data['cu_num']*$currency_one['price']/$exchange_usd['exchange_usd']['value'];
+            if($min_usd < $exchange_usd['withdraw_min']['value']){
+                // 计算最低提币数量
+                $min_num = $exchange_usd['withdraw_min']['value']/$currency_one['price'];
+                $min_num = numberByRetain($min_num, 8);
+                return json(array('status' => 0, 'msg' => '最低提币数量'.$min_num));
+            }
+        }
+        if($data['type']==3){
+            // 判断分红
+            if($user_wallet['rate_wallet'] < $data['cu_num']){
+                return json(array('status' => 0, 'msg' => '不可大于可提分红', 'result' => ''));
+            }
+            // 根据后台设置判断
+            $min_usd = $data['cu_num']*$currency_one['price']/$exchange_usd['exchange_usd']['value'];
+            if($min_usd < $exchange_usd['global_min']['value']){
+                // 计算最低提币数量
+                $min_num = $exchange_usd['global_min']['value']/$currency_one['price'];
+                $min_num = numberByRetain($min_num, 8);
+                return json(array('status' => 0, 'msg' => '最低提币数量'.$min_num));
+            }
+        }
+        
+        // 验证手机验证码是否正确
+        $checkData['sms_type'] = $sms_type;
+        $checkData['code'] = $data['verify'];
+        $checkData['phone'] = session('home.mobile');
 
         // 用于更新数据
         $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
-        // 计算手续费
-        $res = $data['cu_num']-$data['number'];
+
+        if($data['qrcode_addr']){
+            $where1['qrcode_addr'] = $data['qrcode_addr'];
+        }
 
         Db::startTrans();
         try{
 
-            $res = checkPhoneCode($checkData);
-            if($res['code']==0){
-                // $base->ajaxReturn(['status' => 0, 'msg' =>$res['msg']]);
-                return json(array('status' => 0, 'msg' => $res['msg'], 'result' => ''));
+            // 检查手机验证码
+            $res_code = checkPhoneCode($checkData);
+            if($res_code['code']==0){
+                return json(array('status' => 0, 'msg' => $res_code['msg']));
             }
-
-            //获取当前币种钱包的记录
-            $currency_one = Db::name('user_wallet')->where($where)->find();
-            if(!$currency_one){
-                return json(array('status' => 0, 'msg' => '币种钱包不存在'));
-            }
-            $data['number'] = $currency_one['cu_num'];
-
             // 如果为本金，手续费为5%，其他则为1%
-            if($cu_type === 'cu_num'){
-
+            if($data['type'] == 1){
+                
+                $data['number'] = $user_wallet['cu_num']; // 当前币种本金
+                // 本金手续费
                 $charge = numberByRetain($data['number']/100*5, 8);
-                // $can = $data['cu_num']-$charge;
+                
                 $where1 = [
                     'uid'       => $data['uid'],
                     'cu_id'     => $data['cu_id'],
+                    'type'      => $data['type'],
                     'cu_num'    => $data['number'],
-                    'create_time'=> time(),
-                    // 'cu_num'   => $data['number'],
+                    'out_num'    => $data['number']-$charge, // 平台最终转出数量
+                    'create_time' => time(),
+                    'wallet_addr'   => $data['wallet_addr'],
                     'tb_charge' => $charge,
-                    'note'      => $data['note'],
-                    // 'qrcode_addr' => $data['number'],    
+                    'note'      => $data['note'], // 用户备注
                 ];
-                
+                // 扣减全部本金
                 $res1 = Db::name('user_wallet')->where($where)->setDec($cu_type,$data['number']);
-                // 扣减股权
+                // 调用方法：扣减股权
                 $checkStock = checkStock($data['uid'],$data['cu_id'],$data['number']);
 
                 // 减掉执行收益表对应币种记录的相应数量
@@ -263,9 +306,9 @@ class Index extends HomeBase
                 // 插入日志
                 $this->insertLog($data['uid'],$data['cu_id'],'终止合同',888); // 终止合同
 
-                // 用于插入数据
+                // 插入数据到提币表
                 $res3 = Db::name('user_extract')->insert($where1);
-                // logo
+                // 获取当前币种logo
                 $log = Db::name('currency')->where('id',$data['cu_id'])->value('log'); 
 
                 $suc_data = [
@@ -281,52 +324,62 @@ class Index extends HomeBase
                 $res_log = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
                 // 提交事务
                 Db::commit();
-                //$base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
                 return json(array('status' => 1, 'msg' => '操作成功', 'result' => $suc_data));
 
             }else{
-
-                $charge = numberByRetain($data['number']/100, 8);           
+                // 收益、分红手续费
+                $charge = numberByRetain($data['cu_num']/100, 8);           
                 $where1 = [
                     'uid'      => $data['uid'],
                     'cu_id'    => $data['cu_id'],
-                    // 提币数量
-                    'cu_num'   => $data['number'],
+                    'type'    => $data['type'],
+                    'cu_num'   => $data['cu_num'], // 提币数量
                     'tb_charge'=> $charge,
+                    'out_num'  => $data['cu_num']-$charge,  // 平台最终转出数量
                     'note'     => $data['note'],
-                    'create_time'=> time(),
-                    'qrcode_addr' => $data['qrcode_addr'],    
+                    'wallet_addr'  => $data['wallet_addr'],
+                    'create_time'=> time()
                 ];
+
+                $res_1 = true;
+                $res_2 = true;
+                // 判断提币类型
+                if($data['type']==2){
+                    // 对应扣减收益钱包
+                    $old_num = $user_wallet['bonus_wallet']; // 扣减前数量
+                    $res_1 = Db::name('user_wallet')->where($where)->setDec('bonus_wallet',$data['cu_num']);
+                }
+                if($data['type']==3){
+                    // 对应扣减分红钱包
+                    $old_num = $user_wallet['rate_wallet']; // 扣减前数量
+                    $res_2 = Db::name('user_wallet')->where($where)->setDec('rate_wallet',$data['cu_num']);
+                }
+                $res_3 = Db::name('user_extract')->insert($where1);
                 
-                Db::name('user_wallet')->where($where)->setDec($cu_type,$data['number']);
-                Db::name('execute_order')->where($where)->setDec('num',$data['number']);
-                Db::name('user_extract')->insert($where1);
-                
-                // 成功提交后返回数据
+                // 成功提交后返回数据显示到页面
                 $alias_name = Db::name('currency')->where('id',$data['cu_id'])->value('alias_name');
                 $suc_data = [
                     'suc_name'  => session('home.username'),
-                    'su_num'=> $data['number'],
+                    'su_num'    => $data['cu_num'],
                     'su_time'   => date('Y-m-d,H:i:s',time()),
                     'su_charge' => $charge,
                     'alias_name'=> $alias_name
                 ];
                 
                 // 插入日志 902提币
-                $note = $data['cu_id'].$flag.'提币'.$data['number'];
-                $res_log2 = $this->insertLog($data['uid'], $data['cu_id'], $note_log, $type);
+                $note = $data['cu_id'].$flag.'提币'.$data['cu_num'];
+                $now_num = $old_num - $data['cu_num'];
+                $res_log2 = $this->insertLog($data['uid'], $data['cu_id'], $note, $type, $old_num, $now_num);
 
                 // 提交事务
                 Db::commit();
-                //$base->ajaxReturn(['status' => 1, 'msg' =>'操作成功', 'result' => $suc_data]);
                 return json(array('status' => 1, 'msg' => '操作成功', 'result' => $suc_data));
             } 
 
         } catch (\Exception $e) {
-            // P($e);die;
+            // p($e);die;
             // 回滚事务
             Db::rollback();
-            // $base->ajaxReturn(['status' => 0, 'msg' =>'网络异常，稍后再试', 'result' =>'']);
             return json(array('status' => 0, 'msg' => '网络异常，稍后再试', 'result' => ''));
 
         }                                         
@@ -584,11 +637,13 @@ class Index extends HomeBase
 
 
     // 插入日志表
-	public function insertLog($uid,$cu_id,$note,$type){
+	public function insertLog($uid,$cu_id,$note,$type,$old_account='', $now_account=''){
 
 		$data = array(
 			'uid' => $uid,
-			'cu_id' => $cu_id,
+            'cu_id' => $cu_id,
+            'old_account' => $old_account,
+            'now_account' => $now_account,
 			'note' => $note,
 			'type' => $type,
 			'create_time' => time()

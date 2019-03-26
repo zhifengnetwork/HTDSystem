@@ -38,8 +38,8 @@
             {foreach name="income_list" item="vo"}
             <tr>
                 <td>{$key+1}</td>
-                <td>{$vo.username}</td>
-                <td>{$vo.get_username}</td>
+                <td>{$vo.uid|user}</td>
+                <td>{$vo.get_uid|user}</td>
                 <td>{$vo.order_no}</td>
                 <td>{$vo.base_money}</td>
                 <td>{$vo.alias_name}</td>

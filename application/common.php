@@ -2101,28 +2101,41 @@ function getDirectUser($uid){
     return $directData;
 }
 
-// 获取当前用户所有已激活的直推会员(入单)
+// 获取当前用户所有已激活的直推会员(入单500美元以上)
 function getActivateUser($uid){
     if (empty($uid)) {
         return false;
     }
     $activateData = '';
+    $userData = [];
     $where['pid'] = $uid;
-    $where['flag'] = ['>=',2]; // 大于等于2的代表下单
-    $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,flag,idcard_url')->where($where)->select();
-    return $activateData;
+    $where['activation'] = 1; // 代表下单
+    $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,activation,flag,idcard_url')->where($where)->select();
+    if(!$activateData){
+        return false;
+    }
+    // 循环获取当前用户是否投资500美元以上
+    foreach($activateData as $k=>$v){
+        $res =  isEnjoyUser($v['id']);
+        if(!$res){
+            continue;
+        }
+        $userData[$k]['id'] = $v['id'];
+        $userData[$k]['pid'] = $v['pid'];
+    }
+    return $userData;
 }
 
-//获取当前收益的用户是否享受动态收益: 需要投资同等币种金额500美元以上
-function isEnjoyUser($uid='', $cu_id=''){
-    if (empty($uid) || empty($cu_id)) {
+//获取当前用户是否享受动态收益: 需要投资金额500美元以上
+function isEnjoyUser($uid){
+    if (empty($uid)) {
         return false;
     }
     $where['uid'] = $uid;
-    $where['cu_id'] = $cu_id;
+    // $where['cu_id'] = $cu_id;
     $where['is_check'] = 1; // 后台审核有效订单
     $orderMoney = '';
-    $orderMoney = Db::name('buy_order')->where($where)->sum('total_money');
+    $orderMoney = Db::name('execute_order')->where($where)->sum('total_money');
     // 是否存在投资金额
     if(!$orderMoney){
         return false;
@@ -2224,15 +2237,18 @@ function getPhoneCode($data){
     }
     // 判断手机号是否合法
     $check_phone = check_mobile_number($data['phone']);
-    // 判断手机号是否存在数据库
-    if($check_phone){
-        $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
-        if(!$is_phone_db){
-            return array('code' => 0, 'msg' => '非法手机号！');
-        }
-    }else{
+    if(!$check_phone){
         return array('code' => 0, 'msg' => '手机号格式不正确');
     }
+    // 判断手机号是否存在数据库
+    // if($check_phone){
+    //     $is_phone_db = Db::name('user')->where(['mobile'=>$data['phone']])->find();
+    //     if(!$is_phone_db){
+    //         return array('code' => 0, 'msg' => '非法手机号！');
+    //     }
+    // }else{
+    //     return array('code' => 0, 'msg' => '手机号格式不正确');
+    // }
     
     $limit_time = 60;// 60秒以内不能重复获取
     $where['phone'] = $data['phone'];

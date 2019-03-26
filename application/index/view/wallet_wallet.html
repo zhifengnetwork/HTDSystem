@@ -84,9 +84,14 @@
 												<input class="uploadFile" onchange="UpLoad(this)" type="file"  name="file"  value="0" accept="image/*" />
 											</p>
 											<input type="hidden" name="imgUrl" value="" id="imgUrl_id"/>
-											<span class="upload-tips uploading">
+											<!--上传中 => box-->
+											<span class="upload-tips uploading passData">
 												<span class="text">上传中</span>
-												<!-- <span class="dotting"></span> -->
+												 <span class="dotting"></span> 
+											</span>
+											<!--状态=> box-->
+											<span class="upload-tips resultData">
+												<span class="text"></span>
 											</span>
 
 											<!--上传成功后更好类名succeed -->

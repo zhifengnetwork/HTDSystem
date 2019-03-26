@@ -89,7 +89,7 @@ class Login extends Controller
             }
         }
         
-        // dump($money);
+        // dump($money);die;
         if($res){
             // dump($res);die;
             $this->assign('aa', $res);

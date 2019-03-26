@@ -59,12 +59,17 @@ class CheckOrder extends AdminBase
 				if($execute_order_check['is_check']==0){
 					$res4 = Db::name('execute_order')->where(['order_no'=> $order['order_no']])->update(['is_check'=>1]);
 				}
-
+				$user_res = true;
 				// 把当前订单的总金额*3累加到股权钱包中
 				$stock_rights_money = $order['total_money']*3;  // 1:3
 				$res5 = Db::name('user')->where(['id'=>$order['uid']])->setInc('stock_rights', $stock_rights_money);
-
-
+				// 修改user表flag
+				// 审核入单激活
+				$user_one = Db::name('user')->where(['id'=>$order['uid']])->find();
+				if($user_one['activation']==0){
+					$where['activation'] = 1;
+					$user_res = Db::name('user')->where(['id'=>$order['uid']])->update($where);
+				}
 				// 提交事务
 				Db::commit();   
 				return json(array('code' => 200, 'msg' => '订单审核成功！'));
