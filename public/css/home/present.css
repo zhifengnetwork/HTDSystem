@@ -70,7 +70,7 @@
 	letter-spacing: .01rem;
 	width: 100%;
 	height: auto;
-	padding: .88rem .2rem 1rem;
+	padding: .88rem .2rem 0;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -118,7 +118,6 @@
 	height: 100%;
 	vertical-align: top;
 }
-
 .currency_name {
 	width: .8rem;
 	color: white;
@@ -333,7 +332,7 @@
 
 .lj_p_address .lj_input3{
 	position: relative;
-	 width: 30% !important; 
+	width: 30% !important; 
 	float: left;
 	margin-left: .2rem !important;
 	margin-top: .15rem;
@@ -359,7 +358,7 @@
 	background: transparent;
 }
 
-.h2_input4{margin-top: 0.2rem;margin-left: 0.09rem;}
+.h2_input4{width:26.8% !important;margin-top: 0.2rem;margin-left: 0.09rem;}
 
 /* 复投弹框-e */
 #popover_num::-webkit-input-placeholder { /* WebKit, Blink, Edge */
