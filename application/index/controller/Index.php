@@ -419,11 +419,7 @@ class Index extends HomeBase
         if(empty($home)){
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
-        $income = db('income')->where(['uid'=>$home['id']])->select();
-        // dump($home['id']);die;
-        if(empty($income)){
-            $this->assign('income',$income);
-        }
+        $income =  Db::name('user_wallet')->field('id,uid,cu_id,bonus_wallet+rate_wallet total_num')->where(['uid'=>$home['id']])->select();
         $this->assign('income',$income);
         return view();
     }
@@ -435,16 +431,25 @@ class Index extends HomeBase
         if(empty($home)){
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
-        //当天开始时间
-        $start_time=strtotime(date("Y-m-d",time()));
-        
-        //当天结束之间
-        $end_time=$start_time+60*60*24;
-        $income = db('income')->whereTime('create_time','today')->where("uid = '".$home['id']."'")->select();
-        if($income){
-            $this->assign('income',$income);
+        // 获取当前用户所有钱包记录并且进行累加
+        $user_wallet = Db::name('user_wallet')->field('id,uid,cu_id')->where(['uid'=>$home['id']])->select();
+        $htd_num = 0;
+        foreach($user_wallet as $k=>$v){
+            $user_wallet[$k]['num'] = 0;
+            if($v['cu_id']!=11){
+                $user_wallet[$k]['num'] = Db::name('income')->where(['get_uid'=>$home['id'],'cu_id'=>$v['cu_id']])->whereTime('create_time','today')->sum('main_coin');
+                if(empty($user_wallet[$k]['num'])){
+                    $user_wallet[$k]['num'] = 0;
+                }
+            }
+            $htd_nums = Db::name('income')->where(['get_uid'=>$home['id'],'cu_id'=>$v['cu_id']])->whereTime('create_time','today')->sum('htd_coin');
+            $htd_num += $htd_nums;
+            if($v['cu_id']==11){
+                $user_wallet[$k]['num'] = $htd_num;
+            }
+            $user_wallet[$k]['create_time'] = time();
         }
-        $this->assign('income',$income);
+        $this->assign('income',$user_wallet);
         return view();
     }
     
