@@ -263,9 +263,9 @@ class Index extends HomeBase
         // 用于更新数据
         $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
 
-        if($data['qrcode_addr']){
-            $where1['qrcode_addr'] = $data['qrcode_addr'];
-        }
+        // if($data['qrcode_addr']){
+        //     $where1['qrcode_addr'] = $data['qrcode_addr'];
+        // }
 
         Db::startTrans();
         try{
@@ -290,6 +290,7 @@ class Index extends HomeBase
                     'out_num'    => $data['number']-$charge, // 平台最终转出数量
                     'create_time' => time(),
                     'wallet_addr'   => $data['wallet_addr'],
+                    'qrcode_addr' => $data['qrcode_addr'],
                     'tb_charge' => $charge,
                     'note'      => $data['note'], // 用户备注
                 ];
@@ -338,6 +339,7 @@ class Index extends HomeBase
                     'out_num'  => $data['cu_num']-$charge,  // 平台最终转出数量
                     'note'     => $data['note'],
                     'wallet_addr'  => $data['wallet_addr'],
+                    'qrcode_addr' => $data['qrcode_addr'],
                     'create_time'=> time()
                 ];
 
