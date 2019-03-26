@@ -358,7 +358,7 @@
 	background: transparent;
 }
 
-.h2_input4{width:26.8rem !important;margin-top: 0.2rem;margin-left: 0.09rem;}
+.h2_input4{width:26.8% !important;margin-top: 0.2rem;margin-left: 0.09rem;}
 
 /* 复投弹框-e */
 #popover_num::-webkit-input-placeholder { /* WebKit, Blink, Edge */
