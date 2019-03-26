@@ -31,6 +31,7 @@
                 <th>投资日期</th>
                 <th>凭证</th>
                 <th>支付方式</th>
+                <th>审核状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -53,7 +54,15 @@
                     {case value='2'}账户余额{/case}
                     {default /}default
                     {/switch}
-                    </td>
+                </td>
+                <td>
+                    {switch name='$vo.is_check'}
+                    {case value='0'}待审核{/case}
+                    {case value='1'}已审核{/case}
+                    {case value='2'}不通过{/case}
+                    {default /}暂无状态
+                    {/switch}
+                </td>
                 <td>
                     {if condition='$vo.is_check == 0'}
                     <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/CheckOrder/checkOrder',['order_id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>

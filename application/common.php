@@ -2101,19 +2101,32 @@ function getDirectUser($uid){
     return $directData;
 }
 
-// 获取当前用户所有已激活的直推会员(入单)
+// 获取当前用户所有已激活的直推会员(入单500美元以上)
 function getActivateUser($uid){
     if (empty($uid)) {
         return false;
     }
     $activateData = '';
+    $userData = [];
     $where['pid'] = $uid;
     $where['activation'] = 1; // 代表下单
     $activateData = Db::name('user')->field('id, pid, balance, username, usermail,mobile,status,activation,flag,idcard_url')->where($where)->select();
-    return $activateData;
+    if(!$activateData){
+        return false;
+    }
+    // 循环获取当前用户是否投资500美元以上
+    foreach($activateData as $k=>$v){
+        $res =  isEnjoyUser($v['id']);
+        if(!$res){
+            continue;
+        }
+        $userData[$k]['id'] = $v['id'];
+        $userData[$k]['pid'] = $v['pid'];
+    }
+    return $userData;
 }
 
-//获取当前收益的用户是否享受动态收益: 需要投资金额500美元以上
+//获取当前用户是否享受动态收益: 需要投资金额500美元以上
 function isEnjoyUser($uid){
     if (empty($uid)) {
         return false;

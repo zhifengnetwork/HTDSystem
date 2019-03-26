@@ -12,14 +12,14 @@ function cu_name($cu_id){
 function user($user_id){
 	$user = Db::name('user')->where('id',$user_id)->field('id,username')->find();
 
-	$name = $user ?$user['username'] : "用户名不存在";
+	$name = $user ? $user['id'].'|'.$user['username'] : "顶级用户";
 	return $name;
 }
 
 function user_name($user_id){
 	$user = Db::name('user')->where('id',$user_id)->field('username')->find();
 
-	$name = $user ? $user['username'] : "用户名不存在";
+	$name = $user ? $user['id'].'|'.$user['username'] : "顶级用户";
 
 	return $name;
 }

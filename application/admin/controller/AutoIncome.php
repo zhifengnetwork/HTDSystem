@@ -47,22 +47,22 @@ class AutoIncome
 					// 收益比例 主流币+平台代币
 					$main_coin_ratio = $configs['mainstream1']['value'];     // 主流币
 					$platform_coin_ratio = $configs['platform1']['value'];   // 平台币
-				}elseif($value['total_money'] > $configs['price_min2']['value'] && $value['total_money'] <= $configs['price_max2']['value']){
+				}elseif($value['total_money'] >= $configs['price_min2']['value'] && $value['total_money'] <= $configs['price_max2']['value']){
 					$rate = $configs['give2']['value']/100;
 					$main_coin_ratio = $configs['mainstream2']['value'];
 					$platform_coin_ratio = $configs['platform2']['value'];
 
-				}elseif($value['total_money'] > $configs['price_min3']['value'] && $value['total_money'] <= $configs['price_max3']['value']){
+				}elseif($value['total_money'] >= $configs['price_min3']['value'] && $value['total_money'] <= $configs['price_max3']['value']){
 					$rate = $configs['give3']['value']/100;
 					$main_coin_ratio = $configs['mainstream3']['value'];
 					$platform_coin_ratio = $configs['platform3']['value'];
 
-				}elseif($value['total_money'] > $configs['price_min4']['value'] && $value['total_money'] <= $configs['price_max4']['value']){
+				}elseif($value['total_money'] >= $configs['price_min4']['value'] && $value['total_money'] <= $configs['price_max4']['value']){
 					$rate = $configs['give4']['value']/100;
 					$main_coin_ratio = $configs['mainstream4']['value'];
 					$platform_coin_ratio = $configs['platform4']['value'];
 
-				}elseif($value['total_money'] > $configs['price_min5']['value'] && $value['total_money'] <= $configs['price_max5']['value']){
+				}elseif($value['total_money'] >= $configs['price_min5']['value'] && $value['total_money'] <= $configs['price_max5']['value']){
 					$rate = $configs['give5']['value']/100;
 					$main_coin_ratio = $configs['mainstream5']['value'];
 					$platform_coin_ratio = $configs['platform5']['value'];
@@ -73,7 +73,7 @@ class AutoIncome
 					$platform_coin_ratio = $configs['platform6']['value'];
 				}
 				
-				$rate = numberByRetain($rate/30, 8); // 除于30天取8位
+				$rate = numberByRetain($rate/$this->month, 8); // 除于30天取8位
 				// +++++++ 计算当前用户静态收益：币种收益=收益率*币种数量 +++++++ //
 				$giveIncome = $value['num']*$rate; 
 
@@ -157,8 +157,12 @@ class AutoIncome
 					// +++++++ 获取动态收益的上级用户uid，根据对应参数计算动态收益+++++++ //
 					// 1、获取当前用户所有的上级id
 					$upAll_arr = '';
+					// $value['uid'] =137;
+
 					$upAll_arr = getUpMemberIds($value['uid']);
-					// $dy_income_data = []; // 获得动态收益的上级id集
+					unset($GLOBALS['g_up_mids']); // 清空上一次循环全局数据
+
+					// p($upAll_arr);
 					// 2、循环上级id获取有效直推人数和入单金额是否达到条件
 					if(!$upAll_arr){
 						$dy_main_coin_res = true;
@@ -168,46 +172,60 @@ class AutoIncome
 					}
 					if($upAll_arr){
 						
-						foreach($upAll_arr as $k=>$upId){
-							$push_arr = '';
-							$push_arr = getActivateUser($upId);   // 获取当前用户所有已激活的直推会员(入单)
-							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单指定金额
+						foreach($upAll_arr as $ks=>$upId){
 						
+							$push_arr = '';
+							$push_arr = getActivateUser($upId);   // 获取当前用户所有已激活的直推会员(入单500美元以上)
+
+							$is_order_money = isEnjoyUser($upId); // 获取当前上级是否入单指定金额
+							
 							if(!$push_arr || !$is_order_money){
 								continue; // 不符合获取动态收益条件跳过
 							}
 							$push_num = count($push_arr);
-				
-							// 判断当前上级有效直推人数是否大于等于当前层数，如果大于获得动态收益
-							// 获取后台设置的获得层数设置
-							if($push_num >= $configs['people_num1']['value'] && $k+1 >= $configs['layer1']['value']){
+
+							// // 判断当前上级有效直推人数是否大于等于当前层数，如果大于获得动态收益
+							// // 获取后台设置的获得层数设置
+							if($push_num == $configs['people_num1']['value'] && $ks+1 <= $configs['layer1']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num2']['value'] && $k+1 >= $configs['layer2']['value']){
+							}elseif($push_num == $configs['people_num2']['value'] && $ks+1 <= $configs['layer2']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num3']['value'] && $k+1 >= $configs['layer3']['value']){
+							}elseif($push_num == $configs['people_num3']['value'] && $ks+1 <= $configs['layer3']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num4']['value'] && $k+1 >= $configs['layer4']['value']){
+							}elseif($push_num == $configs['people_num4']['value'] && $ks+1 <= $configs['layer4']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num5']['value'] && $k+1 >= $configs['layer5']['value']){
+							}elseif($push_num == $configs['people_num5']['value'] && $ks+1 <= $configs['layer5']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num6']['value'] && $k+1 >= $configs['layer6']['value']){
+							}elseif($push_num == $configs['people_num6']['value'] && $ks+1 <= $configs['layer6']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num7']['value'] && $k+1 >= $configs['layer7']['value']){
+							}elseif($push_num == $configs['people_num7']['value'] && $ks+1 <= $configs['layer7']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num8']['value'] && $k+1 >= $configs['layer8']['value']){
+							}elseif($push_num == $configs['people_num8']['value'] && $ks+1 <= $configs['layer8']['value']){
+								
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num9']['value'] && $k+1 >= $configs['layer9']['value']){
+							}elseif($push_num == $configs['people_num9']['value'] && $ks+1 <= $configs['layer9']['value']){
+							
 								$dy_is_true = true;
-							}elseif($push_num >= $configs['people_num10']['value'] && $k+1 >= $configs['layer10']['value']){
+							}elseif($push_num == $configs['people_num10']['value'] && $ks+1 <= $configs['layer10']['value']){
+								
 								$dy_is_true = true;
 							}else{
 								$dy_is_true = false;
 							}
-
-							// +++++ 把动态收益累加到获得收益的用户对应币种钱包+++++ //
+							
+							// // +++++ 把动态收益累加到获得收益的用户对应币种钱包+++++ //
 							if($dy_is_true){
-
+								echo '获得收益用户'.$upId;
+								echo "<br/>";
 								$earnings_rate = $configs['earnings_rate']['value']?$configs['earnings_rate']['value']:0;
+								$earnings_rate = numberByRetain($earnings_rate/$this->month, 8); // 除于30天取8位
 								if(!$earnings_rate){
 									$dy_total_income =0;
 									$dy_main_coin = 0;
@@ -233,11 +251,7 @@ class AutoIncome
 								$dyLogNote = '获的动态收益:'.$dy_total_income.'个,主流币'.$dy_main_coin.'平台币'.$dy_platform_coin;
 								$dy_in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$dyLogNote,$this->dy_type,$value['order_no']);
 							}
-							// // 循环获取当前上级的所有下线
-							// $upDown = getDownUserUids($upId);
-							// p($upDown);die;
-							// $dy_income_data[$k]['upId'] = $upId;	// 获得动态收益的上级
-							// $dy_income_data[$k]['push_num'] = count($push_arr); // 直推有效会员人数
+							
 						}
 					}
 					// +++++++++++++++++++++++++++++++++动态收益++++++++++++++++++++++++++++++++++++++++++++++ end
@@ -248,9 +262,9 @@ class AutoIncome
 
 					// 提交事务
 					Db::commit();  
-					echo "<br/>";
+					echo "<br/>".'=============================================';
 
-					echo '成功处理订单收益\n';
+					echo '成功处理订单收益\n'.'=============================================';;
 					echo "<br/>";
 
 				}catch(\Exception $e){
@@ -262,7 +276,6 @@ class AutoIncome
 			}
 			echo "<br/>";
 			echo $i." ok orders\n";
-			// echo "循环处理完成".$i."次\n";
 			
 		}else{
 			echo '没有要处理的订单';
