@@ -222,10 +222,8 @@ class AutoIncome
 							
 							// // +++++ 把动态收益累加到获得收益的用户对应币种钱包+++++ //
 							if($dy_is_true){
-								echo '获得收益用户'.$upId;
-								echo "<br/>";
+							
 								$earnings_rate = $configs['earnings_rate']['value']?$configs['earnings_rate']['value']:0;
-								$earnings_rate = numberByRetain($earnings_rate/$this->month, 8); // 除于30天取8位
 								if(!$earnings_rate){
 									$dy_total_income =0;
 									$dy_main_coin = 0;
@@ -262,9 +260,9 @@ class AutoIncome
 
 					// 提交事务
 					Db::commit();  
-					echo "<br/>".'=============================================';
+					echo "<br/>".'====';
 
-					echo '成功处理订单收益\n'.'=============================================';;
+					echo '成功处理订单收益\n'.'====';;
 					echo "<br/>";
 
 				}catch(\Exception $e){
