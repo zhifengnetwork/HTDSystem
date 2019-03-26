@@ -108,12 +108,12 @@ class GlobalProfit
 
 							// 提交事务
 							Db::commit();   
-							echo '成功处理全球分红\n';
+							echo "ok \n";
 
 						}catch(\Exception $e){
 							// 回滚事务
 							Db::rollback();
-							echo '处理全球分红失败';
+							echo "err \n";
 						}
 
 					}
