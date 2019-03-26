@@ -27,9 +27,9 @@
 
 .lj_sz_btn{width: 70%;margin: 0 auto;margin-top: 0.8rem;}
 
-.lj_sz_btn a{text-align: center;font-size: 0.24rem;color: #000;height: 0.7rem;line-height: 0.7rem; background:#fff;border-radius: 0.09rem;display: block;margin-top: 0.3rem;}
+.lj_sz_btn a{text-align: center;font-size: 0.24rem;color: #fff;height: 0.7rem;line-height: 0.7rem; background:#304fef;border-radius: 0.09rem;display: block;margin-top: 0.3rem;}
 .lj_szmm_a{width: 61%;margin: 0 auto;}
-.lj_sz_tc{background: #304fef !important;color: #fff !important;}
+
 
 .lj_all{padding-top: 1.08rem;box-sizing: border-box;}
 .lj_sz_btn_a{background: #101b59;}
