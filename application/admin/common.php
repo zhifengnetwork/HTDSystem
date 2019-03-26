@@ -19,7 +19,7 @@ function user($user_id){
 function user_name($user_id){
 	$user = Db::name('user')->where('id',$user_id)->field('username')->find();
 
-	$name = $user ? $user['id'].'|'.$user['username'] : "顶级用户";
+	$name = $user ? $user['username'] : "顶级用户";
 
 	return $name;
 }

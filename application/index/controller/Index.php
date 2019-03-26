@@ -122,20 +122,20 @@ class Index extends HomeBase
 
     // 人民币转美金
     public function exchange(){
-              $data   = input();
-              $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
-              $rmb    = $data['val']*$result;
-              //美元汇率   
-              $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
-              $exchange_usd = arr2name($exchange_usd);
-              $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
+        $data   = input();
+        $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
+        $rmb    = $data['val']*$result;
+        //美元汇率   
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
+        $exchange_usd = arr2name($exchange_usd);
+        $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
 
-              $base = new Base();
-              if($result){
-                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd]]);
-              }else{
-                $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
-              }              
+        $base = new Base();
+        if($result){
+        $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd]]);
+        }else{
+        $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
+        }              
     }
 
     // 用户提币(本金、收益、分红)
