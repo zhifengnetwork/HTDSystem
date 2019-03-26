@@ -85,7 +85,7 @@
     </div>
 </div>
 {/block} 
-{block name="page"}
+{block name="page"} 
 <div class="btable-paged">
     <div class="layui-main">
         {$income_list->render()}
@@ -106,8 +106,10 @@
             layer.open({
                 type:1,
                 content:'<img src='+url+'>',
-                time:5000,
+                time:9000,
                 closeBtn:1,
+                shade: 0.5,
+                area: ['30%','50%'],
 
                 yes: function(){
                     layer.closeAll();
