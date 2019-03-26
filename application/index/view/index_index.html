@@ -132,52 +132,6 @@
                 autoplayDisableOnInteraction: false
             }); 
  
-<<<<<<< HEAD
-            //一个小时弹框
-            var alread  //现在的时间  3600000
-            function notice(){
-                if (!isNaN(parseInt(sessionStorage.getItem('begin')))){
-                    alread=parseInt(sessionStorage.getItem('begin'))
-                    var bb = new Date().getTime()   //时间
-                    console.log(bb-alread)
-                }
-                 if(bb-alread>=3600000){
-                    console.log(bb-alread>=3600000)
-                    pop_up()
-                    window.sessionStorage.clear()
-                    alread = 0
-                }
-            }
-          function pop_up(){
-                $(".mode").show();
-                $(".dialog-notice").show();
-                stop(".mode");
-                document.body.style.overflow = 'hidden';
-          }
-            // //公告弹框 
-        // setTimeout(function (){
-        //         $(".mode").show();
-        //         $(".dialog-notice").show();
-        //         stop(".mode");
-        //         document.body.style.overflow = 'hidden';
-        //     },1000)
-            //第一次弹出公告
-            // console.log(parseInt(sessionStorage.getItem('begin')))
-            // console.log(isNaN(parseInt(sessionStorage.getItem('begin'))))
-            if (isNaN(parseInt(sessionStorage.getItem('begin')))){
-                console.log(isNaN(parseInt(sessionStorage.getItem('begin'))))
-                setTimeout(function (){
-                    pop_up()
-                    },1000)
-            }
-            
-            //阻止冒泡，点击弹框禁止页面滚动
-            $(".dialog-notice").bind("touchmove","touchstart",function(event){ 
-                event.stopPropagation();  
-                document.body.style.overflow = 'hidden';//禁止页面滚动
-            })
-
-=======
 			/*获取当前时间=>转换为时间戳*/
 			function time() { 
 				var today = new Date(); 
@@ -223,20 +177,15 @@
 				}
 			}
 			
->>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
             //公告弹窗关闭
             $(".dialog-notice .close,.dialog-btn a").click(function () {
                 $(".mode").hide();
                 $(".dialog-notice").hide();
                 /*当前时间戳=>写入localStorage中*/
 				window.localStorage.setItem('stamp',time());
-<<<<<<< HEAD
-            })  
-=======
             })
         
             
->>>>>>> 068fe16412c2fed71c7c60b3abadc96b040218bd
         })
 
     </script>
