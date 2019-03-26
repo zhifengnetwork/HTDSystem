@@ -215,7 +215,11 @@
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
 							<td>{$vo.type}</td>
-							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
+							<td>
+								{if condition="$vo.is_check eq 0"}待审核{/if}
+								{if condition="$vo.is_check eq 1"}已审核{/if}
+								{if condition="$vo.is_check eq 2"}已拒绝{/if}
+							</td>
 						</tr>
 						{/foreach}
         			</table>

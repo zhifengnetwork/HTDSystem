@@ -65,11 +65,16 @@
                 </td>
                 <td>
                     {if condition='$vo.is_check == 0'}
-                    <a href="javascript:;" data-id="{$vo.id}" data-url="{:url('admin/CheckOrder/checkOrder',['order_id'=>$vo['id']])}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
+
+                    <a href="javascript:;" data-id="{$vo.id}" data-opt="check" class="elementcheck layui-btn layui-btn-danger layui-btn-sm ajax-delete">审核</a>
                     {/if}
                     {if condition='$vo.is_check == 1'}
                     <span type="text">已审核</span>
                     {/if}
+                    {if condition='$vo.is_check == 2'}
+                    <span type="text">已拒绝</span>
+                    {/if}
+                    <!-- data-url="{:url('admin/CheckOrder/checkOrder',['order_id'=>$vo['id']])}"  -->
                 </td>
             </tr>
             {/foreach}
