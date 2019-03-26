@@ -10,6 +10,8 @@ class AutoIncome
 	protected $push_type = 102;
 	protected $dy_type = 103;
 	protected $global_type = 104;
+	private $key = '160da32821f8bfe1c7dd3c86d64b946a';
+
 
 	/* 
 	*	每天执行一次收益动作
@@ -18,9 +20,18 @@ class AutoIncome
 	*/
   public function autoToIncome(){
 
+		$get_key = input('key/s');
+		if(!$get_key){
+			return 'No .....';
+			exit;
+		}
+		if($get_key!=$this->key){
+			return 'No ...';
+			exit;
+		}
 		// 获取创建时候小于当天并且后台审核的订单
 		$toDayTime = strtotime(date('Y-m-d'));
-		// $orderWhere['create_time'] = array('<', $toDayTime);
+		$orderWhere['create_time'] = array('<', $toDayTime);
 		$orderWhere['is_check'] = 1; // 已审核
 		$orderWhere['is_stop'] = 0;  // 订单没有终止的
 		$orderWhere['num'] = array('>', 0);
@@ -87,9 +98,7 @@ class AutoIncome
 				// 开启事务
 				Db::startTrans();
 				try{
-
 					
-
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// +++++ 把收益累加到当前用户对应币种钱包+++++ //
 					$main_res = Db::name('user_wallet')->where(['uid'=>$value['uid'], 'cu_id'=>$value['cu_id']])->setInc('bonus_wallet', $main_coin);
@@ -103,9 +112,7 @@ class AutoIncome
 					$in_log_res1 = $this->insertLog($value['uid'],$value['cu_id'],$logNote,$this->static_type,$value['order_no']);
 					// 把相应收益累加到直推上级
 					$upUid = Db::name('user')->field('id,pid')->where(['id'=>$value['uid']])->find();
-					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1;die;
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ end
-
 				
 					// +++++++++++++++++++++++++++++++++直推收益++++++++++++++++++++++++++++++++++++++++++++++ begin
 					// 如果当前用户的pid=0 则不进入上级收益操作
@@ -137,13 +144,10 @@ class AutoIncome
 						$whereUp['uid'] = $upUid['pid'];
 						$whereUp['cu_id'] = $value['cu_id']; // 对应币种
 						$main_coin_res = Db::name('user_wallet')->where($whereUp)->setInc('bonus_wallet', $main_coin_push);
-						// echo Db::name('user_wallet')->getLastSql();die;
 
 						// 插入到平台币 cu_id=11
 						$platform_coin_res = Db::name('user_wallet')->where(['uid'=>$upUid['pid'], 'cu_id'=>11])->setInc('bonus_wallet', $platform_coin_push);
-						// echo Db::name('user_wallet')->getLastSql();die;
-						// echo $main_coin_res.'/'.$platform_coin_res;die;
-
+					
 						// 把直推收益记录插入收益表
 						$in_income_res2 = $this->insertToIncome($value['uid'],$upUid['pid'],$value['cu_id'],102,$value['total_money'],$giveIncome,$main_coin,$platform_coin_push,$rate,$value['order_no']);
 						// 插入直推日志
@@ -157,12 +161,9 @@ class AutoIncome
 					// +++++++ 获取动态收益的上级用户uid，根据对应参数计算动态收益+++++++ //
 					// 1、获取当前用户所有的上级id
 					$upAll_arr = '';
-					// $value['uid'] =137;
-
 					$upAll_arr = getUpMemberIds($value['uid']);
 					unset($GLOBALS['g_up_mids']); // 清空上一次循环全局数据
 
-					// p($upAll_arr);
 					// 2、循环上级id获取有效直推人数和入单金额是否达到条件
 					if(!$upAll_arr){
 						$dy_main_coin_res = true;
@@ -253,35 +254,26 @@ class AutoIncome
 						}
 					}
 					// +++++++++++++++++++++++++++++++++动态收益++++++++++++++++++++++++++++++++++++++++++++++ end
-
 					// +++++ 更新当前订单收益时间 +++++ //
 					$order_up_res = Db::name('buy_order')->where(['id'=>$value['id']])->update(['out_income_time'=>time()]);
-					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1.'/'.$main_coin_res.'/'.$platform_coin_res.'/'.$in_income_res2.'/'.$in_log_res2.'/'.$order_up_res;die;
 
 					// 提交事务
 					Db::commit();  
-					echo "<br/>".'====';
-
-					echo '成功处理订单收益\n'.'====';;
-					echo "<br/>";
 
 				}catch(\Exception $e){
 					// 回滚事务
 					Db::rollback();
-					echo '处理订单收益失败';
+					echo "the orders err\n";
 				}
 				$i++;
 			}
-			echo "<br/>";
 			echo $i." ok orders\n";
 			
 		}else{
-			echo '没有要处理的订单';
+			echo "No dispose the orders\n";
 			exit;
-			// echo "No dispose the orders\n";
 		}
-		// p($orderAll);
-		// return json(array('code' => 200, 'msg' => '订单审核成功！'));
+		
 	}
 	
 	// 插入收益表
