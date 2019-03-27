@@ -263,7 +263,7 @@ function UpLoad(e) {
 						var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
 						/* 图片 回显*/
 						// that.siblings(".preViewImg").eq(0).attr("src", newImageData);
-						console.log(newImageData);
+						// console.log(newImageData);
 						dataImg	= newImageData;
 						$("#canvas").hide();
 						/*根据点击的下标 =>显示 '回显图片'*/
