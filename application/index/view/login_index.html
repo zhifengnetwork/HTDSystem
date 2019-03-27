@@ -76,7 +76,7 @@
 
 	<!--启动页 -->
 	<div class="start-wrap">
-		<img src="__PUBLIC__/images/home/startIndex.gif" alt="__PUBLIC__/images/home/startIndex.gif" onerror="javascript:this.src='/public//images/public/loading.gif'" class="imgs"/>
+		<img src="__PUBLIC__/images/home/startIndex.gif" alt="加载中.." onerror=src="__PUBLIC__/images/public/loding.gif" class="imgs"/>
 	</div>
 </body>
 <script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
@@ -142,13 +142,14 @@
 			});
 
 		});
+	})
 
+	window.onload = function(){
 		// 3秒后启动页隐藏
 		setInterval(function(){
 			$(".start-wrap").css("display","none");
 			$(".loginbox").show();
 		},3000)
-		
+	}
 
-	})
 </script>
