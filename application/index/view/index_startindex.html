@@ -5,23 +5,34 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title class="pageTopTitle" page-id="0">HTD</title>
     <style>
-        .imgs{
-            width: 40%;
-            height: 40%;
-        }
+        .guide-wrap img{
+            width: 100%;
+            height: 100%;
+		}
     </style>
 </head>
 <body>
     <div class="wrapper">
         <!--启动页 -->
-        <img src="__PUBLIC__/images/home/startIndex.gif" class="imgs"/>
+        <div class="guide-wrap">
+            <img src="__PUBLIC__/images/home/startIndex.gif" class="imgs"/>
+        </div>
     </div>
     <script src="/public/js/jquery-1.8.3.min.js"></script>
     <script>
+        $(function(){
 
-        // 3秒后获取当前域名跳转
-        // $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
-        // header("refresh:1;url=$url");
+            // 3秒后获取当前域名跳转
+            var domain = document.domain;
+            $url = "http://"+ domain +"/index/login/index";
+            //$url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
+            //header("refresh:1;url=$url");
+            setInterval(function(){
+                location.href = $url;
+            },3000)
+
+		})
+
     </script>
 </body>
 </html>
