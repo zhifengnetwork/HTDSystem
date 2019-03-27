@@ -149,7 +149,9 @@
 
 	window.onload = function(){
 		var imgSrc = $("#imgs").attr('src');
-		$(".imgs").attr("src",imgSrc);
+		localStorage.setItem("imgSrc",imgSrc);
+		var localSrc = localStorage.getItem("imgSrc");
+		$(".imgs").attr("src",localSrc);
 		// 3秒后启动页隐藏
 		setInterval(function(){
 			$(".start-wrap").css("display","none");
