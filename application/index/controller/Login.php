@@ -7,11 +7,18 @@ use think\Controller;
 use think\Db;
 use think\Session;
 class Login extends Controller
-{//登录成功通过session值判断，如果已经登录自动跳转主页
+{      
+    
+      //登录成功通过session值判断，如果已经登录自动跳转主页
       public function index()
       {
-          $home = session('home');
-            // dump($home['id']);die;
+            $home = session('home');
+            // 判断有没有登录，没有则调到启动页3秒后再跳到登录页。
+            if(!$home['id']){
+                $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/startindex";
+                header("refresh:1;url=$url");
+                exit;
+            }
             if(!empty($home['id'])){
 
 				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
@@ -20,7 +27,6 @@ class Login extends Controller
 
 				return $this->fetch();
 			}
-    
     }
 
 
@@ -264,6 +270,12 @@ class Login extends Controller
         $res = getPhoneCode($data);
         return json($res);
         // p($res);
+    }
+
+    // 启动页
+    public function startindex(){
+    
+        return view('index_startindex');
     }
 
 }

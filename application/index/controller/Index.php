@@ -52,6 +52,12 @@ class Index extends HomeBase
     public function index()
     {
         $home = session('home');
+        // 判断有没有登录，没有则调到启动页3秒后再跳到登录页。
+        if(!$home['id']){
+            $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/startindex";
+            header("refresh:1;url=$url");
+            exit;
+        }
         if(!$home['id']){
             $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
             header("refresh:1;url=$url");
