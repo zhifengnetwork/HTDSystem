@@ -63,8 +63,8 @@
 						</div>
 						<!-- 提取按钮 -->
 						{if condition="$v.cu_id eq 11"} {else /}
-						<div class="currency_box" data-phone="{$phone}">
-							<a class="currency_btn" onclick="send('{$v.cu_id}')">提取</a>
+						<div class="currency_box" data-phone="{$phone}" now-price="{$v.price}">
+							<a class="currency_btn" onclick="send('{$v.cu_id}','{$v.price}')">提取</a>
 							<a class="currency_btn" onclick="voting('{$v.cu_id}')">复投</a>
 						</div>
 						{/if}
@@ -83,8 +83,8 @@
 								<img src="__PUBLIC__/images/xia.png" class="down">
 								<ul class="ul_box popover_ul">
 									<li data-index="1" onclick="getAll(1)">本金</li>
-									<li data-index="2" onclick="getReta(2)">收益</li>
-									<li data-index="3" onclick="getProfit(3)">分红</li>
+									<li data-index="2" onclick="">收益</li>
+									<li data-index="3" onclick="">分红</li>
 								</ul>
 							</div>
 
@@ -228,6 +228,7 @@
 						</form>
 						</div>
 						<input type="hidden" name="cu_id" value="" id="getAll_id" />
+						<input type="hidden" value="" id="now_price" />
 					</div>
 					<!-- 复投弹框-e -->
 				</div>
@@ -288,16 +289,21 @@
 					$(".popover_box>.popover_ul").slideToggle()
 					$(".popover_click").html($li)
 					$(".popover_click").attr("data-id", index)
-
 					if(index == 1) {
 						$("#popover_num").attr("disabled", "disabled");
 						// $('#popover_num').attr('placeholder','本金提币终止合同')	  
 					} else if(index == 2) {
 						$('#popover_num').val('');
 						$("#popover_num").removeAttr("disabled");
-						$('#popover_num').attr('placeholder', '大于等于{$withdraw_min}美金可提取')
+						var now_price = $('#now_price').val();
+						var withdraw_min = {$withdraw_min}/now_price;
+						withdraw_min = withdraw_min.toFixed(4);
+						$('#popover_num').attr('placeholder', '最小提币数量'+withdraw_min)
 					} else {
-						$('#popover_num').attr('placeholder', '大于等于{$global_min}美金可提取')
+						var now_price = $('#now_price').val();
+						var global_min = {$global_min}/now_price;
+						global_min = global_min.toFixed(4);
+						$('#popover_num').attr('placeholder', '最小提币数量'+global_min)
 					}
 				})
 				//复投下拉框-类型 
@@ -329,8 +335,8 @@
 			});
 
 			// 点击提取按钮传入当前币种id
-			function send(cu_id) {
-
+			function send(cu_id,price) {
+				$("#now_price").val(price);
 				$('#getAll_id').val(cu_id); // 选择本金时根据币种id获取所有本金
 				$('.popover').show();
 				$('.cu_id_class').val(cu_id);
@@ -422,7 +428,6 @@
 						uid: uid
 					},
 					success: function(msg) {
-						console.log(msg);
 						$('#popover_num').val(msg.cu_num);
 						layer.alert('您确认终止合同吗?', {
 							closeBtn: 1
