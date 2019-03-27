@@ -24,13 +24,10 @@
 
             // 3秒后获取当前域名跳转
             var domain = document.domain;
-            $url = "http://"+ domain +"/index/login/index";
-            //$url = "http://".$_SERVER ['HTTP_HOST']."/index/login/index";
-            //header("refresh:1;url=$url");
+            $url = "http://"+ domain +"/index/login/index?flag=1";
             setInterval(function(){
                 location.href = $url;
             },3000)
-
 		})
 
     </script>

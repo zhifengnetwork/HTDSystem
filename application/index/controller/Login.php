@@ -13,20 +13,27 @@ class Login extends Controller
       public function index()
       {
             $home = session('home');
+            $flag = input('get.flag/d');
+
             // 判断有没有登录，没有则调到启动页3秒后再跳到登录页。
-            if(!$home['id']){
-                $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/startindex";
-                header("refresh:1;url=$url");
-                exit;
+            // 判断有没有登录，没有则调到启动页3秒后再跳到登录页。
+            if($flag==1){
+                if(!empty($home['id'])){
+
+                    $url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
+                    header("refresh:1;url=$url");
+                }else{
+    
+                    return $this->fetch();
+                }
+                
+            }else{
+                if(!$home['id']){
+                    $url = "http://".$_SERVER ['HTTP_HOST']."/index/login/startindex";
+                    header("refresh:1;url=$url");
+                    exit;
+                }
             }
-            if(!empty($home['id'])){
-
-				$url = "http://".$_SERVER ['HTTP_HOST']."/index/my/my";
-			    header("refresh:1;url=$url");
-			}else{
-
-				return $this->fetch();
-			}
     }
 
 
