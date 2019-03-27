@@ -74,9 +74,12 @@
 		</div>
 	</div>
 
+	<!-- 启动页路径 -->
+	<img src="__PUBLIC__/images/home/startIndex.gif" id="imgs" style="display:none;" />
 	<!--启动页 -->
 	<div class="start-wrap">
-		<img src="__PUBLIC__/images/home/startIndex.gif" alt="加载中.." onerror=src="__PUBLIC__/images/public/loding.gif" class="imgs"/>
+		<!-- <img src="__PUBLIC__/images/home/startIndex.gif" class="imgs" /> -->
+		<img class="imgs">
 	</div>
 </body>
 <script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
@@ -145,6 +148,8 @@
 	})
 
 	window.onload = function(){
+		var imgSrc = $("#imgs").attr('src');
+		$(".imgs").attr("src",imgSrc);
 		// 3秒后启动页隐藏
 		setInterval(function(){
 			$(".start-wrap").css("display","none");
