@@ -150,13 +150,15 @@
 	window.onload = function(){
 		var imgSrc = $("#imgs").attr('src');
 		localStorage.setItem("imgSrc",imgSrc);
-		var localSrc = localStorage.getItem("imgSrc");
-		$(".imgs").attr("src",localSrc);
-		// 3秒后启动页隐藏
 		setInterval(function(){
-			$(".start-wrap").css("display","none");
-			$(".loginbox").show();
-		},3000)
+			var localSrc = localStorage.getItem("imgSrc");
+			$(".imgs").attr("src",localSrc);
+			// 3秒后启动页隐藏
+			setInterval(function(){
+				$(".start-wrap").css("display","none");
+				$(".loginbox").show();
+			},3000)
+		},1000)
 	}
 
 </script>
