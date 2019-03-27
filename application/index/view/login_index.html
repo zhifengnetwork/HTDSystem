@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="__PUBLIC__/css/login/login.css?v=11111">
 	<link rel="stylesheet" href="__PUBLIC__css/public/alertWrap.css">
 	<style>
+		.loginbox{
+			display: none;
+		}
 		.start-wrap{
 			position: fixed;
 			top: 0;
@@ -27,9 +30,7 @@
 
 <body>
 	<div class="loginbox">
-
 		<div class="header-zp">
-
 			<h3>登录</h3>
 		</div>
 		<div class="login-new-page">
@@ -71,12 +72,11 @@
 				<a href="{:url('index/login/retrieve')}" class="retrieve">忘记密码?</a>
 			</div>
 		</div>
+	</div>
 
-		<!--启动页 -->
-		<div class="start-wrap">
-			<img src="__PUBLIC__/images/home/startIndex.gif" class="imgs"/>
-		</div>
-
+	<!--启动页 -->
+	<div class="start-wrap">
+		<img src="__PUBLIC__/images/home/startIndex.gif" class="imgs"/>
 	</div>
 </body>
 <script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
@@ -147,6 +147,7 @@
 		// 3秒后启动页隐藏
 		setInterval(function(){
 			$(".start-wrap").css("display","none");
+			$(".loginbox").show();
 		},3000)
 
 	})
