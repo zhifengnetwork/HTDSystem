@@ -23,6 +23,10 @@ class CheckOrder extends AdminBase
 			// 	return json(array('code' => 0, 'msg' => '提交类型错误'));
 			// }
 			$order_id = input('order_id/d');
+			$check_type = input('type/d'); // 1审核,2拒绝
+			if($check_type>2){
+				return json(array('code' => 0, 'msg' => '类型出错!'));
+			}
 			if(!$order_id){
 				return json(array('code' => 0, 'msg' => '获取订单id异常'));
 			}
@@ -32,47 +36,66 @@ class CheckOrder extends AdminBase
 				return json(array('code' => 0, 'msg' => '当前订单不存在'));
 			}
 			// 判断订单是否已经审核过
-			if($order['is_check']==1){
+			if($order['is_check']==1 && $check_type==1){
 				return json(array('code' => 0, 'msg' => '当前订单已审核过'));
+			}
+
+			// 判断订单是否已经拒绝过
+			if($order['is_check']==2 && $check_type==2){
+				return json(array('code' => 0, 'msg' => '当前订单已拒绝过'));
 			}
 
 			// 开启事务
 			Db::startTrans();
 			try{
 
-				// 如果审核订单和当前execute_order订单号相同则不累加，该状态即可
-				// 修改execute_order订单状态
-				$execute_order_check = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->find();
-				if($execute_order_check['order_no'] != $order['order_no']){
-					// 数量累加到execute_order
-					$res1 = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('num', $order['num']);
-					// 累加total_money
-					Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('total_money', $order['total_money']);
-				}
-				// 数量累加到钱包对应币种数量
-				$res2 = Db::name('user_wallet')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('cu_num', $order['num']);
+				if($check_type==1){
 
-				// 修改订单状态buy_order
-				$res3 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>1,'check_time'=>time()]);
-				
-				// execute_order审核过一次不需要审核
-				if($execute_order_check['is_check']==0){
-					$res4 = Db::name('execute_order')->where(['order_no'=> $order['order_no']])->update(['is_check'=>1]);
+					// 如果审核订单和当前execute_order订单号相同则不累加，该状态即可
+					// 修改execute_order订单状态
+					$execute_order_check = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->find();
+					if($execute_order_check['order_no'] != $order['order_no']){
+						// 数量累加到execute_order
+						$res1 = Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('num', $order['num']);
+						// 累加total_money
+						Db::name('execute_order')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('total_money', $order['total_money']);
+					}
+					// 数量累加到钱包对应币种数量
+					$res2 = Db::name('user_wallet')->where(['uid'=>$order['uid'], 'cu_id'=>$order['cu_id']])->setInc('cu_num', $order['num']);
+
+					// 修改订单状态buy_order
+					$res3 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>1,'check_time'=>time()]);
+					
+					// execute_order审核过一次不需要审核
+					if($execute_order_check['is_check']==0){
+						$res4 = Db::name('execute_order')->where(['order_no'=> $order['order_no']])->update(['is_check'=>1]);
+					}
+					$user_res = true;
+					// 把当前订单的总金额*3累加到股权钱包中
+					$stock_rights_money = $order['total_money']*3;  // 1:3
+					$res5 = Db::name('user')->where(['id'=>$order['uid']])->setInc('stock_rights', $stock_rights_money);
+					// 修改user表flag
+					// 审核入单激活
+					$user_one = Db::name('user')->where(['id'=>$order['uid']])->find();
+					if($user_one['activation']==0){
+						$where['activation'] = 1;
+						$user_res = Db::name('user')->where(['id'=>$order['uid']])->update($where);
+					}
 				}
-				$user_res = true;
-				// 把当前订单的总金额*3累加到股权钱包中
-				$stock_rights_money = $order['total_money']*3;  // 1:3
-				$res5 = Db::name('user')->where(['id'=>$order['uid']])->setInc('stock_rights', $stock_rights_money);
-				// 修改user表flag
-				// 审核入单激活
-				$user_one = Db::name('user')->where(['id'=>$order['uid']])->find();
-				if($user_one['activation']==0){
-					$where['activation'] = 1;
-					$user_res = Db::name('user')->where(['id'=>$order['uid']])->update($where);
+				$res4 = true;
+				// 拒绝
+				if($check_type==2){
+					// 修改订单状态
+					$res4 = Db::name('buy_order')->where(['id'=>$order_id])->update(['is_check'=>2,'check_time'=>time()]);
 				}
+
 				// 提交事务
 				Db::commit();   
-				return json(array('code' => 200, 'msg' => '订单审核成功！'));
+				if($check_type==1){
+					return json(array('code' => 200, 'msg' => '订单审核成功！'));
+				}else{
+					return json(array('code' => 200, 'msg' => '订单拒绝成功！'));
+				}
 				
 			}catch(\Exception $e){
 

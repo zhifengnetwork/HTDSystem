@@ -15,13 +15,13 @@
 	<div class="user">
 		<div class="zjy_box">
 			<ul class="zjy_ul">
-				<li class="on">我的钱包</li>
+				<li class="on">委托</li>
 				<li>交易历史</li>
 				<!--<li>终止交易</li>-->
 			</ul>
 			<div class="zjy_box_conten">
 				<div class="zjy_box_conten_item avtive">
-					<!--总投资按钮-->
+					<!--总委托按钮-->
 					<div class="bag-wrap" >
 						<div class="asset" style="position: relative;">
 							<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
@@ -43,7 +43,7 @@
 						<p class="wtf_xl"><img style="width: 0.2rem;height: 0.15rem;padding-top: 0;margin-left: 0.1rem;" src="../../../public/images/wallet/zjy_xiala.png" /></p>
 					</div>
 					<div class="amount">
-						<span>投资数量：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入数量" />
+						<span>委托数量：</span><input class="inp" id="throw_inp" type="number" value="" placeholder="请输入数量" />
 					</div>
 					
 					<!--选择付款方式-->
@@ -128,7 +128,7 @@
 						</div>
 				
 <!-- 		s-click="2"=> 防止重复点击			 -->
-					<div class="sum" has-click="2">投资</div>
+					<div class="sum" has-click="2">委托</div>
 					<!--选择币值-弹框-->
 
 					<div class="shadow-wrap">
@@ -165,7 +165,7 @@
 					</div>
 
 
-					<!--总投资-弹框-->
+					<!--总委托-弹框-->
 					<div class="shadow-wrap-up">
 						<div class="assetPopup pop">
 
@@ -215,7 +215,11 @@
 							<td>{$vo.cu_name}</td>
 							<td>{$vo.num}</td>
 							<td>{$vo.type}</td>
-							<td>{if condition="$vo.is_check eq 1"}已审核{else /}待审核{/if}</td>
+							<td>
+								{if condition="$vo.is_check eq 0"}待审核{/if}
+								{if condition="$vo.is_check eq 1"}已审核{/if}
+								{if condition="$vo.is_check eq 2"}已拒绝{/if}
+							</td>
 						</tr>
 						{/foreach}
         			</table>

@@ -122,20 +122,20 @@ class Index extends HomeBase
 
     // 人民币转美金
     public function exchange(){
-              $data   = input();
-              $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
-              $rmb    = $data['val']*$result;
-              //美元汇率   
-              $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
-              $exchange_usd = arr2name($exchange_usd);
-              $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
+        $data   = input();
+        $result = Db::table('htd_currency')->where('id',$data['cu_id'])->value('price');
+        $rmb    = $data['val']*$result;
+        //美元汇率   
+        $exchange_usd = Db::name('income_config')->field('name,value')->where('name','exchange_usd')->select();
+        $exchange_usd = arr2name($exchange_usd);
+        $usd    = $rmb*$exchange_usd['exchange_usd']['value'];
 
-              $base = new Base();
-              if($result){
-                $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd]]);
-              }else{
-                $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
-              }              
+        $base = new Base();
+        if($result){
+        $base->ajaxReturn(['status' => 1, 'msg' =>'数据获取成功', 'result' =>['usd'=>$usd]]);
+        }else{
+        $base->ajaxReturn(['status' => 0, 'msg' =>'数据获取失败', 'result' =>'']);
+        }              
     }
 
     // 用户提币(本金、收益、分红)
@@ -263,9 +263,9 @@ class Index extends HomeBase
         // 用于更新数据
         $where  = array('uid'=>$data['uid'],'cu_id'=> $data['cu_id']);
 
-        if($data['qrcode_addr']){
-            $where1['qrcode_addr'] = $data['qrcode_addr'];
-        }
+        // if($data['qrcode_addr']){
+        //     $where1['qrcode_addr'] = $data['qrcode_addr'];
+        // }
 
         Db::startTrans();
         try{
@@ -290,6 +290,7 @@ class Index extends HomeBase
                     'out_num'    => $data['number']-$charge, // 平台最终转出数量
                     'create_time' => time(),
                     'wallet_addr'   => $data['wallet_addr'],
+                    'qrcode_addr' => $data['qrcode_addr'],
                     'tb_charge' => $charge,
                     'note'      => $data['note'], // 用户备注
                 ];
@@ -338,6 +339,7 @@ class Index extends HomeBase
                     'out_num'  => $data['cu_num']-$charge,  // 平台最终转出数量
                     'note'     => $data['note'],
                     'wallet_addr'  => $data['wallet_addr'],
+                    'qrcode_addr' => $data['qrcode_addr'],
                     'create_time'=> time()
                 ];
 
@@ -419,11 +421,7 @@ class Index extends HomeBase
         if(empty($home)){
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
-        $income = db('income')->where(['uid'=>$home['id']])->select();
-        // dump($home['id']);die;
-        if(empty($income)){
-            $this->assign('income',$income);
-        }
+        $income =  Db::name('user_wallet')->field('id,uid,cu_id,bonus_wallet+rate_wallet total_num')->where(['uid'=>$home['id']])->select();
         $this->assign('income',$income);
         return view();
     }
@@ -435,16 +433,25 @@ class Index extends HomeBase
         if(empty($home)){
             return $this->error('亲！要先登录才能进行查看!!!', 'index/login/index');
         }
-        //当天开始时间
-        $start_time=strtotime(date("Y-m-d",time()));
-        
-        //当天结束之间
-        $end_time=$start_time+60*60*24;
-        $income = db('income')->whereTime('create_time','today')->where("uid = '".$home['id']."'")->select();
-        if($income){
-            $this->assign('income',$income);
+        // 获取当前用户所有钱包记录并且进行累加
+        $user_wallet = Db::name('user_wallet')->field('id,uid,cu_id')->where(['uid'=>$home['id']])->select();
+        $htd_num = 0;
+        foreach($user_wallet as $k=>$v){
+            $user_wallet[$k]['num'] = 0;
+            if($v['cu_id']!=11){
+                $user_wallet[$k]['num'] = Db::name('income')->where(['get_uid'=>$home['id'],'cu_id'=>$v['cu_id']])->whereTime('create_time','today')->sum('main_coin');
+                if(empty($user_wallet[$k]['num'])){
+                    $user_wallet[$k]['num'] = 0;
+                }
+            }
+            $htd_nums = Db::name('income')->where(['get_uid'=>$home['id'],'cu_id'=>$v['cu_id']])->whereTime('create_time','today')->sum('htd_coin');
+            $htd_num += $htd_nums;
+            if($v['cu_id']==11){
+                $user_wallet[$k]['num'] = $htd_num;
+            }
+            $user_wallet[$k]['create_time'] = time();
         }
-        $this->assign('income',$income);
+        $this->assign('income',$user_wallet);
         return view();
     }
     

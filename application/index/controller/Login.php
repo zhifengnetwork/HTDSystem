@@ -70,60 +70,61 @@ class Login extends Controller
         echo $data;
        
     }
-    //团队
+    /*
+    *   我的团队所有币种本金统计,不包括自己
+    *   对应币种数量乘以当前币种价格
+     */
     public function directdrive(){
             
         $home = session('home');
-        $configs = Db::name('income_config')->field('name,value')->select();
+        $configs = Db::name('income_config')->field('id,name,value')->where('name','in',['exchange_usd'])->select();
         $configs = arr2name($configs);
         $usd = $configs['exchange_usd']['value'];
         $res = '';    
+        // 所有直推用户
         $res = DB::name('user')->where(['pid'=>$home['id']])->select();
         $users = getDownUserUids2($home['id']);
+        unset($GLOBALS['g_down_Uids']);
         $money = 0;
         if($users){
             foreach ($users as $key=>$val)
             {
-                $wallet = $this->wallet($val);
+                $wallet = $this->user_wallet($val);
                 $money += $wallet;
             }
         }
-        
-        // dump($money);die;
         if($res){
-            // dump($res);die;
             $this->assign('aa', $res);
         }
         if(!$money){
-            $total_money = $money/$usd;
-        }else{
             $total_money = 0;
+        }else{
+            $total_money = $money/$usd;
         }
         $this->assign('money', $total_money);
         $this->assign('aa', $res);
         return view();
     }
 
-    private function wallet($uid){
-        $arr = db('user_wallet')->where(['uid'=>$uid])->select();
-        $cur = db('currency')->select();
+    // 获取用户所有币种钱包记录,并且对应币种数量乘当前币种价格
+    private function user_wallet($uid){
+        $arr = Db::name('user_wallet')->field('id,uid,cu_id,cu_num')->where(['uid'=>$uid])->select();
+        $cur = Db::name('currency')->field('id,price')->select();
         $money = 0;
-        
-        // dump($thd);
         foreach($arr as $key=>$val)
         {
             foreach($cur as $k => $v){
-                
+                // 比对币种
                 if($val['cu_id']==$v['id']){
                     $ftp = $val['cu_num']*$v['price'];
-                    $money +=$ftp;
+                    $money += $ftp;
                 }
             }
         }
-        if(!empty($money))
-        {
-            return $money;
+        if(!$money){
+            return 0;
         }
+        return $money;
     }
 
     private function currency($id)

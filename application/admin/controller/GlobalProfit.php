@@ -6,7 +6,8 @@ use think\Db;
 
 class GlobalProfit
 {
-    
+	
+	private $key = '160da32821f8bfe1c7dd3c86d64b946a';
 	/* 
 	* 根据后台设置的分红时间进行全球分红操作
 	* 1、获取后台全球分红配置信息
@@ -16,6 +17,15 @@ class GlobalProfit
 	*/
     public function globalToProfit()
     {
+			$get_key = input('key/s');
+			if(!$get_key){
+				return 'No .....';
+				exit;
+			}
+			if($get_key!=$this->key){
+				return 'No ...';
+				exit;
+			}
 			// 获取配置表 profit_day 分红天数 , profit_rate 分红比例
 			$configs = Db::name('income_config')->field('name,value')->where('name', 'in', ['profit_day', 'profit_rate'])->select();
 			// 把配置项name转换成$configs['profit_day']['value']
@@ -98,12 +108,12 @@ class GlobalProfit
 
 							// 提交事务
 							Db::commit();   
-							echo '成功处理全球分红\n';
+							echo "ok \n";
 
 						}catch(\Exception $e){
 							// 回滚事务
 							Db::rollback();
-							echo '处理全球分红失败';
+							echo "err \n";
 						}
 
 					}

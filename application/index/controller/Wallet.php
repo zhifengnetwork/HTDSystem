@@ -19,8 +19,8 @@ class Wallet extends HomeBase
     }
     
     /**
-     * 点击首页投资按钮进入获取数据
-     * 获取当前用户投资的所有币种订单
+     * 点击首页委托按钮进入获取数据
+     * 获取当前用户委托的所有币种订单
     */
     public function wallet()
     {
@@ -39,7 +39,7 @@ class Wallet extends HomeBase
         $userWallet = $this->getUserWallet($user_id);
         $wallet_btc = $this->wallet_btc($user_id);
         // dump($wallet_btc);die;
-        // 获取最低投资金额
+        // 获取最低委托金额
         // $min_money = Db::name('income_config')->field('name,value')->where(['name'=>'price_min1'])->select();
         // $min_money = arr2name($min_money);
         $this->assign('wallet_btc',$wallet_btc);
@@ -80,7 +80,7 @@ class Wallet extends HomeBase
     }
 
     /**
-     *  用户点击确定投资
+     *  用户点击确定委托
      * 1、判断用户是否存在当前币种的订单,如果存在，则累加订单币种（复投）。
     */
     public function confirmInvest()
@@ -138,7 +138,7 @@ class Wallet extends HomeBase
             $cu_num = $param['cu_num'];
         }
        
-        // 判断当前投资币种是否存在钱包表，如果没有插入一条
+        // 判断当前委托币种是否存在钱包表，如果没有插入一条
         $wallet_is = Db::name('user_wallet')->where(['uid'=>$user_one['id'],'cu_id'=>$currency_one['id']])->find();
         
 
@@ -228,7 +228,7 @@ class Wallet extends HomeBase
 
             // 提交事务
             Db::commit(); 
-            return json(array('code' => 200, 'msg' => '投资成功，请等待审核'));
+            return json(array('code' => 200, 'msg' => '委托成功，请等待审核'));
             
         }catch(\Exception $e){
             // 回滚事务
@@ -275,7 +275,7 @@ class Wallet extends HomeBase
     }
 
     /**
-     *  获取用户的投资历史订单及提币记录
+     *  获取用户的委托历史订单及提币记录
      */
     private function user_order($user_id)
     {
@@ -286,7 +286,7 @@ class Wallet extends HomeBase
                 foreach($currency_arr as $k=>$v){
                     if($v2['cu_id'] == $v['id']){
                         $user_order[$k1]['cu_name'] = $v['alias_name'];
-                        $user_order[$k1]['type'] = '投资';
+                        $user_order[$k1]['type'] = '委托';
                     }
                 }
             }
