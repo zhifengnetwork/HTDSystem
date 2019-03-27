@@ -108,12 +108,12 @@ class GlobalProfit
 
 							// 提交事务
 							Db::commit();   
-							echo "ok \n";
+							echo  time()." ok \n";
 
 						}catch(\Exception $e){
 							// 回滚事务
 							Db::rollback();
-							echo "err \n";
+							echo  time()." err \n";
 						}
 
 					}

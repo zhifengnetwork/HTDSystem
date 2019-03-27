@@ -98,7 +98,7 @@ $(document).ready(function(){
 		// 	layer.msg('请先输入币种数量');
 		// 	return false;
 		// }
-		if(cu_num<1){
+		if(cu_num<0){
 			layer.msg('投资币种数量不可为0');
 			return false;
 		}
