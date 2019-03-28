@@ -2134,6 +2134,7 @@ function isEnjoyUser($uid){
     $where['uid'] = $uid;
     // $where['cu_id'] = $cu_id;
     $where['is_check'] = 1; // 后台审核有效订单
+    $where['is_stop'] = 0; // 统计没有终止合同的币种
     $orderMoney = '';
     $orderMoney = Db::name('execute_order')->where($where)->sum('total_money');
     // 是否存在投资金额
