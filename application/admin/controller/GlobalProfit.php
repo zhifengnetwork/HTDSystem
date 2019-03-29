@@ -107,7 +107,7 @@ class GlobalProfit
 							$res_global = Db::name('global_profit')->insert($in_global);
 
 							// 提交事务
-							//Db::commit();   
+							Db::commit();   
 							echo  time()." ok \n";
 
 						}catch(\Exception $e){
