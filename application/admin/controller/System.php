@@ -23,46 +23,46 @@ class System extends AdminBase
     /**
      * 站点配置
      */
-    public function siteConfig()
-    {
-        $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
-        $site_config = unserialize($site_config['value']);
-        return $this->fetch('site_config', ['site_config' => $site_config]);
-    }
+    // public function siteConfig()
+    // {
+    //     $site_config = Db::name('system')->field('value')->where('name', 'site_config')->find();
+    //     $site_config = unserialize($site_config['value']);
+    //     return $this->fetch('site_config', ['site_config' => $site_config]);
+    // }
 
     /**
      * 更新配置
      */
-    public function updateSiteConfig()
-    {
-        if ($this->request->isPost()) {
-            $site_config = $this->request->post('site_config/a');
-            $site_config['site_tongji'] = htmlspecialchars_decode($site_config['site_tongji']);
-            $data['value'] = serialize($site_config);
+    // public function updateSiteConfig()
+    // {
+    //     if ($this->request->isPost()) {
+    //         $site_config = $this->request->post('site_config/a');
+    //         $site_config['site_tongji'] = htmlspecialchars_decode($site_config['site_tongji']);
+    //         $data['value'] = serialize($site_config);
 
-            $path = 'application/config.php';
-            $str = '<?php return [';
-            if ($site_config['site_wjt'] == 1) {
-                $str .= "'app_debug'           => true,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
-            } else {
-                $str .= "'app_debug'           => false,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
-            }
-            $str .= ']; ';
-            file_put_contents($path, $str);
+    //         $path = 'application/config.php';
+    //         $str = '<?php return [';
+    //         if ($site_config['site_wjt'] == 1) {
+    //             $str .= "'app_debug'           => true,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
+    //         } else {
+    //             $str .= "'app_debug'           => false,'log' =>['level' => ['error']],'http_exception_template'=>[404 => APP_PATH.'404.html',401 =>APP_PATH.'401.html']";
+    //         }
+    //         $str .= ']; ';
+    //         file_put_contents($path, $str);
 
-            //写入CMS/BBS开关
-            // $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
-            // file_put_contents('application/extra/cbopen.php', $cbstr);
+    //         //写入CMS/BBS开关
+    //         // $cbstr = "<?php return [" . "'cb_open'=>" . $site_config['cb_open'] . "]; ";
+    //         // file_put_contents('application/extra/cbopen.php', $cbstr);
 
-            if (Db::name('system')->where('name', 'site_config')->update($data) !== false) {
-                Cache::set('site_config', null);
+    //         if (Db::name('system')->where('name', 'site_config')->update($data) !== false) {
+    //             Cache::set('site_config', null);
 
-                return json(array('code' => 200, 'msg' => '提交成功'));
-            } else {
-                return json(array('code' => 200, 'msg' => '提交失败'));
-            }
-        }
-    }
+    //             return json(array('code' => 200, 'msg' => '提交成功'));
+    //         } else {
+    //             return json(array('code' => 200, 'msg' => '提交失败'));
+    //         }
+    //     }
+    // }
 
 
     /* 
