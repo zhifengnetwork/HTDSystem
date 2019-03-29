@@ -43,7 +43,7 @@ class GlobalProfit
 			}
 			$day_num = $configs['profit_rate']['value']?$configs['profit_rate']['value']:1;
 			// 计算是否到分红时间
-			$out_times = $global_one['out_time']+($configs['profit_rate']['value']*3600*24);
+			$out_times = $global_one['out_time']+($configs['profit_day']['value']*3600*24);
 			// 比对上一次分红时间
 			if(time() < $out_times){
 				return 'No Time';
@@ -107,7 +107,7 @@ class GlobalProfit
 							$res_global = Db::name('global_profit')->insert($in_global);
 
 							// 提交事务
-							Db::commit();   
+							//Db::commit();   
 							echo  time()." ok \n";
 
 						}catch(\Exception $e){
