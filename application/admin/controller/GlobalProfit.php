@@ -60,6 +60,10 @@ class GlobalProfit
 				foreach($all_user_wallet as $k=>$v){
 					$total_num = 0;
 					if($v['bonus_wallet']>0){
+						$is_order_res = isEnjoyUser($v['uid']);
+						if(!$is_order_res){
+							continue; // 不符合获取动态收益条件跳过
+						}
 						$total_num  = $v['bonus_wallet']*($rate/100);
 						$total_num = numberByRetain($total_num, 8);
 						// 开启事务
