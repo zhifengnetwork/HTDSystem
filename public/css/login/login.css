@@ -189,10 +189,6 @@ color: #b8c9cf
     -moz-box-sizing:border-box;
 }
 
-.scan-code .code{
-    border: 
-}
-
 .scan-code>span{
     display: block;
     text-align: center;
