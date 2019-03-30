@@ -181,19 +181,25 @@ color: #b8c9cf
 
 /* 二维码 */
 .scan-code{
-    padding:1rem 1rem .2rem 1rem;
+    padding: .5rem 1rem .2rem 1rem;
     width: 5rem;
     margin: 0 auto;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing:border-box;
 }
+
+.scan-code .code{
+    border: 
+}
+
 .scan-code>span{
     display: block;
     text-align: center;
     font-size: .3rem;
     color: #ffffff;
-}
+} 
+
 .scan-code .code img{
     width: 100%;
     height: 100%;
