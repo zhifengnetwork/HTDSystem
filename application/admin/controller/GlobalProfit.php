@@ -49,7 +49,6 @@ class GlobalProfit
 				return 'No Time';
 				exit;
 			}
-
 			$rate = $configs['profit_rate']['value']>0?$configs['profit_rate']['value']:10;
 			// 获取所有用户的user_wallet
 			$where['bonus_wallet'] = array('>',0);
@@ -61,11 +60,8 @@ class GlobalProfit
 					// 循环累加动静态收益*分红比例
 					foreach($all_user_wallet as $k=>$v){
 						$total_num = 0;
-						if($v['bonus_wallet']>0){
-							$is_order_res = isEnjoyUser($v['uid']);
-							if(!$is_order_res){
-								continue; // 不符合获取动态收益条件跳过
-							}
+						if($v['bonus_wallet']>0 && $v['cu_num']>0){
+							
 							$total_num  = $v['bonus_wallet']*($rate/100);
 							$total_num = numberByRetain($total_num, 8);
 							
@@ -124,6 +120,7 @@ class GlobalProfit
 				}
 
 			}
+			echo "No Order exit\n";
 
     }
    
