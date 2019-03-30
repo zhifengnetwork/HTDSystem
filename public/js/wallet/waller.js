@@ -98,7 +98,7 @@ $(document).ready(function(){
 		// 	layer.msg('请先输入币种数量');
 		// 	return false;
 		// }
-		if(cu_num<1){
+		if(cu_num<0){
 			layer.msg('投资币种数量不可为0');
 			return false;
 		}
@@ -263,7 +263,7 @@ function UpLoad(e) {
 						var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
 						/* 图片 回显*/
 						// that.siblings(".preViewImg").eq(0).attr("src", newImageData);
-						console.log(newImageData);
+						// console.log(newImageData);
 						dataImg	= newImageData;
 						$("#canvas").hide();
 						/*根据点击的下标 =>显示 '回显图片'*/

@@ -53,11 +53,11 @@ class Index extends AdminBase
         //
         $oldver=Db::name('system')->where('name','version')->value('value');
         $count['total_user'] = Db::name('user')->count('id');//总会员数统计
-        $count['static_wallet'] =  Db::name('user_wallet')->count('static_wallet');//静态奖金统计
+        $count['static_wallet'] =  Db::name('user_wallet')->sum('bonus_wallet');//奖金钱包统计
 
-        $count['dynamic_wallet'] =  Db::name('user_wallet')->count('dynamic_wallet');//动态奖金统计
+        $count['dynamic_wallet'] =  Db::name('user_wallet')->sum('rate_wallet');//分红统计
 //        $count['now_account'] = Db::name('user_log')->where("id">=$id)->count('now_account');//财务统计
-//        $count['today_login'] = M('users')->where("")->count();//总会员本金主流币数量统计
+        $count['total_num'] = Db::name('user_wallet')->sum('cu_num');//总会员本金主流币数量统计
         $domain=array();
         $host   = $_SERVER['HTTP_HOST'];
         $par    = time();

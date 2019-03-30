@@ -34,7 +34,7 @@
 
         <!-- 公告 -->
         <div class="notice-zp">
-            <a href="{:url('index/my_message')}">{$res['title']}</a>
+            <a href="{:url('index/my_message')}"><span style="display: block;overflow:hidden;width: 6rem;white-space:nowrap;text-overflow:ellipsis;">{$res['title']}</span></a>
         </div>
 
         <!-- 菜单导航 -->
@@ -99,11 +99,11 @@
             <!-- 公告对话框 -->
             <div class="dialog-notice">
                 <div class="dialog-header">
-                    <h3>公告</h3>
+                    <h3>系统消息</h3>
                     <span class="close"><img src="__PUBLIC__/images/home/notice-close.png" /></span>
                 </div>
                 <div class="dialog-content">
-                    <p>{$res['title']}</p>
+                    <p style="overflow:hidden;width: 4rem;white-space:nowrap;text-overflow:ellipsis;">{$res['title']}</p>
 
                 </div>
                 <div class="dialog-btn">

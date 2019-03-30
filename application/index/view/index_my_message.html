@@ -24,7 +24,7 @@
 					<!--循环-->
 					{foreach name="res" item="vo"}
 					<div class="wtf_item1" onclick="window.location.href = '{:url('index/news_details',[\'id\'=>$vo[\'id\']])}'">
-						<p>{$vo['title']}</p>
+						<p style="overflow:hidden;width:5rem;white-space:nowrap;text-overflow:ellipsis;">{$vo['title']}</p>
 						<p>{$vo['updatetime']|date="Y-m-d",###}</p>
 					</div>
 					{/foreach}

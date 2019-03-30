@@ -591,10 +591,8 @@
 						fileReader.readAsDataURL(f);
 						fileReader.onload = function(event) {
 							var result = event.target.result; //返回的dataURL 
-							// console.log(result);  
 							var image = new Image();
 							image.src = result;
-							console.log(2222)
 							//若图片大小大于1M，压缩后再上传，否则直接上传  
 							if(f.size > 1024 * 1024) {
 								image.onload = function() {
@@ -607,9 +605,32 @@
 									var newImageData = canvas.toDataURL(fileType, 0.8); //重新生成图片
 									/* 图片 回显*/
 									// that.siblings(".preViewImg").attr("src", newImageData);
-									console.log(newImageData);
 
 									$("#canvas").hide();
+
+									/*图片 回显 */
+									$.ajax({
+										url: '/index/index/upload',
+										type: 'post',
+										dataType: 'json',
+										data: {
+											dataImg: image.src
+										},
+										success: function(msg) {
+											if(msg.code == 200) {
+												$('#qrcode_addr').val(msg.imgUrl);
+												$('.text').html('成功');
+												// console.log(msg);
+												layer.msg(msg.msg)
+											} else {
+												$('.text').html('失败');
+												layer.msg(msg.msg)
+												return false;
+											}
+										}
+									});
+									/*ajax=> 回显图片*/
+									that.siblings(".preViewImg").attr("src", result);
 								}
 							} else {
 								//创建一个image对象，给canvas绘制使用 
@@ -646,7 +667,6 @@
 					} else {
 						alert("请选择图片");
 					}
-
 				} else {
 					console.log('取消选择图片！');
 				}

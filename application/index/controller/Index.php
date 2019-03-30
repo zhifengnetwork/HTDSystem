@@ -57,6 +57,7 @@ class Index extends HomeBase
             header("refresh:1;url=$url");
             exit;
         }
+       
         if($home){
             $id = 1;
         }else{

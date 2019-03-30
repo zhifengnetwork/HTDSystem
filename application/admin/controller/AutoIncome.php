@@ -263,14 +263,14 @@ class AutoIncome
 				}catch(\Exception $e){
 					// 回滚事务
 					Db::rollback();
-					echo "the orders err\n";
+					echo  time()." the orders err\n";
 				}
 				$i++;
 			}
-			echo $i." ok orders\n";
+			echo  time().'|'.$i." ok orders\n";
 			
 		}else{
-			echo "No dispose the orders\n";
+			echo time()." No dispose the orders\n";
 			exit;
 		}
 		
