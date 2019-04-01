@@ -259,11 +259,9 @@
 				let e = document.getElementById("codeNum").value;
 				//实例化clipboard
 				var clipboard = new ClipboardJS('#codeBtn');
-			
 				clipboard.on("success", function(e){
 					console.log(e);
 				});
-
 				clipboard.on("error", function(e){
 					console.log(e);
 				});
