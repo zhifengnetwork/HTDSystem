@@ -59,8 +59,14 @@ class GlobalProfit
 				try{
 					// 循环累加动静态收益*分红比例
 					foreach($all_user_wallet as $k=>$v){
+						// 判断当前用户所有币种累计本金是否达到500美元以上
+						$is_order_money = isEnjoyUser($v['uid']); // 获取当前上级是否入单指定金额
+						if(!$is_order_money){
+							continue; // 不符合条件跳过
+						}
+						
 						$total_num = 0;
-						if($v['bonus_wallet']>0 && $v['cu_num']>0){
+						if($v['bonus_wallet']>0){
 							
 							$total_num  = $v['bonus_wallet']*($rate/100);
 							$total_num = numberByRetain($total_num, 8);

@@ -36,6 +36,7 @@ class Withdrawal extends AdminBase
 			return json(array('code' => 0, 'msg' => '提币订单不存在'));
 		}
 		$data = array();
+		$data['check_time'] = time();
 		
 		if ($status == 1) { // 通过
 			$data['status'] = $status;
@@ -46,35 +47,53 @@ class Withdrawal extends AdminBase
 				return json(array('code' => 0, 'msg' => '更新失败'));
 			}
 		}
-		
-		// 1本金 cu_num 2收益 bonus_wallet 3分红rate_wallet
-		if ($status == 2) { // 不通过,对应币种数量原路返回
+		// 开启事务
+		Db::startTrans();
+		try{
+			// 1本金 cu_num 2收益 bonus_wallet 3分红rate_wallet
+			if ($status == 2) { // 不通过,对应币种数量原路返回并且把数量返回到execute_order对应币种
 
-			$data['status'] = $status;
-			if($one_data['type'] == 1){
-				$cu_num = $one_data['cu_num'];
-				$fiends = 'cu_num';
-			}
-			if($one_data['type'] == 2){
-				$cu_num = $one_data['cu_num'];
-				$fiends = 'bonus_wallet';
+				$data['status'] = $status;
+				if($one_data['type'] == 1){
+					$cu_num = $one_data['cu_num'];
+					$fiends = 'cu_num';
+				}
+				if($one_data['type'] == 2){
+					$cu_num = $one_data['cu_num'];
+					$fiends = 'bonus_wallet';
 
-			}
-			if($one_data['type'] == 3){
-				$cu_num = $one_data['cu_num'];
-				$fiends = 'rate_wallet';
+				}
+				if($one_data['type'] == 3){
+					$cu_num = $one_data['cu_num'];
+					$fiends = 'rate_wallet';
 
-			}
-			$where['uid'] = $one_data['uid'];
-			$where['cu_id'] = $one_data['cu_id'];
-			$res = Db::name('user_wallet')->where($where)->setInc($fiends, $cu_num);
-			$info = Db::name('user_extract')->where('id',$id)->update($data);
+				}
+				$where['uid'] = $one_data['uid'];
+				$where['cu_id'] = $one_data['cu_id'];
+				$res = Db::name('user_wallet')->where($where)->setInc($fiends, $cu_num);
+				$info = Db::name('user_extract')->where('id',$id)->update($data);
+				$res1 = true;
+				$res2 = true;
+				if($one_data['type'] == 1){ // 本金
+					// 修改execute_order对应币种状态为正常
+					$res1 = Db::name('execute_order')->where($where)->update(['is_stop'=>0]);
+					$res2 = Db::name('execute_order')->where($where)->setInc('num', $cu_num);
+				}
 
-			if($res && $info){
-				return json(array('code' => 200, 'msg' => '拒绝成功，数量原路返回'));
-			}else{
-				return json(array('code' => 0, 'msg' => '拒绝失败..'));
+				// if($res && $info){
+				// 	return json(array('code' => 200, 'msg' => '拒绝成功，数量原路返回'));
+				// }else{
+				// 	return json(array('code' => 0, 'msg' => '拒绝失败..'));
+				// }
 			}
+			// 提交事务
+			Db::commit();   
+			return json(array('code' => 200, 'msg' => '拒绝成功，数量原路返回'));
+
+		}catch(\Exception $e){
+			// 回滚事务
+			Db::rollback();
+			return json(array('code' => 0, 'msg' => '拒绝失败..'));
 		}
 	}
 
