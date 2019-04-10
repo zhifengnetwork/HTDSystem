@@ -26,6 +26,7 @@ class GlobalProfit
 				return 'No ...';
 				exit;
 			}
+			$time = time();
 			// 获取配置表 profit_day 分红天数 , profit_rate 分红比例
 			$configs = Db::name('income_config')->field('name,value')->where('name', 'in', ['profit_day', 'profit_rate'])->select();
 			// 把配置项name转换成$configs['profit_day']['value']
@@ -60,7 +61,7 @@ class GlobalProfit
 					// 循环累加动静态收益*分红比例
 					foreach($all_user_wallet as $k=>$v){
 						// 判断当前用户所有币种累计本金是否达到500美元以上
-						$is_order_money = isEnjoyUser($v['uid']); // 获取当前上级是否入单指定金额
+						$is_order_money = isEnjoyUser($v['uid']); // 获取当前是否入单指定金额
 						if(!$is_order_money){
 							continue; // 不符合条件跳过
 						}
@@ -86,9 +87,9 @@ class GlobalProfit
 									'total_coin' => $v['bonus_wallet'], // 分红总币数
 									'main_coin' => $total_num,
 									'percent' => $rate,
-									'create_time' => time(),
+									'create_time' => $time,
 									'out_flag' => 1,
-									'out_time' => time()
+									'out_time' => $time
 
 								);
 								$res_log = Db::name('income')->insert($in_income);
@@ -101,7 +102,7 @@ class GlobalProfit
 									'old_account' => $old_num['rate_wallet'],
 									'now_account' => $old_num['rate_wallet']+$total_num,
 									'note'	=> '全球分红',
-									'create_time' => time()
+									'create_time' => $time
 								);
 								$res_log = Db::name('user_log')->insert($in_log);
 
@@ -110,7 +111,7 @@ class GlobalProfit
 					
 					// 插入一条记录到htd_global_profit
 					$in_global = array(
-						'out_time' => time(),
+						'out_time' => $time,
 						'note'	=> '全球分红'
 					);
 					$res_global = Db::name('global_profit')->insert($in_global);
@@ -125,8 +126,9 @@ class GlobalProfit
 					echo  time()." err \n";
 				}
 
+			}else{
+				echo "No Order exit\n";
 			}
-			echo "No Order exit\n";
 
     }
    
