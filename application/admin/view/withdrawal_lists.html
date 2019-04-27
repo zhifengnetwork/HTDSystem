@@ -13,6 +13,7 @@
                 <th>状态</th>
                 <th>电子钱包地址</th>
                 <th>电子钱包二维码</th>
+                <th>备注</th>
                 <th>提币时间</th>
                 <th>审核时间</th>
                 <th>操作</th>
@@ -38,7 +39,7 @@
                 <td>{$vo.wallet_addr}</td>
                 <!-- <td>{$vo.qrcode_addr}</td>   --> 
                 <td><button data-method="offset" data-type="auto" data-id="{$vo.qrcode_addr}" class="qrcode_addr layui-btn layui-btn-normal layui-btn-sm">查看二维码</button></td>
-                             
+                <td>{$vo.note}</td>
                 <td>{$vo.create_time|date="Y-m-d H:i:s", ###}</td>                
                 <td>
                     {if condition="$vo.check_time == '' "}
