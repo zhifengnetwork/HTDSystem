@@ -241,7 +241,7 @@ class Index extends HomeBase
             }
             // 判断后台设置
             $min_usd = $data['cu_num']*$currency_one['price']/$exchange_usd['exchange_usd']['value'];
-            if($min_usd < $exchange_usd['withdraw_min']['value']){
+            if($exchange_usd['withdraw_min']['value'] > $min_usd){
                 // 计算最低提币数量
                 $min_num = $exchange_usd['withdraw_min']['value']/$currency_one['price'];
                 $min_num = numberByRetain($min_num, 8);
