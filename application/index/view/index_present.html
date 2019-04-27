@@ -296,12 +296,12 @@
 						$('#popover_num').val('');
 						$("#popover_num").removeAttr("disabled");
 						var now_price = $('#now_price').val();
-						var withdraw_min = {$withdraw_min}/now_price;
+						var withdraw_min = {$withdraw_min}/now_price*{$exchange_usd};
 						withdraw_min = withdraw_min.toFixed(4);
 						$('#popover_num').attr('placeholder', '最小提币数量'+withdraw_min)
 					} else {
 						var now_price = $('#now_price').val();
-						var global_min = {$global_min}/now_price;
+						var global_min = {$global_min}/now_price*{$exchange_usd};
 						global_min = global_min.toFixed(4);
 						$('#popover_num').attr('placeholder', '最小提币数量'+global_min)
 					}

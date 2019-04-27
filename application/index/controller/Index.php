@@ -92,8 +92,10 @@ class Index extends HomeBase
         $exchange_usd = arr2name($exchange_usd);
         $withdraw_min = $exchange_usd['withdraw_min']['value'];
         $global_min = $exchange_usd['global_min']['value'];
+        $exchange_usd = $exchange_usd['exchange_usd']['value'];
         $this->assign('withdraw_min',$withdraw_min);
         $this->assign('global_min',$global_min);
+        $this->assign('exchange_usd',$exchange_usd); // 美元汇率
         $this->assign('list',$list);
         $this->assign('phone',session('home.mobile'));
         $this->assign('uid',$userid);
