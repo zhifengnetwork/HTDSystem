@@ -1,2 +1,60 @@
+{extend name="base" /} {block name="body"}
 
-开发中....
+<!--tab标签-->
+<div class="layui-tab-brief">
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile" value="" placeholder="请输入手机" class="layui-input mobile">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">短信内容</label>
+                    <div class="layui-input-block" style="width:30%;">
+                      <textarea placeholder="请输入发送内容" class="layui-textarea msg" name="msg"></textarea>
+                    </div>
+                </div>
+               
+                <div class="btable-paged">
+                    <div class="layui-main">
+                        <div class="formbtngroup">
+                            <button class="layui-btn layui-btn-sm acquire" lay-submit="" lay-filter="formadd">发送短信</button>
+                            <!-- <button onclick="history.go(-1);return false;" class="layui-btn layui-btn-primary layui-btn-sm">返回</button> -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+{/block} {block name="js"}
+<!-- <script type="text/javascript" src="__ADMIN__/js/formadd.js"></script> -->
+<script>
+
+ $(".acquire").click(function () {
+        // 获取验证码
+        var mobile = $.trim($(".mobile").val());
+        var msg = $.trim($(".msg").val());
+        var flag = true;
+        $.ajax({
+            url: '/admin/service/sendMsg',
+            type: 'post',
+            dataType: 'json',
+            data: {mobile:mobile,msg:msg},
+            success:function(msg){
+                if(msg.code==0){
+                    layer.msg(msg.msg);
+                    return false;
+                }else{
+                  // layer.msg('发送成功', {icon: 1, time: 1000})
+                }
+            }
+        });
+        alert('发送成功');
+        window.location.reload();
+    });
+</script>
+{/block}
