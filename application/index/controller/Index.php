@@ -210,6 +210,13 @@ class Index extends HomeBase
             return json(array('status' => 0, 'msg' => '当前币种钱包不存在', 'result' => ''));
         }
 
+        // 判断当前提币是否属于Eos和XRP,如果是判断是否输入备注信息了
+        if($data['cu_id']==4 || $data['cu_id']==5){
+            if(!$data['note']){
+                return json(array('status' => 0, 'msg' => '请输入备注信息', 'result' => ''));
+            }
+        }
+
         // 获取美元汇率换算
         $exchange_usd = Db::name('income_config')->field('name,value')->where('name','in',['exchange_usd','withdraw_min','global_min'])->select();
         $exchange_usd = arr2name($exchange_usd);

@@ -29,6 +29,7 @@ class AutoIncome
 			return 'No ...';
 			exit;
 		}
+		$time = time();
 		// 获取创建时候小于当天并且后台审核的订单
 		$toDayTime = strtotime(date('Y-m-d'));
 		$orderWhere['create_time'] = array('<', $toDayTime);
@@ -106,10 +107,10 @@ class AutoIncome
 					// 累加到平台币 cu_id=11
 					$platform_res = Db::name('user_wallet')->where(['uid'=>$value['uid'], 'cu_id'=>11])->setInc('bonus_wallet', $platform_coin);
 					// 把收益记录插入收益表
-					$in_income_res1 =$this->insertToIncome($value['uid'],$value['uid'],$value['cu_id'],101,$value['total_money'],$giveIncome,$main_coin,$platform_coin,$rate,$value['order_no']);
+					$in_income_res1 =$this->insertToIncome($value['uid'],$value['uid'],$value['cu_id'],101,$value['total_money'],$giveIncome,$main_coin,$platform_coin,$rate,$value['order_no'],$time);
 					// 插入日志
 					$logNote = '获得静态收益:'.$giveIncome.'个,主流币'.$main_coin.'平台币'.$platform_coin;
-					$in_log_res1 = $this->insertLog($value['uid'],$value['cu_id'],$logNote,$this->static_type,$value['order_no']);
+					$in_log_res1 = $this->insertLog($value['uid'],$value['cu_id'],$logNote,$this->static_type,$value['order_no'],$time);
 					// 把相应收益累加到直推上级
 					$upUid = Db::name('user')->field('id,pid')->where(['id'=>$value['uid']])->find();
 					// +++++++++++++++++++++++++++++++++静态收益++++++++++++++++++++++++++++++++++++++++++++++ end
@@ -149,10 +150,10 @@ class AutoIncome
 						$platform_coin_res = Db::name('user_wallet')->where(['uid'=>$upUid['pid'], 'cu_id'=>11])->setInc('bonus_wallet', $platform_coin_push);
 					
 						// 把直推收益记录插入收益表
-						$in_income_res2 = $this->insertToIncome($value['uid'],$upUid['pid'],$value['cu_id'],102,$value['total_money'],$giveIncome,$main_coin,$platform_coin_push,$rate,$value['order_no']);
+						$in_income_res2 = $this->insertToIncome($value['uid'],$upUid['pid'],$value['cu_id'],102,$value['total_money'],$giveIncome,$main_coin,$platform_coin_push,$rate,$value['order_no'],$time);
 						// 插入直推日志
 						$drLogNote = '获的直推收益:'.$giveIncome.'个,主流币'.$main_coin_push.'平台币'.$platform_coin_push;
-						$in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$drLogNote,$this->push_type,$value['order_no']);
+						$in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$drLogNote,$this->push_type,$value['order_no'],$time);
 					}
 					// echo $main_res.'/'.$platform_res.'/'.$in_income_res1.'/'.$in_log_res1.'/'.$main_coin_res.'/'.$platform_coin_res.'/'.$in_income_res2.'/'.$in_log_res2.'/'.$order_up_res;die;
 					// +++++++++++++++++++++++++++++++++直推收益++++++++++++++++++++++++++++++++++++++++++++++ end
@@ -184,38 +185,38 @@ class AutoIncome
 								continue; // 不符合获取动态收益条件跳过
 							}
 							$push_num = count($push_arr);
-
+							
 							// // 判断当前上级有效直推人数是否大于等于当前层数，如果大于获得动态收益
 							// // 获取后台设置的获得层数设置
 							if($push_num == $configs['people_num1']['value'] && $ks+1 <= $configs['layer1']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num2']['value'] && $ks+1 <= $configs['layer2']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num3']['value'] && $ks+1 <= $configs['layer3']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num4']['value'] && $ks+1 <= $configs['layer4']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num5']['value'] && $ks+1 <= $configs['layer5']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num6']['value'] && $ks+1 <= $configs['layer6']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num7']['value'] && $ks+1 <= $configs['layer7']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num8']['value'] && $ks+1 <= $configs['layer8']['value']){
-								
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num9']['value'] && $ks+1 <= $configs['layer9']['value']){
-							
+
 								$dy_is_true = true;
 							}elseif($push_num == $configs['people_num10']['value'] && $ks+1 <= $configs['layer10']['value']){
-								
+
 								$dy_is_true = true;
 							}else{
 								$dy_is_true = false;
@@ -230,6 +231,8 @@ class AutoIncome
 									$dy_main_coin = 0;
 									$dy_platform_coin = 0;
 								}else{
+									$dy_total_income = 0;
+									$dy_platform_coin = 0;
 									$dy_total_income = $giveIncome*($earnings_rate/100);
 									// 根据后台设置的比例把总收益拆分为主流币+平台代币
 									$dy_main_coin = $dy_total_income*($main_coin_ratio/100);
@@ -245,13 +248,14 @@ class AutoIncome
 								$dy_platform_coin_res = Db::name('user_wallet')->where(['uid'=>$upId, 'cu_id'=>11])->setInc('bonus_wallet', $dy_platform_coin);
 
 								// 把动态收益记录插入收益表
-								$dy_in_income_res2 = $this->insertToIncome($value['uid'],$upId,$value['cu_id'],103,$value['total_money'],$dy_total_income,$dy_main_coin,$dy_platform_coin,$earnings_rate,$value['order_no']);
+								$dy_in_income_res2 = $this->insertToIncome($value['uid'],$upId,$value['cu_id'],103,$value['total_money'],$dy_total_income,$dy_main_coin,$dy_platform_coin,$earnings_rate,$value['order_no'],$time);
 								// 插入直推日志
 								$dyLogNote = '获的动态收益:'.$dy_total_income.'个,主流币'.$dy_main_coin.'平台币'.$dy_platform_coin;
-								$dy_in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$dyLogNote,$this->dy_type,$value['order_no']);
+								$dy_in_log_res2 = $this->insertLog($value['uid'],$value['cu_id'],$dyLogNote,$this->dy_type,$value['order_no'],$time);
 							}
 							
 						}
+
 					}
 					// +++++++++++++++++++++++++++++++++动态收益++++++++++++++++++++++++++++++++++++++++++++++ end
 					// +++++ 更新当前订单收益时间 +++++ //
@@ -277,7 +281,7 @@ class AutoIncome
 	}
 	
 	// 插入收益表
-	public function insertToIncome($uid, $get_uid, $cu_id, $type, $base_money, $total_coin, $main_coin, $htd_coin, $percent, $order_no){
+	public function insertToIncome($uid, $get_uid, $cu_id, $type, $base_money, $total_coin, $main_coin, $htd_coin, $percent, $order_no, $time){
 
 		$data = array(
 			'uid' => $uid,
@@ -291,15 +295,15 @@ class AutoIncome
 			'htd_coin' => $htd_coin,
 			'percent' => $percent,
 			'out_flag' => 1,
-			'create_time' => time(),
-			'out_time' => time()
+			'create_time' => $time,
+			'out_time' => $time
 		);
 		$res1 = Db::name('income')->insert($data);
 		return $res1;
 	}
 
 	// 插入日志表
-	public function insertLog($uid,$cu_id,$note,$type,$order_no){
+	public function insertLog($uid,$cu_id,$note,$type,$order_no,$time){
 
 		$data = array(
 			'uid' => $uid,
@@ -307,7 +311,7 @@ class AutoIncome
 			'cu_id' => $cu_id,
 			'note' => $note,
 			'type' => $type,
-			'create_time' => time()
+			'create_time' => $time
 		);
 		$res2 = Db::name('user_log')->insert($data);
 		return $res2;
